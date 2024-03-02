@@ -34,3 +34,14 @@
   width: 100%;
   outline: none;
 }
+
+
+.comment-form-light{
+  border-radius: 25px;
+  padding: 50px;
+  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;    
+}

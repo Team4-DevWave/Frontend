@@ -2,31 +2,32 @@ import React from "react";
 
 function Login() {
   return (
-    <div>
-      <div className="center">
-        <div className="form-container">
-          <h1>Welcome To Threaddit</h1>
-          <form className="login-form-light">
-            <label>
-              <strong>Username or Email</strong>
-            </label>
-            <input
-              className="form-text-light"
-              type="text"
-              onChange={console.log("Hi")}
-            />
-            <label>
-              <strong>Password</strong>
-            </label>
-            <input
-              className="form-text-light"
-              type="password"
-              onChange={console.log("Hi")}
-            />
-            <button className="submit-button-light" type="submit">
-              Login
+    <div className="container-form-light">
+      <div className="row">
+        <div className="col-md-6 mx-auto mt-5">
+        <form className="d-flex flex-column justify-content-center vh-100">
+            <h1 className="h3 mb-3 fw-normal text-center">Threaddit Login</h1>
+            <div className="mb-3">
+                <label htmlFor="username" className="form-label">Username</label>
+                <input type="text"
+                    className="form-control"
+                    name="username"
+                    placeholder="Enter username"
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="password" className="form-label">Password</label>
+                <input type="password"
+                    className="form-control"
+                    name="password"
+                    placeholder="Password"
+                />
+            </div>
+            <button type="submit"
+            className="btn btn-lg btn-block ">
+            Log In
             </button>
-          </form>
+        </form>
         </div>
       </div>
     </div>
