@@ -1,0 +1,71 @@
+:root {
+  --color-black: black;
+  --color-gray: gray;
+  --color-blue: rgb(34, 110, 172);
+  --font-small: 1rem;
+  --font-medium: 1.5rem;
+  --font-large: 2rem;
+  --width-header: 1200px;
+  --width-settingsNav: 1000px;
+  --width-settingsBody: 258px;
+  --margin-top-small: 1rem;
+  --margin-top-medium: 1.5rem;
+  --margin-top-large: 3rem;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 0;
+  font: inherit;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  display: inline-block;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  border: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+html {
+  font-size: 62%;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0 0 15rem;
+}
+.title {
+  font-size: var(--font-large);
+}
+
+.navList {
+  margin-top: var(--margin-top-large);
+  max-width: var(--width-settingsNav);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.horizontalLine {
+  opacity: 0.4;
+  height: 0.01rem;
+  border-left: var(--width-header) solid var(--color-gray);
+  z-index: -1;
+}

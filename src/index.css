@@ -1,14 +1,92 @@
-.login-form-light{
+/* Header */
+.container {
+  position: absolute;
+  left: 10%;
+  top: 27%;
+  transform: translate(50%);
+}
+
+@media (max-width: 680px) {
+  .container {
+    position: absolute;
+    left: -47.5%;
+    top: 90%;
+    transform: translate(50%);
+  }
+}
+
+.search-box {
+  input[type="text"] {
+    border: none;
+    background: none;
+    z-index: 1;
+    width: 25px;
+    height: 25px;
+    transition: all 0.25s ease-in 0.25s;
+    color: transparent;
+    font-size: 0.75rem;
+    line-height: 25px;
+    &:hover {
+      cursor: pointer;
+      &:focus {
+        cursor: text;
+      }
+      + span {
+        background-color: black;
+      }
+    }
+    &:focus {
+      width: 200px;
+      padding: 0 10px;
+      outline: none;
+      color: white;
+      background: none;
+      color: white;
+      + span {
+        width: 200px;
+        &::before {
+          width: 2px;
+          opacity: 0;
+          transition: all 0.25s ease-in;
+        }
+      }
+    }
+    + span {
+      z-index: -1;
+      position: absolute;
+      border: 2px solid black;
+      top: 0;
+      width: 25px;
+      height: 25px;
+      transition: all 0.25s ease-in 0.25s;
+      border-radius: 25px;
+      left: 0;
+      &::before {
+        transition: all 0.25s ease-in 0.5s;
+        transform-origin: left top;
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 5px;
+        border-radius: 5px;
+        background: black;
+        transform: rotate(45deg) translate(26px, -2px);
+      }
+    }
+  }
+}
+/* //End Header */
+.login-form-light {
   border-radius: 25px;
   padding: 50px;
   background-color: gray;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;    
+  justify-content: center;
 }
 
-.form-container{
+.form-container {
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -18,12 +96,12 @@
   margin-bottom: 10px;
 }
 
-.form-text-light{
+.form-text-light {
   border-radius: 5px;
   outline: none;
 }
 
-.submit-button-light{
+.submit-button-light {
   border-radius: 5px;
   background-color: #ff9500;
   color: white;
@@ -35,13 +113,12 @@
   outline: none;
 }
 
-
-.comment-form-light{
+.comment-form-light {
   border-radius: 25px;
   padding: 50px;
   background-color: gray;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;    
+  justify-content: center;
 }
