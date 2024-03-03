@@ -1,0 +1,113 @@
+:root {
+  --color-black: black;
+  --color-blue: rgb(61, 137, 224);
+  --color-gray: gray;
+  --font-small: 1.4rem;
+  --font-medium: 1.5rem;
+  --font-medium-2: 1.7rem;
+  --font-large: 2rem;
+  --width-header: 1400px;
+  --width-settingsNav: 1000px;
+  --width-settingsBody: 800px;
+  --width-settingsParagraph: 600px;
+  --margin-left-default: 18rem;
+  --margin-top-small: 1rem;
+  --margin-top-medium: 3rem;
+  --margin-top-large: 4rem;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 0;
+  font: inherit;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  display: inline-block;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  border: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+html {
+  font-size: 62%;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  margin-left: var(--margin-left-default);
+}
+.title {
+  font-size: var(--font-large);
+  margin-top: var(--margin-top-small);
+}
+
+.navList {
+  margin-top: var(--margin-top-medium);
+  max-width: var(--width-settingsNav);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.horizontalLine {
+  opacity: 0.1;
+  height: 0.15rem;
+  border-left: var(--width-header) solid var(--color-gray);
+  z-index: -1;
+}
+.horizontalLine-2 {
+  border-left: var(--width-settingsBody) solid var(--color-gray);
+}
+
+/* Settings Body */
+.settingsBody {
+  display: flex;
+  flex-direction: column;
+
+  max-width: var(--width-settingsBody);
+}
+.titleBody {
+  margin: var(--margin-top-large) 0;
+}
+.settingsData {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.settingsItem {
+  display: flex;
+  align-items: center;
+  /* gap: ; */
+  /* background: lightblue; */
+}
+.titleDataItem {
+  font-size: var(--font-small);
+  color: var(--color-gray);
+  font-weight: bold;
+}
+.settingsParagraph {
+  color: var(--color-gray);
+  font-size: var(--font-small);
+  max-width: var(--width-settingsParagraph);
+}
+
+/* // End Settings Body */
