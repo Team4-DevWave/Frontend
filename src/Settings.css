@@ -45,9 +45,9 @@ ol {
   list-style: none;
 }
 
-html {
+/* html {
   font-size: 62%;
-}
+} */
 .header {
   display: flex;
   flex-direction: column;
