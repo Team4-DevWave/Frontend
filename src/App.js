@@ -2,9 +2,8 @@ import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from './pages/Login';
 
-//import Settings from './pages/Settings';
-import Signup from './pages/Signup';
 import Settings from './pages/Settings/Settings';
+import Signup from './pages/Signup';
 
 
 function App() {
