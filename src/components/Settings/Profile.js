@@ -15,13 +15,13 @@ function Profile() {
         </div>
         <div className="settingsItem">
           <div>
-            <h2>Display name (optional)</h2>
+            <h2 className="titleBody-2">Display name (optional)</h2>
             <p className="settingsParagraph">Set a display name. This does not change your username.</p>
           </div>
           </div>
         <div className="settingsItem">
           <div>
-            <h2>Gender</h2>
+            <h2 className="titleBody-2">Gender</h2>
             <p className="settingsParagraph">This information may be used to improve your recommendations and ads.</p>
           </div>
           <Select 
@@ -55,7 +55,7 @@ function Profile() {
         </div>
         <div className="settingsItem">
           <div>
-            <h2>Display language <span className="beta">(beta)</span></h2>
+            <h2 className="titleBody-2">Display language <span className="beta">(beta)</span></h2>
             <p className="settingsParagraph">Select the language you'd like to experience the Reddit interface in. Note that this won't change the language of user-generated content and that this feature is still in development so translations and UI are still under review.</p>
           </div>
 
@@ -119,7 +119,7 @@ function Profile() {
         </div>
       <div className="settingsItem">
           <div>
-            <h2>Content languages</h2>
+            <h2 className="titleBody-2">Content languages</h2>
             <p className="settingsParagraph">Add languages you’d like to see posts, community recommendations, and other content in</p>
           </div>
           <Button
@@ -137,138 +137,7 @@ function Profile() {
       <div>
             <h2>Location customization</h2>
             <p className="settingsParagraph">Specify a location to customize your recommendations and feed. Reddit does not track your precise geolocation data. <span className="link"><a target="_blank" href='https://support.reddithelp.com/hc/en-us/articles/360062429491-Managing-your-Location-Customization-setting' rel="noreferrer">Learn more</a></span></p>
-      </div>
-      <div>
-              <Select 
-                defaultValue="Use approximate location (based on IP)"
-                sx={{
-                  color: "var(--color-blue)",
-                  fontWeight: "bold",
-                  fontSize: "var(--font-medium)",
-                  mr: 'auto',
-                }}
-              >
-                <MenuItem 
-                  sx={{
-                    color: "var(--color-gray)",
-                    fontSize: "var(--font-small)",
-                  }}                
-                  value="Use approximate location (based on IP)"
-                >Use approximate location (based on IP)
-                </MenuItem>
-                <MenuItem 
-                  sx={{
-                    color: "var(--color-gray)",
-                    fontSize: "var(--font-small)",
-                  }}                
-                  value="No location specified"
-                >
-                  No location specified
-                </MenuItem>
-                <MenuItem 
-                  sx={{
-                    color: "var(--color-gray)",
-                    fontSize: "var(--font-small)",
-                  }} 
-                  value="Afghanistan"
-                >
-                  Afghanistan
-                </MenuItem>
-                <MenuItem 
-                  sx={{
-                    color: "var(--color-gray)",
-                    fontSize: "var(--font-small)",
-                  }} 
-                  value="Afghanistan"
-                >
-                  Afghanistan
-                </MenuItem>
-                <MenuItem 
-                  sx={{
-                    color: "var(--color-gray)",
-                    fontSize: "var(--font-small)",
-                  }} 
-                  value="Albania"
-                >
-                  Albania
-                </MenuItem>
-                <MenuItem 
-                  sx={{
-                    color: "var(--color-gray)",
-                    fontSize: "var(--font-small)",
-                  }} 
-                  value="Algeria"
-                >
-                  Algeria
-                </MenuItem>
-                <MenuItem 
-                  sx={{
-                    color: "var(--color-gray)",
-                    fontSize: "var(--font-small)",
-                  }} 
-                  value="American Samoa"
-                >
-                  American Samoa
-                </MenuItem>
-                <MenuItem 
-                  sx={{
-                    color: "var(--color-gray)",
-                    fontSize: "var(--font-small)",
-                  }} 
-                  value="Angola"
-                >
-                  Angola
-                </MenuItem>
-                <MenuItem 
-                  sx={{
-                    color: "var(--color-gray)",
-                    fontSize: "var(--font-small)",
-                  }} 
-                  value="Egypt"
-                >
-                  Egypt
-                </MenuItem>
-                <MenuItem 
-                  sx={{
-                    color: "var(--color-gray)",
-                    fontSize: "var(--font-small)",
-                  }} 
-                  value="Palestine"
-                >
-                  Palestine
-                </MenuItem>
-                <MenuItem 
-                  sx={{
-                    color: "var(--color-gray)",
-                    fontSize: "var(--font-small)",
-                  }} 
-                  value="Albania"
-                >
-                  Albania
-                </MenuItem>
-              </Select>
-      </div>
-          <div className='titleData'>
-          <h2 className="titleDataItem">DELETE Profile</h2>
-        <div class="horizontalLine horizontalLine-2"></div>
-        </div>
-                  <div className="settingsItem">
-          <Button
-          color="error"
-            sx={{
-              color: "var(--color-light-red)",
-              fontWeight: "bold",
-              fontSize: "var(--font-small)",
-              borderRadius: '10rem',
-              ml: 'auto',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '5px',
-
-              '&:hover': {},}}><img  src="./images/delete.png" width="20px" alt="Delete"/> <span> DELETE Profile</span></Button>
-        </div>
-                        
+      </div>                        
         </div>
 
 </div>
