@@ -48,6 +48,9 @@ ol {
   list-style: none;
 }
 
+/* html {
+  font-size: 62%;
+} */
 .header {
   display: flex;
   flex-direction: column;

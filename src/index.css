@@ -1,4 +1,4 @@
-/* Header */
+Header
 .container {
   position: absolute;
   left: 10%;
@@ -20,11 +20,11 @@
     border: none;
     background: none;
     z-index: 1;
-    width: 25px;
+    width: 60px;
     height: 25px;
     transition: all 0.25s ease-in 0.25s;
     color: transparent;
-    font-size: 0.75rem;
+    font-size: 2rem;
     line-height: 25px;
     &:hover {
       cursor: pointer;
@@ -36,14 +36,14 @@
       }
     }
     &:focus {
-      width: 200px;
+      width: 400px;
       padding: 0 10px;
       outline: none;
       color: white;
       background: none;
       color: white;
       + span {
-        width: 200px;
+        width: 400px;
         &::before {
           width: 2px;
           opacity: 0;
@@ -76,49 +76,3 @@
   }
 }
 /* //End Header */
-.login-form-light {
-  border-radius: 25px;
-  padding: 50px;
-  background-color: gray;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.form-container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.form-text-light {
-  border-radius: 5px;
-  outline: none;
-}
-
-.submit-button-light {
-  border-radius: 5px;
-  background-color: #ff9500;
-  color: white;
-  padding: 5px 5px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  outline: none;
-}
-
-.comment-form-light {
-  border-radius: 25px;
-  padding: 50px;
-  background-color: gray;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}

@@ -1,34 +1,43 @@
 import React from "react";
+import "./LoginForm.css";
+import { FaUserAstronaut, FaFacebook, FaGoogle } from "react-icons/fa";
+import { TbPasswordFingerprint } from "react-icons/tb";
 
 function Login() {
   return (
-    <div className="container-form-light">
-      <div className="row">
-        <div className="col-md-6 mx-auto mt-5">
-        <form className="d-flex flex-column justify-content-center vh-100">
-            <h1 className="h3 mb-3 fw-normal text-center">Threaddit Login</h1>
-            <div className="mb-3">
-                <label htmlFor="username" className="form-label">Username</label>
-                <input type="text"
-                    className="form-control"
-                    name="username"
-                    placeholder="Enter username"
-                />
-            </div>
-            <div className="mb-3">
-                <label htmlFor="password" className="form-label">Password</label>
-                <input type="password"
-                    className="form-control"
-                    name="password"
-                    placeholder="Password"
-                />
-            </div>
-            <button type="submit"
-            className="btn btn-lg btn-block ">
-            Log In
-            </button>
+    <div className="wrapper">
+      <div className="background-div">
+        <form className="login-form">
+          <h2>Login</h2>
+          <div className="input-field">
+            <input type="text" />{" "}
+            <label className="placeholder-label">Username</label>
+            <FaUserAstronaut className="icon" />
+          </div>
+
+          <div className="input-field">
+            <input type="password" />
+            <label className="placeholder-label">Password</label>
+            <TbPasswordFingerprint className="icon" />
+          </div>
+
+          <div className="remember-forgot">
+            <label class="custom-checkbox">
+              <input name="dummy" type="checkbox" />
+              <span class="checkmark"></span>
+              Remember me
+            </label>
+            <a href="/">Forgot Password?</a>
+          </div>
+          <button type="submit">Login</button>
+          <button className="facebook" type="submit"> <FaFacebook className="social-icon"/>Login with Facebook</button>
+          <button className="google" type="submit"><FaGoogle className="social-icon"/>Login with Google</button>
+          <div className="register-link">
+            <p>
+              Don't have an account? <a href="/signup">Register</a>
+            </p>
+          </div>
         </form>
-        </div>
       </div>
     </div>
   );
