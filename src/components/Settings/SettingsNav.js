@@ -26,14 +26,14 @@ import { Tabs, Tab } from '@mui/material';
       textColor="primary"
       left 
     >
-      <Tab label="Account" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-      <Tab label="Profile" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-      <Tab label="Safety & Privacy" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-      <Tab label="Feed Settings" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-      <Tab label="Notifications" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-      <Tab label="Emails" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-      <Tab label="Subscriptions" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-      <Tab label="Chat & Messaging" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
+      <Tab label="Account" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
+      <Tab label="Profile" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
+      <Tab label="Safety & Privacy" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
+      <Tab label="Feed Settings" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
+      <Tab label="Notifications" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
+      <Tab label="Emails" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
+      <Tab label="Subscriptions" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
+      <Tab label="Chat & Messaging" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
     </Tabs>
         <div class="horizontalLine"></div>
 
