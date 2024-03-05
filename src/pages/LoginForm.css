@@ -128,10 +128,19 @@ body{
     color: #49a7ff;
 
 }
+.input-field input.has-value + .placeholder-label {
+    position: absolute;
+    top: 0;
+    transform: translateY(-90%);
+    font-size: 14px;
+    color: #000000;
+  }
+
 .remember-forgot{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 70px;
     margin-bottom: 30px;
     transform: skew(-4deg)
 }
@@ -277,3 +286,17 @@ body{
     margin-right: 10px;
     transform: translateY(-1px);
   }
+  .error{
+    transform: translateY(-10px);
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: right;}
+
+ .error-outline{
+    border-color: #b92f1f !important;
+ }
+ 
+ .error-outline ~ .icon{
+    color: #b92f1f !important;
+ }
