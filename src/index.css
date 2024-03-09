@@ -9,7 +9,7 @@ Header
   position: absolute;
   left: 10%;
   top: 27%;
-  transform: translate(50%);
+  transform: translate(10%);
 }
 
 @media (max-width: 680px) {
@@ -17,7 +17,7 @@ Header
     position: absolute;
     left: -47.5%;
     top: 90%;
-    transform: translate(50%);
+    transform: translate(10%);
   }
 }
 
@@ -81,13 +81,19 @@ Header
     }
   }
 }
+
+Header .create {
+  position: relative;
+  left: 6px;
+  bottom: -1px;
+}
 /* //End Header */
 
 
 SideBar .all {
   margin-left: 10px;
 }
-sideBar .ps-0 svg{
+SideBar .ps-0 svg{
 margin-left:140px;
 }
 
@@ -95,3 +101,6 @@ SideBar .collapse-show .rounded{
 font-size: 18px;
 margin-left: 30px;
 }
+
+
+
