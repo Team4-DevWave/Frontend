@@ -1,3 +1,4 @@
+// SocialMediaDialog.js
 import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 
@@ -11,11 +12,13 @@ const SocialMediaDialog = ({ open, onClose, onSave, socialMedia }) => {
 
   const handleSave = () => {
     onSave(socialMedia, socialLink);
-    onClose();
+    setSocialLink(''); // Clear input field after saving
   };
+
   if (!socialMedia) {
     return null; // Return null if no social media platform is selected
-  } 
+  }
+
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Add {socialMedia.charAt(0).toUpperCase() + socialMedia.slice(1)} Link</DialogTitle>
@@ -35,4 +38,5 @@ const SocialMediaDialog = ({ open, onClose, onSave, socialMedia }) => {
     </Dialog>
   );
 };
-export default SocialMediaDialog
+
+export default SocialMediaDialog;

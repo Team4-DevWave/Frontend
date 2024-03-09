@@ -120,4 +120,21 @@ ol {
   color: var(--color-blue);
   text-decoration: none;
 }
+.ProfileButton {
+  color: var(--color-black);
+  background: var(--color-light-gray);
+  font-weight: bold;
+  font-size: var(--font-very-small);
+  text-transform: none;
+  padding: 10px 15px;
+  border-radius: 10rem;
+  border: 0;
+  margin-left: auto;
+}
+.imageFrame {
+  max-width: 300px; /* Adjust the max-width as needed */
+  border: 4px solid #ccc; /* Border color */
+  border-radius: 8px; /* Border radius */
+  margin-top: 10px; /* Adjust margin top as needed */
+}
 /* // End Settings Body */
