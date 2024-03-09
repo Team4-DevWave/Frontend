@@ -2,11 +2,11 @@ import React from "react";
 
 function Header() {
   return (
-    <header id="header">
+    <header id="header" >
       {/* NAV BAR */}
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid d-flex justify-content-between align-items-center">
-          <a className="navbar-brand" href="#header">
+          <a className="navbar-brand" href="/home">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
@@ -34,7 +34,7 @@ function Header() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/chat">
                   <svg
                     rpl=""
                     fill="currentColor"
@@ -50,7 +50,7 @@ function Header() {
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/create">
                   <svg
                     rpl=""
                     fill="currentColor"
@@ -62,11 +62,12 @@ function Header() {
                   >
                     <path d="M19 9.375h-8.375V1h-1.25v8.375H1v1.25h8.375V19h1.25v-8.375H19v-1.25Z"></path>
                   </svg>
+                  <span className="create">Create</span>
                 </a>
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/Notification">
                   <svg
                     rpl=""
                     fill="currentColor"
@@ -83,6 +84,7 @@ function Header() {
               <li class="nav-item">
                 <a class="nav-link" href="#"></a>
               </li>
+              <li></li>
             </ul>
             <div className="container">
               <div className="search-box">
