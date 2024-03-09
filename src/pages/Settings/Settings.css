@@ -1,6 +1,7 @@
 :root {
   --color-black: black;
   --color-blue: rgb(61, 137, 224);
+  --color-light-gray: rgba(218, 211, 211, 0.408);
   --color-gray: gray;
   --color-light-red: #fb361c;
   --color-red: #d82700;
@@ -15,7 +16,7 @@
   --width-settingsParagraph: 500px;
   --margin-left-default: 160px;
   --margin-top-small: 10px;
-  --margin-top-medium: 3px;
+  --margin-top-medium: 30px;
   --margin-top-large: 40px;
 }
 * {

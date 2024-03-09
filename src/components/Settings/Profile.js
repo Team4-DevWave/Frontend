@@ -1,14 +1,36 @@
 import React, { useState } from 'react';
-import {Box, TextField, Switch } from '@mui/material';
+import {Box, TextField, Switch, Button } from '@mui/material';
+import SocialMediaDialog from '../MUIEdited/SocialMediaDialog';
+import PlusIcon from '../MUIEdited/PlusIcon';
+
+
 
 function Profile() {
   const [displayName, setDisplayName] = useState('');
   const [displayNameMulti, setDisplayNameMulti] = useState('');
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
+  const [open, setOpen] = useState(false);
+  const [addedSocialLinks, setAddedSocialLinks] = useState({});
+  const [selectedSocialMedia, setSelectedSocialMedia] = useState(null);
 
+  const handleOpen = (socialMedia) => {
+    setOpen(true);
+    setSelectedSocialMedia(socialMedia);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedSocialMedia(null);
+  };
+
+  const handleSave = (socialMedia, link) => {
+    setAddedSocialLinks(prevState => ({
+      ...prevState,
+      [socialMedia]: link
+    }));
+  };
   const handleChangeMulti = (event) => {
     const inputValue = event.target.value;
-    // Limit input to 50 characters
     if (inputValue.length <= 200) {
       setDisplayNameMulti(inputValue);
     }
@@ -65,24 +87,35 @@ function Profile() {
             </Box>
           </div>
           </div>
-        <div className="settingsItem">
-          <div>
-            <h2 className="titleBody-2">Social links (5 max)</h2>
-            <p className="settingsParagraph">People who visit your profile will see your social links.</p>
-            <Box sx={{ width: 700, maxWidth: '100%' }}>
-              <TextField
-                fullWidth
-                multiline
-                id="fullWidth"
-                label="About (optional)"
-                value={displayNameMulti}
-                onChange={handleChangeMulti}
-                inputProps={{ maxLength: 200 }} 
-              />
-              <p className="settingsParagraph">Characters remaining: {200 - displayNameMulti.length}</p>
-            </Box>
-          </div>
-        </div>
+    <div className="settingsItem">
+      <div>
+        <h2 className="titleBody-2">Social links (5 max)</h2>
+        <p className="settingsParagraph">People who visit your profile will see your social links.</p>
+<Button 
+sx={{
+color: 'var(--color-black)',
+background: 'var(--color-light-gray)',
+fontWeight: "bold",
+fontSize: "var(--font-very-small)",
+textTransform: 'none',
+padding: '10px 15px',
+borderRadius: '10rem',
+border: '0',
+ml: 'auto',
+}}
+  onClick={handleOpen}> <PlusIcon/> Add Social Links</Button>
+          <Button variant="contained" onClick={() => handleOpen('reddit')}>Add Reddit Link</Button>
+        <Button variant="contained" onClick={() => handleOpen('instagram')}>Add Instagram Link</Button>
+        <SocialMediaDialog open={open} onClose={handleClose} onSave={handleSave} socialMedia={selectedSocialMedia} />
+        <ul>
+          {Object.keys(addedSocialLinks).map((socialMedia, index) => (
+            <li key={index}>
+              {socialMedia.charAt(0).toUpperCase() + socialMedia.slice(1)}: {addedSocialLinks[socialMedia]}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
         <div className='titleData'>
           <h2 className="titleDataItem">IMAGES</h2>
         <div class="horizontalLine horizontalLine-2"></div>
