@@ -9,7 +9,7 @@ function SideBar() {
         <ul className="nav nav-pills flex-column mb-auto">
           <li className="nav-item">
             <a
-              href="#"
+              href="/home"
               className="nav-link link-body-emphasis"
               aria-current="page"
             >
@@ -29,7 +29,7 @@ function SideBar() {
             </a>
           </li>
           <li>
-            <a href="#" className="nav-link link-body-emphasis">
+            <a href="/popular" className="nav-link link-body-emphasis">
               <svg
                 rpl=""
                 fill="currentColor"
@@ -45,7 +45,7 @@ function SideBar() {
             </a>
           </li>
           <li>
-            <a href="#" className="nav-link link-body-emphasis">
+            <a href="/all" className="nav-link link-body-emphasis">
               <svg
                 rpl=""
                 fill="currentColor"
@@ -61,60 +61,60 @@ function SideBar() {
               <hr />
             </a>
           </li>
-        </ul>
-        <div className="flex-shrink-0 p-3" style={{ width: "280px" }}>
-          <ul className="list-unstyled ps-0">
-            <li className="mb-1">
-              <button
-                className="btn btn-toggle d-inline-flex align-items-center rounded border-0"
-                data-bs-toggle="collapse"
-                data-bs-target="#home-collapse"
-                aria-expanded="true"
-              >
-                RECENT{" "}
-                <svg
-                  rpl=""
-                  fill="currentColor"
-                  height="20"
-                  icon-name="caret-down-outline"
-                  viewBox="0 0 20 20"
-                  width="20"
-                  xmlns="http://www.w3.org/2000/svg"
+          <div className="flex-shrink-0 p-3" style={{ width: "280px" }}>
+            <ul className="list-unstyled ps-0">
+              <li className="mb-1">
+                <button
+                  className="btn btn-toggle d-inline-flex align-items-center rounded border-0"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#home-collapse"
+                  aria-expanded="true"
                 >
-                  <path d="M10 13.125a.624.624 0 0 1-.442-.183l-5-5 .884-.884L10 11.616l4.558-4.558.884.884-5 5a.624.624 0 0 1-.442.183Z"></path>
-                </svg>
-              </button>
-              <div className="collapse-show" id="home-collapse">
-                <ul className="btn-toggle-nav list-unstyled fw-normal pb-1">
-                  <li>
-                    <a
-                      href="#"
-                      className="link-body-emphasis d-inline-flex text-decoration-none rounded"
-                    >
-                      r/CUFE
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="link-body-emphasis d-inline-flex text-decoration-none rounded"
-                    >
-                      r/POG
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="link-body-emphasis d-inline-flex text-decoration-none rounded"
-                    >
-                      r/E
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
+                  RECENT{" "}
+                  <svg
+                    rpl=""
+                    fill="currentColor"
+                    height="20"
+                    icon-name="caret-down-outline"
+                    viewBox="0 0 20 20"
+                    width="20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M10 13.125a.624.624 0 0 1-.442-.183l-5-5 .884-.884L10 11.616l4.558-4.558.884.884-5 5a.624.624 0 0 1-.442.183Z"></path>
+                  </svg>
+                </button>
+                <div className="collapse-show" id="home-collapse">
+                  <ul className="btn-toggle-nav list-unstyled fw-normal pb-1">
+                    <li>
+                      <a
+                        href="https://www.youtube.com/watch?v=mlYQtVAieCo"
+                        className="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                      >
+                        t/AkiraToriyamaOfficial
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                      >
+                        t/Ahlyyy
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                      >
+                        t/zamalek
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </ul>
       </div>
     </sidebar>
   );
