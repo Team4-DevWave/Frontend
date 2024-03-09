@@ -1,6 +1,7 @@
 :root {
   --color-black: black;
   --color-blue: rgb(61, 137, 224);
+  --color-light-gray: rgba(218, 211, 211, 0.408);
   --color-gray: gray;
   --color-light-red: #fb361c;
   --color-red: #d82700;
@@ -15,7 +16,7 @@
   --width-settingsParagraph: 500px;
   --margin-left-default: 160px;
   --margin-top-small: 10px;
-  --margin-top-medium: 3px;
+  --margin-top-medium: 30px;
   --margin-top-large: 40px;
 }
 * {
@@ -118,5 +119,22 @@ ol {
 .link {
   color: var(--color-blue);
   text-decoration: none;
+}
+.ProfileButton {
+  color: var(--color-black);
+  background: var(--color-light-gray);
+  font-weight: bold;
+  font-size: var(--font-very-small);
+  text-transform: none;
+  padding: 10px 15px;
+  border-radius: 10rem;
+  border: 0;
+  margin-left: auto;
+}
+.imageFrame {
+  max-width: 300px; /* Adjust the max-width as needed */
+  border: 4px solid #ccc; /* Border color */
+  border-radius: 8px; /* Border radius */
+  margin-top: 10px; /* Adjust margin top as needed */
 }
 /* // End Settings Body */
