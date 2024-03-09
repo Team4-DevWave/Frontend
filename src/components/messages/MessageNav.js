@@ -5,12 +5,6 @@ import Inbox from './inboxcomponent';
 import SentMessage from './SentMessage';
 import MentionedUsername from './MentionedUsername';
 import Notifications from "./Notifications";
-// import Safety from './Safety';
-// import Feed from './Feed';
-// import Notifications from './Notifications';
-// import Emails from './Emails';
-// import Subscriptions from './Subscriptions';
-// import Chat from './Chat';
 
 function MessagesNav() {
     const [activeNavItem, setActiveNavItem] = useState(0);
