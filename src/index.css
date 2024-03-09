@@ -24,7 +24,7 @@ Header
     height: 25px;
     transition: all 0.25s ease-in 0.25s;
     color: transparent;
-    font-size: 2rem;
+    font-size: 1rem;
     line-height: 25px;
     &:hover {
       cursor: pointer;
@@ -76,3 +76,16 @@ Header
   }
 }
 /* //End Header */
+
+
+SideBar .all {
+  margin-left: 10px;
+}
+sideBar .ps-0 svg{
+margin-left:140px;
+}
+
+SideBar .collapse-show .rounded{
+font-size: 18px;
+margin-left: 30px;
+}
