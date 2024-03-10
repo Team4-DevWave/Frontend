@@ -1,9 +1,15 @@
+html
+{
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
 Header
 .container {
   position: absolute;
   left: 10%;
   top: 27%;
-  transform: translate(50%);
+  transform: translate(10%);
 }
 
 @media (max-width: 680px) {
@@ -11,7 +17,7 @@ Header
     position: absolute;
     left: -47.5%;
     top: 90%;
-    transform: translate(50%);
+    transform: translate(10%);
   }
 }
 
@@ -24,7 +30,7 @@ Header
     height: 25px;
     transition: all 0.25s ease-in 0.25s;
     color: transparent;
-    font-size: 2rem;
+    font-size: 1rem;
     line-height: 25px;
     &:hover {
       cursor: pointer;
@@ -75,4 +81,26 @@ Header
     }
   }
 }
+
+Header .create {
+  position: relative;
+  left: 6px;
+  bottom: -1px;
+}
 /* //End Header */
+
+
+SideBar .all {
+  margin-left: 10px;
+}
+SideBar .ps-0 svg{
+margin-left:140px;
+}
+
+SideBar .collapse-show .rounded{
+font-size: 18px;
+margin-left: 30px;
+}
+
+
+
