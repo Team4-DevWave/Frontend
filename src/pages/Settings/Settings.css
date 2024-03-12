@@ -110,7 +110,7 @@ ol {
 }
 .settingsParagraph {
   color: var(--color-gray);
-  font-size: var(--font-small);
+  font-size: var(--very-font-small);
   max-width: var(--width-settingsParagraph);
 }
 .beta {
