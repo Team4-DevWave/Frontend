@@ -1,27 +1,31 @@
 import React, { useState } from 'react';
-import { Tabs, Tab } from '@mui/material';
-  import Account from './Account';
-  import Profile from './Profile';
-  import Safety from './Safety';
-  import Feed from './Feed';
-  import Notifications from './Notifications';
-  import Emails from './Emails';
-  import Subscriptions from './Subscriptions';
-  import Chat from './Chat';
+import { Tabs, Tab, useMediaQuery, useTheme } from '@mui/material';
+import Account from './Account';
+import Profile from './Profile';
+import Safety from './Safety';
+import Feed from './Feed';
+import Notifications from './Notifications';
+import Emails from './Emails';
+import Subscriptions from './Subscriptions';
+import Chat from './Chat';
     
-    function SettingsNav() {
-      const [activeNavItem, setActiveNavItem] = useState(0);
+function SettingsNav() {
+  const [activeNavItem, setActiveNavItem] = useState(0);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleTabChange = (event, newValue) => {
     setActiveNavItem(newValue);
   };
+
   
   return (
 <>
     <Tabs
-    className="navList sizeLg"  
+    className="settingsNavTabs"  
     value={activeNavItem}
-      onChange={handleTabChange}
+    onChange={handleTabChange}
+    variant={isMobile ? "scrollable" : "standard"}
       indicatorColor="primary"
       textColor="primary"
       left 

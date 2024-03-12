@@ -27,7 +27,10 @@ function ProfileInformation() {
           <div>
             <h2 className="titleBody-2">Display name (optional)</h2>
             <p className="settingsParagraph">Set a display name. This does not change your username.</p>
-            <Box sx={{ width: 700, maxWidth: '100%' }}>
+            <Box sx={{ width: 700, maxWidth: '100%',
+          '@media screen and (max-width: 1000px)': {
+          width: '100%'
+        },           }}>
               <TextField
                 fullWidth
                 id="fullWidth"
@@ -44,7 +47,11 @@ function ProfileInformation() {
           <div>
             <h2 className="titleBody-2">About (optional)</h2>
             <p className="settingsParagraph">A brief description of yourself shown on your profile.</p>
-            <Box sx={{ width: 700, maxWidth: '100%' }}>
+            <Box sx={{ width: 700, maxWidth: '100%',
+          '@media screen and (max-width: 1000px)': {
+          width: '100%'
+        },
+           }}>
               <TextField
                 fullWidth
                 multiline

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import ButtonEdited from '../MUIEdited/Button';
-import SelectEdited from '../MUIEdited/CustomSelect';
+import CustomSelect from '../MUIEdited/CustomSelect';
 import CustomSnackbar from '../MUIEdited/CustomSnackbar';
 import LanguageSelectionDialog from '../MUIEdited/LanguageSelectionDialog';
 
@@ -130,7 +130,7 @@ function Account() {
             <h2 className="titleBody-2">Gender</h2>
             <p className="settingsParagraph">This information may be used to improve your recommendations and ads.</p>
           </div>
-          <SelectEdited defaultValue="Man" values={['Man', 'Woman']} mr='none' ml='auto' onSelection={handleChangeGender}  />
+          <CustomSelect defaultValue="Man" values={['Man', 'Woman']} mr='none' ml='auto' onSelection={handleChangeGender}  />
           <CustomSnackbar
             isOpen={isSnackbarOpenGender}
             message="Gender changed successfully!"
@@ -146,7 +146,7 @@ function Account() {
 
         </div>
         <div className="settingsItem">
-          <SelectEdited defaultValue="English (US)" values={['English (US)','Arabic','German','French','Italian','Indian']}  mr='auto' ml='none' onSelection={handleChangeLanguage} />
+          <CustomSelect defaultValue="English (US)" values={['English (US)','Arabic','German','French','Italian','Indian']}  mr='auto' ml='none' onSelection={handleChangeLanguage} />
           <CustomSnackbar
             isOpen={isSnackbarOpenLanguage}
             message="Language changed successfully!"
@@ -177,7 +177,7 @@ function Account() {
             <p className="settingsParagraph">Specify a location to customize your recommendations and feed. Reddit does not track your precise geolocation data. <span className="link"><a target="_blank" href='https://support.reddithelp.com/hc/en-us/articles/360062429491-Managing-your-Location-Customization-setting' rel="noreferrer">Learn more</a></span></p>
       </div>
       <div>      
-          <SelectEdited defaultValue="Use approximate location (based on IP)" values={['Use approximate location (based on IP)','No location specified','Afghanistan','Afghanistan','Albania','Algeria', 'American Samoa', 'Palestine', 'Egypt', 'Angola', 'Albania']}  mr='auto' ml='none' onSelection={handleChangeLocation} />
+          <CustomSelect defaultValue="Use approximate location (based on IP)" values={['Use approximate location (based on IP)','No location specified','Afghanistan','Afghanistan','Albania','Algeria', 'American Samoa', 'Palestine', 'Egypt', 'Angola', 'Albania']}  mr='auto' ml='none' onSelection={handleChangeLocation} />
           <CustomSnackbar
             isOpen={isSnackbarOpenLocation}
             message="Location changed successfully!"
@@ -194,16 +194,19 @@ function Account() {
       <div className="settingsItem">
           <Button
           color="error"
-            sx={{
-              color: "var(--color-light-red)",
-              fontWeight: "bold",
-              fontSize: "var(--font-very-small)",
-              borderRadius: '10rem',
-              ml: 'auto',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '5px',}}><img  src="./images/delete.png" width="20px" alt="Delete"/> <span> DELETE ACCOUNT</span></Button>
+          sx={{
+            color: "var(--color-light-red)",
+            fontWeight: "bold",
+            fontSize: "var(--font-very-small)",
+            borderRadius: '10rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '5px',
+            mx: { xs: 'auto', md: 0 }, // Center the button for small screens (<1000px width)
+            width: 'fit-content', // Ensure button width adjusts based on content
+          }}
+        ><img  src="./images/delete.png" width="20px" alt="Delete"/> <span> DELETE ACCOUNT</span></Button>
       </div>
     </div>
 

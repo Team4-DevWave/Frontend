@@ -56,6 +56,9 @@ function AdvancedSettings() {
         borderRadius: '10rem',
         border: '1px solid var(--color-blue)',
         ml: 'auto',
+          '@media screen and (max-width: 1000px)': {
+        fontSize: "var(--font-very-small)",
+        },
       }}>Clear history </Button>
 
     </div>

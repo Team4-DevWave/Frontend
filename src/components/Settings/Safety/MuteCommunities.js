@@ -63,7 +63,10 @@ function MuteCommunities() {
       <div>
         <h2 className="titleBody-2">Communities You've Muted</h2>
         <p className="settingsParagraph">Posts from muted communities won't show up in your feeds or recommendations.</p>
-        <Box sx={{ width: 700, maxWidth: '100%' }}>
+        <Box sx={{ width: 700, maxWidth: '100%',
+          '@media screen and (max-width: 1000px)': {
+            width: '100%'
+            },       }}>
           <TextField
             fullWidth
             id="fullWidth"

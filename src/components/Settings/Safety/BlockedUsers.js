@@ -72,7 +72,10 @@ function BlockedUsers() {
         <div>
             <h2 className="titleBody-2">People You’ve Blocked</h2>
             <p className="settingsParagraph">Blocked people can’t send you chat requests or private messages.</p>
-            <Box sx={{ width: 700, maxWidth: '100%' }}>
+            <Box sx={{ width: 700, maxWidth: '100%',
+          '@media screen and (max-width: 1000px)': {
+            width: '100%'
+            }, }}>
             <TextField
                 fullWidth
                 id="fullWidth"

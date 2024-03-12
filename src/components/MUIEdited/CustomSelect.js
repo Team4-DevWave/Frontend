@@ -2,8 +2,7 @@ import React from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-function SelectEdited({ defaultValue, values,  mr, ml, onSelection }) {
-
+function CustomSelect({ defaultValue, values,  mr, ml, onSelection }) {
   return (
     <>
       <Select
@@ -13,8 +12,13 @@ function SelectEdited({ defaultValue, values,  mr, ml, onSelection }) {
           color: "var(--color-blue)",
           fontWeight: "bold",
           fontSize: "var(--font-medium)",
+          '@media screen and (max-width: 1000px)': {
+          fontSize: 'var(--font-very-small)' // Font size for screens <1000px
+        },
           marginRight: mr === 'none' ? 'none' : mr,
           marginLeft: ml === 'auto' ? 'auto' : ml,
+          mx: { xs: 'auto', md: 0 }, // Center the button for small screens (<1000px width)
+          width: 'fit-content', // Ensure button width adjusts based on content
         }}
       >
         {values.map((value, index) => (
@@ -23,6 +27,9 @@ function SelectEdited({ defaultValue, values,  mr, ml, onSelection }) {
             sx={{
               color: "var(--color-gray)",
               fontSize: "var(--font-small)",
+              '@media screen and (max-width: 1000px)': {
+              fontSize: 'var(--font-very-small)' // Font size for screens <1000px
+              },
             }}
             value={value}
           >
@@ -34,4 +41,4 @@ function SelectEdited({ defaultValue, values,  mr, ml, onSelection }) {
   );
 }
 
-export default SelectEdited;
+export default CustomSelect;
