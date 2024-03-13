@@ -17,8 +17,6 @@ function CustomSelect({ defaultValue, values,  mr, ml, onSelection }) {
         },
           marginRight: mr === 'none' ? 'none' : mr,
           marginLeft: ml === 'auto' ? 'auto' : ml,
-          mx: { xs: 'auto', md: 0 }, // Center the button for small screens (<1000px width)
-          width: 'fit-content', // Ensure button width adjusts based on content
         }}
       >
         {values.map((value, index) => (

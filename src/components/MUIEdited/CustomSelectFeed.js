@@ -19,9 +19,6 @@ function CustomSelectFeed({ setSelectedOption, defaultValue, values, onSelection
         fontSize: "var(--font-medium)",
         marginRight: 'none',
         marginLeft: 'auto',
-          mx: { xs: 'auto', md: 0 }, // Center the button for small screens (<1000px width)
-          width: 'fit-content', // Ensure button width adjusts based on content
-
       }}
     >
       {values.map((value, index) => (
