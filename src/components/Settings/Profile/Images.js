@@ -30,7 +30,10 @@ function Images() {
         <div>
           <h2 className="titleBody-2">Avatar and banner image</h2>
           <p className="settingsParagraph">Images must be .png or .jpg format</p>
-          <Box sx={{ width: 700, maxWidth: '100%' }}>
+          <Box sx={{ width: 700, maxWidth: '100%',
+          '@media screen and (max-width: 1000px)': {
+          width: '100%'
+        },         }}>
             <Button
             sx={{
               color: 'var(--color-black)',
@@ -54,7 +57,10 @@ function Images() {
             </Button>
             {avatarImage && <img src={avatarImage} alt="Avatar" className="imageFrame" />}
             </Box>
-          <Box sx={{ width: 700, maxWidth: '100%' }}>
+          <Box sx={{ width: 700, maxWidth: '100%',
+          '@media screen and (max-width: 1000px)': {
+          width: '100%'
+        },         }}>
 
             <Button
             sx={{

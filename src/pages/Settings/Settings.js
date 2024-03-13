@@ -5,8 +5,8 @@ function Settings() {
   return (
     <div id="settingsID">
       <Header />
-      <div className="header">
-        <h1 className="title">User settings</h1>
+      <div className="SettingsHeader">
+        <h1 className="SettingsTitle">User settings</h1>
         <SettingsNav />
       </div>
     </div>

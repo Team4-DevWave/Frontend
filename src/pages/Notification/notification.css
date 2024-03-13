@@ -1,191 +1,242 @@
 :root {
-    --color-black: black;
-    --color-blue: rgb(61, 137, 224);
-    --color-gray: gray;
-    --color-light-red: #fb361c;
-    --color-red: #d82700;
-    --font-very-small: 12px;
-    --font-small: 14px;
-    --font-medium: 15px;
-    --font-medium-2: 17px;
-    --font-large: 3 0px;
-    --width-header: 1300px;
-    --width-settingsNav: 1000px;
-    --width-settingsBody: 700px;
-    --width-settingsParagraph: 500px;
-    --margin-left-default: 160px;
-    --margin-top-small: 10px;
-    --margin-top-medium: 3px;
-    --margin-top-large: 40px;
+  --color-black: black;
+  --color-blue: rgb(61, 137, 224);
+  --color-gray: gray;
+  --color-light-red: #fb361c;
+  --color-red: #d82700;
+  --font-very-small: 12px;
+  --font-small: 14px;
+  --font-medium: 15px;
+  --font-medium-2: 17px;
+  --font-large: 3 0px;
+  --width-header: 1300px;
+  --width-settingsNav: 1000px;
+  --width-settingsBody: 700px;
+  --width-settingsParagraph: 500px;
+  --margin-left-default: 160px;
+  --margin-top-small: 10px;
+  --margin-top-medium: 3px;
+  --margin-top-large: 40px;
+  @media screen and (max-width: 1000px) {
+    --width-header: 500px;
+    --width-settingsBody: 500px;
+    --width-settingsNav: 500px;
+  }
 }
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    border-radius: 0;
-    font: inherit;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 0;
+  font: inherit;
 }
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 a {
-    color: inherit;
-    display: inline-block;
+  color: inherit;
+  display: inline-block;
 }
 
 button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    border: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  border: 0;
 }
 
 ul,
 ol {
-    list-style: none;
+  list-style: none;
 }
 
 /* html {
   font-size: 62%;
 } */
 .header {
-    display: flex;
-    flex-direction: column;
-    margin-left: var(--margin-left-default);
+  display: flex;
+  flex-direction: column;
+  margin-left: var(--margin-left-default);
 }
 .title {
-    font-size: var(--font-large);
-    margin-top: var(--margin-top-small);
+  font-size: var(--font-large);
+  margin-top: var(--margin-top-small);
 }
 
 .navList {
-    margin-top: var(--margin-top-medium);
-    max-width: var(--width-settingsNav);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-weight: bold;
+  margin-top: var(--margin-top-medium);
+  max-width: var(--width-settingsNav);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: bold;
 }
 
 .horizontalLine {
-    opacity: 0.1;
-    height: 1.5px;
-    border-left: var(--width-header) solid var(--color-gray);
-    z-index: -1;
+  opacity: 0.1;
+  height: 1.5px;
+  border-left: var(--width-header) solid var(--color-gray);
+  z-index: -1;
 }
 .horizontalLine-2 {
-    border-left: var(--width-settingsBody) solid var(--color-gray);
+  border-left: var(--width-settingsBody) solid var(--color-gray);
 }
 
 /* Settings Body */
 .settingsBody {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: var(--margin-top-large);
-    max-width: var(--width-settingsBody);
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--margin-top-large);
+  max-width: var(--width-settingsBody);
 }
 .titleBody {
-    margin: var(--margin-top-large) 0;
+  margin: var(--margin-top-large) 0;
 }
 .titleBody-2 {
-    font-size: var(--font-medium-2);
+  font-size: var(--font-medium-2);
 }
 .settingsData {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 .settingsItem {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .titleDataItem {
-    font-size: var(--font-very-small);
-    color: var(--color-gray);
+  font-size: var(--font-very-small);
+  color: var(--color-gray);
 }
 .settingsParagraph {
-    color: var(--color-gray);
-    font-size: var(--font-small);
-    max-width: var(--width-settingsParagraph);
+  color: var(--color-gray);
+  font-size: var(--font-small);
+  max-width: var(--width-settingsParagraph);
 }
 .beta {
-    color: var(--color-light-red);
+  color: var(--color-light-red);
 }
 .link {
-    color: var(--color-blue);
-    text-decoration: none;
+  color: var(--color-blue);
+  text-decoration: none;
 }
 
-.input-field input{
-    width: 100%;
-    height: 100%;
-    padding: 0 30px 0 10px;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    outline: none;
-    font-size: 18px;
-    transition: 0.3s;
+.input-field input {
+  width: 100%;
+  height: 100%;
+  padding: 0 30px 0 10px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  outline: none;
+  font-size: 18px;
+  transition: 0.3s;
 }
 
 .message-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
 }
 
-
 .SendMessageform {
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    allign-items: center;
-
-
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  allign-items: center;
 }
 
 .SendMessageform h2 {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .SendMessageform .input-field {
-    position: relative;
-    width: 100%;
-    margin: 20px 0;
+  position: relative;
+  width: 100%;
+  margin: 20px 0;
 }
 
 .input-field input,
 #message-content {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
 .SendMessageform button {
-    width: 100%;
-    height: 50px;
-    background-color: #4b4d4f;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 20px;
+  width: 100%;
+  height: 50px;
+  background-color: #4b4d4f;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
 }
 
 .SendMessageform button:hover {
-    background-color: #787a7d;
+  background-color: #787a7d;
 }
 /* // End Settings Body */
+.notification {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notification h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.notification p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Different styles for each type */
+.notification.comment {
+  background-image: url("https://www.redditstatic.com/notifications/default_subreddit_avatar_updated.png");
+}
+
+.notification.message {
+  background-image: url("data:image/png;base64,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");
+}
+
+.notification.chat {
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS57RH4TX05Sp6oV_-5iTbzUOgHgIardqWj1A&usqp=CAU");
+}
+
+.notification.friendRequest {
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0kARi2mft_HIiJYrQDHha0VFivdldFmyWdw&usqp=CAU");
+}
+
+.notification.newPost {
+  background-image: url("https://www.redditstatic.com/notifications/default_subreddit_avatar_updated.png");
+}
+
+.notification.report {
+  background-image: url("https://www.redditstatic.com/notifications/default_subreddit_avatar_updated.png");
+}
+.notification-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
