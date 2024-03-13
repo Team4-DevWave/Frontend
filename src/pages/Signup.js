@@ -6,7 +6,7 @@ import { MdAlternateEmail } from "react-icons/md";
 import ReCAPTCHA from "react-google-recaptcha";
 import {
   validateSignup,
-  validateCapcha,
+  // validateCapcha,
 } from "../features/authentication/validate";
 
 function Signup() {

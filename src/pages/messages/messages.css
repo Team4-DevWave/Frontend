@@ -1,191 +1,193 @@
 :root {
-    --color-black: black;
-    --color-blue: rgb(61, 137, 224);
-    --color-gray: gray;
-    --color-light-red: #fb361c;
-    --color-red: #d82700;
-    --font-very-small: 12px;
-    --font-small: 14px;
-    --font-medium: 15px;
-    --font-medium-2: 17px;
-    --font-large: 20px;
-    --width-header: 1300px;
-    --width-settingsNav: 1000px;
-    --width-settingsBody: 700px;
-    --width-settingsParagraph: 500px;
-    --margin-left-default: 160px;
-    --margin-top-small: 10px;
-    --margin-top-medium: 3px;
-    --margin-top-large: 40px;
+  --color-black: black;
+  --color-blue: rgb(61, 137, 224);
+  --color-gray: gray;
+  --color-light-red: #fb361c;
+  --color-red: #d82700;
+  --font-very-small: 12px;
+  --font-small: 14px;
+  --font-medium: 15px;
+  --font-medium-2: 17px;
+  --font-large: 20px;
+  --width-header: 1300px;
+  --width-settingsNav: 1000px;
+  --width-settingsBody: 700px;
+  --width-settingsParagraph: 500px;
+  --margin-left-default: 160px;
+  --margin-top-small: 10px;
+  --margin-top-medium: 3px;
+  --margin-top-large: 40px;
+  @media screen and (max-width: 1000px) {
+    --width-header: 500px;
+    --width-settingsBody: 500px;
+    --width-settingsNav: 500px;
+  }
 }
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    border-radius: 0;
-    font: inherit;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 0;
+  font: inherit;
 }
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 a {
-    color: inherit;
-    display: inline-block;
+  color: inherit;
+  display: inline-block;
 }
 
 button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    border: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  border: 0;
 }
 
 ul,
 ol {
-    list-style: none;
+  list-style: none;
 }
 
 /* html {
   font-size: 62%;
 } */
 .header {
-    display: flex;
-    flex-direction: column;
-    margin-left: var(--margin-left-default);
+  display: flex;
+  flex-direction: column;
+  margin-left: var(--margin-left-default);
 }
 .title {
-    font-size: var(--font-large);
-    margin-top: var(--margin-top-small);
+  font-size: var(--font-large);
+  margin-top: var(--margin-top-small);
 }
 
 .navList {
-    margin-top: var(--margin-top-medium);
-    max-width: var(--width-settingsNav);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-weight: bold;
+  margin-top: var(--margin-top-medium);
+  max-width: var(--width-settingsNav);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: bold;
 }
 
 .horizontalLine {
-    opacity: 0.1;
-    height: 1.5px;
-    border-left: var(--width-header) solid var(--color-gray);
-    z-index: -1;
+  opacity: 0.1;
+  height: 1.5px;
+  border-left: var(--width-header) solid var(--color-gray);
+  z-index: -1;
 }
 .horizontalLine-2 {
-    border-left: var(--width-settingsBody) solid var(--color-gray);
+  border-left: var(--width-settingsBody) solid var(--color-gray);
 }
 
 /* Settings Body */
 .settingsBody {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: var(--margin-top-large);
-    max-width: var(--width-settingsBody);
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--margin-top-large);
+  max-width: var(--width-settingsBody);
 }
 .titleBody {
-    margin: var(--margin-top-large) 0;
+  margin: var(--margin-top-large) 0;
 }
 .titleBody-2 {
-    font-size: var(--font-medium-2);
+  font-size: var(--font-medium-2);
 }
 .settingsData {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 .settingsItem {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .titleDataItem {
-    font-size: var(--font-very-small);
-    color: var(--color-gray);
+  font-size: var(--font-very-small);
+  color: var(--color-gray);
 }
 .settingsParagraph {
-    color: var(--color-gray);
-    font-size: var(--font-small);
-    max-width: var(--width-settingsParagraph);
+  color: var(--color-gray);
+  font-size: var(--font-small);
+  max-width: var(--width-settingsParagraph);
 }
 .beta {
-    color: var(--color-light-red);
+  color: var(--color-light-red);
 }
 .link {
-    color: var(--color-blue);
-    text-decoration: none;
+  color: var(--color-blue);
+  text-decoration: none;
 }
 
-.input-field input{
-    width: 100%;
-    height: 100%;
-    padding: 0 30px 0 10px;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    outline: none;
-    font-size: 18px;
-    transition: 0.3s;
+.input-field input {
+  width: 100%;
+  height: 100%;
+  padding: 0 30px 0 10px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  outline: none;
+  font-size: 18px;
+  transition: 0.3s;
 }
 
 .message-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
 }
 
-
 .SendMessageform {
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    allign-items: center;
-
-
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  align-items: center;
 }
 
 .SendMessageform h2 {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .SendMessageform .input-field {
-    position: relative;
-    width: 100%;
-    margin: 20px 0;
+  position: relative;
+  width: 100%;
+  margin: 20px 0;
 }
 
 .input-field input,
 #message-content {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
 .SendMessageform button {
-    width: 100%;
-    height: 50px;
-    background-color: #4b4d4f;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 20px;
+  width: 100%;
+  height: 50px;
+  background-color: #4b4d4f;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
 }
 
 .SendMessageform button:hover {
-    background-color: #787a7d;
+  background-color: #787a7d;
 }
 /* // End Settings Body */

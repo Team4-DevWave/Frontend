@@ -1,27 +1,30 @@
 import React, { useState } from 'react';
-import { Tabs, Tab } from '@mui/material';
-  import Account from './Account';
-  import Profile from './Profile';
-  import Safety from './Safety';
-  import Feed from './Feed';
-  import Notifications from './Notifications';
-  import Emails from './Emails';
-  import Subscriptions from './Subscriptions';
-  import Chat from './Chat';
+import { Tabs, Tab, useMediaQuery, useTheme } from '@mui/material';
+import Account from './Account';
+import Profile from './Profile';
+import Safety from './Safety';
+import Feed from './Feed';
+import Notifications from './Notifications';
+import Emails from './Emails';
+import Chat from './Chat';
     
-    function SettingsNav() {
-      const [activeNavItem, setActiveNavItem] = useState(0);
+function SettingsNav() {
+  const [activeNavItem, setActiveNavItem] = useState(0);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleTabChange = (event, newValue) => {
     setActiveNavItem(newValue);
   };
+
   
   return (
 <>
     <Tabs
-    className="navList sizeLg"  
+    className="settingsNavTabs"  
     value={activeNavItem}
-      onChange={handleTabChange}
+    onChange={handleTabChange}
+    variant={isMobile ? "scrollable" : "standard"}
       indicatorColor="primary"
       textColor="primary"
       left 
@@ -32,7 +35,6 @@ import { Tabs, Tab } from '@mui/material';
       <Tab label="Feed Settings" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
       <Tab label="Notifications" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
       <Tab label="Emails" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
-      <Tab label="Subscriptions" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
       <Tab label="Chat & Messaging" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-small)','&:hover': {color: 'var(--color-black)',} }} />
     </Tabs>
         <div class="horizontalLine"></div>
@@ -43,8 +45,7 @@ import { Tabs, Tab } from '@mui/material';
       {activeNavItem === 3 && <Feed />}
       {activeNavItem === 4 && <Notifications />}
       {activeNavItem === 5 && <Emails />}
-      {activeNavItem === 6 && <Subscriptions />}
-      {activeNavItem === 7 && <Chat />}
+      {activeNavItem === 6 && <Chat />}
   </>
   );
 
