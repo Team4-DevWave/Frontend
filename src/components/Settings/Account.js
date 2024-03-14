@@ -103,7 +103,7 @@ function Account() {
             <h2 className="titleBody-2">Display language <span className="beta">(beta)</span></h2>
             <p className="settingsParagraph">Select the language you'd like to experience the Reddit interface in. Note that this won't change the language of user-generated content and that this feature is still in development so translations and UI are still under review.</p>
           </div>
-          <CustomSelect defaultValue="English (US)" values={['English (US)', 'Arabic', 'German', 'French', 'Italian', 'Indian']} mr='auto' ml='none' onSelection={() => handleChange('language')} />
+          <CustomSelect defaultValue="English (US)" values={['English (US)', 'Arabic', 'German', 'French', 'Italian', 'Indian']} mr='none' ml='auto' onSelection={() => handleChange('language')} />
         </div>
         <div className="settingsItem">
           <div>
