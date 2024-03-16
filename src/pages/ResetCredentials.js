@@ -3,6 +3,7 @@ import { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { MdAlternateEmail } from "react-icons/md";
 import { TbPasswordFingerprint } from "react-icons/tb";
+import CustomSnackbar from "../components/MUIEdited/CustomSnackbar";
 
 function ResetCredentials() {
   const [resetCode, setResetCode] = useState("");
@@ -15,10 +16,13 @@ function ResetCredentials() {
   const [touchedNewPassword, setTouchedNewPassword] = useState(false);
   const [touchedConfirmNewPassword, setTouchedConfirmNewPassword] =
     useState(false);
+    const [snack, openSnack] = useState(false);
 
   useEffect(() => {
-    console.log(resetCode, newPassword, confirmNewPassword);
-    setValidResetCode(resetCode.match(/^[a-zA-Z0-9]{6}$/));
+    console.log(resetCode, newPassword, confirmNewPassword,);
+    console.log(validResetCode, "validResetCode");
+    
+    setValidResetCode(resetCode.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/));
     setValidNewPassword(
       newPassword.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
     );
@@ -91,12 +95,20 @@ function ResetCredentials() {
                 backgroundColor: "#d32f2f",
               },
             }}
+            onClick={()=>{
+                openSnack(true);
+            }}
             startIcon={<TbPasswordFingerprint />}
             disabled={!validResetCode || !validNewPassword || !validConfirmNewPassword}
             type="submit"
           >
             Reset
           </Button>
+          <CustomSnackbar
+            isOpen={snack} onClose={()=>openSnack(false)}
+            message="Password reset successfully"
+            severity="success"
+            />
         </form>
       </div>
     </div>
