@@ -11,7 +11,7 @@ function Header() {
   return (
     <header id="header">
       {/* NAV BAR */}
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar navbar-expand-lg">
         <div className="container-fluid d-flex justify-content-between align-items-center">
           <a className="navbar-brand" href="/home">
             <img
@@ -167,12 +167,12 @@ function Header() {
                 </div>
               </li>
             </ul>
-            <div className="container">
+            {/* <div className="container">
               <div className="search-box">
                 <input type="text" placeholder="Search in r/" />
                 <span></span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </nav>
