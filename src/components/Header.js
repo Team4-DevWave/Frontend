@@ -50,7 +50,7 @@ function Header() {
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="/create">
+                <a className="nav-link" href="/CreatePost">
                   <svg
                     rpl=""
                     fill="currentColor"
@@ -63,6 +63,7 @@ function Header() {
                     <path d="M19 9.375h-8.375V1h-1.25v8.375H1v1.25h8.375V19h1.25v-8.375H19v-1.25Z"></path>
                   </svg>
                   <span className="create">Create</span>
+
                 </a>
               </li>
 
