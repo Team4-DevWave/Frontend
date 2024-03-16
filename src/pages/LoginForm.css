@@ -23,9 +23,9 @@
     max-width: 500px;
     padding: 10px;
     background-color: #868686e2;
-    border-radius: 4px;
+    border-radius: 25px;
     box-shadow: 10px 10px 10px rgba(96, 96, 96, 0.505);
-    transform: skew(-7deg);
+    /* transform: skew(-7deg); */
 }
 
 @-webkit-keyframes AnimationName {
@@ -70,33 +70,33 @@ body{
     max-width: 500px;
     padding: 20px;
     background-color: #ffffffe2;
-    border-radius: 0px;
+    border-radius: 25px;
     box-shadow: 10px 10px 10px rgba(96, 96, 96, 0.505);
-    transform: skew(8deg);
+    /* transform: skew(8deg); */
 }
 .login-form h2{
-    transform: skew(-4deg);
+    /* transform: skew(-4deg); */
     text-align: center;
     margin-bottom: 20px;
 }
 .login-form .input-field{
-    transform: skew(-4deg);
+    /* transform: skew(-4deg); */
     position: relative;
     width: 100%;
     height: 50px;
     margin: 30px 0;
 }
-.input-field input{
+/* .input-field input{
     width: 100%;
     height: 100%;
     padding: 0 30px 0 10px;
     background-color: #f5f5f5;
     border: 1px solid #ccc;
-    border-radius: 2px;
+    border-radius: 7px;
     outline: none;
     font-size: 18px;
     transition: 0.3s;
-}
+} */
 .icon{
     position: absolute;
     top: 50%;
@@ -106,9 +106,9 @@ body{
     color: #999;
     transition: 0.3s;
 }
-.input-field input:focus{
+/* .input-field input:focus{
     border-color: #49a7ff;
-}
+} */
 
 .placeholder-label{
     position: absolute;
@@ -121,7 +121,7 @@ body{
     transition: 0.3s;
 }
 
-.input-field input:focus + .placeholder-label{
+/* .input-field input:focus + .placeholder-label{
     top: 0;
     transform: translateY(-90%);
     font-size: 14px;
@@ -134,7 +134,7 @@ body{
     transform: translateY(-90%);
     font-size: 14px;
     color: #000000;
-  }
+  } */
 
 .remember-forgot{
     display: flex;
@@ -142,7 +142,7 @@ body{
     justify-content: space-between;
     margin-top: 70px;
     margin-bottom: 30px;
-    transform: skew(-4deg)
+    /* transform: skew(-4deg) */
 }
 
 .remember-forgot label input{
@@ -174,27 +174,7 @@ body{
     transform: scaleX(1);
     transform-origin: bottom left;
 }
-.login-form button{
-    transform: skew(-8deg);
-    width: 100%;
-    height: 50px;
-    background-color: #4b4d4f;
-    border: none;
-    border-radius: 7px;
-    color: #fff;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-bottom: 10px;
-}
 
-.login-form button:hover{
-    background-color: #787a7d;
-}
-
-.register-link{
-    transform: skew(-4deg);
-}
 
 .custom-checkbox {
     display: inline-flex;
@@ -260,12 +240,13 @@ body{
     transition: background-color 1.3s, border-color 1.3s, color 1.3s, transform 0.3s;
   }
 
-  .captcha{
+  .captcha > *{
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 30px;
-    transform: skew(-4deg)
+    border-radius: 25px;
+    /* transform: skew(-4deg) */
   }
   .facebook{
     background-color: #0058ab !important;

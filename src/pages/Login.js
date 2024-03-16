@@ -1,39 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./LoginForm.css";
 import { FaUserAstronaut, FaFacebook, FaGoogle } from "react-icons/fa";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import { validateLogin } from "../features/authentication/validate";
 import bcrypt from "bcryptjs-react";
+import axios from "axios";
+import ForgetPassword from "../components/ForgetPassword";
+import { TextField, Button } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { FiLogIn } from "react-icons/fi";
 
 function Login() {
-  const [errors, setErrors] = React.useState({});
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [touched, setTouched] = React.useState({});
+  const theme = useTheme();
+  
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [touchedUser, setTouchedUser] = React.useState(false);
+  const [touchedPassword, setTouchedPassword] = React.useState(false);
   const [remember, setRemember] = React.useState(false);
+
+  useEffect(() => {
+    //replace with actual login api
+    // axios.post('http://localhost:5000/api/login', {})
+    // .then((response) => {
+    //   console.log(response);
+    // }).catch((error) => {
+    //   console.log(error);
+    // });
+  }, []);
+
+  const [validUser, setValidUser] = React.useState(false);
+  const [validPassword, setValidPassword] = React.useState(false);
+
+  useEffect(() => {
+    setValidUser(username.match(/^[a-zA-Z0-9_]{3,16}$/));
+    setValidPassword(password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/));
+  }, [username, password]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors(validateLogin({ username, password }));
-    if (errors.username){
-      document.getElementById("username-field").classList.add("error-outline");
-    }
-    else{
-      document.getElementById("username-field").classList.remove("error-outline");
-    }
-    if (errors.password){
-      document.getElementById("password-field").classList.add("error-outline");
-    }
-    else{
-      document.getElementById("password-field").classList.remove("error-outline");
-    }
-    setTouched({
-      ...touched,
-      ...Object.keys({ username, password }).reduce((touched, key) => {
-        touched[key] = true;
-        return touched;
-      }, {}),
-    });
   };
 
   return (
@@ -41,35 +46,38 @@ function Login() {
       <div className="background-div">
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Login</h2>
-          <div className="input-field">
-            <input id="username-field"
-              type="text"
-              onChange={(e) => {
-                setUsername(e.target.value);
-                e.target.classList.toggle("has-value", e.target.value !== "");
-              }}
-            />{" "}
-            <label className="placeholder-label">Username</label>
-            {errors.username && touched.username && (
-              <div className="error">{errors.username}</div>
-            )}
-            <FaUserAstronaut className="icon" />
-          </div>
 
-          <div className="input-field">
-            <input id="password-field"
-              type="password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-                e.target.classList.toggle("has-value", e.target.value !== "");
-              }}
-            />
-            <label className="placeholder-label">Password</label>
-            {errors.password && touched.password && (
-              <div className="error">{errors.password}</div>
-            )}
-            <TbPasswordFingerprint className="icon" />
-          </div>
+          <TextField
+            InputProps={{
+              endAdornment: <FaUserAstronaut />,
+            }}
+            sx={{ width: "100%", marginBottom: "25px" }}
+            label="Username"
+            type="text"
+            error={!username && touchedUser}
+            helperText={!username && touchedUser ? "Username is required" : ""}
+            required
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            onBlur={() => setTouchedUser(true)}
+          />
+
+          <TextField
+            InputProps={{
+              endAdornment: <TbPasswordFingerprint />,
+            }}
+            sx={{ width: "100%" }}
+            label="Password"
+            type="password"
+            required
+            error={!password && touchedPassword}
+            helperText={!password && touchedPassword ? "Password is required" : ""}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            onBlur={() => setTouchedPassword(true)}
+          />
 
           <div className="remember-forgot">
             <label className="custom-checkbox">
@@ -81,18 +89,41 @@ function Login() {
               <span className="checkmark"></span>
               Remember me
             </label>
-            <a href="/">Forgot Password?</a>
+            <ForgetPassword />
           </div>
-          <button type="submit">Login</button>
-          <button className="facebook" type="submit">
-            {" "}
-            <FaFacebook className="social-icon" />
+          <Button
+            variant="contained"
+            sx={{
+              width: "100%",
+              marginTop: "10px",
+              padding: "10px",
+              backgroundColor: "#FF5700",
+              "&:hover": {
+                backgroundColor: "#d32f2f",
+              },
+            }}
+            startIcon={<FiLogIn />}
+            disabled={!validUser || !validPassword}
+            type="submit"
+          >
+            Login
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
+            startIcon={<FaFacebook />}
+          >
             Login with Facebook
-          </button>
-          <button className="google" type="submit">
-            <FaGoogle className="social-icon" />
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
+            startIcon={<FaGoogle />}
+          >
             Login with Google
-          </button>
+          </Button>
+
           <div className="register-link">
             <p>
               Don't have an account? <a href="/signup">Register</a>

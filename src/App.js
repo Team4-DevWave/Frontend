@@ -6,10 +6,33 @@ import Signup from "./pages/Signup";
 import Message from "./pages/messages/inbox.js";
 import Notification from "./pages/Notification/Notificaton.js";
 import Home from "./pages/Home";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import UserPage from "./pages/UserPage";
+import CssBaseline from '@mui/material/CssBaseline';
+import ResetCredentials from "./pages/ResetCredentials";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#f44336',
+    },
+    secondary: {
+      main: '#3f51b5',
+    },
+  },
+});
 
 function App() {
   return (
-    //hello snow!
+   
+    <ThemeProvider theme={lightTheme}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
@@ -18,9 +41,12 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/messages" element={<Message />} />
+        <Route path="/user" element={<UserPage />} />
+        <Route path="/reset" element={<ResetCredentials />} />
         <Route path="/Notification" element={<Notification />} />
       </Routes>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
