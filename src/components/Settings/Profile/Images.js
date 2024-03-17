@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button } from '@mui/material';
+import { uploadImageAPI  } from '.././APIs/ProfileAPI.js'; // Import your API function
 
 function Images() {
   const [avatarImage, setAvatarImage] = useState(null);
@@ -9,6 +10,9 @@ function Images() {
     const file = event.target.files[0];
     if (file) {
       setAvatarImage(URL.createObjectURL(file));
+      // Call API to upload avatar image
+      uploadImageAPI(file);
+
     }
   };
 
@@ -16,6 +20,8 @@ function Images() {
     const file = event.target.files[0];
     if (file) {
       setBannerImage(URL.createObjectURL(file));
+      // Call API to upload banner image
+      uploadImageAPI(file);
     }
   };
 

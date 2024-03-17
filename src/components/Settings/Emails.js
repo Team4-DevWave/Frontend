@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch } from '@mui/material';
+import { fetchEmailSettings } from './APIs/EmailAPI'; // Import your API function
+import CustomSnackbar from '../MUIEdited/CustomSnackbar'; // Import your CustomSnackbar component
 
 function SettingItem({ title }) {
   return (
@@ -21,7 +23,18 @@ function SectionHeader({ title }) {
   );
 }
 
-function Emails() {
+function Emails({ setSnackbarInfo }) {
+  const [emailSettings, setEmailSettings] = useState({});
+
+  useEffect(() => {
+    fetchEmailSettings()
+      .then(data => setEmailSettings(data))
+      .catch(error => {
+        console.error('Error fetching email settings:', error);
+        setSnackbarInfo({ isOpen: true, message: 'An error occurred while fetching email settings. Please try again later.', severity: 'error' });
+      });
+  }, [setSnackbarInfo]);
+
   return (
     <div className="settingsBody">
       <h1 className='title titleBody'>Manage Emails</h1>
@@ -44,6 +57,7 @@ function Emails() {
         <div className="horizontalLine horizontalLine-2"></div>
         
         <SettingItem title="Unsubscribe from all emails" />
+        <CustomSnackbar {...setSnackbarInfo} onClose={() => setSnackbarInfo({ ...setSnackbarInfo, isOpen: false })} />
       </div>
     </div>
   );

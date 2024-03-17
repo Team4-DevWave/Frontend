@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MuteCommunities from './Safety/MuteCommunities';
 import BlockedUsers from './Safety/BlockedUsers';
 import Switches from './Safety/Switches';
 import {  Switch } from '@mui/material';
+import CustomSnackbar from '../MUIEdited/CustomSnackbar'; // Import your CustomSnackbar component
 
 function Safety() {
+  const [snackbarInfo, setSnackbarInfo] = useState({ isOpen: false, message: '', severity: 'success' });
+
+  const handleSnackbarClose = () => setSnackbarInfo({ ...snackbarInfo, isOpen: false });
 
   return (
     <div className="settingsBody">
@@ -18,8 +22,9 @@ function Safety() {
         <h2 className="titleDataItem">SAFETY</h2>
       <div class="horizontalLine horizontalLine-2"></div>
       </div>        
-      <BlockedUsers/>
-      <MuteCommunities/>
+      <BlockedUsers setSnackbarInfo={setSnackbarInfo} />
+      <MuteCommunities setSnackbarInfo={setSnackbarInfo} />
+      <CustomSnackbar {...snackbarInfo} onClose={handleSnackbarClose} />
       <div className='titleData'>
         <h2 className="titleDataItem">PRIVACY</h2>
       <div class="horizontalLine horizontalLine-2"></div>
