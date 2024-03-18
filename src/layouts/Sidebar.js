@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import threaditLogo from "../images/threadditTransBG.png";
+
 function SideBar() {
   const [recent, setRecent] = useState([]);
   useEffect(() => {
@@ -91,7 +93,7 @@ function SideBar() {
                         {" "}
                         <path d="M10 13.125a.624.624 0 0 1-.442-.183l-5-5 .884-.884L10 11.616l4.558-4.558.884.884-5 5a.624.624 0 0 1-.442.183Z"></path>
                       </svg>
-                    </div>
+                    </div>{" "}
                   </li>
                 </summary>
                 <div className="sub-list">
@@ -201,7 +203,22 @@ function SideBar() {
                   <ul className="sub-list-items">
                     <li>
                       <a href="#home" className="side-bar-link">
-                        <p>About Threadit</p>
+                        <img
+                          src={threaditLogo}
+                          className="side-bar-link-logo"
+                          width="34"
+                          height="34"
+                          alt="Threadit Logo"
+                        />
+                        <p
+                          style={{
+                            position: "relative",
+                            left: "16px",
+                            top: "7px",
+                          }}
+                        >
+                          About Threadit
+                        </p>
                       </a>
                     </li>
                     <li>

@@ -178,7 +178,7 @@ Header .create {
   font-weight: 400;
   letter-spacing: 1px;
   color: #525252;
-  margin: 20px 0px 10px 0px;
+  margin: 0px 0px 0px 0px;
 }
 
 .sub-list-items{
@@ -189,6 +189,7 @@ Header .create {
 
 
 .side-bar-link{
+  height: 40px;
   text-decoration: none;
   color: black;
   font-size: 0.9rem;
@@ -204,6 +205,7 @@ Header .create {
   border-radius: 5px;
   padding: 0px 0px; /* Adjust as needed */
 }
+
 .side-bar-link p{
   width: 100%;
   position: relative;
@@ -211,9 +213,16 @@ Header .create {
   left: 30px;
 }
 
+
+
 .side-bar-link-icon{
   position: relative;
   left: 15px;
+}
+
+.side-bar-link-logo{
+  position: relative;
+  left: 9px;
 }
 
 .horizontal-line{
@@ -232,7 +241,7 @@ summary div {
   padding-left: 1rem;
   margin: 0;
   justify-content: space-between;
-  height: 33px;
+  height: 40px;
   display: flex; /* Add this line */
   align-items: center; /* Add this line */
 }
@@ -252,6 +261,19 @@ summary::-webkit-details-marker {
   left: 190px;
   transition: transform 0.3s ease-in-out;
 }
+
+
+details .sub-list-items{
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+details[open] .sub-list-items {
+  opacity: 1;
+}
+
+
+
 
 details[open] > summary .summary-arrow {
   transform: rotate(-180deg);
