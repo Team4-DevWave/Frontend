@@ -1,0 +1,53 @@
+.post-container{
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 25%;
+    left: 40%;
+}
+
+.post-container:hover{
+    background: #f5f5f5;
+    border-radius: 20px;
+}
+
+.reach{
+    position: fixed;
+    background: #f5f5f5;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.flex-text{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #c0bebe;
+    margin: 0px 8px;
+}
+
+.upvote{
+    height: 30px;
+}
+
+.downvote{
+    height: 30px;
+}
+
+.upvote:hover{
+    background: #e2e2e2;
+    border-radius: 50%;
+}
+
+.downvote:hover{
+    background: #e2e2e2;
+    border-radius: 50%;
+}
+
+.upvote svg:hover{
+    fill: #001aff;
+}
+
+.downvote svg:hover{
+    fill: #ff0000;
+}
