@@ -262,14 +262,35 @@ summary::-webkit-details-marker {
   transition: transform 0.3s ease-in-out;
 }
 
-
-details .sub-list-items{
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+@keyframes list-animation {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+@keyframes list-close-animation{
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+
+/* details .sub-list-items{
+  animation: list-close-animation 0.5s ease-in-out;
+} */
+
 details[open] .sub-list-items {
-  opacity: 1;
+  animation:  list-animation 0.25s ease-in-out;
 }
 
 

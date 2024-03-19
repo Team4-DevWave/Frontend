@@ -8,13 +8,13 @@ import UserPage from "../pages/UserPage";
 import ResetCredentials from "../pages/ResetCredentials";
 
 const routes = {
-    "/": () => <Home />,
-    "/login": () => <Login />,
-    "/signup": () => <Signup />,
-    "/settings": () => <Settings />,
-    "/messages": () => <Message />,
-    "/user": () => <UserPage />,
-    "/reset": () => <ResetCredentials />,
-    "/Notification": () => <Notification />,
-  };
-  export default routes;
+  "/home": () => <Home />,
+  "/login": () => <Login />,
+  "/signup": () => <Signup />,
+  "/settings": () => <Settings />,
+  "/messages": () => <Message />,
+  "/user": () => <UserPage />,
+  "/reset": () => <ResetCredentials />,
+  "/Notification": () => <Notification />,
+};
+export default routes;
