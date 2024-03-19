@@ -10,8 +10,20 @@ import { TextField, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { FiLogIn } from "react-icons/fi";
 
+/* global google */
+google.accounts.id.renderButton(
+  document.getElementById("googlebtn"),
+  // {
+  //   theme: "outline",
+  //   width: 550,
+  //   height: 50,
+  //   text: "continue_with",
+  // }
+)
+
 function Login() {
   const theme = useTheme();
+  // window.google.accounts.id.attachClickHandler('googlebtn', {}, (response) => {});
   
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -116,12 +128,12 @@ function Login() {
           >
             Login with Facebook
           </Button>
-          <Button
+          <Button id="googlebtn"
             variant="contained"
+            color="primary"
             sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
             startIcon={<FaGoogle />}
-          >
-            Login with Google
+          > Login with Google
           </Button>
 
           <div className="register-link">
@@ -130,6 +142,7 @@ function Login() {
             </p>
           </div>
         </form>
+      
       </div>
     </div>
   );

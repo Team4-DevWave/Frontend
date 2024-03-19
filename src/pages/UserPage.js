@@ -45,14 +45,16 @@ function UserPage() {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
-  const [follow, setFollow] = useState(false); // to be replaced with actual follow status from backend
-  const [blocked, setBlocked] = useState(false); // to be replaced with actual block status from backend
+  const [follow, setFollow] = useState(false);
+  const [blocked, setBlocked] = useState(false);
   const [radioValue, setRadioValue] = useState("");
   const [followText, setFollowText] = useState("Follow+");
   const [blockedText, setBlockedText] = useState("Block");
   const [reason, setReason] = useState("");
   const [offense, setOffense] = useState("");
   const [snack, openSnack] = useState(false);
+  // const [customState, setCustomState] = useState({open: false, message: "", severity: "info"});
+  // setCustomState({...customState, });
   const handleClose = () => {
     setOpen(false);
   };
