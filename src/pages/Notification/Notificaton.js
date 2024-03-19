@@ -1,5 +1,5 @@
 import './notification.css';
-import Header from '../../components/Header';
+import Header from "../../components/Header";
 import NotificationNav from "../../components/Notification/NotifactionNav";
 function notification() {
     return (

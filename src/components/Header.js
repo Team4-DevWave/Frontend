@@ -1,6 +1,26 @@
-import React, { useRef, useEffect } from "react";
 
-function Header() {
+import React, {useRef, useEffect} from "react";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import Avatar from "@mui/material/Avatar";
+import { Link } from "react-router-dom";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  DialogContentText,
+  TextField,
+} from "@mui/material";
+import CreateCommunity from "./CreateCommunity";
+import NotificationDropdown from "./NotificationDropdown";
+
+export default function Header() {
+
+
   const subMenu = useRef(null);
   function toggleMenu() {
     if (subMenu.current) {
@@ -50,36 +70,11 @@ function Header() {
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="/create">
-                  <svg
-                    rpl=""
-                    fill="currentColor"
-                    height="20"
-                    icon-name="add-outline"
-                    viewBox="0 0 20 20"
-                    width="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M19 9.375h-8.375V1h-1.25v8.375H1v1.25h8.375V19h1.25v-8.375H19v-1.25Z"></path>
-                  </svg>
-                  <span className="create">Create</span>
-                </a>
+                <CreateCommunity />
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="/Notification">
-                  <svg
-                    rpl=""
-                    fill="currentColor"
-                    height="20"
-                    icon-name="notification-outline"
-                    viewBox="0 0 20 20"
-                    width="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M11 18h1a2 2 0 0 1-4 0h3Zm8-3.792v.673A1.12 1.12 0 0 1 17.883 16H2.117A1.12 1.12 0 0 1 1 14.881v-.673a3.947 3.947 0 0 1 1.738-3.277A2.706 2.706 0 0 0 3.926 8.7V7.087a6.07 6.07 0 0 1 12.138 0l.01 1.613a2.7 2.7 0 0 0 1.189 2.235A3.949 3.949 0 0 1 19 14.208Zm-1.25 0a2.7 2.7 0 0 0-1.188-2.242A3.956 3.956 0 0 1 14.824 8.7V7.088a4.819 4.819 0 1 0-9.638 0v1.615a3.956 3.956 0 0 1-1.738 3.266 2.7 2.7 0 0 0-1.198 2.239v.542h15.5v-.542Z"></path>
-                  </svg>
-                </a>
+                <NotificationDropdown />
               </li>
               <li>
                 <img
@@ -180,5 +175,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;
