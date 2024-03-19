@@ -3,10 +3,15 @@ import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import AddLinkDialog from './AddLinkDialog';
 import PlusIcon from './PlusIcon.js';
+import { addSocialLinkAPI } from '.././APIs/ProfileAPI.js'; // Import your API function
 
 function SocialLinks() {
   const [open, setOpen] = useState(false);
 
+  const handleAddSocialLink = (link) => {
+    // Call API to add social link
+    addSocialLinkAPI(link);
+  };  
   const handleOpen = () => {
     setOpen(true);
   };

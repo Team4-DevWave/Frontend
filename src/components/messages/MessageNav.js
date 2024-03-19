@@ -3,6 +3,8 @@ import { Tabs, Tab } from '@mui/material';
 import SendMessage from "./SendMessages";
 import Inbox from './inboxcomponent';
 import SentMessage from './SentMessage';
+import { Link } from 'react-router-dom';
+
 import MentionedUsername from './MentionedUsername';
 import Notifications from "./Notifications";
 
@@ -27,7 +29,9 @@ function MessagesNav() {
                 <Tab label="Inbox" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="sent" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Mentioned Username" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-                <Tab label="Notifications" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
+                <Link to="/Notification" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Tab label="Notification" sx={{ textTransform: 'none', fontWeight: 'bold', fontSize: 'var(--font-medium)', '&:hover': { color: 'var(--color-black)' } }} />
+                </Link>
 
             </Tabs>
             <div class="horizontalLine"></div>

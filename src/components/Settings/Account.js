@@ -5,6 +5,7 @@ import ButtonDelete from '../MUIEdited/ButtonDelete';
 import CustomSelect from '../MUIEdited/CustomSelect';
 import CustomSnackbar from '../MUIEdited/CustomSnackbar';
 import LanguageSelectionDialog from '../MUIEdited/LanguageSelectionDialog';
+import { changeEmailAPI, changePreferenceAPI } from './APIs/AccountAPI';
 
 function Account() {
   const [email, setEmail] = useState("example@gmail.com");
@@ -18,38 +19,41 @@ function Account() {
 
   const handleSnackbarClose = () => setSnackbarInfo({ ...snackbarInfo, isOpen: false });
 
-  const handleEmailChange = () => {
+  const handleEmailChange = async () => {
     const isValidEmail = validateEmail(newEmail);
-    setSnackbarInfo({
-      isOpen: true,
-      message: isValidEmail ? "Email changed successfully!" : "Invalid email address!",
-      severity: isValidEmail ? "success" : "error"
-    });
     if (isValidEmail) {
-      setEmail(newEmail);
+      try {
+        const response = await changeEmailAPI(newEmail);
+        if (response.success) {
+          setEmail(newEmail);
+          setSnackbarInfo({ isOpen: true, message: "Email changed successfully!", severity: "success" });
+        } else {
+          setSnackbarInfo({ isOpen: true, message: "Failed to change email. Please try again later.", severity: "error" });
+        }
+      } catch (error) {
+        console.error("Error changing email:", error);
+        setSnackbarInfo({ isOpen: true, message: "An error occurred while changing email. Please try again later.", severity: "error" });
+      }
       setOpenEmailDialog(false); // Close the dialog
+    } else {
+      setSnackbarInfo({ isOpen: true, message: "Invalid email address!", severity: "error" });
     }
   };
 
   const handleOpenEmailDialog = () => setOpenEmailDialog(true);
   const handleCloseEmailDialog = () => setOpenEmailDialog(false);
 
-  const handleChange = (prop, value) => {
-    switch (prop) {
-      case 'gender':
-        setSnackbarInfo({ isOpen: true, message: "Gender changed successfully!", severity: "success" });
-        break;
-      case 'language':
-        setSnackbarInfo({ isOpen: true, message: "Language changed successfully!", severity: "success" });
-        break;
-      case 'languages':
-        setSnackbarInfo({ isOpen: true, message: "Languages saved successfully!", severity: "success" });
-        break;
-      case 'location':
-        setSnackbarInfo({ isOpen: true, message: "Location changed successfully!", severity: "success" });
-        break;
-      default:
-        break;
+  const handleChange = async (prop, value) => {
+    try {
+      const response = await changePreferenceAPI(prop, value);
+      if (response.success) {
+        setSnackbarInfo({ isOpen: true, message: `${prop.charAt(0).toUpperCase() + prop.slice(1)} changed successfully!`, severity: "success" });
+      } else {
+        setSnackbarInfo({ isOpen: true, message: `Failed to change ${prop}. Please try again later.`, severity: "error" });
+      }
+    } catch (error) {
+      console.error(`Error changing ${prop}:`, error);
+      setSnackbarInfo({ isOpen: true, message: `An error occurred while changing ${prop}. Please try again later.`, severity: "error" });
     }
   };
 
@@ -96,14 +100,14 @@ function Account() {
             <h2 className="titleBody-2">Gender</h2>
             <p className="settingsParagraph">This information may be used to improve your recommendations and ads.</p>
           </div>
-          <CustomSelect defaultValue="Man" values={['Man', 'Woman']} mr='none' ml='auto' onSelection={() => handleChange('gender')} />
+          <CustomSelect defaultValue="Man" values={['Man', 'Woman']} mr='none' ml='auto' onSelection={(value) => handleChange('gender', value)} />
         </div>
         <div className="settingsItem">
           <div>
             <h2 className="titleBody-2">Display language <span className="beta">(beta)</span></h2>
             <p className="settingsParagraph">Select the language you'd like to experience the Reddit interface in. Note that this won't change the language of user-generated content and that this feature is still in development so translations and UI are still under review.</p>
           </div>
-          <CustomSelect defaultValue="English (US)" values={['English (US)', 'Arabic', 'German', 'French', 'Italian', 'Indian']} mr='auto' ml='none' onSelection={() => handleChange('language')} />
+          <CustomSelect defaultValue="English (US)" values={['English (US)', 'Arabic', 'German', 'French', 'Italian', 'Indian']} mr='none' ml='auto' onSelection={(value) => handleChange('language', value)} />
         </div>
         <div className="settingsItem">
           <div>
@@ -118,7 +122,7 @@ function Account() {
           <p className="settingsParagraph">Specify a location to customize your recommendations and feed. Reddit does not track your precise geolocation data. <span className="link"><a target="_blank" href='https://support.reddithelp.com/hc/en-us/articles/360062429491-Managing-your-Location-Customization-setting' rel="noreferrer">Learn more</a></span></p>
         </div>
         <div>
-          <CustomSelect defaultValue="Use approximate location (based on IP)" values={['Use approximate location (based on IP)', 'No location specified', 'Afghanistan', 'Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'Palestine', 'Egypt', 'Angola', 'Albania']} mr='auto' ml='none' onSelection={() => handleChange('location')} />
+          <CustomSelect defaultValue="Use approximate location (based on IP)" values={['Use approximate location (based on IP)', 'No location specified', 'Afghanistan', 'Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'Palestine', 'Egypt', 'Angola', 'Albania']} mr='auto' ml='none' onSelection={(value) => handleChange('location', value)} />
         </div>
         <div className='titleData'>
           <h2 className="titleDataItem">DELETE ACCOUNT</h2>
@@ -129,5 +133,4 @@ function Account() {
     </div>
   );
 }
-
 export default Account;
