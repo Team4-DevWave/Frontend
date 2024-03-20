@@ -7,16 +7,7 @@ import { lightTheme, darkTheme } from "./utils/themes";
 import routes from "./utils/routes";
 
 function App() {
-  function handleCredentialResponse(response) {
-    console.log(response);
-  }
-  useEffect(() => {
-    google.accounts.id.initialize({
-      client_id:
-        "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
-      callback: handleCredentialResponse,
-    });
-  }, []);
+ 
   return (
     <ThemeProvider theme={lightTheme}>
       <BrowserRouter>
