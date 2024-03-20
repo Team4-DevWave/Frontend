@@ -104,11 +104,11 @@ PostContainer hr{
 }
 
 .upvote svg:hover{
-    fill: #001aff;
+    fill: #ff0000;
 }
 
 .downvote svg:hover{
-    fill: #ff0000;
+    fill: #001aff;
 }
 
 .share{
