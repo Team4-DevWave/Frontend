@@ -19,6 +19,7 @@ nav{
   top: 0 !important;
   width: 100% !important;
   z-index: 100 !important;
+
 }
 
 body {
@@ -39,12 +40,12 @@ Header li{
   padding-left:6px;
 }
 
-.header {
+/* .header {
   position: fixed !important;
   top: 0 !important;
   width: 100% !important;
   z-index: 100 !important;
-}
+} */
 
 
 Header .create {
