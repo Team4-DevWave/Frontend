@@ -14,6 +14,15 @@ html
 
 nav{
   border-bottom: 1px solid #e5e5e5;
+  background-color: white;
+  position: fixed !important;
+  top: 0 !important;
+  width: 100% !important;
+  z-index: 100 !important;
+}
+
+body {
+  padding-top: 60px; /* Adjust this value to match the height of your header */
 }
 
 /* @media (max-width: 1000px) {
@@ -29,6 +38,14 @@ Header li{
   left: 135vh;
   padding-left:6px;
 }
+
+.header {
+  position: fixed !important;
+  top: 0 !important;
+  width: 100% !important;
+  z-index: 100 !important;
+}
+
 
 Header .create {
   position: relative;
@@ -90,11 +107,14 @@ Header .create {
   width: 280px;
   opacity: 0%;
   overflow: hidden;
+  visibility: hidden;
   transition: opacity 0.25s;
 }
 
 .sub-menu-wrap.open-menu{
   opacity: 100%;
+  visibility: visible;
+  z-index: 1;
 }
 
 .sub-menu{
