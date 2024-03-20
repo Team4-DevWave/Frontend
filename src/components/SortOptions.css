@@ -24,9 +24,11 @@
     font-weight: 610;
     font-size: 14px;
 }
+
 .sort-option-wrap{
     position: absolute;
-    top: 31px;
+    top: 29px;
+    right: -13px;
     width: auto;
     opacity: 0%;
     visibility: hidden;
@@ -57,8 +59,8 @@
     cursor: pointer;
     color: black;
     padding: 8px 16px 8px 16px;
-    
   }
+
   .sort-option-link p{
     width: 100%;
     justify-content: center;
