@@ -7,7 +7,6 @@ import { lightTheme, darkTheme } from "./utils/themes";
 import routes from "./utils/routes";
 
 function App() {
- 
   return (
     <ThemeProvider theme={lightTheme}>
       <BrowserRouter>

@@ -1,11 +1,8 @@
-
-import React, {useRef, useEffect} from "react";
+import React, { useRef, useEffect } from "react";
 import CreateCommunity from "./CreateCommunity";
 import NotificationDropdown from "./NotificationDropdown";
 
 export default function Header() {
-
-
   const subMenu = useRef(null);
   function toggleMenu() {
     if (subMenu.current) {
