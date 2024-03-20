@@ -99,7 +99,7 @@ function PostContainer() {
           </span>
           <div className="share-menu-wrap" ref={shareMenu}>
             <div className="share-menu">
-              <a href="#home" className="share-menu-link">
+              <a href="#e" className="share-menu-link">
                 <svg
                   rpl=""
                   class="mt-[1px] ml-[4px]"
@@ -116,7 +116,7 @@ function PostContainer() {
                 <p>Copy Link</p>
               </a>
 
-              <a href="#home" className="share-menu-link">
+              <a href="#e" className="share-menu-link">
                 <svg
                   rpl=""
                   class="mt-[1px] ml-[4px]"
@@ -132,7 +132,7 @@ function PostContainer() {
                 <p>Crosspost</p>
               </a>
 
-              <a href="#home" className="share-menu-link">
+              <a href="#e" className="share-menu-link">
                 <svg
                   rpl=""
                   class="mt-[1px] ml-[4px]"

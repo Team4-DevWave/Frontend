@@ -34,35 +34,35 @@ function SortOptions() {
           <div className="sort-option">
             <p className="sort-by">Sort by</p>
             <a
-              href="#home"
+              href="#e"
               className="sort-option-link"
               onClick={() => handleSortOptionClick("Best")}
             >
               <p>Best</p>
             </a>
             <a
-              href="#home"
+              href="#e"
               className="sort-option-link"
               onClick={() => handleSortOptionClick("Hot")}
             >
               <p>Hot</p>
             </a>
             <a
-              href="#home"
+              href="#e"
               className="sort-option-link"
               onClick={() => handleSortOptionClick("New")}
             >
               <p>New</p>
             </a>
             <a
-              href="#home"
+              href="#e"
               className="sort-option-link"
               onClick={() => handleSortOptionClick("Top")}
             >
               <p>Top</p>
             </a>
             <a
-              href="#home"
+              href="#e"
               className="sort-option-link"
               onClick={() => handleSortOptionClick("Rising")}
             >

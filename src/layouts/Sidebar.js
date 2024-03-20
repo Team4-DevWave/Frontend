@@ -122,7 +122,7 @@ function SideBar() {
             </li>
             <hr className="horizontal-line" />
             <li>
-              <a href="#home" className="side-bar-link">
+              <a href="#e" className="side-bar-link">
                 <svg
                   rpl=""
                   fill="currentColor"
@@ -202,7 +202,7 @@ function SideBar() {
                 <div className="sub-list">
                   <ul className="sub-list-items">
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <img
                           src={threaditLogo}
                           className="side-bar-link-logo"
@@ -222,7 +222,7 @@ function SideBar() {
                       </a>
                     </li>
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"
@@ -239,7 +239,7 @@ function SideBar() {
                       </a>
                     </li>
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"
@@ -256,7 +256,7 @@ function SideBar() {
                       </a>
                     </li>
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"
@@ -273,7 +273,7 @@ function SideBar() {
                       </a>
                     </li>
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"
@@ -290,7 +290,7 @@ function SideBar() {
                       </a>
                     </li>
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"
@@ -308,7 +308,7 @@ function SideBar() {
                     </li>
                     <hr className="horizontal-line" />
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"
@@ -325,7 +325,7 @@ function SideBar() {
                       </a>
                     </li>
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"
@@ -342,7 +342,7 @@ function SideBar() {
                       </a>
                     </li>
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"
@@ -360,7 +360,7 @@ function SideBar() {
                     </li>
                     <hr className="horizontal-line" />
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"
@@ -377,7 +377,7 @@ function SideBar() {
                       </a>
                     </li>
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"
@@ -397,7 +397,7 @@ function SideBar() {
                       </a>
                     </li>
                     <li>
-                      <a href="#home" className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"
@@ -418,7 +418,7 @@ function SideBar() {
               </details>
             </li>
             <p>
-              <a href="#home" className="credits">
+              <a href="#e" className="credits">
                 Threadit, Inc. © 2024. All rights reserved.
               </a>
             </p>
