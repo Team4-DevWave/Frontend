@@ -60,6 +60,7 @@ function Signup() {
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Signup</h2>
           <TextField
+          data-testid="email"
             InputProps={{
               endAdornment: <MdAlternateEmail />,
             }}
@@ -81,6 +82,7 @@ function Signup() {
           />
 
           <TextField
+          data-testid="username"
             InputProps={{
               endAdornment: <FaUserAstronaut />,
             }}
@@ -96,6 +98,7 @@ function Signup() {
           />
 
           <TextField
+           data-testid="password"
             InputProps={{
               endAdornment: <TbPasswordFingerprint />,
             }}
@@ -113,6 +116,7 @@ function Signup() {
           />
 
           <TextField
+          data-testid="confirm-password"
             InputProps={{
               endAdornment: <TbPasswordFingerprint />,
             }}
@@ -137,6 +141,7 @@ function Signup() {
 
           <div className="captcha">
             <ReCAPTCHA
+              data-testid="captcha"
               sitekey="6LfwE4opAAAAAIroaJa6YdxlNtZiD7-OpS-QOoH0"
               onChange={(value) => {
                 setCaptcha(value);
@@ -146,6 +151,7 @@ function Signup() {
             {errors.captcha && <div className="error">{errors.captcha}</div>}
           </div>
           <Button
+            data-testid="signup-btn"
             variant="contained"
             sx={{
               width: "100%",

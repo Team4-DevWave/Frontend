@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import "./LoginForm.css";
 import { FaUserAstronaut, FaFacebook, FaGoogle } from "react-icons/fa";
 import { TbPasswordFingerprint } from "react-icons/tb";
-import bcrypt from "bcryptjs-react";
-import axios from "axios";
 import ForgetPassword from "../components/ForgetPassword";
 import { TextField, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -124,6 +122,7 @@ function Login() {
             <ForgetPassword />
           </div>
           <Button
+           data-testid="login-btn"
             variant="contained"
             sx={{
               width: "100%",
@@ -140,14 +139,7 @@ function Login() {
           >
             Login
           </Button>
-          {/* <Button
-            variant="contained"
-            color="secondary"
-            sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
-            startIcon={<FaFacebook />}
-          >
-            Login with Facebook
-          </Button> */}
+
           <LoginSocialFacebook
             appId="736104705323820"
             onResolve={(response) => {}}
