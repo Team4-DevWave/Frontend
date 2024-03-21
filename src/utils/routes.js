@@ -8,6 +8,7 @@ import UserPage from "../pages/UserPage";
 import ResetCredentials from "../pages/ResetCredentials";
 
 const routes = {
+  "/": () => <Home />,
   "/home": () => <Home />,
   "/login": () => <Login />,
   "/signup": () => <Signup />,
