@@ -10,7 +10,7 @@ function PostContainer() {
     }
   }
 
-  const [count, setCount] = useState(200);
+  const [count, setCount] = useState(0);
   const [voteStatus, setVoteStatus] = useState(0); // 0 = no vote, 1 = upvoted, -1 = downvoted
 
   const handleUpvote = () => {
@@ -60,10 +60,12 @@ function PostContainer() {
                     ? "downvoted"
                     : ""
                 }`}
+                aria-label="upvote"
                 onClick={handleUpvote}
               >
                 <span className="flex-text">
                   <svg
+                    role="svg"
                     rpl=""
                     fill="black"
                     height="16"
@@ -84,7 +86,7 @@ function PostContainer() {
                 </span>
               </button>
 
-              <span>{count}</span>
+              <span data-testid="upvote-count">{count}</span>
 
               <button
                 className={`downvote ${
@@ -94,10 +96,12 @@ function PostContainer() {
                     ? "downvoted"
                     : ""
                 }`}
+                aria-label="downvote"
                 onClick={handleDownvote}
               >
                 <span className="flex-text">
                   <svg
+                    role="svg"
                     rpl=""
                     fill="black"
                     height="16"
@@ -125,6 +129,7 @@ function PostContainer() {
               <span className="comment-container">
                 <span className="flex-text">
                   <svg
+                    role="svg"
                     rpl=""
                     aria-hidden="true"
                     class="icon-comment"
@@ -139,14 +144,19 @@ function PostContainer() {
                   </svg>
                 </span>
               </span>
-              <span>32</span>
+              <span>0</span>
             </a>
           </span>
 
           <span className="share">
-            <button className="share-button" onClick={toggleMenu}>
+            <button
+              className="share-button"
+              onClick={toggleMenu}
+              data-testid="menu"
+            >
               <span className="flex-text">
                 <svg
+                  role="svg"
                   rpl=""
                   aria-hidden="true"
                   class="icon-share"
@@ -167,6 +177,7 @@ function PostContainer() {
             <div className="share-menu">
               <a href="#e" className="share-menu-link">
                 <svg
+                  role="svg"
                   rpl=""
                   class="mt-[1px] ml-[4px]"
                   fill="currentColor"
@@ -184,6 +195,7 @@ function PostContainer() {
 
               <a href="#e" className="share-menu-link">
                 <svg
+                  role="svg"
                   rpl=""
                   class="mt-[1px] ml-[4px]"
                   fill="currentColor"
@@ -200,6 +212,7 @@ function PostContainer() {
 
               <a href="#e" className="share-menu-link">
                 <svg
+                  role="svg"
                   rpl=""
                   class="mt-[1px] ml-[4px]"
                   fill="currentColor"

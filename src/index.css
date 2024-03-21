@@ -109,12 +109,14 @@ Header .create {
   opacity: 0%;
   overflow: hidden;
   visibility: hidden;
+  display: none;
   transition: opacity 0.25s;
 }
 
 .sub-menu-wrap.open-menu{
   opacity: 100%;
   visibility: visible;
+  display: block;
   z-index: 1;
 }
 
