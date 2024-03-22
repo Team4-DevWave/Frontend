@@ -62,15 +62,15 @@ function Chat() {
           onClose={handleCloseSnackbarChat}
           onSelection={handleChangeChat}
         />
-        <SettingsItem
-          title="Who can send you chat requests"
-          description="This information may be used to improve your recommendations and ads."
-          defaultValue="Everyone"
-          values={['Everyone', 'Nobody']}
-          isOpen={isSnackbarOpenMessage}
-          onClose={handleCloseSnackbarMessage}
-          onSelection={handleChangeMessage}
-        />
+          <SettingsItem
+            title="Who can send you chat requests"
+            description="This information may be used to improve your recommendations and ads."
+            defaultValue="Everyone"
+            values={['Everyone', 'Nobody']}
+            isOpen={isSnackbarOpenMessage}
+            onClose={handleCloseSnackbarMessage}
+            onSelection={handleChangeMessage}
+          />
 
         <div className="settingsItem">
           <div>
