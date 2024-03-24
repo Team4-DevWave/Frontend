@@ -98,7 +98,7 @@ function CreateCommunity() {
               control={<Radio />}
               label={
                 <>
-                  <PublicIcon  />
+                  <PublicIcon />
                   Public
                 </>
               }

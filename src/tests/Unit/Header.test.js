@@ -41,7 +41,7 @@ describe("Header", () => {
       </Router>
     );
     const links = screen.getAllByRole("link");
-    expect(links).toHaveLength(7); // Adjust this based on the number of links in your Header
+    expect(links).toHaveLength(8); // Adjust this based on the number of links in your Header
   });
 
   test("renders imgs", async () => {
