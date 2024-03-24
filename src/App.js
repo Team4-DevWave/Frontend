@@ -1,3 +1,4 @@
+/* global google */
 import "./App.css";
 import React, { useState, useRef, useEffect } from 'react';
 
@@ -9,6 +10,11 @@ import Message from "./pages/messages/inbox.js";
 import Notification from "./pages/Notification/Notificaton.js";
 import Home from "./pages/Home";
 import CreatePost from "./components/Create_Post/Nav.js";
+import { ThemeProvider } from "@mui/material/styles";
+import { useEffect } from "react";
+import { lightTheme, darkTheme } from "./utils/themes";
+import routes from "./utils/routes";
+
 function App() {
 
   return (
@@ -27,6 +33,15 @@ function App() {
 
       </Routes>
     </BrowserRouter>
+    <ThemeProvider theme={lightTheme}>
+      <BrowserRouter>
+        <Routes>
+          {Object.entries(routes).map(([path, element]) => (
+            <Route key={path} path={path} element={element()} />
+          ))}
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

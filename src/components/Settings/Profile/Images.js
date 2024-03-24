@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button } from '@mui/material';
+import { uploadImageAPI  } from '.././APIs/ProfileAPI.js'; // Import your API function
 
 function Images() {
   const [avatarImage, setAvatarImage] = useState(null);
@@ -9,6 +10,9 @@ function Images() {
     const file = event.target.files[0];
     if (file) {
       setAvatarImage(URL.createObjectURL(file));
+      // Call API to upload avatar image
+      uploadImageAPI(file);
+
     }
   };
 
@@ -16,6 +20,8 @@ function Images() {
     const file = event.target.files[0];
     if (file) {
       setBannerImage(URL.createObjectURL(file));
+      // Call API to upload banner image
+      uploadImageAPI(file);
     }
   };
 
@@ -30,7 +36,10 @@ function Images() {
         <div>
           <h2 className="titleBody-2">Avatar and banner image</h2>
           <p className="settingsParagraph">Images must be .png or .jpg format</p>
-          <Box sx={{ width: 700, maxWidth: '100%' }}>
+          <Box sx={{ width: 700, maxWidth: '100%',
+          '@media screen and (max-width: 1000px)': {
+          width: '100%'
+        },         }}>
             <Button
             sx={{
               color: 'var(--color-black)',
@@ -54,7 +63,10 @@ function Images() {
             </Button>
             {avatarImage && <img src={avatarImage} alt="Avatar" className="imageFrame" />}
             </Box>
-          <Box sx={{ width: 700, maxWidth: '100%' }}>
+          <Box sx={{ width: 700, maxWidth: '100%',
+          '@media screen and (max-width: 1000px)': {
+          width: '100%'
+        },         }}>
 
             <Button
             sx={{

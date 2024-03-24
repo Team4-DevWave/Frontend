@@ -1,75 +1,113 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./LoginForm.css";
 import { FaUserAstronaut, FaFacebook, FaGoogle } from "react-icons/fa";
 import { TbPasswordFingerprint } from "react-icons/tb";
-import { validateLogin } from "../features/authentication/validate";
-import bcrypt from "bcryptjs-react";
+import ForgetPassword from "../components/ForgetPassword";
+import { TextField, Button } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { FiLogIn } from "react-icons/fi";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { LoginSocialFacebook } from "reactjs-social-login";
 
 function Login() {
-  const [errors, setErrors] = React.useState({});
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [touched, setTouched] = React.useState({});
+  const theme = useTheme();
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [touchedUser, setTouchedUser] = React.useState(false);
+  const [touchedPassword, setTouchedPassword] = React.useState(false);
   const [remember, setRemember] = React.useState(false);
+
+  useEffect(() => {
+    //replace with actual login api
+    // axios.post('http://localhost:5000/api/login', {})
+    // .then((response) => {
+    //   console.log(response);
+    // }).catch((error) => {
+    //   console.log(error);
+    // });
+  }, []);
+
+  const [validUser, setValidUser] = React.useState(false);
+  const [validPassword, setValidPassword] = React.useState(false);
+
+  useEffect(() => {
+    setValidUser(username.match(/^[a-zA-Z0-9_]{3,16}$/));
+    setValidPassword(password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/));
+  }, [username, password]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors(validateLogin({ username, password }));
-    if (errors.username){
-      document.getElementById("username-field").classList.add("error-outline");
-    }
-    else{
-      document.getElementById("username-field").classList.remove("error-outline");
-    }
-    if (errors.password){
-      document.getElementById("password-field").classList.add("error-outline");
-    }
-    else{
-      document.getElementById("password-field").classList.remove("error-outline");
-    }
-    setTouched({
-      ...touched,
-      ...Object.keys({ username, password }).reduce((touched, key) => {
-        touched[key] = true;
-        return touched;
-      }, {}),
-    });
   };
+  const googleLogin = useGoogleLogin({
+    clientId:
+      "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
+    scope: "https://www.googleapis.com/auth/drive.metadata.readonly",
+    onSucess: (response) => {
+      console.log(response);
+    },
+    onFail: (response) => {
+      console.log(response);
+    },
+    onRequest: () => {
+      console.log("loading");
+    },
+    onLogout: () => {
+      console.log("logout");
+    },
+  });
 
   return (
     <div className="wrapper">
       <div className="background-div">
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Login</h2>
-          <div className="input-field">
-            <input id="username-field"
-              type="text"
-              onChange={(e) => {
-                setUsername(e.target.value);
-                e.target.classList.toggle("has-value", e.target.value !== "");
-              }}
-            />{" "}
-            <label className="placeholder-label">Username</label>
-            {errors.username && touched.username && (
-              <div className="error">{errors.username}</div>
-            )}
-            <FaUserAstronaut className="icon" />
-          </div>
 
-          <div className="input-field">
-            <input id="password-field"
-              type="password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-                e.target.classList.toggle("has-value", e.target.value !== "");
-              }}
-            />
-            <label className="placeholder-label">Password</label>
-            {errors.password && touched.password && (
-              <div className="error">{errors.password}</div>
-            )}
-            <TbPasswordFingerprint className="icon" />
-          </div>
+          <TextField
+            InputProps={{
+              endAdornment: <FaUserAstronaut />,
+            }}
+            sx={{ width: "100%", marginBottom: "25px" }}
+            label="Username"
+            type="text"
+            error={(!username && touchedUser) || (touchedUser && !validUser)}
+            helperText={
+              !username && touchedUser
+                ? "Username is required"
+                : "" || (!validUser && touchedUser)
+                ? "Invalid Username"
+                : ""
+            }
+            required
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            onBlur={() => setTouchedUser(true)}
+          />
+
+          <TextField
+            InputProps={{
+              endAdornment: <TbPasswordFingerprint />,
+            }}
+            sx={{ width: "100%" }}
+            label="Password"
+            type="password"
+            required
+            error={
+              (!password && touchedPassword) ||
+              (touchedPassword && !validPassword)
+            }
+            helperText={
+              !password && touchedPassword
+                ? "Password is required"
+                : "" || (!validPassword && touchedPassword)
+                ? "Invalid Password"
+                : ""
+            }
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            onBlur={() => setTouchedPassword(true)}
+          />
 
           <div className="remember-forgot">
             <label className="custom-checkbox">
@@ -81,18 +119,54 @@ function Login() {
               <span className="checkmark"></span>
               Remember me
             </label>
-            <a href="/">Forgot Password?</a>
+            <ForgetPassword />
           </div>
-          <button type="submit">Login</button>
-          <button className="facebook" type="submit">
+          <Button
+           data-testid="login-btn"
+            variant="contained"
+            sx={{
+              width: "100%",
+              marginTop: "10px",
+              padding: "10px",
+              backgroundColor: "#FF5700",
+              "&:hover": {
+                backgroundColor: "#d32f2f",
+              },
+            }}
+            startIcon={<FiLogIn />}
+            disabled={!validUser || !validPassword}
+            type="submit"
+          >
+            Login
+          </Button>
+
+          <LoginSocialFacebook
+            appId="736104705323820"
+            onResolve={(response) => {}}
+            onReject={(response) => {}}
+          >
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
+              startIcon={<FaFacebook />}
+            >
+              Login with Facebook
+            </Button>
+          </LoginSocialFacebook>
+
+          <Button
+            id="googlebtn"
+            onClick={() => googleLogin()}
+            variant="contained"
+            color="primary"
+            sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
+            startIcon={<FaGoogle />}
+          >
             {" "}
-            <FaFacebook className="social-icon" />
-            Login with Facebook
-          </button>
-          <button className="google" type="submit">
-            <FaGoogle className="social-icon" />
             Login with Google
-          </button>
+          </Button>
+
           <div className="register-link">
             <p>
               Don't have an account? <a href="/signup">Register</a>

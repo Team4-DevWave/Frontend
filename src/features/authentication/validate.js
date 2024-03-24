@@ -54,6 +54,9 @@ function validateSignup(values) {
   if (values.password !== values.confirmPassword) {
     errors.confirmPassword = 'Passwords do not match';
   }
+  if (!values.captcha) {
+    errors.captcha = 'Captcha is required';
+  }
   return errors;
 }
 
@@ -64,5 +67,7 @@ function validateCapcha(values) {
   }
   return errors;
 }
+
+
 
 export { validateLogin, validateSignup, validateCapcha};

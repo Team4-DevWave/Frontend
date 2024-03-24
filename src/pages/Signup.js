@@ -1,119 +1,205 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./LoginForm.css";
 import { FaUserAstronaut, FaFacebook, FaGoogle } from "react-icons/fa";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import { MdAlternateEmail } from "react-icons/md";
 import ReCAPTCHA from "react-google-recaptcha";
-import {
-  validateSignup,
-  validateCapcha,
-} from "../features/authentication/validate";
-
+import { TextField, Button } from "@mui/material";
+import { FiLogIn } from "react-icons/fi";
+import { LoginSocialFacebook } from "reactjs-social-login";
+import { useGoogleLogin } from "@react-oauth/google";
 function Signup() {
   const [errors, setErrors] = React.useState({});
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
-  const [captcha, setCaptcha] = React.useState("");
-  const [touched, setTouched] = React.useState({});
+  const [captcha, setCaptcha] = React.useState(null);
+
+  const [validUser, setValidUser] = React.useState(false);
+  const [validPassword, setValidPassword] = React.useState(false);
+  const [validEmail, setValidEmail] = React.useState(false);
+  const [validConfirmPassword, setValidConfirmPassword] = React.useState(false);
+
+  useEffect(() => {
+    setValidUser(username.match(/^[a-zA-Z0-9_]{3,16}$/));
+    setValidEmail(email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i));
+    setValidPassword(password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/));
+    setValidConfirmPassword(password === confirmPassword);
+  }, [username, password, email, confirmPassword]);
+
+  const [touchedUser, setTouchedUser] = React.useState(false);
+  const [touchedPassword, setTouchedPassword] = React.useState(false);
+  const [touchedEmail, setTouchedEmail] = React.useState(false);
+  const [touchedConfirmPassword, setTouchedConfirmPassword] =
+    React.useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors(validateSignup({ username, password, email, confirmPassword }));
-    if (errors.username) {
-      document.getElementById("username-field").classList.add("error-outline");
-    } else {
-      document
-        .getElementById("username-field")
-        .classList.remove("error-outline");
-    }
-    if (errors.password) {
-      document.getElementById("password-field").classList.add("error-outline");
-    } else {
-      document
-        .getElementById("password-field")
-        .classList.remove("error-outline");
-    }
-    if (errors.email) {
-      document.getElementById("email-field").classList.add("error-outline");
-    } else {
-      document.getElementById("email-field").classList.remove("error-outline");
-    }
-    if (errors.confirmPassword) {
-      document
-        .getElementById("confirmPassword-field")
-        .classList.add("error-outline");
-    } else {
-      document
-        .getElementById("confirmPassword-field")
-        .classList.remove("error-outline");
-    }
-    setTouched({
-      ...touched,
-      ...Object.keys({ username, password, email, confirmPassword }).reduce(
-        (touched, key) => {
-          touched[key] = true;
-          return touched;
-        },
-        {}
-      ),
-    });
   };
-
+  const googleLogin = useGoogleLogin({
+    clientId:
+      "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
+    scope: "https://www.googleapis.com/auth/drive.metadata.readonly",
+    onSucess: (response) => {
+      console.log(response);
+    },
+    onFail: (response) => {
+      console.log(response);
+    },
+    onRequest: () => {
+      console.log("loading");
+    },
+    onLogout: () => {
+      console.log("logout");
+    },
+  });
   return (
     <div className="wrapper">
       <div className="background-div">
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Signup</h2>
-          <div className="input-field">
-            <input type="text" onChange={(e) => setEmail(e.target.value)} />{" "}
-            <label className="placeholder-label">Email</label>
-            <MdAlternateEmail className="icon" />
-          </div>
+          <TextField
+          data-testid="email"
+            InputProps={{
+              endAdornment: <MdAlternateEmail />,
+            }}
+            sx={{ width: "100%", marginBottom: "25px" }}
+            label="Email"
+            type="text"
+            error={(!email && touchedEmail) || (touchedEmail && !validEmail)}
+            helperText={
+              !email && touchedEmail
+                ? "Email is required"
+                : "" || (!validEmail && touchedEmail)
+                ? "Invalid Email"
+                : ""
+            }
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            onBlur={() => setTouchedEmail(true)}
+          />
 
-          <div className="input-field">
-            <input type="text" onChange={(e) => setUsername(e.target.value)} />{" "}
-            <label className="placeholder-label">Username</label>
-            <FaUserAstronaut className="icon" />
-          </div>
+          <TextField
+          data-testid="username"
+            InputProps={{
+              endAdornment: <FaUserAstronaut />,
+            }}
+            sx={{ width: "100%", marginBottom: "25px" }}
+            label="Username"
+            type="text"
+            error={!username && touchedUser}
+            helperText={!username && touchedUser ? "Username is required" : ""}
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            onBlur={() => setTouchedUser(true)}
+          />
 
-          <div className="input-field">
-            <input
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <label className="placeholder-label">Password</label>
-            <TbPasswordFingerprint className="icon" />
-          </div>
+          <TextField
+           data-testid="password"
+            InputProps={{
+              endAdornment: <TbPasswordFingerprint />,
+            }}
+            sx={{ width: "100%", marginBottom: "25px" }}
+            label="Password"
+            type="password"
+            error={!password && touchedPassword}
+            helperText={
+              !password && touchedPassword ? "Password is required" : ""
+            }
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            onBlur={() => setTouchedPassword(true)}
+          />
 
-          <div className="input-field">
-            <input
-              type="password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <label className="placeholder-label">Confirm Password</label>
-            <TbPasswordFingerprint className="icon" />
-          </div>
+          <TextField
+          data-testid="confirm-password"
+            InputProps={{
+              endAdornment: <TbPasswordFingerprint />,
+            }}
+            sx={{ width: "100%", marginBottom: "25px" }}
+            label="Confirm Password"
+            type="password"
+            error={
+              (!confirmPassword && touchedConfirmPassword) ||
+              (password !== confirmPassword && touchedConfirmPassword)
+            }
+            helperText={
+              (!confirmPassword && touchedConfirmPassword) ||
+              (password !== confirmPassword && touchedConfirmPassword)
+                ? "Passwords do not match"
+                : ""
+            }
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+            }}
+            onBlur={() => setTouchedConfirmPassword(true)}
+          />
+
           <div className="captcha">
             <ReCAPTCHA
+              data-testid="captcha"
               sitekey="6LfwE4opAAAAAIroaJa6YdxlNtZiD7-OpS-QOoH0"
-              onChange={(e) => {
-                setCaptcha(e.target.value);
-                console.log(e.target.current.getValue);
+              onChange={(value) => {
+                setCaptcha(value);
+                console.log(value);
               }}
             />
+            {errors.captcha && <div className="error">{errors.captcha}</div>}
           </div>
-          <button type="submit">Signup</button>
-          <button className="facebook" type="submit">
+          <Button
+            data-testid="signup-btn"
+            variant="contained"
+            sx={{
+              width: "100%",
+              marginTop: "10px",
+              padding: "10px",
+              backgroundColor: "#FF5700",
+              "&:hover": {
+                backgroundColor: "#d32f2f",
+              },
+            }}
+            startIcon={<FiLogIn />}
+            disabled={
+              !validUser ||
+              !validPassword ||
+              !validEmail ||
+              !validConfirmPassword ||
+              !captcha
+            }
+            type="submit"
+          >
+            Signup
+          </Button>
+          <LoginSocialFacebook
+            appId="736104705323820"
+            onResolve={(response) => {}}
+            onReject={(response) => {}}
+          >
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
+              startIcon={<FaFacebook />}
+            >
+              Signup with Facebook
+            </Button>
+          </LoginSocialFacebook>
+
+          <Button
+            id="googlebtn"
+            onClick={() => googleLogin()}
+            variant="contained"
+            color="primary"
+            sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
+            startIcon={<FaGoogle />}
+          >
             {" "}
-            <FaFacebook className="social-icon" />
-            Signup with Facebook
-          </button>
-          <button className="google" type="submit">
-            <FaGoogle className="social-icon" />
             Signup with Google
-          </button>
+          </Button>
           <div className="register-link">
             <p>
               Already have an account? <a href="/login">Login</a>
