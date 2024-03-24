@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
-import SendMessage from "./SendMessages";
-import Inbox from './inboxcomponent';
-import SentMessage from './SentMessage';
 import { Link } from 'react-router-dom';
-
-import MentionedUsername from './MentionedUsername';
-import Notifications from "./Notifications";
-
+import Sent from './Sent';
+import Inbox from "./InboxBar";
+import SendAPrivateMessage from './SendAPrivateMessage';
 function MessagesNav() {
     const [activeNavItem, setActiveNavItem] = useState(0);
 
@@ -25,28 +21,17 @@ function MessagesNav() {
                 textColor="primary"
                 left
             >
-                <Tab label="Send Message" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
+                <Tab label="Send A Private Message" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Inbox" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-                <Tab label="sent" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-                <Tab label="Mentioned Username" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-                <Link to="/Notification" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <Tab label="Notification" sx={{ textTransform: 'none', fontWeight: 'bold', fontSize: 'var(--font-medium)', '&:hover': { color: 'var(--color-black)' } }} />
-                </Link>
-
+                <Tab label="Sent" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
             </Tabs>
+            
+
             <div class="horizontalLine"></div>
 
-            {activeNavItem === 0 && <SendMessage />}
+            {activeNavItem === 0 && <SendAPrivateMessage/>}
             {activeNavItem === 1 && <Inbox />}
-            {activeNavItem === 2 && <SentMessage />}
-            {activeNavItem === 3 && <MentionedUsername/>}
-            {activeNavItem === 4 && <Notifications />}
-            {/*{activeNavItem === 5 && <Safety />}*/}
-            {/*{activeNavItem === 3 && <Feed />}*/}
-            {/*{activeNavItem === 4 && <Notifications />}*/}
-            {/*{activeNavItem === 5 && <Emails />}*/}
-            {/*{activeNavItem === 6 && <Subscriptions />}*/}
-            {/*{activeNavItem === 7 && <Chat />}*/}
+            {activeNavItem === 2 && <Sent />}
         </>
     );
 

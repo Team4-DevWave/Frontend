@@ -190,4 +190,18 @@ ol {
 .SendMessageform button:hover {
   background-color: #787a7d;
 }
+
+
+.SendMessageform label {
+  display: block;
+  margin-top: 20px;
+}
+
+.SendMessageform input,
+.SendMessageform select,
+.SendMessageform textarea {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+}
 /* // End Settings Body */

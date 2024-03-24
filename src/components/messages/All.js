@@ -1,13 +1,9 @@
-/* this is reddit clone system for message sending
 
- */
-
-function MentionedUsername() {
+function All() {
     return (
         <div >
             <div className="header">
                 <h1 className='title'>there doesn't seem to be anything here
-
                 </h1>
                 <div class="horizontalLine"></div>
             </div>
@@ -15,4 +11,4 @@ function MentionedUsername() {
     );
 }
 
-export default MentionedUsername
+export default All;

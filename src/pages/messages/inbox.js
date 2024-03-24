@@ -6,7 +6,6 @@ function inbox() {
         <div >
             <Header/>
             <div className="header">
-                <h1 className='title'>Messages</h1>
                 <MessageNav/>
             </div>
         </div>
