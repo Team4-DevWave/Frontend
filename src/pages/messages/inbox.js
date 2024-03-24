@@ -1,4 +1,4 @@
-import './messages.css';
+import "./messages.css";
 import Header from "../../components/Header";
 import MessageNav from "../../components/messages/MessageNav";
 function inbox() {

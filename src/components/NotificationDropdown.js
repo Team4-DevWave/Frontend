@@ -38,7 +38,9 @@ function NotificationDropDown() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Typography component="h4" variant="" sx={{marginLeft: 2}}>Notifications</Typography>
+        <Typography component="h4" variant="" sx={{ marginLeft: 2 }}>
+          Notifications
+        </Typography>
         <MenuItem onClick={handleClose}>
           <Avatar alt="Travis Howard" src="../images/comment.png" />
           <p style={{ marginLeft: "2px", marginBottom: "0px" }}>
@@ -51,7 +53,7 @@ function NotificationDropDown() {
             Travis upvotex your post!
           </p>
         </MenuItem>
-        <hr/>
+        <hr />
         <MenuItem onClick={handleClose}>
           {" "}
           <Link

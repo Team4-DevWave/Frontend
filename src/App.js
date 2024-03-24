@@ -1,23 +1,22 @@
 /* global google */
 import "./App.css";
+import React, { useState, useRef, useEffect } from "react";
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Settings from "./pages/Settings/Settings";
+import Signup from "./pages/Signup";
+import Message from "./pages/messages/inbox.js";
+import Notification from "./pages/Notification/Notificaton.js";
+import Home from "./pages/Home";
+import CreatePost from "./components/Create_Post/Nav.js";
 import { ThemeProvider } from "@mui/material/styles";
-import { useEffect } from "react";
 import { lightTheme, darkTheme } from "./utils/themes";
 import routes from "./utils/routes";
 
 function App() {
-  function handleCredentialResponse(response) {
-    console.log(response);
-  }
-  useEffect(() => {
-    google.accounts.id.initialize({
-      client_id:
-        "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
-      callback: handleCredentialResponse,
-    });
-  }, []);
   return (
+    //hello snow!
     <ThemeProvider theme={lightTheme}>
       <BrowserRouter>
         <Routes>

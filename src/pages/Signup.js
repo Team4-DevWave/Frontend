@@ -6,7 +6,8 @@ import { MdAlternateEmail } from "react-icons/md";
 import ReCAPTCHA from "react-google-recaptcha";
 import { TextField, Button } from "@mui/material";
 import { FiLogIn } from "react-icons/fi";
-
+import { LoginSocialFacebook } from "reactjs-social-login";
+import { useGoogleLogin } from "@react-oauth/google";
 function Signup() {
   const [errors, setErrors] = React.useState({});
   const [username, setUsername] = React.useState("");
@@ -36,21 +37,44 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-
+  const googleLogin = useGoogleLogin({
+    clientId:
+      "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
+    scope: "https://www.googleapis.com/auth/drive.metadata.readonly",
+    onSucess: (response) => {
+      console.log(response);
+    },
+    onFail: (response) => {
+      console.log(response);
+    },
+    onRequest: () => {
+      console.log("loading");
+    },
+    onLogout: () => {
+      console.log("logout");
+    },
+  });
   return (
     <div className="wrapper">
       <div className="background-div">
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Signup</h2>
           <TextField
+          data-testid="email"
             InputProps={{
               endAdornment: <MdAlternateEmail />,
             }}
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Email"
             type="text"
-            error={!email && touchedEmail}
-            helperText={!email && touchedEmail ? "Email is required" : ""}
+            error={(!email && touchedEmail) || (touchedEmail && !validEmail)}
+            helperText={
+              !email && touchedEmail
+                ? "Email is required"
+                : "" || (!validEmail && touchedEmail)
+                ? "Invalid Email"
+                : ""
+            }
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -58,6 +82,7 @@ function Signup() {
           />
 
           <TextField
+          data-testid="username"
             InputProps={{
               endAdornment: <FaUserAstronaut />,
             }}
@@ -73,6 +98,7 @@ function Signup() {
           />
 
           <TextField
+           data-testid="password"
             InputProps={{
               endAdornment: <TbPasswordFingerprint />,
             }}
@@ -90,6 +116,7 @@ function Signup() {
           />
 
           <TextField
+          data-testid="confirm-password"
             InputProps={{
               endAdornment: <TbPasswordFingerprint />,
             }}
@@ -114,6 +141,7 @@ function Signup() {
 
           <div className="captcha">
             <ReCAPTCHA
+              data-testid="captcha"
               sitekey="6LfwE4opAAAAAIroaJa6YdxlNtZiD7-OpS-QOoH0"
               onChange={(value) => {
                 setCaptcha(value);
@@ -123,6 +151,7 @@ function Signup() {
             {errors.captcha && <div className="error">{errors.captcha}</div>}
           </div>
           <Button
+            data-testid="signup-btn"
             variant="contained"
             sx={{
               width: "100%",
@@ -145,19 +174,30 @@ function Signup() {
           >
             Signup
           </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
-            startIcon={<FaFacebook />}
+          <LoginSocialFacebook
+            appId="736104705323820"
+            onResolve={(response) => {}}
+            onReject={(response) => {}}
           >
-            Signup with Facebook
-          </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
+              startIcon={<FaFacebook />}
+            >
+              Signup with Facebook
+            </Button>
+          </LoginSocialFacebook>
+
           <Button
+            id="googlebtn"
+            onClick={() => googleLogin()}
             variant="contained"
+            color="primary"
             sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
             startIcon={<FaGoogle />}
           >
+            {" "}
             Signup with Google
           </Button>
           <div className="register-link">

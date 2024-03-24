@@ -2,29 +2,15 @@ import React, { useEffect } from "react";
 import "./LoginForm.css";
 import { FaUserAstronaut, FaFacebook, FaGoogle } from "react-icons/fa";
 import { TbPasswordFingerprint } from "react-icons/tb";
-import { validateLogin } from "../features/authentication/validate";
-import bcrypt from "bcryptjs-react";
-import axios from "axios";
 import ForgetPassword from "../components/ForgetPassword";
 import { TextField, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { FiLogIn } from "react-icons/fi";
-
-/* global google */
-google.accounts.id.renderButton(
-  document.getElementById("googlebtn"),
-  // {
-  //   theme: "outline",
-  //   width: 550,
-  //   height: 50,
-  //   text: "continue_with",
-  // }
-)
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { LoginSocialFacebook } from "reactjs-social-login";
 
 function Login() {
   const theme = useTheme();
-  // window.google.accounts.id.attachClickHandler('googlebtn', {}, (response) => {});
-  
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [touchedUser, setTouchedUser] = React.useState(false);
@@ -52,6 +38,23 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+  const googleLogin = useGoogleLogin({
+    clientId:
+      "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
+    scope: "https://www.googleapis.com/auth/drive.metadata.readonly",
+    onSucess: (response) => {
+      console.log(response);
+    },
+    onFail: (response) => {
+      console.log(response);
+    },
+    onRequest: () => {
+      console.log("loading");
+    },
+    onLogout: () => {
+      console.log("logout");
+    },
+  });
 
   return (
     <div className="wrapper">
@@ -66,8 +69,14 @@ function Login() {
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Username"
             type="text"
-            error={!username && touchedUser}
-            helperText={!username && touchedUser ? "Username is required" : ""}
+            error={(!username && touchedUser) || (touchedUser && !validUser)}
+            helperText={
+              !username && touchedUser
+                ? "Username is required"
+                : "" || (!validUser && touchedUser)
+                ? "Invalid Username"
+                : ""
+            }
             required
             onChange={(e) => {
               setUsername(e.target.value);
@@ -83,8 +92,17 @@ function Login() {
             label="Password"
             type="password"
             required
-            error={!password && touchedPassword}
-            helperText={!password && touchedPassword ? "Password is required" : ""}
+            error={
+              (!password && touchedPassword) ||
+              (touchedPassword && !validPassword)
+            }
+            helperText={
+              !password && touchedPassword
+                ? "Password is required"
+                : "" || (!validPassword && touchedPassword)
+                ? "Invalid Password"
+                : ""
+            }
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -104,6 +122,7 @@ function Login() {
             <ForgetPassword />
           </div>
           <Button
+           data-testid="login-btn"
             variant="contained"
             sx={{
               width: "100%",
@@ -120,20 +139,32 @@ function Login() {
           >
             Login
           </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
-            startIcon={<FaFacebook />}
+
+          <LoginSocialFacebook
+            appId="736104705323820"
+            onResolve={(response) => {}}
+            onReject={(response) => {}}
           >
-            Login with Facebook
-          </Button>
-          <Button id="googlebtn"
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
+              startIcon={<FaFacebook />}
+            >
+              Login with Facebook
+            </Button>
+          </LoginSocialFacebook>
+
+          <Button
+            id="googlebtn"
+            onClick={() => googleLogin()}
             variant="contained"
             color="primary"
             sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
             startIcon={<FaGoogle />}
-          > Login with Google
+          >
+            {" "}
+            Login with Google
           </Button>
 
           <div className="register-link">
@@ -142,7 +173,6 @@ function Login() {
             </p>
           </div>
         </form>
-      
       </div>
     </div>
   );
