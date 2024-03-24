@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+
 import { FaBold } from "react-icons/fa";
 
 import './CreatePost.css'; // Import your CSS file for styling
@@ -17,17 +19,45 @@ function CreatePost() {
     const [savedDrafts, setSavedDrafts] = useState([]);
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
     const [fileUploaded, setFileUploaded] = useState(false);
+    const [responseMessage, setResponseMessage] = useState('');
+    const [postDone, setPostDone] = useState(false);
 
     const textAreaRef = useRef(null);
 
-    const handleFileChange = (e) => {
-        if (e.target.files.length > 0) {
-            setFileUploaded(true); // Enable the buttons when a file is uploaded
-        } else {
-            setFileUploaded(false); // Disable the buttons if no file is uploaded
-        }
-    };
+    // const handleFileChange = (e) => {
+    //     if (e.target.files.length > 0) {
+    //         setFileUploaded(true); // Enable the buttons when a file is uploaded
+    //     } else {
+    //         setFileUploaded(false); // Disable the buttons if no file is uploaded
+    //     }
+    // };
+    const handelpostclick = async (e) => {
+        e.preventDefault();
+        const postdata = {
+            title: title,
+            content: content,
+            bold: isBold,
+            italic: isItalic
+        };
+        try{
+            const response = await axios.post('http://localhost:3001/posts', { content: postdata });
+            setPostDone(true);
+            setTitle('');
+            setContent('');
+            setIsBold(false);
+            setIsItalic(false);
+            setIsstrikethrough(false);
+            setIsInlinecode(false);
 
+        }
+        catch(error)
+        {
+            console.error('Error submitting post:', error);
+
+
+        }
+
+    };
 
     const handleBoldClick = () => {
         setIsBold(!isBold);
@@ -143,7 +173,9 @@ function CreatePost() {
 
                     <div>
                         <button type="button" onClick={handleSaveDraft} id="savedefaultbtn">Save Draft</button>
-                        <button type="submit" id="postbtn1">Post</button>
+                        <button type="submit" id="postbtn1" onClick={handelpostclick}>Post</button>
+                        {postDone && <p>Post done</p>}
+
                     </div>
 
                 </form>
@@ -170,7 +202,7 @@ function CreatePost() {
                     >
                         <FiPlus /> NSFW
                     </Button>
-                    
+
                     <Button
                         variant="danger"
                         className="ptnn3"

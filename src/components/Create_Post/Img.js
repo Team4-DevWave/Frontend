@@ -3,7 +3,7 @@ import deleteIcon from './image/WhatsApp Image 2024-03-16 at 16.15.11_80aefda1.j
 import './CreatePost.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
 import { AiOutlineDelete } from 'react-icons/ai';
-
+import axios from 'axios';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 
@@ -12,6 +12,35 @@ function Img() {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [captions, setCaptions] = useState([]);
 
+
+
+    const handelpostclick = async (event) => {
+        event.preventDefault();
+        
+        // Create an object to hold the post data
+        const postData = {
+            title: title,
+            files: uploadedFiles.map((file, index) => ({
+                type: file.type.startsWith('image/') ? 'image' : 'video',
+                url: URL.createObjectURL(file),
+                caption: captions[index]
+            }))
+        };
+    try {
+        const response = await axios.post('http://localhost:3001/posts', { content: postData });
+
+    } catch (error) {
+        
+    }
+        //console.log('Post Data:', postData);
+    
+        // Reset form fields after submission
+        setTitle('');
+        setUploadedFiles([]);
+        setCaptions([]);
+    };
+    
+    
     const handleFileChange = (e) => {
         const filesArray = Array.from(e.target.files);
         const newCaptions = filesArray.map(() => ''); // Initialize captions array for new files
@@ -94,7 +123,7 @@ function Img() {
                         accept="image/*, video/*"
                         multiple
                     />
-                    <button type="submit" className="postbtn">
+                    <button type="submit" className="postbtn" onClick={handelpostclick}>
                         Post
                     </button>
                 </form>
