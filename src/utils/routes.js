@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import UserPage from "../pages/UserPage";
 import ResetCredentials from "../pages/ResetCredentials";
 import CreatePost from "../components/Create_Post/Nav.js";
+import CreatePost from "../components/Create_Post/Nav";
 
 const routes = {
   "/": () => <Home />,

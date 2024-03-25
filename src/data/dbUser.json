@@ -1,0 +1,74 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "testuser1",
+      "email": "testuser1@gmail.com",
+      "password": "testuser100"
+    },
+    {
+      "id": "2",
+      "username": "testuser2",
+      "email": "testuse2@gmail.com",
+      "password": "testuser200"
+    },
+    {
+      "id": "3",
+      "username": "testuser3",
+      "email": "testuser3@gmail.com",
+      "password": "testuser300"
+    },
+    {
+      "id": "4",
+      "username": "testuser4",
+      "email": "testuser4@gmail.com",
+      "password": "testuser400"
+    },
+    {
+      "id": 5,
+      "username": "EcoBackend",
+      "password": "testuser100",
+      "email": "mo.ashraf.mcs@gmail.com"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "1",
+      "alt": "Karen",
+      "content": "Karen upvoted your post",
+      "src": "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/2f/2ff556271797e24b6484ba98f9262e2e908f7916_full.jpg"
+    },
+    {
+      "id": "2",
+      "alt": "John",
+      "content": "John commented on your post",
+      "src": "https://example.com/john.jpg"
+    },
+    {
+      "id": "3",
+      "alt": "Emily",
+      "content": "Emily liked your comment",
+      "src": "https://example.com/emily.jpg"
+    }
+  ],
+  "communities": [
+    {
+      "id": "1",
+      "name": "Community 1",
+      "type": "public",
+      "mature": "false"
+    },
+    {
+      "id": "2",
+      "name": "Community 2",
+      "type": "private",
+      "mature": "true"
+    },
+    {
+      "id": "3",
+      "name": "Community 3",
+      "type": "public",
+      "mature": "false"
+    }
+  ]
+}

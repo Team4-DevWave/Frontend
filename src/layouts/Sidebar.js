@@ -144,6 +144,8 @@ function SideBar() {
                 <p>
                   <CreateCommunity />
                 </p>
+
+                <p><CreateCommunity/></p>
               </a>
             </li>
             <li>

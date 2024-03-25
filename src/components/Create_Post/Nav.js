@@ -23,6 +23,8 @@ function Nav() {
   //     text: "mohmmm",
   //     //image: "https://via.placeholder.com/400",
   //   };
+
+
   return (
     <>
       <Header />
@@ -120,6 +122,12 @@ function Nav() {
       {activeNavItem === 3 && <Poll />}
 
       {/* <PostDesign {...postData2} /> */}
+
+
+      {activeNavItem === 0 && <Post />}
+      {activeNavItem === 1 && <Img />}
+      {activeNavItem === 2 && <Link />}
+      {activeNavItem === 3 && <Poll />}
     </>
   );
 }

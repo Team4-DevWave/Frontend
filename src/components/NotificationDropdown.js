@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -7,9 +7,19 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Avatar from "@mui/material/Avatar";
 import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
+import { set } from "lodash";
 
 function NotificationDropDown() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/notifications").then((response) => {
+      setNotifications(response.data);
+      console.log(response);
+    });
+  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -41,21 +51,16 @@ function NotificationDropDown() {
         <Typography component="h4" variant="" sx={{ marginLeft: 2 }}>
           Notifications
         </Typography>
+       
+        {notifications.map((notification) => (
+          <MenuItem onClick={handleClose}>
+            <Avatar alt={notification.alt} src={notification.src} />
+            <p style={{ marginLeft: "2px", marginBottom: "0px" }}>
+              {notification.content}
+            </p>
+          </MenuItem>
+        ))}
         <MenuItem onClick={handleClose}>
-          <Avatar alt="Travis Howard" src="../images/comment.png" />
-          <p style={{ marginLeft: "2px", marginBottom: "0px" }}>
-            Travis upvotex your post!
-          </p>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar alt="Karen" src="../images/comment.png" />
-          <p style={{ marginLeft: "2px", marginBottom: "0px" }}>
-            Travis upvotex your post!
-          </p>
-        </MenuItem>
-        <hr />
-        <MenuItem onClick={handleClose}>
-          {" "}
           <Link
             to="/Notification"
             style={{ color: "inherit", textDecoration: "inherit" }}

@@ -49,13 +49,14 @@ export default function Header() {
             aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            data-testid="button-pfp"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" href="/chat">
+                <a className="nav-link" href="/chat" data-testid="chat-nav">
                   <svg
                     rpl=""
                     fill="currentColor"
@@ -72,7 +73,11 @@ export default function Header() {
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="/CreatePost">
+                <a
+                  className="nav-link"
+                  href="/CreatePost"
+                  data-testid="create-post-nav"
+                >
                   <svg
                     rpl=""
                     fill="currentColor"
@@ -102,7 +107,11 @@ export default function Header() {
                 />
                 <div className="sub-menu-wrap" ref={subMenu} data-testid="menu">
                   <div className="sub-menu">
-                    <a href="/profile" className="sub-menu-link">
+                    <a
+                      href="/profile"
+                      className="sub-menu-link"
+                      data-testid="profile-nav"
+                    >
                       <img
                         src={process.env.PUBLIC_URL + "/images/erenyega.jpg"}
                         alt="profile pic"
@@ -112,7 +121,11 @@ export default function Header() {
                       <p>View Profile</p>
                     </a>
 
-                    <a href="#" className="sub-menu-link">
+                    <a
+                      href="#"
+                      className="sub-menu-link"
+                      data-testid="edit-avatar-nav"
+                    >
                       <svg
                         rpl=""
                         fill="currentColor"
@@ -131,7 +144,11 @@ export default function Header() {
                       <p>Edit Avatar</p>
                     </a>
 
-                    <a href="#" className="sub-menu-link">
+                    <a
+                      href="#"
+                      className="sub-menu-link"
+                      data-testid="dark-mode-nav"
+                    >
                       <svg
                         rpl=""
                         fill="currentColor"
@@ -147,7 +164,11 @@ export default function Header() {
                       <p>Dark Mode</p>
                     </a>
 
-                    <a href="#" className="sub-menu-link">
+                    <a
+                      href="#"
+                      className="sub-menu-link"
+                      data-testid="log-out-nav"
+                    >
                       <svg
                         rpl=""
                         fill="currentColor"
@@ -163,7 +184,11 @@ export default function Header() {
                       <p>Log Out</p>
                     </a>
                     <hr />
-                    <a href="/settings" className="sub-menu-link">
+                    <a
+                      href="/settings"
+                      className="sub-menu-link"
+                      data-testid="settings-nav"
+                    >
                       <svg
                         rpl=""
                         fill="currentColor"
