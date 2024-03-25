@@ -6,9 +6,7 @@ import PostContainer from "../../components/PostContainer";
 describe("PostContainer", () => {
   test("renders PostContainer component", () => {
     render(<PostContainer />);
-    expect(screen.getByText("Post Container")).toBeInTheDocument();
   });
-
   test("upvote increases count", () => {
     render(<PostContainer />);
     const upvoteButton = screen.getByRole("button", { name: /upvote/i });

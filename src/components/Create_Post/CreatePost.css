@@ -242,3 +242,8 @@ margin-right: 100px;
   }
 
   
+.disabled-button {
+    opacity: 0.5; 
+    cursor: not-allowed; 
+  }
+  

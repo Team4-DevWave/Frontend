@@ -3,6 +3,9 @@
     "moduleNameMapper": {
       "^axios$": "axios/dist/node/axios.cjs"
     }
+  }, 
+  
+
   },
   "name": "threddit_front",
   "version": "0.1.0",
@@ -76,6 +79,11 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/preset-env": "^7.24.3",
+    "@babel/preset-react": "^7.24.1",
+    "babel-jest": "^29.7.0"
+  }
+  
+
     "babel-jest": "^29.7.0",
     "msw": "^2.2.10",
     "whatwg-fetch": "^3.6.20"

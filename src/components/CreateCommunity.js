@@ -49,6 +49,25 @@ function CreateCommunity() {
     setChecked(e.target.checked);
   };
   const submitCommunity = () => {
+    axios
+      .post("http://localhost:8080/community", {
+        name: communityName,
+        type: radioValue,
+        mature: checked,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Community is created");
+        } else {
+          console.log("Community is not created");
+        }
+        console.log(response);
+      });
+  };
+  return (
+    <>
+      <div onClick={handleClickOpen}>
+
     axios.post("http://localhost:8080/community", {
       name: communityName,
       type: radioValue,
@@ -69,6 +88,7 @@ function CreateCommunity() {
 
        onClick={handleClickOpen}>
         
+
         <span className="create">Create a community</span>
       </div>
       <Dialog

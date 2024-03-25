@@ -4,11 +4,30 @@ import NotificationDropdown from "./NotificationDropdown";
 
 export default function Header() {
   const subMenu = useRef(null);
+  const imgRef = useRef(null);
+
   function toggleMenu() {
     if (subMenu.current) {
       subMenu.current.classList.toggle("open-menu");
     }
   }
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (imgRef.current && imgRef.current.contains(event.target)) {
+        return;
+      }
+      if (subMenu.current && !subMenu.current.contains(event.target)) {
+        subMenu.current.classList.remove("open-menu");
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [subMenu]);
 
   return (
     <header id="header">
@@ -84,6 +103,7 @@ export default function Header() {
                   height="30px"
                   className="user-pic rounded-circle"
                   onClick={toggleMenu}
+                  ref={imgRef}
                 />
                 <div className="sub-menu-wrap" ref={subMenu} data-testid="menu">
                   <div className="sub-menu">

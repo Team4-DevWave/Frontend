@@ -3,7 +3,7 @@ import deleteIcon from './image/WhatsApp Image 2024-03-16 at 16.15.11_80aefda1.j
 import './CreatePost.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
 import { AiOutlineDelete } from 'react-icons/ai';
-import axios from 'axios';
+// import axios from 'axios';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 
@@ -26,12 +26,12 @@ function Img() {
                 caption: captions[index]
             }))
         };
-    try {
-        const response = await axios.post('http://localhost:3001/posts', { content: postData });
+    // try {
+    //     const response = await axios.post('http://localhost:3001/posts', { content: postData });
 
-    } catch (error) {
+    // } catch (error) {
         
-    }
+    // }
         //console.log('Post Data:', postData);
     
         // Reset form fields after submission
