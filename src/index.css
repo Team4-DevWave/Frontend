@@ -22,7 +22,7 @@ nav{
 
 }
 
-body {
+.navbar-padding {
   padding-top: 60px; /* Adjust this value to match the height of your header */
 }
 
