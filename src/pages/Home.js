@@ -6,7 +6,7 @@ import PostFeed from "../components/UserTabs/Feed";
 import SortOptions from "../components/SortOptions";
 function Home() {
   return (
-    <div id="home">
+    <div id="home" className="navbar-padding">
       <Header />
       <div className="header"></div>
       <SideBar />

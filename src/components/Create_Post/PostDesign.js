@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 import { SlOptions } from "react-icons/sl";
-import './PostDesign.css';
+import "./PostDesign.css";
 
-const PostDesign = ({ username, userpic, community, incommunity, Date, title, text, image ,Link}) => {
-  const isValidPost = (title && text) || (title && image) ||(title && Link);
+const PostDesign = ({
+  username,
+  userpic,
+  community,
+  incommunity,
+  Date,
+  title,
+  text,
+  image,
+  Link,
+}) => {
+  const isValidPost = (title && text) || (title && image) || (title && Link);
   const [showOptions, setShowOptions] = useState(false);
 
   const toggleOptions = () => {
     setShowOptions(!showOptions);
   };
   return (
-    <div className="post-container">
+    <div>
       <div className="post-header">
         <div className="user-profile">
           <img src={userpic} alt="User" className="user-pic" />
@@ -22,18 +32,18 @@ const PostDesign = ({ username, userpic, community, incommunity, Date, title, te
           </div>
         </div>
         <div className="options-container">
-          
           <Button
-                            variant="danger"
-                            className="options-button"
-                            onClick={toggleOptions}
-                        >
-                            <SlOptions />
-                        </Button>
+            variant="danger"
+            className="options-button"
+            onClick={toggleOptions}
+          >
+            <SlOptions />
+          </Button>
 
           {showOptions && (
             <div className="options-list">
               <ul>
+                <li>Show fewer osts like this</li>
                 <li>Hide</li>
                 <li>Save</li>
                 <li>Report</li>

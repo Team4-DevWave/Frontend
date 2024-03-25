@@ -20,6 +20,7 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import PublicIcon from "@mui/icons-material/Public";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VpnLockIcon from "@mui/icons-material/VpnLock";
+import axios from "axios";
 
 function CreateCommunity() {
   const [open, setOpen] = React.useState(false);
@@ -47,22 +48,27 @@ function CreateCommunity() {
   const toggleChecked = (e) => {
     setChecked(e.target.checked);
   };
+  const submitCommunity = () => {
+    axios
+      .post("http://localhost:8080/community", {
+        name: communityName,
+        type: radioValue,
+        mature: checked,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Community is created");
+        } else {
+          console.log("Community is not created");
+        }
+        console.log(response);
+      });
+  };
   return (
     <>
-      <Button onClick={handleClickOpen}>
-        <svg
-          rpl=""
-          fill="currentColor"
-          height="20"
-          icon-name="add-outline"
-          viewBox="0 0 20 20"
-          width="20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M19 9.375h-8.375V1h-1.25v8.375H1v1.25h8.375V19h1.25v-8.375H19v-1.25Z"></path>
-        </svg>
-        <span className="create">Create</span>
-      </Button>
+      <div onClick={handleClickOpen}>
+        <span className="create">Create a community</span>
+      </div>
       <Dialog
         sx={{ ".MuiPaper-root": { borderRadius: "16px" } }}
         open={open}
