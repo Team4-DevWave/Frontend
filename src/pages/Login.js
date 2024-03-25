@@ -8,6 +8,7 @@ import { useTheme } from "@mui/material/styles";
 import { FiLogIn } from "react-icons/fi";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { LoginSocialFacebook } from "reactjs-social-login";
+import axios from "axios";
 
 function Login() {
   const theme = useTheme();
@@ -16,16 +17,7 @@ function Login() {
   const [touchedUser, setTouchedUser] = React.useState(false);
   const [touchedPassword, setTouchedPassword] = React.useState(false);
   const [remember, setRemember] = React.useState(false);
-
-  useEffect(() => {
-    //replace with actual login api
-    // axios.post('http://localhost:5000/api/login', {})
-    // .then((response) => {
-    //   console.log(response);
-    // }).catch((error) => {
-    //   console.log(error);
-    // });
-  }, []);
+  const [attempted, setAttempted] = React.useState(false);
 
   const [validUser, setValidUser] = React.useState(false);
   const [validPassword, setValidPassword] = React.useState(false);
@@ -37,6 +29,16 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    axios
+      .post("http://localhost:8080/login", {
+        username: username,
+        password: password,
+      })
+      .then((response) => {
+        setAttempted(true);
+        console.log(response);
+      });
   };
   const googleLogin = useGoogleLogin({
     clientId:
@@ -122,7 +124,7 @@ function Login() {
             <ForgetPassword />
           </div>
           <Button
-           data-testid="login-btn"
+            data-testid="login-btn"
             variant="contained"
             sx={{
               width: "100%",

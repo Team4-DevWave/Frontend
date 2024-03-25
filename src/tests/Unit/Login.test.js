@@ -1,6 +1,14 @@
 import Login from "../../pages/Login";
-import { render, screen,fireEvent } from "@testing-library/react";
+import { render, screen,fireEvent,waitFor } from "@testing-library/react";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import '@testing-library/jest-dom/extend-expect';
+// const { TextEncoder, TextDecoder } = require('util');
+// import {server} from "../../mocks/server";
+
+
+// beforeAll(() => server.listen());
+// afterEach(() => server.resetHandlers());
+// afterAll(() => server.close());
 
 describe("Login Component", () => {
     /*CASES RELATED TO RENDERING AND CONDITIONAL RENDERING */
@@ -177,6 +185,21 @@ describe("Login Component", () => {
         
     }
     );
+    /* MOCK API TEST */
+    // test('logs in successfully', async () => {
+    //     const { getByLabelText, getByText } = render(<Login />);
+      
+    //     fireEvent.change(getByLabelText(/username/i), {
+    //       target: { value: 'testuser' },
+    //     });
+    //     fireEvent.change(getByLabelText(/password/i), {
+    //       target: { value: 'testpassword00' },
+    //     });
+      
+    //     fireEvent.click(getByText(/login/i));
+      
+    //     await waitFor(() => expect(localStorage.getItem('token')).toEqual('mock-jwt-token'));
+    //   });
 
 
 });
