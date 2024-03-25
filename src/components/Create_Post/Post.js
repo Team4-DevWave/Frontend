@@ -8,7 +8,6 @@ import { Button } from 'react-bootstrap';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 
-
 function CreatePost() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -19,7 +18,6 @@ function CreatePost() {
     const [savedDrafts, setSavedDrafts] = useState([]);
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
     const [fileUploaded, setFileUploaded] = useState(false);
-    const [responseMessage, setResponseMessage] = useState('');
     const [postDone, setPostDone] = useState(false);
 
     const textAreaRef = useRef(null);
@@ -39,7 +37,7 @@ function CreatePost() {
             bold: isBold,
             italic: isItalic
         };
-        try{
+        try {
             const response = await axios.post('http://localhost:3001/posts', { content: postdata });
             setPostDone(true);
             setTitle('');
@@ -50,8 +48,7 @@ function CreatePost() {
             setIsInlinecode(false);
 
         }
-        catch(error)
-        {
+        catch (error) {
             console.error('Error submitting post:', error);
 
 
@@ -102,7 +99,13 @@ function CreatePost() {
         setShowSavedDrafts(true);
     };
 
-
+    useEffect(() => {
+        // Enable/disable buttons based on whether title is empty
+        const areButtonsDisabled = title.trim() === '';
+        document.getElementById('savedefaultbtn').disabled = areButtonsDisabled;
+        document.getElementById('postbtn1').disabled = areButtonsDisabled;
+    }, [title]);
+    
     useEffect(() => {
         if (textAreaRef.current) {
             textAreaRef.current.style.fontWeight = isBold ? 'bold' : 'normal';
@@ -128,6 +131,7 @@ function CreatePost() {
         setIsItalic(false);
     };
 
+
     return (
 
         <div className="create-post-container">
@@ -139,6 +143,7 @@ function CreatePost() {
                         type="text"
                         id="title"
                         name="title"
+                        data-testid="title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Title"
@@ -150,6 +155,7 @@ function CreatePost() {
                             variant="danger"
                             className={isBold ? 'active' : ''}
                             onClick={handleBoldClick}
+                            data-testid="Bold"
                         >
                             <FaBold />
                         </Button>
@@ -166,14 +172,16 @@ function CreatePost() {
                         value={content}
                         onChange={handleContentChange}
                         placeholder="Text"
+                        data-testid="text"
+                        
                     ></textarea>
 
 
 
 
                     <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn">Save Draft</button>
-                        <button type="submit" id="postbtn1" onClick={handelpostclick}>Post</button>
+                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled ={!title}   className={!title ? 'disabled-button' : ''}>Save Draft</button>
+                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''} >Post</button>
                         {postDone && <p>Post done</p>}
 
                     </div>
@@ -213,7 +221,7 @@ function CreatePost() {
                 </div>
 
             </div>
-            <div>
+            {/* <div>
                 <button className='Draftbt' onClick={handleShowSavedDrafts}>Drafts</button>
                 {showSavedDrafts && (
                     <div className="saved-drafts-popup">
@@ -229,7 +237,7 @@ function CreatePost() {
                         </ul>
                     </div>
                 )}
-            </div>
+            </div> */}
 
 
 

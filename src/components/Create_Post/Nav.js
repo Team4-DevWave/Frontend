@@ -5,13 +5,24 @@ import Link from "./Link";
 import Poll from "./Poll";
 import Img from './Img';
 import Header from '../Header';
+// import PostDesign from './PostDesign';
+
 function Nav() {
     const [activeNavItem, setActiveNavItem] = useState(0);
 
     const handleTabChange = (event, newValue) => {
         setActiveNavItem(newValue);
     };
-
+    // const postData2 = {
+    //     username: "ismail mostafa",
+    //     userpic: "https://randomuser.me/api/portraits/men/1.jpg",
+    //     community: "ismail's Community",
+    //     incommunity: true,
+    //     Date: "March 24, 2024",
+    //     title: "ismaaaaillll",
+    //     text: "mohmmm",
+    //     //image: "https://via.placeholder.com/400", 
+    //   };
     return (
         <>
         <Header />
@@ -79,6 +90,7 @@ function Nav() {
             {activeNavItem === 2 && <Link />}
             {activeNavItem === 3 && <Poll />}
 
+            {/* <PostDesign {...postData2} /> */}
 
         </>
     );
