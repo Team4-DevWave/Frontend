@@ -70,7 +70,6 @@ export default function Header() {
               </li>
 
               <li className="nav-item">
-                <CreateCommunity />
                 <NotificationDropdown />
               </li>
               <li>

@@ -9,8 +9,10 @@ import { FiLogIn } from "react-icons/fi";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { LoginSocialFacebook } from "reactjs-social-login";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 function Login() {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -18,9 +20,10 @@ function Login() {
   const [touchedPassword, setTouchedPassword] = React.useState(false);
   const [remember, setRemember] = React.useState(false);
   const [attempted, setAttempted] = React.useState(false);
-
   const [validUser, setValidUser] = React.useState(false);
   const [validPassword, setValidPassword] = React.useState(false);
+
+
 
   useEffect(() => {
     setValidUser(username.match(/^[a-zA-Z0-9_]{3,16}$/));
@@ -36,7 +39,15 @@ function Login() {
         password: password,
       })
       .then((response) => {
-        setAttempted(true);
+        if(response.status === 200) {
+          console.log("User is found");
+          localStorage.setItem("token", response.data);
+          navigate("/");
+        }else{
+          console.log("User is not found");
+          setAttempted(true);
+        }
+        
         console.log(response);
       });
   };
@@ -97,13 +108,17 @@ function Login() {
             error={
               (!password && touchedPassword) ||
               (touchedPassword && !validPassword)
+              || attempted
             }
             helperText={
               !password && touchedPassword
                 ? "Password is required"
                 : "" || (!validPassword && touchedPassword)
                 ? "Invalid Password"
+                : "" || attempted
+                ? "Invalid Username or Password"
                 : ""
+
             }
             onChange={(e) => {
               setPassword(e.target.value);
