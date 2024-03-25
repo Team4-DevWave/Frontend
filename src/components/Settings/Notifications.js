@@ -42,7 +42,7 @@ function Notification() {
 
   return (
     <div className="settingsBody">
-      <h1 className='title titleBody'>Notification settings</h1>
+      <h1 className='titleBody'>Notification settings</h1>
       <div className='settingsData'>
         <SectionHeader title="MESSAGES" />
         <SettingItem title="Private messages"

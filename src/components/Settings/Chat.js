@@ -51,7 +51,7 @@ function Chat() {
 
   return (
     <div className="settingsBody">
-      <h1 className='title titleBody'>Chat & Messaging</h1>
+      <h1 className='titleBody'>Chat & Messaging</h1>
       <div className='settingsData'>
         <SettingsItem
           title="Who can send you private messages"

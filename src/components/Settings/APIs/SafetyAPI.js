@@ -1,7 +1,7 @@
 export const fetchBlockedUsers = async (setSnackbarInfo) => {
   let data = []; // Initialize data variable outside the try block
   try {
-    const response = await fetch('/api/blockedUsers');
+    const response = await fetch('http://localhost:8000/api/v1/users/me/block');
     if (response.ok) {
       data = await response.json();
       setSnackbarInfo({ isOpen: true, message: 'Blocked users fetched successfully.', severity: 'success' });
@@ -17,7 +17,7 @@ export const fetchBlockedUsers = async (setSnackbarInfo) => {
 export const fetchMutedCommunities = async (setSnackbarInfo) => {
   let data = []; // Initialize data variable outside the try block
   try {
-    const response = await fetch('/api/mutedCommunities');
+    const response = await fetch('http://localhost:8000/api/v1/users/me/mutedCommunities');
     if (response.ok) {
       data = await response.json();
       setSnackbarInfo({ isOpen: true, message: 'Muted communities fetched successfully.', severity: 'success' });
