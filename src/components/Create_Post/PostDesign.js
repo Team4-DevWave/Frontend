@@ -43,7 +43,7 @@ const PostDesign = ({
           {showOptions && (
             <div className="options-list">
               <ul>
-                <li>Show fewer osts like this</li>
+                <li>Show fewer posts like this</li>
                 <li>Hide</li>
                 <li>Save</li>
                 <li>Report</li>
