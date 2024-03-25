@@ -3,7 +3,7 @@ import Header from "../../components/Header";
 import NotificationNav from "../../components/Notification/NotifactionNav";
 function notification() {
   return (
-    <div>
+    <div className="navbar-padding">
       <Header />
       <div className="header">
         <h1 className="title">Notification</h1>
