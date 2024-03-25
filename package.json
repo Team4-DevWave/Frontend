@@ -6,7 +6,7 @@
   }, 
   
 
-  },
+
   "name": "threddit_front",
   "version": "0.1.0",
   "private": true,
@@ -84,8 +84,4 @@
   }
   
 
-    "babel-jest": "^29.7.0",
-    "msw": "^2.2.10",
-    "whatwg-fetch": "^3.6.20"
-  }
 }
