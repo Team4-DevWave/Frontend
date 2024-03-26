@@ -39,14 +39,6 @@ function SendAPrivateMessage() {
                 <label htmlFor="message">Message:</label>
                 <textarea id="message" name="message" required></textarea>
 
-
-                {/* <div id="robotBox">
-                    <label htmlFor="robotCheck" id="robotLabel">
-                        I'm not a robot
-                    </label>
-                    <input type="checkbox" id="robotCheck" name="robotCheck" class="robotCheckbox" required />
-                </div> */}
-
                 <div id="robotBox">
                     <label htmlFor="robotCheck" id="robotLabel">
                         I'm not a robot
