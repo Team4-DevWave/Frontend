@@ -146,12 +146,14 @@ ol {
 
 .SendMessageform {
   width: 100%;
-  max-width: 500px;
-  padding: 20px;
+  max-width: 900px;
   background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  align-items: center;
+  margin-left: 100px;
+  margin-top: 10px;
+  height: 550px;
+
 }
 
 .SendMessageform h2 {
@@ -223,6 +225,48 @@ ol {
   font-weight: bold;
 }
 
+#submitButton {
+  background-color: black;
+  color:orange;
+  padding: 14px 20px;
+  margin-bottom:100px ;
+  
+  /* border: none; */
+  /* cursor: pointer; */
+  width: 500px;
+
+  
+}
+
+
+#robotBox {
+  width: 490px; /* Adjust as needed */
+  height: 100px; /* Adjust as needed */
+  padding: 20px; /* Adjust as needed */
+  border: 1px solid #333; /* Adjust as needed */
+  border-radius: 5px; /* Adjust as needed */  
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adjust as needed */
+  margin-top: 10px;
+  margin-bottom: 0px;
+  display: flex;
+  align-items: center; /* This will vertically center align the items */
+
+  
+}
+
+#robotLabel {
+  font-size: 16px;
+  color: #333;
+  margin-right: 25px;
+  margin-bottom: 25px;
+  
+}
+
+.robotCheckbox {
+  float: left;
+  transform: scale(1);
+
+}
 /* // End Settings Body */
 
 
