@@ -7,7 +7,7 @@ function MessageRecived() {
     const [Messages, setMessages] = useState([]);
     useEffect(() => {
         axios.get('http://localhost:3001/send')
-                    .then(response => {
+            .then(response => {
                 setMessages(response.data);
             })
             .catch(error => {
