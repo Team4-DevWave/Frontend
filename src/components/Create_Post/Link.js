@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaBold } from "react-icons/fa";
-
+// import axios from 'axios';
 import './CreatePost.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
 
@@ -13,6 +13,7 @@ function Link() {
     const [savedDrafts, setSavedDrafts] = useState([]);
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
     const [fileUploaded, setFileUploaded] = useState(false);
+    const [postDone, setPostDone] = useState(false);
 
     const textAreaRef = useRef(null);
 
@@ -24,7 +25,26 @@ function Link() {
         }
     };
 
+    const handelpostclick = async (e) => {
+        e.preventDefault();
+        const postdata = {
+            title: title,
+            content: content,
+        };
+        // try {
+        //     const response = await axios.post('http://localhost:3001/posts', { content: postdata });
+        //     setPostDone(true);
+        //     setTitle('');
+        //     setContent('');
 
+        // }
+        // catch (error) {
+        //     console.error('Error submitting post:', error);
+
+
+        // }
+
+    };
 
 
     const handleContentChange = (e) => {
@@ -100,17 +120,16 @@ function Link() {
 
 
 
+
                     <div>
                         <button type="button" onClick={handleSaveDraft} id="savedefaultbtn">Save Draft</button>
-                        <button type="submit" id="postbtn1">Post</button>
-                    </div>
-                    <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn">Save Draft</button>
-                        <button type="submit" id="postbtn1">Post</button>
+                        <button type="submit" id="postbtn1" onClick={handelpostclick}>Post</button>
+                        {postDone && <p>Post done</p>}
+
                     </div>
                 </form>
                 <div>
-                <Button
+                    <Button
                         variant="danger"
                         className="ptnn3"
 
@@ -131,7 +150,7 @@ function Link() {
                     >
                         <FiPlus /> NSFW
                     </Button>
-                    
+
                     <Button
                         variant="danger"
                         className="ptnn3"

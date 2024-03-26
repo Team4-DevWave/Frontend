@@ -8,27 +8,22 @@ import { useTheme } from "@mui/material/styles";
 import { FiLogIn } from "react-icons/fi";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { LoginSocialFacebook } from "reactjs-social-login";
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 function Login() {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [touchedUser, setTouchedUser] = React.useState(false);
   const [touchedPassword, setTouchedPassword] = React.useState(false);
   const [remember, setRemember] = React.useState(false);
-
-  useEffect(() => {
-    //replace with actual login api
-    // axios.post('http://localhost:5000/api/login', {})
-    // .then((response) => {
-    //   console.log(response);
-    // }).catch((error) => {
-    //   console.log(error);
-    // });
-  }, []);
-
+  const [attempted, setAttempted] = React.useState(false);
   const [validUser, setValidUser] = React.useState(false);
   const [validPassword, setValidPassword] = React.useState(false);
+
+
 
   useEffect(() => {
     setValidUser(username.match(/^[a-zA-Z0-9_]{3,16}$/));
@@ -37,6 +32,24 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    axios
+      .post("http://localhost:8080/login", {
+        username: username,
+        password: password,
+      })
+      .then((response) => {
+        if(response.status === 200) {
+          console.log("User is found");
+          localStorage.setItem("token", response.data);
+          navigate("/");
+        }else{
+          console.log("User is not found");
+          setAttempted(true);
+        }
+        
+        console.log(response);
+      });
   };
   const googleLogin = useGoogleLogin({
     clientId:
@@ -95,13 +108,17 @@ function Login() {
             error={
               (!password && touchedPassword) ||
               (touchedPassword && !validPassword)
+              || attempted
             }
             helperText={
               !password && touchedPassword
                 ? "Password is required"
                 : "" || (!validPassword && touchedPassword)
                 ? "Invalid Password"
+                : "" || attempted
+                ? "Invalid Username or Password"
                 : ""
+
             }
             onChange={(e) => {
               setPassword(e.target.value);
@@ -122,7 +139,7 @@ function Login() {
             <ForgetPassword />
           </div>
           <Button
-           data-testid="login-btn"
+            data-testid="login-btn"
             variant="contained"
             sx={{
               width: "100%",

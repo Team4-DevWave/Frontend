@@ -1,0 +1,132 @@
+/* PostDesign.css */
+/* .post-container {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  } */
+  
+  .post-header {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 15px;
+    margin-left: 10px;
+  }
+  
+  .user-details {
+    display: flex;
+    align-items: center; /* Align items horizontally */
+  }
+  
+  .username,
+  .community,
+  .date {
+    margin: 0; /* Remove default margin */
+  }
+  
+  .username {
+    font-weight: bold;
+    margin-right: 10px; /* Add some spacing between elements */
+    margin-top: 10px;
+  }
+  
+  .community,
+  .date {
+    font-size: 0.8rem;
+    color: #666;
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+  
+  .post-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+    margin-left: 15px;
+    margin-top: 15px;
+  }
+  
+  .post-content {
+    margin-top: 10px;
+  }
+  
+  .post-text {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .post-image {
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .invalid-post {
+    color: #ff0000;
+  }
+  
+  .options-container {
+    position: relative;
+  }
+  
+  .options-button {
+    background-color: #fff;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .options-button:hover {
+    background-color: #e2e2e2; /* Change to black */
+    color: black; /* Change text color to white when hovered */
+    border-radius: 50px; /* Reset border-radius */
+  }
+  
+  
+  .options-list {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 1;
+  }
+  
+  .options-list ul {
+    
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .options-list ul li {
+    width: 250px;
+    padding: 8px 17px;
+    cursor: pointer;
+  }
+  
+  .options-list ul li:hover {
+    background-color: #f0f0f0;
+  }
+  

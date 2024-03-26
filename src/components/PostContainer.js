@@ -1,15 +1,46 @@
-import React, { useRef, useState } from "react";
-import "./PostContainer.css"; // Import your CSS
+import React, { useRef, useState, useEffect } from "react";
+import "./PostContainer.css";
+import PostDesign from "././Create_Post/PostDesign";
 // import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
-function PostContainer() {
+function PostContainer({ postData }) {
+  console.log("Post data in PostContainer:", postData.content);
   const shareMenu = useRef(null);
+  const buttonRef = useRef(null);
+
   function toggleMenu() {
     if (shareMenu.current) {
       shareMenu.current.classList.toggle("open-menu");
     }
   }
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (buttonRef.current && buttonRef.current.contains(event.target)) {
+        return;
+      }
+      if (shareMenu.current && !shareMenu.current.contains(event.target)) {
+        shareMenu.current.classList.remove("open-menu");
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [shareMenu]);
+
+  const postData2 = {
+    username: "ismail mostafa",
+    userpic: "https://randomuser.me/api/portraits/men/1.jpg",
+    community: "ismail's Community",
+    incommunity: true,
+    Date: "March 24, 2024",
+    title: "ismaaaaillll",
+    text: "mohmmm",
+    //image: "https://via.placeholder.com/400",
+  };
   const [count, setCount] = useState(0);
   const [voteStatus, setVoteStatus] = useState(0); // 0 = no vote, 1 = upvoted, -1 = downvoted
 
@@ -37,10 +68,27 @@ function PostContainer() {
     }
   };
 
+  if (!postData) {
+    return <div>Loading...</div>; // or some loading spinner
+  }
+
   return (
     <postcontainer id="postcontainer">
       <article className="post-container">
-        <h5 className="post-content">Post Container</h5>
+        <PostDesign
+          className="post-content"
+          data-testid="post"
+          username={postData2.username}
+          userpic={postData2.userpic}
+          community={postData2.community}
+          incommunity={postData2.incommunity}
+          Date={postData2.Date}
+          title={postData.title} // Pass the title from postData
+          text={postData.content} // Pass the content from postData as text
+          image={postData.image}
+          Link={postData.Link}
+        />
+
         <div className="post-buttons">
           <span
             className={`reach ${
@@ -151,6 +199,7 @@ function PostContainer() {
           <span className="share">
             <button
               className="share-button"
+              ref={buttonRef}
               onClick={toggleMenu}
               data-testid="menu"
             >
