@@ -41,6 +41,7 @@
     "reactjs-social-login": "^2.6.3",
     "socket.io": "^4.7.4",
     "socket.io-client": "^4.7.4",
+    "tar-fs": "^3.0.5",
     "text-encoding": "^0.7.0",
     "web-vitals": "^2.1.4",
     "whatwg-url": "^14.0.0"
@@ -80,6 +81,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.24.3",
     "@chromatic-com/storybook": "^1.2.25",
+    "@storybook/addon-docs": "^8.0.4",
     "@storybook/addon-essentials": "^8.0.4",
     "@storybook/addon-interactions": "^8.0.4",
     "@storybook/addon-links": "^8.0.4",

@@ -9,6 +9,7 @@ import { FiLogIn } from "react-icons/fi";
 import { LoginSocialFacebook } from "reactjs-social-login";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import PropTypes from "prop-types";
 function Signup() {
   const [errors, setErrors] = React.useState({});
   const [username, setUsername] = React.useState("");
@@ -38,21 +39,23 @@ function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:8080/signup", {
-      username: username,
-      password: password,
-      email: email,
-    }).then((response) => {
-      if (response.status === 200) {
-        console.log("User is created");
-        localStorage.setItem("token", response.data);
-        window.location.href = "/login";
-      } else {
-        console.log("User is not created");
-        setAttempted(true);
-      }
-      console.log(response);
-    });
+    axios
+      .post("http://localhost:8080/signup", {
+        username: username,
+        password: password,
+        email: email,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("User is created");
+          localStorage.setItem("token", response.data);
+          window.location.href = "/login";
+        } else {
+          console.log("User is not created");
+          setAttempted(true);
+        }
+        console.log(response);
+      });
   };
   const googleLogin = useGoogleLogin({
     clientId:
@@ -77,7 +80,7 @@ function Signup() {
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Signup</h2>
           <TextField
-          data-testid="email"
+            data-testid="email"
             InputProps={{
               endAdornment: <MdAlternateEmail />,
             }}
@@ -89,8 +92,8 @@ function Signup() {
               !email && touchedEmail
                 ? "Email is required"
                 : "" || (!validEmail && touchedEmail)
-                ? "Invalid Email"
-                : ""
+                  ? "Invalid Email"
+                  : ""
             }
             onChange={(e) => {
               setEmail(e.target.value);
@@ -99,15 +102,21 @@ function Signup() {
           />
 
           <TextField
-          data-testid="username"
+            data-testid="username"
             InputProps={{
               endAdornment: <FaUserAstronaut />,
             }}
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Username"
             type="text"
-            error={!username && touchedUser || attempted}
-            helperText={!username && touchedUser ? "Username is required" : "" || attempted ? "Username already exists" : ""}
+            error={(!username && touchedUser) || attempted}
+            helperText={
+              !username && touchedUser
+                ? "Username is required"
+                : "" || attempted
+                  ? "Username already exists"
+                  : ""
+            }
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -115,7 +124,7 @@ function Signup() {
           />
 
           <TextField
-           data-testid="password"
+            data-testid="password"
             InputProps={{
               endAdornment: <TbPasswordFingerprint />,
             }}
@@ -133,7 +142,7 @@ function Signup() {
           />
 
           <TextField
-          data-testid="confirm-password"
+            data-testid="confirm-password"
             InputProps={{
               endAdornment: <TbPasswordFingerprint />,
             }}
@@ -229,3 +238,46 @@ function Signup() {
 }
 
 export default Signup;
+
+Signup.propTypes = {
+   /** mandatory email, displays error message if touched and left empty */
+  email: PropTypes.string,
+ /** mandatory username, displays error message if touched and left empty */
+  username: PropTypes.string,
+ /** mandatory password, displays error message if touched and left empty */
+  password: PropTypes.string,
+  /** Checks that user field was touched */
+  touchedUser: PropTypes.bool,
+  /** Checks that password field was touched */
+  touchedPassword: PropTypes.bool,
+  /** Remember password checkbox */
+  remember: PropTypes.bool,
+  /** Checks if login was attempted */
+  attempted: PropTypes.bool,
+  /** Checks if username is valid */
+  validUser: PropTypes.bool,
+  /** Checks if password is valid */
+  validPassword: PropTypes.bool,
+  /** Checks if email is valid */
+  validEmail: PropTypes.bool,
+  /** Checks if confirm password is valid */
+  validConfirmPassword: PropTypes.bool,
+  /** Captcha must be solved to enable user creation */
+  captcha: PropTypes.string,
+
+  /** Handles form submission
+   * username must not already exist in database
+   * email must not already exist in database
+   * password must be at least 8 characters long and contain at least one letter and one number
+   * email must be in valid email format
+   * captcha must be solved
+   */
+  handleSubmit: PropTypes.func,
+  /** Handles google login */
+  googleLogin: PropTypes.func,
+
+  /** Handles navigation to home upon successful login*/
+  navigate: PropTypes.func,
+  /** Material UI theme */
+  theme: PropTypes.object,
+};

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import InputAdornment from "@mui/material/InputAdornment";
+import PropTypes from "prop-types";
 import {
   Button,
   Dialog,
@@ -168,3 +168,20 @@ function CreateCommunity() {
 }
 
 export default CreateCommunity;
+
+CreateCommunity.propTypes = {
+  /** This is the community name (mandatory)*/
+  communityName: PropTypes.string,
+  /** This is the radio value [public-private-restricted] (mandatory) */
+  radioValue: PropTypes.string,
+  /** checks whether the community is for mature audiences*/
+  checked: PropTypes.bool,
+  /** Handles changing the community name */
+  handleNameChange: PropTypes.func,
+  /** Handles changning the community type */
+  handleRadioChange: PropTypes.func,
+  /** Toggles the mature modifier of the community */
+  toggleChecked: PropTypes.func,
+  /** Creates community once a name is selected and a type */
+  submitCommunity: PropTypes.func,
+};

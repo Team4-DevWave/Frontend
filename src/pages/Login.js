@@ -10,6 +10,7 @@ import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { LoginSocialFacebook } from "reactjs-social-login";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import PropTypes from 'prop-types';
 
 function Login() {
   const navigate = useNavigate();
@@ -196,3 +197,42 @@ function Login() {
 }
 
 export default Login;
+
+
+
+
+
+
+
+//JSDocs comments for Storybook
+
+Login.propTypes = {
+  /** mandatory username, displays error message if touched and left empty */
+  username: PropTypes.string,
+  /** mandatory password displays error message if touched and left empty  */
+  password: PropTypes.string,
+  /** Checks that user field was touched */
+  touchedUser: PropTypes.bool,
+  /** Checks that password field was touched */
+  touchedPassword: PropTypes.bool,
+  /** Remember password checkbox */
+  remember: PropTypes.bool,
+  /** Checks if login was attempted */
+  attempted: PropTypes.bool,
+  /** Checks if username is valid */
+  validUser: PropTypes.bool,
+  /** Checks if password is valid */
+  validPassword: PropTypes.bool,
+  
+  /** Handles form submission */
+  handleSubmit: PropTypes.func,
+  /** Handles google login */
+  googleLogin: PropTypes.func,
+
+  /** Handles navigation to home upon successful login 
+   * successful login requires all fields to be valid, username and password to be found in the database 
+  */
+  navigate: PropTypes.func,
+  /** Material UI theme */
+  theme: PropTypes.object,
+};
