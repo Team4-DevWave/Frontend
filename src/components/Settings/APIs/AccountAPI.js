@@ -2,7 +2,7 @@ export async function changeEmailAPI(newEmail) {
   // Example API request to change email
   // Replace this with your actual backend API call
   // Make sure to handle response and error appropriately
-  return fetch('https://example.com/change-email', {
+  return fetch('http://localhost:8000/api/v1/users/me/settings/change-email', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -15,7 +15,7 @@ export async function changePreferenceAPI(prop, value) {
   // Example API request to change preference (gender, language, location)
   // Replace this with your actual backend API call
   // Make sure to handle response and error appropriately
-  return fetch(`https://example.com/change-preference/${prop}`, {
+  return fetch(`http://localhost:8000/api/v1/users/me/settings/change-preference/${prop}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

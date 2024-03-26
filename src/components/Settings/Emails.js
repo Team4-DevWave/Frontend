@@ -37,7 +37,7 @@ function Emails({ setSnackbarInfo }) {
 
   return (
     <div className="settingsBody">
-      <h1 className='title titleBody'>Manage Emails</h1>
+      <h1 className='titleBody'>Manage Emails</h1>
       <div className='settingsData'>
         <SectionHeader title="MESSAGES" />
         <SettingItem title="Private messages" />
