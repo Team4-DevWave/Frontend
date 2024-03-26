@@ -18,14 +18,14 @@ const Notification = () => {
     const newSocket = io("http://localhost:4000"); // Replace with your server URL
     setSocket(newSocket);
 
-    return () => newSocket.disconnect(); // Cleanup function on unmount
-  }, []);
+   }, []);
 
   useEffect(() => {
     if (socket) {
       socket.on("receiveNotification", (receivedData) => {
         setData((oldData) => [...oldData, receivedData]); // Store received data in state variable
       });
+      return ()=> socket.disconnect();
     }
   }, [socket]);
 
@@ -50,6 +50,7 @@ const Notification = () => {
   };
 
   return (
+
     <div>
       {/* Display the received data */}
       {data.map((notification, index) => (
@@ -60,16 +61,16 @@ const Notification = () => {
             className="notification-icon"
           />
           <div>
-            <h3>Data received from server:</h3>
-            <p>User Name: {notification.userName}</p>
-            <p>Recipient User ID: {notification.recipientUserId}</p>
-            <p>Sender User Email: {notification.senderUserEmail}</p>
-            <p>Sender User ID: {notification.senderUserId}</p>
-            <p>Type: {notification.type}</p>
-            <p>Thread ID: {notification.threadID}</p>
-            <p>Thread Data: {notification.threadData}</p>
-            <p>Timestamp: {notification.timestamp}</p>
-            <p>Is Read: {notification.isRead.toString()}</p>
+            <h3 id={"datarecieved"}>Data received from server:</h3>
+            <p id={"Username"}>UserName: {notification.userName}</p>
+            <p id={"recepid"}>RecipientUserID: {notification.recipientUserId}</p>
+            <p id={"senderemail"}>SenderUserEmail: {notification.senderUserEmail}</p>
+            <p id={"senderid"}>SenderUserID: {notification.senderUserId}</p>
+            <p id={"notificationtype"} >Type: {notification.type}</p>
+            <p id={"threadid"}>ThreadID: {notification.threadID}</p>
+            <p id={"threaddata"} >ThreadData: {notification.threadData}</p>
+            <p id={"time"}>Timestamp: {notification.timestamp}</p>
+            {/*<p>Is Read: {notification.isRead.toString()}</p>*/}
           </div>
         </div>
       ))}
