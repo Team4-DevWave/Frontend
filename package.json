@@ -1,4 +1,9 @@
 {
+  "jest": {
+    "moduleNameMapper": {
+      "^axios$": "axios/dist/node/axios.cjs"
+    }
+  },
   "name": "threddit_front",
   "version": "0.1.0",
   "private": true,
@@ -14,7 +19,6 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
-    "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "bcryptjs-react": "^2.4.6",
@@ -65,5 +69,9 @@
   "main": "index.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "json-server": "^1.0.0-alpha.23",
+    "msw": "^2.2.10"
+  }
 }

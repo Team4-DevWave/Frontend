@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import socketIOClient from "socket.io-client";
 import axios from 'axios';
 
-function Unread() {
-    const [posts, setPosts] = useState([]);
 
+function MessageList() {
+    const [posts, setPosts] = useState([]);
     useEffect(() => {
         axios.get('http://localhost:3001/posts')
-            .then(response => {
+                    .then(response => {
+                console.log('Data received from server:', response.data);
+                console.log("ASdsa");
                 setPosts(response.data);
             })
             .catch(error => {
@@ -14,16 +17,9 @@ function Unread() {
             });
     }, []);
 
-    const unreadPosts = posts.filter(post => !post.read);
-
     return (
         <div>
-            <div className="header">
-                <h1 className='title'>Unread Messages</h1>
-                <div className="horizontalLine"></div>
-            </div>
-            {unreadPosts.length === 0 && <p>There doesn't seem to be anything here</p>}
-            {unreadPosts.map((message, index) => (
+            {posts.map((message, index) => (
                 <div key={index}>
                     <h2>From: {message.from}</h2>
                     <h3>To: {message.to}</h3>
@@ -35,4 +31,4 @@ function Unread() {
     );
 }
 
-export default Unread;
+export default MessageList;
