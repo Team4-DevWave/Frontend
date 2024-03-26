@@ -10,11 +10,12 @@ function SendAPrivateMessage() {
         const to = event.target.elements.to.value;
         const subject = event.target.elements.subject.value;
         const message = event.target.elements.message.value;
+        const read = false;
     // const message = {user:"user 1", to:"user 2", subject:"subject", Message:"message"};
         
         try {
             console.log( { to,subject,message });
-            const response = await axios.post('http://localhost:3001/posts', {  from, to, subject, message });
+            const response = await axios.post('http://localhost:3001/posts', {  from, to, subject, message,read });
             alert('Message sent successfully');
 
         } catch (error) {

@@ -25,6 +25,7 @@ function MessageList() {
                     <h3>To: {message.to}</h3>
                     <h3>Subject: {message.subject}</h3>
                     <h4>{message.message}</h4>
+                    <h5>{message.read}</h5>
                 </div>
             ))}
         </div>
