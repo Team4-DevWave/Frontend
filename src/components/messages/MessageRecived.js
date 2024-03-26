@@ -1,15 +1,34 @@
-import React from 'react';
-function MessageRecived({ sender, subject, message, timeSent }) {
+import React, { useState, useEffect } from 'react';
+import socketIOClient from "socket.io-client";
+import axios from 'axios';
+
+
+function MessageRecived() {
+    const [Messages, setMessages] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:3001/send')
+                    .then(response => {
+                setMessages(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
     return (
-        <div>
-        <div className="message-details">
-            <p className="message-lineHead"><strong>From:</strong> {sender}</p>
-            <p className="message-line"><strong>Subject:</strong> {subject}</p>
-            <p className="message-line"><strong>Message:</strong> {message || "There doesn't seem to be anything here"}</p>
-            <p className="message-line"><strong>Sent:</strong> {timeSent}</p>
+        <div className="receivedMessage">
+            {Messages.map((message, index) => (
+                <div key={index}>
+                    <h2>From: {message.from}</h2>
+                    <h3>To: {message.to}</h3>
+                    <h3>Subject: {message.subject}</h3>
+                    <h4>{message.message}</h4>
+                    <h5>{message.read}</h5>
+                </div>
+            ))}
         </div>
-    </div>
-);
+    );
 }
+
 export default MessageRecived;
 

@@ -1,6 +1,6 @@
 import All from './All';
 import Unread from './Unread';
-import MessageList from './MessageList';
+import MessageRecived from './MessageRecived';
 import commentReplies from './CommentReplies';
 import MentionedUsername from './MentionedUsername';   
 import postReplies from './PostReplies';
@@ -37,7 +37,7 @@ function InboxBar() {
 
             {activeNavItem === 0 && <All />}
             {activeNavItem === 1 && <Unread />}
-            {activeNavItem === 2 && <MessageList />}
+            {activeNavItem === 2 && <MessageRecived/>}
             {activeNavItem === 3 && <commentReplies/>}
             {activeNavItem === 4 && <postReplies />}
             {activeNavItem === 5 && <MentionedUsername />}

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../pages/messages/messages.css';
 import axios from 'axios';
-
+import Sent from './Sent';
 function SendAPrivateMessage() {
     const SendMessage = async (event) => {
         event.preventDefault();
@@ -11,11 +11,9 @@ function SendAPrivateMessage() {
         const subject = event.target.elements.subject.value;
         const message = event.target.elements.message.value;
         const read = false;
-    // const message = {user:"user 1", to:"user 2", subject:"subject", Message:"message"};
         
         try {
-            console.log( { to,subject,message });
-            const response = await axios.post('http://localhost:3001/posts', {  from, to, subject, message,read });
+            const response = await axios.post('http://localhost:3001/send', {  from, to, subject, message,read });
             alert('Message sent successfully');
 
         } catch (error) {
@@ -27,10 +25,9 @@ function SendAPrivateMessage() {
             <form className="SendMessageform" onSubmit={SendMessage}>
 
                 <label htmlFor="from">From:</label>
-                <select id="from" name="from"> {/* select tag is for drop down */}
+                <select id="from" name="from"> 
                     <option value="user1">User 1</option>
                     <option value="user2">User 2</option>
-                    {/* Add more options as needed */}
                 </select>
                 <label htmlFor="to">To:</label>
                 <input type="text" id="to" name="to" required />

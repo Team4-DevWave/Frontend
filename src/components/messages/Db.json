@@ -1,91 +1,11 @@
 {
-  "posts": [
+  "send": [
     {
-      "id": "0f64",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "cf87",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "d646",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "1572",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "e964",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "bfca",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "e26d",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "126e",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "35a4",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "30f0",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "byeye",
-      "read": true
-    },
-    {
-      "id": "0388",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "byeye",
+      "id": "432a",
+      "from": "user2",
+      "to": "tarek",
+      "subject": "asdsa",
+      "message": "BYEBYE",
       "read": true
     }
   ]
