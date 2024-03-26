@@ -48,12 +48,13 @@ function Link() {
 
 
     const handleContentChange = (e) => {
-        const text = e.target.value;
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        const replacedText = text.replace(urlRegex, (url) => `[${url}](${url})`);
-        setContent(replacedText);
+        const inputValue = e.target.value;
+        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+    
+        if (urlRegex.test(inputValue) || inputValue === '') {
+            setContent(inputValue);
+        }
     };
-
     //save draft handel
     const handleSaveDraft = (e) => {
         e.preventDefault();
@@ -101,6 +102,7 @@ function Link() {
                         id="title"
                         name="title"
                         value={title}
+                        data-testid="title"
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Title"
                         required
@@ -114,6 +116,7 @@ function Link() {
                         value={content}
                         onChange={handleContentChange}
                         placeholder="URL"
+                        data-testid="text"
                     ></textarea>
 
 
@@ -122,8 +125,8 @@ function Link() {
 
 
                     <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn">Save Draft</button>
-                        <button type="submit" id="postbtn1" onClick={handelpostclick}>Post</button>
+                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" data-testid="savedraft" disabled={!title}   className={!title ? 'disabled-button' : ''}>Save Draft</button>
+                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''}>Post</button>
                         {postDone && <p>Post done</p>}
 
                     </div>

@@ -124,10 +124,7 @@ function Nav() {
       {/* <PostDesign {...postData2} /> */}
 
 
-      {activeNavItem === 0 && <Post />}
-      {activeNavItem === 1 && <Img />}
-      {activeNavItem === 2 && <Link />}
-      {activeNavItem === 3 && <Poll />}
+
     </>
   );
 }

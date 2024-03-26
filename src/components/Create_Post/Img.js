@@ -79,6 +79,7 @@ function Img() {
                         id="title"
                         name="title"
                         value={title}
+                        data-testid="title"
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Title"
                         required
@@ -120,10 +121,11 @@ function Img() {
                         id="content"
                         name="content"
                         onChange={handleFileChange}
+                        data-testid="content"
                         accept="image/*, video/*"
                         multiple
                     />
-                    <button type="submit" className="postbtn" onClick={handelpostclick}>
+                    <button type="submit" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''}>
                         Post
                     </button>
                 </form>
