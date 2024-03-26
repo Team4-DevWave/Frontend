@@ -8,6 +8,7 @@ import { TextField, Button } from "@mui/material";
 import { FiLogIn } from "react-icons/fi";
 import { LoginSocialFacebook } from "reactjs-social-login";
 import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 function Signup() {
   const [errors, setErrors] = React.useState({});
   const [username, setUsername] = React.useState("");
@@ -15,11 +16,12 @@ function Signup() {
   const [email, setEmail] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [captcha, setCaptcha] = React.useState(null);
-
   const [validUser, setValidUser] = React.useState(false);
   const [validPassword, setValidPassword] = React.useState(false);
   const [validEmail, setValidEmail] = React.useState(false);
   const [validConfirmPassword, setValidConfirmPassword] = React.useState(false);
+
+  const [attempted, setAttempted] = React.useState(false);
 
   useEffect(() => {
     setValidUser(username.match(/^[a-zA-Z0-9_]{3,16}$/));
@@ -36,6 +38,21 @@ function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    axios.post("http://localhost:8080/signup", {
+      username: username,
+      password: password,
+      email: email,
+    }).then((response) => {
+      if (response.status === 200) {
+        console.log("User is created");
+        localStorage.setItem("token", response.data);
+        window.location.href = "/login";
+      } else {
+        console.log("User is not created");
+        setAttempted(true);
+      }
+      console.log(response);
+    });
   };
   const googleLogin = useGoogleLogin({
     clientId:
@@ -89,8 +106,8 @@ function Signup() {
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Username"
             type="text"
-            error={!username && touchedUser}
-            helperText={!username && touchedUser ? "Username is required" : ""}
+            error={!username && touchedUser || attempted}
+            helperText={!username && touchedUser ? "Username is required" : "" || attempted ? "Username already exists" : ""}
             onChange={(e) => {
               setUsername(e.target.value);
             }}

@@ -17,7 +17,7 @@ function SettingsItem({ title, description }) {
 function Feed() {
   return (
     <div className="settingsBody">
-      <h1 className='title titleBody'>Feed settings</h1>
+      <h1 className='titleBody'>Feed settings</h1>
       <div className='settingsData'>
 
         <div className='titleData'>

@@ -3,7 +3,7 @@ export const fetchEmailSettings = async () => {
   try {
     // Make API request to fetch email settings
     // Example:
-    // const response = await fetch('/api/emailSettings');
+    // const response = await fetch('http://localhost:8000/api/v1/users/me/settings/emailSettings');
     // const data = await response.json();
     // return data;
 

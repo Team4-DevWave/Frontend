@@ -21,10 +21,14 @@ nav{
   z-index: 100 !important;
 
 }
-
-body {
-  padding-top: 60px; /* Adjust this value to match the height of your header */
+.navbar-padding{
+  padding-top: 60px;
 }
+
+.navbar-padding2{
+  padding-top: 80px;
+}
+
 
 /* @media (max-width: 1000px) {
   Header .container {

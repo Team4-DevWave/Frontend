@@ -61,7 +61,7 @@ function Account() {
 
   return (
     <div className="settingsBody">
-      <h1 className='title titleBody'>Account settings</h1>
+      <h1 className='titleBody'>Account settings</h1>
       <div className='settingsData'>
         <div className='titleData'>
           <h2 className="titleDataItem">ACCOUNT PREFERENCES</h2>
@@ -73,7 +73,13 @@ function Account() {
             <p className="settingsParagraph">{email}</p>
             <CustomSnackbar {...snackbarInfo} onClose={handleSnackbarClose} />
           </div>
-          <ButtonEdited color="var(--color-blue)" value="Change" onClick={handleOpenEmailDialog} />
+          <div id='changeEmail' data-testid="changeEmail"></div>
+
+          <ButtonEdited
+            color="var(--color-blue)"
+            value="Change"
+            onClick={handleOpenEmailDialog} 
+            />
           {/* Dialog for changing email */}
           <Dialog open={openEmailDialog} onClose={handleCloseEmailDialog}>
             <DialogTitle>Change Email Address</DialogTitle>
@@ -100,6 +106,8 @@ function Account() {
             <h2 className="titleBody-2">Gender</h2>
             <p className="settingsParagraph">This information may be used to improve your recommendations and ads.</p>
           </div>
+          <label htmlFor="gender">Gender</label>
+
           <CustomSelect defaultValue="Man" values={['Man', 'Woman']} mr='none' ml='auto' onSelection={(value) => handleChange('gender', value)} />
         </div>
         <div className="settingsItem">

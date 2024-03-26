@@ -109,6 +109,8 @@ ol {
 }
 .titleBody {
   margin: var(--margin-top-large) 0;
+  font-size: var(--font-large);
+  margin-top: var(--margin-top-small);
 }
 .titleBody-2 {
   font-size: var(--font-medium-2);

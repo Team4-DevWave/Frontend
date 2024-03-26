@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PostContainer from "../PostContainer";
 
 function PostFeed() {
-  const posts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; // Replace with your actual data
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/posts")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Posts data:", data);
+
+        const mappedData = data.map((item) => ({
+          title: item.content.title,
+          content: item.content.content,
+        }));
+        console.log("mappeddata", mappedData.content);
+        setPosts(mappedData.reverse());
+      })
+      .catch((error) => console.error("Error:", error));
+  }, []);
 
   return (
     <div className="post-feed">
-      {posts.map((post, index) => (
-        <PostContainer key={index} />
-      ))}
+      {posts.map((post, index) => {
+        console.log("Post data:", post); // Log the post data here
+        return <PostContainer key={index} postData={post} />;
+      })}
     </div>
   );
 }

@@ -83,7 +83,7 @@ function UserPage() {
   return (
     <>
       <Header />
-      <div className="SettingsHeader">
+      <div className="SettingsHeader navbar-padding2">
         <Avatar src={avatar} alt="user" sx={{ width: 100, height: 100 }} />
         <h2>{user}</h2>
         <Toolbar>

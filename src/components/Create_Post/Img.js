@@ -3,7 +3,7 @@ import deleteIcon from './image/WhatsApp Image 2024-03-16 at 16.15.11_80aefda1.j
 import './CreatePost.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
 import { AiOutlineDelete } from 'react-icons/ai';
-import axios from 'axios';
+// import axios from 'axios';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 
@@ -26,12 +26,12 @@ function Img() {
                 caption: captions[index]
             }))
         };
-    try {
-        const response = await axios.post('http://localhost:3001/posts', { content: postData });
+    // try {
+    //     const response = await axios.post('http://localhost:3001/posts', { content: postData });
 
-    } catch (error) {
+    // } catch (error) {
         
-    }
+    // }
         //console.log('Post Data:', postData);
     
         // Reset form fields after submission
@@ -79,6 +79,7 @@ function Img() {
                         id="title"
                         name="title"
                         value={title}
+                        data-testid="title"
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Title"
                         required
@@ -120,10 +121,11 @@ function Img() {
                         id="content"
                         name="content"
                         onChange={handleFileChange}
+                        data-testid="content"
                         accept="image/*, video/*"
                         multiple
                     />
-                    <button type="submit" className="postbtn" onClick={handelpostclick}>
+                    <button type="submit" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''}>
                         Post
                     </button>
                 </form>

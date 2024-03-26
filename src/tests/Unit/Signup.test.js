@@ -4,6 +4,8 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import userEvent from "@testing-library/user-event";
 import ReCAPTCHA from "react-google-recaptcha";
 
+
+
 describe("Signup Component", () => {
   /*CASES RELATED TO RENDERING AND CONDITIONAL RENDERING */
   test("renders Signup button", () => {

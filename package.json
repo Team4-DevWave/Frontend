@@ -3,7 +3,14 @@
     "moduleNameMapper": {
       "^axios$": "axios/dist/node/axios.cjs"
     }
+<<<<<<< HEAD
   },
+=======
+  }, 
+  
+
+
+>>>>>>> a308cadcd5965f1e1a01d67e43182e5b793021ee
   "name": "threddit_front",
   "version": "0.1.0",
   "private": true,
@@ -18,6 +25,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -26,6 +34,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "jest": "^27.5.1",
+    "jest-mock-axios": "^4.7.3",
+    "json-server": "^1.0.0-alpha.23",
     "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
@@ -39,7 +49,9 @@
     "reactjs-social-login": "^2.6.3",
     "socket.io": "^4.7.4",
     "socket.io-client": "^4.7.4",
-    "web-vitals": "^2.1.4"
+    "text-encoding": "^0.7.0",
+    "web-vitals": "^2.1.4",
+    "whatwg-url": "^14.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -71,7 +83,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+<<<<<<< HEAD
     "json-server": "^1.0.0-alpha.23",
     "msw": "^2.2.10"
+=======
+
+    "@babel/preset-env": "^7.24.3",
+    "@babel/preset-react": "^7.24.1",
+    "babel-jest": "^29.7.0"
+>>>>>>> a308cadcd5965f1e1a01d67e43182e5b793021ee
   }
 }

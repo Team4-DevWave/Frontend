@@ -10,7 +10,7 @@ import React from 'react';
   function Profile() {
     return (
       <div className="settingsBody">
-        <h1 className='title titleBody'>Customize profile</h1>
+        <h1 className='titleBody'>Customize profile</h1>
         <div className='settingsData'>
          <div className='titleData'>
           <h2 className="titleDataItem">PROFILE INFORMATION</h2>
