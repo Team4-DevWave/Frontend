@@ -18,7 +18,9 @@ function NotificationDropDown() {
     axios.get("http://localhost:8080/notifications").then((response) => {
       setNotifications(response.data);
       console.log(response);
-    });
+    }).catch((error) => {
+      console.error('Error fetching data:', error)
+      });
   }, []);
 
   const handleClick = (event) => {
