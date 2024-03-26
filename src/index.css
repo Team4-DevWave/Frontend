@@ -21,7 +21,13 @@ nav{
   z-index: 100 !important;
 
 }
+.navbar-padding{
+  padding-top: 60px;
+}
 
+.navbar-padding2{
+  padding-top: 80px;
+}
 
 
 /* @media (max-width: 1000px) {

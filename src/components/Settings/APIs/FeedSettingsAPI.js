@@ -1,6 +1,6 @@
 export const fetchFeedSettings = async (setSnackbarInfo) => {
   try {
-    const response = await fetch('/api/feedSettings');
+    const response = await fetch('http://localhost:8000/api/v1/users/me/settings/feedSettings');
     if (response.ok) {
       const data = await response.json();
       setSnackbarInfo({ isOpen: true, message: 'Feed settings fetched successfully.', severity: 'success' });
@@ -18,7 +18,7 @@ export const fetchFeedSettings = async (setSnackbarInfo) => {
 
 export const updateFeedSettings = async (newSettings, setSnackbarInfo) => {
   try {
-    const response = await fetch('/api/updateFeedSettings', {
+    const response = await fetch('http://localhost:8000/api/v1/users/me/settings/updateFeedSettings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

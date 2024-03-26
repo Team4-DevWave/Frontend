@@ -12,7 +12,7 @@ function Safety() {
 
   return (
     <div className="settingsBody">
-      <h1 className='title titleBody'>Safety & Privacy</h1>
+      <h1 className='titleBody'>Safety & Privacy</h1>
       <div className='settingsData'>
       <p className="settingsParagraph">Manage how we use data to personalize your Reddit experience, and control how other redditors interact with you. To learn more, visit our{' '}
     <span className="link">

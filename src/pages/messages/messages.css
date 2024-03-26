@@ -196,6 +196,9 @@ ol {
   display: block;
   margin-top: 20px;
 }
+.message-lineHead {
+  margin-top: 40px;
+}
 
 .SendMessageform input,
 .SendMessageform select,

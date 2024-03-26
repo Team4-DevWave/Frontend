@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaBold } from "react-icons/fa";
-
+// import axios from 'axios';
 import './CreatePost.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
 
@@ -13,6 +13,7 @@ function Link() {
     const [savedDrafts, setSavedDrafts] = useState([]);
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
     const [fileUploaded, setFileUploaded] = useState(false);
+    const [postDone, setPostDone] = useState(false);
 
     const textAreaRef = useRef(null);
 
@@ -24,16 +25,36 @@ function Link() {
         }
     };
 
+    const handelpostclick = async (e) => {
+        e.preventDefault();
+        const postdata = {
+            title: title,
+            content: content,
+        };
+        // try {
+        //     const response = await axios.post('http://localhost:3001/posts', { content: postdata });
+        //     setPostDone(true);
+        //     setTitle('');
+        //     setContent('');
 
+        // }
+        // catch (error) {
+        //     console.error('Error submitting post:', error);
+
+
+        // }
+
+    };
 
 
     const handleContentChange = (e) => {
-        const text = e.target.value;
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        const replacedText = text.replace(urlRegex, (url) => `[${url}](${url})`);
-        setContent(replacedText);
+        const inputValue = e.target.value;
+        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+    
+        if (urlRegex.test(inputValue) || inputValue === '') {
+            setContent(inputValue);
+        }
     };
-
     //save draft handel
     const handleSaveDraft = (e) => {
         e.preventDefault();
@@ -81,6 +102,7 @@ function Link() {
                         id="title"
                         name="title"
                         value={title}
+                        data-testid="title"
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Title"
                         required
@@ -94,23 +116,23 @@ function Link() {
                         value={content}
                         onChange={handleContentChange}
                         placeholder="URL"
+                        data-testid="text"
                     ></textarea>
 
 
 
 
 
+
                     <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn">Save Draft</button>
-                        <button type="submit" id="postbtn1">Post</button>
-                    </div>
-                    <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn">Save Draft</button>
-                        <button type="submit" id="postbtn1">Post</button>
+                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" data-testid="savedraft" disabled={!title}   className={!title ? 'disabled-button' : ''}>Save Draft</button>
+                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''}>Post</button>
+                        {postDone && <p>Post done</p>}
+
                     </div>
                 </form>
                 <div>
-                <Button
+                    <Button
                         variant="danger"
                         className="ptnn3"
 
@@ -131,7 +153,7 @@ function Link() {
                     >
                         <FiPlus /> NSFW
                     </Button>
-                    
+
                     <Button
                         variant="danger"
                         className="ptnn3"

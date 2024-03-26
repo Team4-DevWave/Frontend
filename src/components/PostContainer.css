@@ -19,6 +19,7 @@ PostContainer hr{
 
 .post-content{
     padding-left: 15px;
+    padding-right: 15px;
 }
 
 .post-buttons{
@@ -177,8 +178,8 @@ PostContainer hr{
 
 .share-menu-wrap{
     position: absolute;
-    top: 65px;
-    left: 175px;
+    top: 96%;
+    left: 22%;
     width: 190px;
     opacity: 0%;
     visibility: hidden;

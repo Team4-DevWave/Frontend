@@ -1,0 +1,32 @@
+{
+  "posts": [
+    {
+      "id": "d550",
+      "from": "user1",
+      "to": "adas",
+      "subject": "asdsa",
+      "message": "Hello"
+    },
+    {
+      "id": "2639",
+      "from": "user1",
+      "to": "adas",
+      "subject": "isma",
+      "message": "asma"
+    },
+    {
+      "id": "67f9",
+      "from": "user1",
+      "to": "adas",
+      "subject": "isma",
+      "message": "asma"
+    },
+    {
+      "id": "b1d4",
+      "from": "user1",
+      "to": "adas",
+      "subject": "isma",
+      "message": "asma"
+    }
+  ]
+}
