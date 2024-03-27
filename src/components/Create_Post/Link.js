@@ -3,7 +3,7 @@ import { FaBold } from "react-icons/fa";
 // import axios from 'axios';
 import './CreatePost.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
-
+import { PropTypes } from 'prop-types';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 
@@ -189,3 +189,11 @@ function Link() {
 }
 
 export default Link;
+
+//in link
+Link.propTypes = {
+    /**  title for the post*/
+    title: PropTypes.string,
+    /** text area for URL */
+    textAreaRef: PropTypes.string    
+  };

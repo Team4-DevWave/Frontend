@@ -6,7 +6,7 @@ import { AiOutlineDelete } from 'react-icons/ai';
 // import axios from 'axios';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
-
+import PropTypes from 'prop-types';
 function Img() {
     const [title, setTitle] = useState('');
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -167,3 +167,10 @@ function Img() {
 }
 
 export default Img;
+
+Img.propTypes = {
+    /**  title for the post*/
+    title: PropTypes.string,
+    /** area for file upload  */
+    file: PropTypes.string
+};

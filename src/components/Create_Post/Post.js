@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
 import { FaBold } from "react-icons/fa";
-
+import PropTypes from 'prop-types';
 import './CreatePost.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
 import { FiPlus } from "react-icons/fi";
@@ -246,3 +246,9 @@ function CreatePost() {
 }
 
 export default CreatePost;
+CreatePost.propTypes = {
+    /**  title for the post*/
+    title: PropTypes.string,
+    /** text area for the post */
+    textAreaRef: PropTypes.string
+};
