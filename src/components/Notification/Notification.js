@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "../../pages/Notification/notification.css"; // Import the CSS file
+import {Meta} from '@storybook/react';
+import propTypes from 'prop-types';
 
 // Import the images
 import commentImage from "../../images/comment.png";
@@ -79,3 +81,42 @@ const Notification = () => {
 };
 
 export default Notification;
+
+Notification.propTypes = {
+    /**
+     * The type of notification
+     */
+    type: propTypes.oneOf(['comment', 'message', 'chat', 'friendRequest', 'newPost', 'report']),
+    /**
+     * The user name
+     */
+    userName: propTypes.string,
+    /**
+     * The recipient user ID
+     */
+    recipientUserId: propTypes.string,
+    /**
+     * The sender user email
+     */
+    senderUserEmail: propTypes.string,
+    /**
+     * The sender user ID
+     */
+    senderUserId: propTypes.string,
+    /**
+     * The thread ID
+     */
+    threadID: propTypes.string,
+    /**
+     * The thread data
+     */
+    threadData: propTypes.string,
+    /**
+     * The timestamp
+     */
+    timestamp: propTypes.string,
+    /**
+     * The read status
+     */
+    isRead: propTypes.bool,
+}
