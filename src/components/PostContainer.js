@@ -14,6 +14,21 @@ function PostContainer({ postData }) {
     }
   }
 
+  function copyLink() {
+    // Get the text field
+    var copyText = document.getElementsByClassName("post-content");
+
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value);
+
+    // Alert the copied text
+    alert("Copied the text: " + copyText.value);
+  }
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (buttonRef.current && buttonRef.current.contains(event.target)) {
@@ -74,211 +89,213 @@ function PostContainer({ postData }) {
 
   return (
     <postcontainer id="postcontainer">
-      <article className="post-container">
-        <PostDesign
-          className="post-content"
-          data-testid="post"
-          username={postData2.username}
-          userpic={postData2.userpic}
-          community={postData2.community}
-          incommunity={postData2.incommunity}
-          Date={postData2.Date}
-          title={postData.title} // Pass the title from postData
-          text={postData.content} // Pass the content from postData as text
-          image={postData.image}
-          Link={postData.Link}
-        />
+      <a href="#post_url" className="post-container">
+        <article>
+          <PostDesign
+            className="post-content"
+            data-testid="post"
+            username={postData2.username}
+            userpic={postData2.userpic}
+            community={postData2.community}
+            incommunity={postData2.incommunity}
+            Date={postData2.Date}
+            title={postData.title} // Pass the title from postData
+            text={postData.content} // Pass the content from postData as text
+            image={postData.image}
+            Link={postData.Link}
+          />
 
-        <div className="post-buttons">
-          <span
-            className={`reach ${
-              voteStatus === 1
-                ? "upvoted"
-                : voteStatus === -1
-                ? "downvoted"
-                : ""
-            }`}
-          >
-            <span className="upvote-downvote">
-              <button
-                className={`upvote ${
-                  voteStatus === 1
-                    ? "upvoted"
-                    : voteStatus === -1
+          <div className="post-buttons">
+            <span
+              className={`reach ${
+                voteStatus === 1
+                  ? "upvoted"
+                  : voteStatus === -1
                     ? "downvoted"
                     : ""
-                }`}
-                aria-label="upvote"
-                onClick={handleUpvote}
-              >
-                <span className="flex-text">
-                  <svg
-                    role="svg"
-                    rpl=""
-                    fill="black"
-                    height="16"
-                    icon-name="upvote-outline"
-                    viewBox="0 0 20 20"
-                    width="16"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`upvoteButton ${
-                      voteStatus === 1
-                        ? "upvoted"
-                        : voteStatus === -1
+              }`}
+            >
+              <span className="upvote-downvote">
+                <button
+                  className={`upvote ${
+                    voteStatus === 1
+                      ? "upvoted"
+                      : voteStatus === -1
                         ? "downvoted"
                         : ""
-                    }`}
-                  >
-                    <path d="M12.877 19H7.123A1.125 1.125 0 0 1 6 17.877V11H2.126a1.114 1.114 0 0 1-1.007-.7 1.249 1.249 0 0 1 .171-1.343L9.166.368a1.128 1.128 0 0 1 1.668.004l7.872 8.581a1.25 1.25 0 0 1 .176 1.348 1.113 1.113 0 0 1-1.005.7H14v6.877A1.125 1.125 0 0 1 12.877 19ZM7.25 17.75h5.5v-8h4.934L10 1.31 2.258 9.75H7.25v8ZM2.227 9.784l-.012.016c.01-.006.014-.01.012-.016Z"></path>
-                  </svg>
-                </span>
-              </button>
+                  }`}
+                  aria-label="upvote"
+                  onClick={handleUpvote}
+                >
+                  <span className="flex-text">
+                    <svg
+                      role="svg"
+                      rpl=""
+                      fill="black"
+                      height="16"
+                      icon-name="upvote-outline"
+                      viewBox="0 0 20 20"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={`upvoteButton ${
+                        voteStatus === 1
+                          ? "upvoted"
+                          : voteStatus === -1
+                            ? "downvoted"
+                            : ""
+                      }`}
+                    >
+                      <path d="M12.877 19H7.123A1.125 1.125 0 0 1 6 17.877V11H2.126a1.114 1.114 0 0 1-1.007-.7 1.249 1.249 0 0 1 .171-1.343L9.166.368a1.128 1.128 0 0 1 1.668.004l7.872 8.581a1.25 1.25 0 0 1 .176 1.348 1.113 1.113 0 0 1-1.005.7H14v6.877A1.125 1.125 0 0 1 12.877 19ZM7.25 17.75h5.5v-8h4.934L10 1.31 2.258 9.75H7.25v8ZM2.227 9.784l-.012.016c.01-.006.014-.01.012-.016Z"></path>
+                    </svg>
+                  </span>
+                </button>
 
-              <span data-testid="upvote-count">{count}</span>
+                <span data-testid="upvote-count">{count}</span>
 
-              <button
-                className={`downvote ${
-                  voteStatus === 1
-                    ? "upvoted"
-                    : voteStatus === -1
-                    ? "downvoted"
-                    : ""
-                }`}
-                aria-label="downvote"
-                onClick={handleDownvote}
-              >
-                <span className="flex-text">
-                  <svg
-                    role="svg"
-                    rpl=""
-                    fill="black"
-                    height="16"
-                    icon-name="downvote-outline"
-                    viewBox="0 0 20 20"
-                    width="16"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`downvoteButton ${
-                      voteStatus === 1
-                        ? "upvoted"
-                        : voteStatus === -1
+                <button
+                  className={`downvote ${
+                    voteStatus === 1
+                      ? "upvoted"
+                      : voteStatus === -1
                         ? "downvoted"
                         : ""
-                    }`}
-                  >
-                    <path d="M10 20a1.122 1.122 0 0 1-.834-.372l-7.872-8.581A1.251 1.251 0 0 1 1.118 9.7 1.114 1.114 0 0 1 2.123 9H6V2.123A1.125 1.125 0 0 1 7.123 1h5.754A1.125 1.125 0 0 1 14 2.123V9h3.874a1.114 1.114 0 0 1 1.007.7 1.25 1.25 0 0 1-.171 1.345l-7.876 8.589A1.128 1.128 0 0 1 10 20Zm-7.684-9.75L10 18.69l7.741-8.44H12.75v-8h-5.5v8H2.316Zm15.469-.05c-.01 0-.014.007-.012.013l.012-.013Z"></path>
-                  </svg>
-                </span>
-              </button>
+                  }`}
+                  aria-label="downvote"
+                  onClick={handleDownvote}
+                >
+                  <span className="flex-text">
+                    <svg
+                      role="svg"
+                      rpl=""
+                      fill="black"
+                      height="16"
+                      icon-name="downvote-outline"
+                      viewBox="0 0 20 20"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={`downvoteButton ${
+                        voteStatus === 1
+                          ? "upvoted"
+                          : voteStatus === -1
+                            ? "downvoted"
+                            : ""
+                      }`}
+                    >
+                      <path d="M10 20a1.122 1.122 0 0 1-.834-.372l-7.872-8.581A1.251 1.251 0 0 1 1.118 9.7 1.114 1.114 0 0 1 2.123 9H6V2.123A1.125 1.125 0 0 1 7.123 1h5.754A1.125 1.125 0 0 1 14 2.123V9h3.874a1.114 1.114 0 0 1 1.007.7 1.25 1.25 0 0 1-.171 1.345l-7.876 8.589A1.128 1.128 0 0 1 10 20Zm-7.684-9.75L10 18.69l7.741-8.44H12.75v-8h-5.5v8H2.316Zm15.469-.05c-.01 0-.014.007-.012.013l.012-.013Z"></path>
+                    </svg>
+                  </span>
+                </button>
+              </span>
             </span>
-          </span>
 
-          <span className="comments">
-            <a className="comment-link" href="#comments">
-              <span className="comment-container">
+            <span className="comments">
+              <a className="comment-link" href="#comments">
+                <span className="comment-container">
+                  <span className="flex-text">
+                    <svg
+                      role="svg"
+                      rpl=""
+                      aria-hidden="true"
+                      class="icon-comment"
+                      fill="black"
+                      height="20"
+                      icon-name="comment-outline"
+                      viewBox="0 0 20 20"
+                      width="20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M7.725 19.872a.718.718 0 0 1-.607-.328.725.725 0 0 1-.118-.397V16H3.625A2.63 2.63 0 0 1 1 13.375v-9.75A2.629 2.629 0 0 1 3.625 1h12.75A2.63 2.63 0 0 1 19 3.625v9.75A2.63 2.63 0 0 1 16.375 16h-4.161l-4 3.681a.725.725 0 0 1-.489.191ZM3.625 2.25A1.377 1.377 0 0 0 2.25 3.625v9.75a1.377 1.377 0 0 0 1.375 1.375h4a.625.625 0 0 1 .625.625v2.575l3.3-3.035a.628.628 0 0 1 .424-.165h4.4a1.377 1.377 0 0 0 1.375-1.375v-9.75a1.377 1.377 0 0 0-1.374-1.375H3.625Z"></path>
+                    </svg>
+                  </span>
+                </span>
+                <span>0</span>
+              </a>
+            </span>
+
+            <span className="share">
+              <button
+                className="share-button"
+                ref={buttonRef}
+                onClick={toggleMenu}
+                data-testid="menu"
+              >
                 <span className="flex-text">
                   <svg
                     role="svg"
                     rpl=""
                     aria-hidden="true"
-                    class="icon-comment"
+                    class="icon-share"
                     fill="black"
                     height="20"
-                    icon-name="comment-outline"
+                    icon-name="share-ios-outline"
                     viewBox="0 0 20 20"
                     width="20"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M7.725 19.872a.718.718 0 0 1-.607-.328.725.725 0 0 1-.118-.397V16H3.625A2.63 2.63 0 0 1 1 13.375v-9.75A2.629 2.629 0 0 1 3.625 1h12.75A2.63 2.63 0 0 1 19 3.625v9.75A2.63 2.63 0 0 1 16.375 16h-4.161l-4 3.681a.725.725 0 0 1-.489.191ZM3.625 2.25A1.377 1.377 0 0 0 2.25 3.625v9.75a1.377 1.377 0 0 0 1.375 1.375h4a.625.625 0 0 1 .625.625v2.575l3.3-3.035a.628.628 0 0 1 .424-.165h4.4a1.377 1.377 0 0 0 1.375-1.375v-9.75a1.377 1.377 0 0 0-1.374-1.375H3.625Z"></path>
+                    <path d="M19 11v5.378A2.625 2.625 0 0 1 16.378 19H3.622A2.625 2.625 0 0 1 1 16.378V11h1.25v5.378a1.373 1.373 0 0 0 1.372 1.372h12.756a1.373 1.373 0 0 0 1.372-1.372V11H19ZM9.375 3.009V14h1.25V3.009l2.933 2.933.884-.884-4-4a.624.624 0 0 0-.884 0l-4 4 .884.884 2.933-2.933Z"></path>
                   </svg>
                 </span>
-              </span>
-              <span>0</span>
-            </a>
-          </span>
+                <span>Share</span>
+              </button>
+            </span>
+            <div className="share-menu-wrap" ref={shareMenu}>
+              <div className="share-menu">
+                <a href="#e" className="share-menu-link">
+                  <svg
+                    role="svg"
+                    rpl=""
+                    class="mt-[1px] ml-[4px]"
+                    fill="currentColor"
+                    height="20"
+                    icon-name="link-post-outline"
+                    viewBox="0 0 20 20"
+                    width="20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M14.111 12.5a3.701 3.701 0 0 1-1.09 2.41c-.479.47-.928.922-1.378 1.373-.45.45-.894.9-1.368 1.366a3.852 3.852 0 0 1-2.698 1.099 3.852 3.852 0 0 1-2.698-1.099 3.738 3.738 0 0 1-1.116-2.659c0-.997.402-1.953 1.116-2.658.479-.472.928-.923 1.378-1.375.45-.45.893-.9 1.368-1.365A3.936 3.936 0 0 1 9.638 8.59a3.968 3.968 0 0 1 2.24.258c.27-.269.546-.54.812-.806l.131-.13a5.086 5.086 0 0 0-3.182-.624A5.052 5.052 0 0 0 6.732 8.71c-.48.471-.929.922-1.377 1.373-.449.451-.894.9-1.37 1.366A4.982 4.982 0 0 0 2.5 14.992c0 1.328.534 2.602 1.486 3.543A5.13 5.13 0 0 0 7.58 20a5.13 5.13 0 0 0 3.595-1.465c.478-.471.927-.923 1.377-1.374.451-.451.894-.9 1.368-1.366a4.993 4.993 0 0 0 1.263-2.071c.243-.781.288-1.61.132-2.412L14.11 12.5Z"></path>
+                    <path d="M16.017 1.467A5.123 5.123 0 0 0 12.422 0a5.123 5.123 0 0 0-3.595 1.467c-.478.471-.926.923-1.377 1.374-.45.451-.894.9-1.367 1.366a4.966 4.966 0 0 0-1.106 1.624 4.907 4.907 0 0 0-.291 2.86l1.2-1.19a3.699 3.699 0 0 1 1.092-2.41c.478-.472.928-.923 1.377-1.374.45-.45.894-.9 1.368-1.366a3.844 3.844 0 0 1 2.698-1.101c1.012 0 1.982.396 2.698 1.101a3.736 3.736 0 0 1 1.116 2.66c0 .996-.401 1.953-1.116 2.658-.478.471-.927.922-1.377 1.373-.45.451-.893.9-1.368 1.367a3.933 3.933 0 0 1-2.014 1.003 3.966 3.966 0 0 1-2.24-.26c-.273.274-.551.549-.818.818l-.123.12a5.087 5.087 0 0 0 3.183.624 5.053 5.053 0 0 0 2.906-1.423c.477-.472.926-.923 1.376-1.375.45-.452.894-.9 1.368-1.365A4.977 4.977 0 0 0 17.5 5.008a4.977 4.977 0 0 0-1.488-3.543l.005.002Z"></path>
+                  </svg>
+                  <p>Copy Link</p>
+                </a>
 
-          <span className="share">
-            <button
-              className="share-button"
-              ref={buttonRef}
-              onClick={toggleMenu}
-              data-testid="menu"
-            >
-              <span className="flex-text">
-                <svg
-                  role="svg"
-                  rpl=""
-                  aria-hidden="true"
-                  class="icon-share"
-                  fill="black"
-                  height="20"
-                  icon-name="share-ios-outline"
-                  viewBox="0 0 20 20"
-                  width="20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M19 11v5.378A2.625 2.625 0 0 1 16.378 19H3.622A2.625 2.625 0 0 1 1 16.378V11h1.25v5.378a1.373 1.373 0 0 0 1.372 1.372h12.756a1.373 1.373 0 0 0 1.372-1.372V11H19ZM9.375 3.009V14h1.25V3.009l2.933 2.933.884-.884-4-4a.624.624 0 0 0-.884 0l-4 4 .884.884 2.933-2.933Z"></path>
-                </svg>
-              </span>
-              <span>Share</span>
-            </button>
-          </span>
-          <div className="share-menu-wrap" ref={shareMenu}>
-            <div className="share-menu">
-              <a href="#e" className="share-menu-link">
-                <svg
-                  role="svg"
-                  rpl=""
-                  class="mt-[1px] ml-[4px]"
-                  fill="currentColor"
-                  height="20"
-                  icon-name="link-post-outline"
-                  viewBox="0 0 20 20"
-                  width="20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M14.111 12.5a3.701 3.701 0 0 1-1.09 2.41c-.479.47-.928.922-1.378 1.373-.45.45-.894.9-1.368 1.366a3.852 3.852 0 0 1-2.698 1.099 3.852 3.852 0 0 1-2.698-1.099 3.738 3.738 0 0 1-1.116-2.659c0-.997.402-1.953 1.116-2.658.479-.472.928-.923 1.378-1.375.45-.45.893-.9 1.368-1.365A3.936 3.936 0 0 1 9.638 8.59a3.968 3.968 0 0 1 2.24.258c.27-.269.546-.54.812-.806l.131-.13a5.086 5.086 0 0 0-3.182-.624A5.052 5.052 0 0 0 6.732 8.71c-.48.471-.929.922-1.377 1.373-.449.451-.894.9-1.37 1.366A4.982 4.982 0 0 0 2.5 14.992c0 1.328.534 2.602 1.486 3.543A5.13 5.13 0 0 0 7.58 20a5.13 5.13 0 0 0 3.595-1.465c.478-.471.927-.923 1.377-1.374.451-.451.894-.9 1.368-1.366a4.993 4.993 0 0 0 1.263-2.071c.243-.781.288-1.61.132-2.412L14.11 12.5Z"></path>
-                  <path d="M16.017 1.467A5.123 5.123 0 0 0 12.422 0a5.123 5.123 0 0 0-3.595 1.467c-.478.471-.926.923-1.377 1.374-.45.451-.894.9-1.367 1.366a4.966 4.966 0 0 0-1.106 1.624 4.907 4.907 0 0 0-.291 2.86l1.2-1.19a3.699 3.699 0 0 1 1.092-2.41c.478-.472.928-.923 1.377-1.374.45-.45.894-.9 1.368-1.366a3.844 3.844 0 0 1 2.698-1.101c1.012 0 1.982.396 2.698 1.101a3.736 3.736 0 0 1 1.116 2.66c0 .996-.401 1.953-1.116 2.658-.478.471-.927.922-1.377 1.373-.45.451-.893.9-1.368 1.367a3.933 3.933 0 0 1-2.014 1.003 3.966 3.966 0 0 1-2.24-.26c-.273.274-.551.549-.818.818l-.123.12a5.087 5.087 0 0 0 3.183.624 5.053 5.053 0 0 0 2.906-1.423c.477-.472.926-.923 1.376-1.375.45-.452.894-.9 1.368-1.365A4.977 4.977 0 0 0 17.5 5.008a4.977 4.977 0 0 0-1.488-3.543l.005.002Z"></path>
-                </svg>
-                <p>Copy Link</p>
-              </a>
+                <a href="#e" className="share-menu-link">
+                  <svg
+                    role="svg"
+                    rpl=""
+                    class="mt-[1px] ml-[4px]"
+                    fill="currentColor"
+                    height="20"
+                    icon-name="crosspost-outline"
+                    viewBox="0 0 20 20"
+                    width="20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="m15.944 11.926-.888.879 1.925 1.945H12A4.873 4.873 0 0 1 7.138 10 4.873 4.873 0 0 1 12 5.25h4.971l-1.915 1.936.888.878L18.875 5.1a.727.727 0 0 0-.007-1.025l-2.929-2.9-.878.888L17.011 4H12a6.128 6.128 0 0 0-6.056 5.25H1v1.625h4.981A6.117 6.117 0 0 0 12 16h5l-1.94 1.92.878.89 2.929-2.9a.726.726 0 0 0 .006-1.025l-2.929-2.96Z"></path>
+                  </svg>
+                  <p>Crosspost</p>
+                </a>
 
-              <a href="#e" className="share-menu-link">
-                <svg
-                  role="svg"
-                  rpl=""
-                  class="mt-[1px] ml-[4px]"
-                  fill="currentColor"
-                  height="20"
-                  icon-name="crosspost-outline"
-                  viewBox="0 0 20 20"
-                  width="20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="m15.944 11.926-.888.879 1.925 1.945H12A4.873 4.873 0 0 1 7.138 10 4.873 4.873 0 0 1 12 5.25h4.971l-1.915 1.936.888.878L18.875 5.1a.727.727 0 0 0-.007-1.025l-2.929-2.9-.878.888L17.011 4H12a6.128 6.128 0 0 0-6.056 5.25H1v1.625h4.981A6.117 6.117 0 0 0 12 16h5l-1.94 1.92.878.89 2.929-2.9a.726.726 0 0 0 .006-1.025l-2.929-2.96Z"></path>
-                </svg>
-                <p>Crosspost</p>
-              </a>
-
-              <a href="#e" className="share-menu-link">
-                <svg
-                  role="svg"
-                  rpl=""
-                  class="mt-[1px] ml-[4px]"
-                  fill="currentColor"
-                  height="20"
-                  icon-name="embed-outline"
-                  viewBox="0 0 20 20"
-                  width="20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M17.375 2H2.625A2.629 2.629 0 0 0 0 4.625v10.75A2.63 2.63 0 0 0 2.625 18h14.75A2.63 2.63 0 0 0 20 15.375V4.625A2.63 2.63 0 0 0 17.375 2Zm1.375 13.375a1.377 1.377 0 0 1-1.375 1.375H2.625a1.377 1.377 0 0 1-1.375-1.375V4.625A1.377 1.377 0 0 1 2.625 3.25h14.75a1.377 1.377 0 0 1 1.375 1.375v10.75Zm-2.2-5.7.029.589-.212.254-2.929 2.929-.884-.884L15.116 10l-2.558-2.558.884-.884 3.108 3.117ZM7.442 7.442 4.884 10l2.558 2.558-.884.884-3.112-3.112-.029-.589.212-.254 2.929-2.929.884.884ZM9.375 6h1.25v8h-1.25V6Z"></path>
-                </svg>
-                <p>Embed</p>
-              </a>
+                <a href="#e" className="share-menu-link">
+                  <svg
+                    role="svg"
+                    rpl=""
+                    class="mt-[1px] ml-[4px]"
+                    fill="currentColor"
+                    height="20"
+                    icon-name="embed-outline"
+                    viewBox="0 0 20 20"
+                    width="20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M17.375 2H2.625A2.629 2.629 0 0 0 0 4.625v10.75A2.63 2.63 0 0 0 2.625 18h14.75A2.63 2.63 0 0 0 20 15.375V4.625A2.63 2.63 0 0 0 17.375 2Zm1.375 13.375a1.377 1.377 0 0 1-1.375 1.375H2.625a1.377 1.377 0 0 1-1.375-1.375V4.625A1.377 1.377 0 0 1 2.625 3.25h14.75a1.377 1.377 0 0 1 1.375 1.375v10.75Zm-2.2-5.7.029.589-.212.254-2.929 2.929-.884-.884L15.116 10l-2.558-2.558.884-.884 3.108 3.117ZM7.442 7.442 4.884 10l2.558 2.558-.884.884-3.112-3.112-.029-.589.212-.254 2.929-2.929.884.884ZM9.375 6h1.25v8h-1.25V6Z"></path>
+                  </svg>
+                  <p>Embed</p>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
+        </article>
+      </a>
       <hr />
     </postcontainer>
   );
