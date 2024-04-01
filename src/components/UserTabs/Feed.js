@@ -10,10 +10,18 @@ function PostFeed() {
       .then((data) => {
         console.log("Posts data:", data);
 
-        const mappedData = data.map((item) => ({
-          title: item.content.title,
-          content: item.content.content,
-        }));
+        const mappedData = data
+          .map((item) => {
+            if (item.content) {
+              return {
+                title: item.content.title,
+                content: item.content.content,
+              };
+            } else {
+              return null;
+            }
+          })
+          .filter(Boolean);
         console.log("mappeddata", mappedData.content);
         setPosts(mappedData.reverse());
       })
