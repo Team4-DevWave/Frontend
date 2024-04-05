@@ -32,10 +32,11 @@ pipeline {
         // }
         stage('Push') {
             steps {
-                sh 'docker push hassanhatem/front:latest'
+             withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                }
             }
-        }
-
+}
         // stage('Deploy') {
         //     steps {
         //         withCredentials([sshUserPrivateKey(credentialsId: 'azureuser', keyFileVariable: 'SSH_KEY')]) {
