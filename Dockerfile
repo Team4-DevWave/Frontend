@@ -1,5 +1,5 @@
 # Stage 1 - the build process
-FROM node:15 as build-deps
+FROM node:18 as build-deps
 WORKDIR /usr/src/app
 # add `/usr/src/app/node_modules/.bin` to $PATH
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
