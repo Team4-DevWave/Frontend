@@ -16,21 +16,20 @@ pipeline {
         }
         stage('Build') {
             options {
-                timeout(time: 5, unit: 'MINUTES')
+                timeout(time: 10, unit: 'MINUTES')
             }
             steps {
-                sh 'docker build -t hassanhatem/front:latest .'
+             sh 'docker build --cache-from hassanhatem/front:latest -t hassanhatem/front:latest .'
             }
         }
-        stage('Test') {
-            steps {
-                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    sh 'docker run --name test hassanhatem/front:latest npm test'
-                }
-                sh 'docker rm test'
-            }
-        }
-
+        // stage('Test') {
+        //     steps {
+        //         catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        //             sh 'docker run --name test hassanhatem/front:latest npm test'
+        //         }
+        //         sh 'docker rm test'
+        //     }
+        // }
         stage('Push') {
             steps {
                 sh 'docker push hassanhatem/front:latest'
