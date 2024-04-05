@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Build') {
             options {
-                timeout(time: 10, unit: 'MINUTES')
+                timeout(time: 6, unit: 'MINUTES')
             }
             steps {
              sh 'docker build --cache-from hassanhatem/front:latest -t hassanhatem/front:latest .'
