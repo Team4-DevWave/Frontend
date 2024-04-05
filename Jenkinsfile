@@ -19,7 +19,7 @@ pipeline {
                 timeout(time: 5, unit: 'MINUTES')
             }
             steps {
-                sh 'docker build --pull --cache-from hassanhatem/front:latest -t hassanhatem/front:latest .'
+                sh 'docker build -t hassanhatem/front:latest .'
             }
         }
         stage('Test') {
