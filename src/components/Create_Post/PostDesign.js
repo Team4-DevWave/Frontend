@@ -15,11 +15,6 @@ const PostDesign = ({
   Link,
 }) => {
   const isValidPost = (title && text) || (title && image) || (title && Link);
-  const [showOptions, setShowOptions] = useState(false);
-
-  const toggleOptions = () => {
-    setShowOptions(!showOptions);
-  };
   return (
     <div>
       <div className="post-header">
@@ -30,26 +25,6 @@ const PostDesign = ({
             {incommunity && <p className="community">{community}</p>}
             <p className="date">{Date}</p>
           </div>
-        </div>
-        <div className="options-container">
-          <Button
-            variant="danger"
-            className="options-button"
-            onClick={toggleOptions}
-          >
-            <SlOptions />
-          </Button>
-
-          {showOptions && (
-            <div className="options-list">
-              <ul>
-                <li>Show fewer posts like this</li>
-                <li>Hide</li>
-                <li>Save</li>
-                <li>Report</li>
-              </ul>
-            </div>
-          )}
         </div>
       </div>
       {isValidPost ? (
