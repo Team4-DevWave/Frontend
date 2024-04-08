@@ -14,6 +14,7 @@ function PostFeed() {
           .map((item) => {
             if (item.content) {
               return {
+                id: item.id,
                 title: item.content.title,
                 content: item.content.content,
               };
