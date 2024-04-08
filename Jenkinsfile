@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Build') {
             options {
-                timeout(time: 6, unit: 'MINUTES')
+                timeout(time: 5, unit: 'MINUTES')
             }
             steps {
              sh 'docker build --cache-from hassanhatem/front:latest -t hassanhatem/front:latest .'
@@ -38,13 +38,5 @@ pipeline {
                 }
             }
 }
-        // stage('Deploy') {
-        //     steps {
-        //         withCredentials([sshUserPrivateKey(credentialsId: 'azureuser', keyFileVariable: 'SSH_KEY')]) {
-        //             sh 'ssh -i $SSH_KEY azureuser@40.120.97.44 "docker pull hassanhatem/front:latest && docker rm -f front || true && docker run -d --name front -p 3000:3000 hassanhatem/front:latest"'
-        //         }
-        //     }
-        // }
-        
     }
 }
