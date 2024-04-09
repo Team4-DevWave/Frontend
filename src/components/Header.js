@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import CreateCommunity from "./CreateCommunity";
 import NotificationDropdown from "./NotificationDropdown";
-
+import { PropTypes } from "prop-types";
 export default function Header() {
   const subMenu = useRef(null);
   const imgRef = useRef(null);
@@ -220,3 +220,7 @@ export default function Header() {
     </header>
   );
 }
+
+Header.propTypes = {
+  user: PropTypes.string,
+};

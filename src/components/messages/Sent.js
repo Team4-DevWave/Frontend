@@ -5,7 +5,7 @@ function Sent() {
 
     const [SentMessages, setSentMessages] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:3001/send')
+        axios.get('http://localhost:3002/send')
             .then(response => {
                 setSentMessages(response.data);
             })
@@ -16,12 +16,11 @@ function Sent() {
    
     return (
         <div>
-            <div className="header">
-                <h1 className='title'>Sent Messages</h1>
-                <div className="horizontalLine"></div>
-                <div className="receivedMessage">
+            <h1 className='title'>Sent Messages</h1>
+
+            <div >
                     {SentMessages.map((message, index) => (
-                        <div key={index}>
+                        <div className="message-container" key={index}>
                             <h2>From: {message.from}</h2>
                             <h3>To: {message.to}</h3>
                             <h3>Subject: {message.subject}</h3>
@@ -29,7 +28,6 @@ function Sent() {
                             <h5>{message.read}</h5>
                         </div>
                     ))}
-                </div>
             </div>
         </div>
             );

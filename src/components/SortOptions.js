@@ -1,6 +1,13 @@
 import React, { useState, useRef } from "react";
 import "./SortOptions.css";
+import PropTypes from 'prop-types';
 
+/**
+  * 
+ */
+/**
+ * Sortoptions component is a dropdown menu that allows users to sort posts by different criteria.
+ */
 function SortOptions() {
   const [currentSortOption, setCurrentSortOption] = useState("Best");
   const sortOptions = useRef(null);
@@ -77,3 +84,14 @@ function SortOptions() {
 }
 
 export default SortOptions;
+
+
+SortOptions.propTypes = {
+
+  Best: ' to get only Best content',
+  Hot: 'to get only Hot content',
+  New: 'to get only New content',
+  Top: 'to get onlyTop content',
+  Rising: 'to get only Rising content',
+  handleSortOptionClick: () => {},
+  };

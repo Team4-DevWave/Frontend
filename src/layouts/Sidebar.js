@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import threaditLogo from "../images/threadditTransBG.png";
 import CreateCommunity from "../components/CreateCommunity";
+import { PropTypes } from 'prop-types';
 
 function SideBar() {
   const [recent, setRecent] = useState([]);
@@ -449,4 +450,35 @@ function SideBar() {
     </sidebar>
   );
 }
+
+
+SideBar.propTypes = {
+     /**  direct to home page*/
+    Home: PropTypes.string,
+    /**  direct to popular items*/
+    Popular: PropTypes.string,
+    /**  get recent visited communities*/
+    RECENT: PropTypes.string,
+    /**  create community*/
+    RECENT: PropTypes.string,
+    /**  show my enrolled communities*/
+    COMMUNITIES: PropTypes.string,
+    /**  state Threddit policy*/
+    AboutTHreddit: PropTypes.string,
+    /**  state Advertise*/
+    Advertise: PropTypes.string,
+    /**  state Help*/
+    Help: PropTypes.string,
+    /**  state Blog*/
+    Blog: PropTypes.string,
+    /**  state Careers*/
+    Careers: PropTypes.string,
+    /**  state Press*/
+    Press: PropTypes.string,
+
+     /**  state content policy*/
+     Contentpolicy: PropTypes.string,
+  };
+  
+  
 export default SideBar;

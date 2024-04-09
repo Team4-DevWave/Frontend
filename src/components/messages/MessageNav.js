@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Sent from './Sent';
+import { PropTypes } from 'prop-types';
 import Inbox from "./InboxBar";
 import SendAPrivateMessage from './SendAPrivateMessage';
 function MessagesNav() {
@@ -36,5 +37,15 @@ function MessagesNav() {
     );
 
 }
+
+
+
+MessagesNav.propTypes = {
+    SendAPrivateMessageTab: PropTypes.string.isRequired,
+    InboxTab: PropTypes.string.isRequired,
+    SentTab: PropTypes.string.isRequired,
+  };
+  
+  
 
 export default MessagesNav;

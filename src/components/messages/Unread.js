@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import './Messages.css';
 
 function Unread() {
     const [UnreadMessage, setUnreadMessage] = useState([]);
@@ -9,7 +10,7 @@ function Unread() {
     }, []);
 
     const fetchMessage = () => {
-        axios.get('http://localhost:3001/send')
+        axios.get('http://localhost:3002/send')
             .then(response => {
                 setUnreadMessage(response.data);
             })
@@ -19,7 +20,7 @@ function Unread() {
     };
 
     const handleMessageClick = async (message) => {
-        await axios.put(`http://localhost:3001/send/${message.id}`, { ...message, read: true });
+        await axios.put(`http://localhost:3002/send/${message.id}`, { ...message, read: true });
         fetchMessage();
     };
 
@@ -33,7 +34,7 @@ function Unread() {
             </div>
             {UnreadMessageFiltered.length === 0 && <p>There doesn't seem to be anything here</p>}
             {UnreadMessageFiltered.map((message, index) => (
-                <div key={index} onClick={() => handleMessageClick(message)}>
+                <div className="message-container" key={index} onClick={() => handleMessageClick(message)}>
                     <h2>From: {message.from}</h2>
                     <h3>To: {message.to}</h3>
                     <h3>Subject: {message.subject}</h3>

@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./PostContainer.css";
+import { PropTypes } from "prop-types";
 import PostDesign from "././Create_Post/PostDesign";
 // import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
+
 function PostContainer({ postData }) {
-  console.log("Post data in PostContainer:", postData.content);
   const shareMenu = useRef(null);
   const buttonRef = useRef(null);
 
@@ -69,6 +70,7 @@ function PostContainer({ postData }) {
   };
 
   if (!postData) {
+
     return <div>Loading...</div>; // or some loading spinner
   }
 
@@ -88,7 +90,6 @@ function PostContainer({ postData }) {
           image={postData.image}
           Link={postData.Link}
         />
-
         <div className="post-buttons">
           <span
             className={`reach ${
@@ -201,7 +202,6 @@ function PostContainer({ postData }) {
               className="share-button"
               ref={buttonRef}
               onClick={toggleMenu}
-              data-testid="menu"
             >
               <span className="flex-text">
                 <svg
@@ -222,7 +222,7 @@ function PostContainer({ postData }) {
               <span>Share</span>
             </button>
           </span>
-          <div className="share-menu-wrap" ref={shareMenu}>
+          <div className="share-menu-wrap" ref={shareMenu} data-testid="menu">
             <div className="share-menu">
               <a href="#e" className="share-menu-link">
                 <svg
@@ -285,3 +285,8 @@ function PostContainer({ postData }) {
 }
 
 export default PostContainer;
+
+PostContainer.propTypes = {
+
+};
+
