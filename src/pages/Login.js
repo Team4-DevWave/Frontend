@@ -6,13 +6,18 @@ import ForgetPassword from "../components/ForgetPassword";
 import { TextField, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { FiLogIn } from "react-icons/fi";
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { LoginSocialFacebook } from "reactjs-social-login";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 function Login() {
+  let yourBearerToken = "";
+  const config = {
+    headers: { Authorization: `Bearer ${yourBearerToken}` },
+  };
+
   const navigate = useNavigate();
   const theme = useTheme();
   const [username, setUsername] = React.useState("");
@@ -24,8 +29,6 @@ function Login() {
   const [validUser, setValidUser] = React.useState(false);
   const [validPassword, setValidPassword] = React.useState(false);
 
-
-
   useEffect(() => {
     setValidUser(username.match(/^[a-zA-Z0-9_]{3,16}$/));
     setValidPassword(password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/));
@@ -35,21 +38,32 @@ function Login() {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8080/login", {
-        username: username,
-        password: password,
-      })
+      .post(
+        "http://localhost:8000/api/v1/users/login",
+        {
+          username: username,
+          email: "",
+          password: password,
+        },
+        config,
+      )
       .then((response) => {
-        if(response.status === 200) {
+        if (response.status === 200) {
           console.log("User is found");
-          localStorage.setItem("token", response.data);
+          const token = response.data.token;
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          localStorage.setItem("username",response.data.username);
           navigate("/");
-        }else{
+        } else {
           console.log("User is not found");
           setAttempted(true);
         }
-        
+
         console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        setAttempted(true);
       });
   };
   const googleLogin = useGoogleLogin({
@@ -88,8 +102,8 @@ function Login() {
               !username && touchedUser
                 ? "Username is required"
                 : "" || (!validUser && touchedUser)
-                ? "Invalid Username"
-                : ""
+                  ? "Invalid Username"
+                  : ""
             }
             required
             onChange={(e) => {
@@ -108,18 +122,17 @@ function Login() {
             required
             error={
               (!password && touchedPassword) ||
-              (touchedPassword && !validPassword)
-              || attempted
+              (touchedPassword && !validPassword) ||
+              attempted
             }
             helperText={
               !password && touchedPassword
                 ? "Password is required"
                 : "" || (!validPassword && touchedPassword)
-                ? "Invalid Password"
-                : "" || attempted
-                ? "Invalid Username or Password"
-                : ""
-
+                  ? "Invalid Password"
+                  : "" || attempted
+                    ? "Invalid Username or Password"
+                    : ""
             }
             onChange={(e) => {
               setPassword(e.target.value);
@@ -198,12 +211,6 @@ function Login() {
 
 export default Login;
 
-
-
-
-
-
-
 //JSDocs comments for Storybook
 
 Login.propTypes = {
@@ -223,15 +230,15 @@ Login.propTypes = {
   validUser: PropTypes.bool,
   /** Checks if password is valid */
   validPassword: PropTypes.bool,
-  
+
   /** Handles form submission */
   handleSubmit: PropTypes.func,
   /** Handles google login */
   googleLogin: PropTypes.func,
 
-  /** Handles navigation to home upon successful login 
-   * successful login requires all fields to be valid, username and password to be found in the database 
-  */
+  /** Handles navigation to home upon successful login
+   * successful login requires all fields to be valid, username and password to be found in the database
+   */
   navigate: PropTypes.func,
   /** Material UI theme */
   theme: PropTypes.object,

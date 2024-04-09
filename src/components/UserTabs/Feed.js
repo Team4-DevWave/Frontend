@@ -7,13 +7,14 @@ function PostFeed() {
 
    var title;
   var content;
+  const username = localStorage.getItem("username");
   useEffect(() => {
-    fetch("http://localhost:3001/posts")
+    fetch("http://localhost:8000/api/v1/users/moaz/posts?page=2")
       .then((response) => response.json())
       .then((data) => {
-        console.log("Posts data:", data);
+        console.log("Posts data:", data.data);
 
-        const mappedData = data
+        const mappedData = data.data
           .map((item) => {
             if (item.content) {
               return {

@@ -4,25 +4,45 @@ import { FaUserAstronaut, FaFacebook, FaGoogle } from "react-icons/fa";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import { MdAlternateEmail } from "react-icons/md";
 import ReCAPTCHA from "react-google-recaptcha";
-import { TextField, Button } from "@mui/material";
+import { preferenceOptions } from "../utils/preferences";
+import {
+  TextField,
+  Button,
+  InputLabel,
+  RadioGroup,
+  Radio,
+  Chip,
+  Box,
+  Select,
+  MenuItem,
+  FormControl,
+  OutlinedInput,
+  FormControlLabel,
+} from "@mui/material";
 import { FiLogIn } from "react-icons/fi";
 import { LoginSocialFacebook } from "reactjs-social-login";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import PropTypes from "prop-types";
+
 function Signup() {
   const [errors, setErrors] = React.useState({});
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [gender, setGender] = React.useState("");
   const [captcha, setCaptcha] = React.useState(null);
   const [validUser, setValidUser] = React.useState(false);
   const [validPassword, setValidPassword] = React.useState(false);
   const [validEmail, setValidEmail] = React.useState(false);
   const [validConfirmPassword, setValidConfirmPassword] = React.useState(false);
+  const [country, setCountry] = React.useState("");
+  const [preferences, setPreferences] = React.useState([]);
 
   const [attempted, setAttempted] = React.useState(false);
+
+
 
   useEffect(() => {
     setValidUser(username.match(/^[a-zA-Z0-9_]{3,16}$/));
@@ -30,6 +50,16 @@ function Signup() {
     setValidPassword(password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/));
     setValidConfirmPassword(password === confirmPassword);
   }, [username, password, email, confirmPassword]);
+
+  useEffect(() => {
+    const getCountry = async () => {
+      const result = await axios.get("https://ipapi.co/json/");
+      console.log("Country",result.data.country_name);
+      setCountry(result.data.country_name);
+     
+    };
+    getCountry();
+  }, []);
 
   const [touchedUser, setTouchedUser] = React.useState(false);
   const [touchedPassword, setTouchedPassword] = React.useState(false);
@@ -40,21 +70,29 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8080/signup", {
+      .post("http://localhost:8000/api/v1/users/signup", {
         username: username,
         password: password,
         email: email,
+        passwordConfirm: confirmPassword,
+        country: country,
+        gender: gender,
+        interests: preferences,
       })
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 201) {
           console.log("User is created");
-          localStorage.setItem("token", response.data);
+          const token = response.data.token;
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
           window.location.href = "/login";
         } else {
           console.log("User is not created");
           setAttempted(true);
         }
         console.log(response);
+      }).catch((error) => {
+        console.log(error);
+        setAttempted(true);
       });
   };
   const googleLogin = useGoogleLogin({
@@ -74,6 +112,12 @@ function Signup() {
       console.log("logout");
     },
   });
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
+  };
+  const handlePreferences = (event) => {
+    setPreferences(event.target.value);
+  };
   return (
     <div className="wrapper">
       <div className="background-div">
@@ -164,6 +208,44 @@ function Signup() {
             }}
             onBlur={() => setTouchedConfirmPassword(true)}
           />
+          <InputLabel required>Gender</InputLabel>
+          <RadioGroup row value={gender} onChange={handleGenderChange}>
+            <FormControlLabel value="man" control={<Radio />} label="Male" />
+            <FormControlLabel
+              value="woman"
+              control={<Radio />}
+              label="Female"
+            />
+            <FormControlLabel
+              value="other"
+              control={<Radio />}
+              label="Prefer not to say"
+            />
+          </RadioGroup>
+          <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id="demo-multiple-chip-label">Intersests</InputLabel>
+            <Select
+              labelId="demo-multiple-chip-label"
+              id="demo-multiple-chip"
+              multiple
+              value={preferences}
+              onChange={handlePreferences}
+              input={<OutlinedInput id="select-multiple-chip" label="Preferences" />}
+              renderValue={(selected) => (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} />
+                  ))}
+                </Box>
+              )}
+            >
+              {preferenceOptions.map((preference) => (
+                <MenuItem key={preference} value={preference}>
+                  {preference}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           <div className="captcha">
             <ReCAPTCHA
@@ -193,6 +275,7 @@ function Signup() {
               !validUser ||
               !validPassword ||
               !validEmail ||
+              !gender ||
               !validConfirmPassword ||
               !captcha
             }
@@ -240,11 +323,11 @@ function Signup() {
 export default Signup;
 
 Signup.propTypes = {
-   /** mandatory email, displays error message if touched and left empty */
+  /** mandatory email, displays error message if touched and left empty */
   email: PropTypes.string,
- /** mandatory username, displays error message if touched and left empty */
+  /** mandatory username, displays error message if touched and left empty */
   username: PropTypes.string,
- /** mandatory password, displays error message if touched and left empty */
+  /** mandatory password, displays error message if touched and left empty */
   password: PropTypes.string,
   /** Checks that user field was touched */
   touchedUser: PropTypes.bool,
