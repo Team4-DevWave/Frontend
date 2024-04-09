@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import UserPage from "../pages/UserPage";
 import ResetCredentials from "../pages/ResetCredentials";
 import CreatePost from "../components/Create_Post/Nav";
+import Profile from "../pages/Profile.js";
 
 const routes = {
   "/": () => <Home />,
@@ -19,5 +20,6 @@ const routes = {
   "/reset": () => <ResetCredentials />,
   "/Notification": () => <Notification />,
   "/CreatePost": () => <CreatePost />,
+  "/profile": () => <Profile />,
 };
 export default routes;

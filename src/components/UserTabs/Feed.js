@@ -8,36 +8,28 @@ function PostFeed() {
    var title;
   var content;
   useEffect(() => {
-    // fetch("http://localhost:3001/posts")
-    //   .then((response) => {response.json();
-    //   console.log(response.data,"response");
-    //   })
-      
-    //   .then((data) => {
-    //    // console.log("Posts data:", data);
-    //     alert("Posts data:", data);
-    //     const mappedData = data.map((item) => ({
-    //       title: item.content.title,
-    //       content: item.content.content,
-    //     }));
-    //     console.log("mappeddata", mappedData.content);
-    //     setPosts(mappedData.reverse());
-    //   })
-    //   .catch((error) => console.error("Error:", error));
-    
-    axios.get('http://localhost:3001/posts')
-    .then(({ data }) => {
-        const posts = data.map(post => ({
-            title: post.title,
-            text: post.content,
-        }));
+    fetch("http://localhost:3001/posts")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Posts data:", data);
 
-        setPosts(posts);
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
-
+        const mappedData = data
+          .map((item) => {
+            if (item.content) {
+              return {
+                id: item.id,
+                title: item.content.title,
+                content: item.content.content,
+              };
+            } else {
+              return null;
+            }
+          })
+          .filter(Boolean);
+        console.log("mappeddata", mappedData.content);
+        setPosts(mappedData.reverse());
+      })
+      .catch((error) => console.error("Error:", error));
   }, []);
 
   return (

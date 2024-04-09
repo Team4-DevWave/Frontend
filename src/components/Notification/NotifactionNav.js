@@ -73,7 +73,7 @@ function NotificationNav() {
       </Tabs>
       <div class="horizontalLine"></div>
 
-      {activeNavItem === 0 && <Notification />}
+        {activeNavItem === 0 && <Notification setNotificationCount={setNotificationCount} />}
     </>
   );
 }
