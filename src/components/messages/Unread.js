@@ -29,7 +29,6 @@ function Unread() {
     return (
         <div>
             <div className="header">
-                <h1 className='title'>Unread Messages</h1>
                 <div className="horizontalLine"></div>
             </div>
             {UnreadMessageFiltered.length === 0 && <p>There doesn't seem to be anything here</p>}
