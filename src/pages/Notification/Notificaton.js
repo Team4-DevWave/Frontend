@@ -1,5 +1,5 @@
 import "./notification.css";
-import Header from "../../components/Header";
+import Header from "../../layouts/Header";
 import NotificationNav from "../../components/Notification/NotifactionNav";
 import {Meta} from '@storybook/react';
 function notification() {

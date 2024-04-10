@@ -1,5 +1,5 @@
 import "./Settings.css";
-import Header from "../../components/Header";
+import Header from "../../layouts/Header";
 import SettingsNav from "../../components/Settings/SettingsNav";
 function Settings() {
   return (
