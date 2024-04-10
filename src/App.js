@@ -10,6 +10,7 @@ import Message from "./pages/messages/inbox.js";
 import Notification from "./pages/Notification/Notificaton.js";
 import Home from "./pages/Home";
 import CreatePost from "./components/Create_Post/Nav.js";
+import ModQueue from "./pages/ModQueue/ModQueue";
 import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./utils/themes";
 import routes from "./utils/routes";

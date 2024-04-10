@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import threaditLogo from "../images/threadditTransBG.png";
 import CreateCommunity from "../components/CreateCommunity";
 import { PropTypes } from 'prop-types';
+import routes  from "../utils/routes";
+import {useRoutes} from "react-router-dom";
 
 function SideBar() {
   const [recent, setRecent] = useState([]);
@@ -79,12 +81,13 @@ function SideBar() {
               </a>
             </li>
             <hr className="horizontal-line" />
+            {/*moderation tools for reddit*/}
             <li>
               <details open>
                 <summary className="sub-list-title" data-testid="summary">
                   <li>
                     <div tabIndex={-1}>
-                      RECENT
+                      MODERATION TOOLS
                       <svg
                         rpl=""
                         fill="currentColor"
@@ -93,6 +96,75 @@ function SideBar() {
                         viewBox="0 0 20 20"
                         width="20"
                         xmlns="http://www.w3.org/2000/svg"
+                        className="summary-arrow"
+                        role="svg"
+                      >
+                        {" "}
+                        <path d="M10 13.125a.624.624 0 0 1-.442-.183l-5-5 .884-.884L10 11.616l4.558-4.558.884.884-5 5a.624.624 0 0 1-.442.183Z"></path>
+                      </svg>
+                    </div>{" "}
+                  </li>
+                </summary>
+                <div className="sub-list">
+                  <ul className="sub-list-items">
+                    <li>
+                      <a href={routes["/ModQueue"]()} className="side-bar-link">
+                        <svg
+                            rpl=""
+                            fill="currentColor"
+                            height="20"
+                            icon-name="mod-remove-outline"
+                            viewBox="0 0 20 20"
+                            width="20"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="side-bar-link-icon"
+                            role="svg"
+                        >
+                          <path
+                              d="m11.5 15.521-.158-.042C11.206 15.444 8 14.581 8 12.25V8.393l3.5-.914 3.5.914v3.857c0 2.331-3.206 3.194-3.342 3.229l-.158.042ZM9.25 9.357v2.893c0 1.147 1.713 1.8 2.249 1.972.536-.177 2.251-.83 2.251-1.972V9.357l-2.25-.586-2.25.586ZM17.375 19H5.625A1.627 1.627 0 0 1 4 17.375V5.625A1.627 1.627 0 0 1 5.625 4h11.75A1.627 1.627 0 0 1 19 5.625v11.75A1.627 1.627 0 0 1 17.375 19ZM5.625 5.25a.375.375 0 0 0-.375.375v11.75a.375.375 0 0 0 .375.375h11.75a.375.375 0 0 0 .375-.375V5.625a.375.375 0 0 0-.375-.375H5.625Zm-3 9.5a.375.375 0 0 1-.375-.375V2.624a.375.375 0 0 1 .375-.374h11.75a.375.375 0 0 1 .375.374H16A1.627 1.627 0 0 0 14.375 1H2.625A1.627 1.627 0 0 0 1 2.624v11.751A1.627 1.627 0 0 0 2.625 16v-1.25Z"></path>
+                        </svg>
+                        <p>Mod Queue</p>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#e" className="side-bar-link">
+                        <svg
+                            rpl=""
+                            fill="currentColor"
+                            height="20"
+                            icon-name="mod-remove-outline"
+                            viewBox="0 0 20 20"
+                            width="20"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="side-bar-link-icon"
+                            role="svg"
+                        >
+                          <path
+                              d="m11.5 15.521-.158-.042C11.206 15.444 8 14.581 8 12.25V8.393l3.5-.914 3.5.914v3.857c0 2.331-3.206 3.194-3.342 3.229l-.158.042ZM9.25 9.357v2.893c0 1.147 1.713 1.8 2.249 1.972.536-.177 2.251-.83 2.251-1.972V9.357l-2.25-.586-2.25.586ZM17.375 19H5.625A1.627 1.627 0 0 1 4 17.375V5.625A1.627 1.627 0 0 1 5.625 4h11.75A1.627 1.627 0 0 1 19 5.625v11.75A1.627 1.627 0 0 1 17.375 19ZM5.625 5.25a.375.375 0 0 0-.375.375v11.75a.375.375 0 0 0 .375.375h11.75a.375.375 0 0 0 .375-.375V5.625a.375.375 0 0 0-.375-.375H5.625Zm-3 9.5a.375.375 0 0 1-.375-.375V2.624a.375.375 0 0 1 .375-.374h11.75a.375.375 0 0 1 .375.374H16A1.627 1.627 0 0 0 14.375 1H2.625A1.627 1.627 0 0 0 1 2.624v11.751A1.627 1.627 0 0 0 2.625 16v-1.25Z"></path>
+                        </svg>
+                        <p>t/Mod</p>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </li>
+
+
+            <li>
+              <details open>
+                <summary className="sub-list-title" data-testid="summary">
+                  <li>
+                    <div tabIndex={-1}>
+                      RECENT
+                      <svg
+                          rpl=""
+                          fill="currentColor"
+                          height="20"
+                          icon-name="caret-down-outline"
+                          viewBox="0 0 20 20"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
                         className="summary-arrow"
                         role="svg"
                       >
