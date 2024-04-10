@@ -3,6 +3,7 @@ import PostContainer from "../PostContainer";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
+
 function PostFeed() {
   const [posts, setPosts] = useState([]);
 
@@ -10,16 +11,20 @@ function PostFeed() {
   var content;
   const username = localStorage.getItem("username");
 
-  
-
 
 
 
 useEffect(() => {
+  const token = Cookies.get("token");
+
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  console.log("Token:", token);
+
   axios
-    .get("http://localhost:8000/api/v1/posts", {
-  
-    })
+    .get("http://localhost:8000/api/v1/posts",config)
     .then((response) => {
       console.log("Posts data:", response.data.data.posts);
 

@@ -7,7 +7,6 @@ import { Button } from "react-bootstrap";
 import Alert from "@mui/material/Alert";
 // import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
-
 function PostContainer({ postData }) {
   const shareMenu = useRef(null);
   const buttonRef = useRef(null);
@@ -95,12 +94,11 @@ function PostContainer({ postData }) {
   };
 
   if (!postData) {
-
     return <div>Loading...</div>; // or some loading spinner
   }
 
   return (
-    <postcontainer id="postcontainer">
+    <div id="postcontainer" classname="max-width">
       <div className="post-container">
         <a
           className="post-link"
@@ -313,13 +311,10 @@ function PostContainer({ postData }) {
         )}
       </div>
       <hr />
-    </postcontainer>
+    </div>
   );
 }
 
 export default PostContainer;
 
-PostContainer.propTypes = {
-
-};
-
+PostContainer.propTypes = {};

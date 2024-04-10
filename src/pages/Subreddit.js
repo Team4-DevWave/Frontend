@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import NotificationsOffIcon from '@mui/icons-material/NotificationsOff';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import Cookies from "js-cookie";
 
 export default function Subreddit(props) {
   const [posts, setPosts] = React.useState([]);
@@ -53,17 +54,21 @@ export default function Subreddit(props) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/v1/posts`, {})
+      .get(`http://localhost:8000/api/v1/posts`, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      })
       .then((response) => {
         console.log("Posts data:", response.data.data.posts);
 
         const mappedData = response.data.data.posts
           .map((item) => {
-            if (item.content) {
+            if (item.text_body) {
               return {
                 id: item._id,
                 title: item.title,
-                content: item.content,
+                content: item.text_body,
               };
             } else {
               return null;
