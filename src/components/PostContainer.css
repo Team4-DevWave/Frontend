@@ -6,11 +6,14 @@
     text-decoration: none;
 }
 
-PostContainer hr{
+postcontainer hr{
     width: 730px;
     position: relative;
     left: 34%;
     margin: 8px;
+}
+#postcontainer{
+  width: 730px;
 }
 
 .post-container:hover{
@@ -36,7 +39,7 @@ PostContainer hr{
     display: flex;
     padding-left: 15px;
     padding-bottom: 5px;
-    z-index: 100;
+   
 }
 
 .reach{
@@ -49,7 +52,7 @@ PostContainer hr{
 .reach:hover{
     background: #e2e2e2;
     border-radius: 20px;
-    z-index: 100;
+    
 }
 
 .comments{
@@ -58,7 +61,7 @@ PostContainer hr{
     border-radius: 20px;
     cursor: pointer;
     margin-right: 6px;
-    z-index: 100;
+    
 }
 
 .comments:hover{

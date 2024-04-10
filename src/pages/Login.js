@@ -6,52 +6,82 @@ import ForgetPassword from "../components/ForgetPassword";
 import { TextField, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { FiLogIn } from "react-icons/fi";
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { LoginSocialFacebook } from "reactjs-social-login";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 function Login() {
+  let yourBearerToken = "";
+
+  const config = {
+    headers: { Authorization: `Bearer ${yourBearerToken}` },
+  };
+
   const navigate = useNavigate();
-  const theme = useTheme();
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [touchedUser, setTouchedUser] = React.useState(false);
-  const [touchedPassword, setTouchedPassword] = React.useState(false);
-  const [remember, setRemember] = React.useState(false);
-  const [attempted, setAttempted] = React.useState(false);
-  const [validUser, setValidUser] = React.useState(false);
-  const [validPassword, setValidPassword] = React.useState(false);
 
+  const [showPassword,setShowPassword] = React.useState(false);
 
+  const [userState, setUserState] = React.useState({
+    username: "",
+    password: "",
+    email: "",
+    confirmPassword: "",
+    touchedUser: false,
+    touchedPassword: false,
+    attempted: false,
+    validUser: false,
+    validPassword: false,
+    validEmail: false,
+    validConfirmPassword: false,
+  });
 
   useEffect(() => {
-    setValidUser(username.match(/^[a-zA-Z0-9_]{3,16}$/));
-    setValidPassword(password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/));
-  }, [username, password]);
+    setUserState((prevState) => ({
+      ...prevState,
+      validUser: prevState.username.match(/^[a-zA-Z0-9_]{3,16}$/),
+      validEmail: prevState.username.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
+      validPassword: prevState.password.match(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+      ),
+      
+    }));
+  }, [userState.username, userState.password]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8080/login", {
-        username: username,
-        password: password,
-      })
+      .post(
+        "http://localhost:8000/api/v1/users/login",
+        {
+          username: userState.username,
+          email: userState.email,
+          password: userState.password,
+        },
+        config
+      )
       .then((response) => {
-        if(response.status === 200) {
+        if (response.status === 200) {
           console.log("User is found");
-          localStorage.setItem("token", response.data);
+          const token = response.data.token;
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          localStorage.setItem("username", response.data.username);
           navigate("/");
-        }else{
+        } else {
           console.log("User is not found");
-          setAttempted(true);
+          setUserState(prevState=> ({...prevState, attempted: true}));
         }
-        
+
         console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        setUserState(prevState=> ({...prevState, attempted: true}));
       });
   };
+
   const googleLogin = useGoogleLogin({
     clientId:
       "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
@@ -81,50 +111,57 @@ function Login() {
               endAdornment: <FaUserAstronaut />,
             }}
             sx={{ width: "100%", marginBottom: "25px" }}
-            label="Username"
+            label="Username or Email"
             type="text"
-            error={(!username && touchedUser) || (touchedUser && !validUser)}
+            error={(!userState.username && userState.touchedUser) || (userState.touchedUser && !userState.validUser)}
             helperText={
-              !username && touchedUser
+              !userState.username && userState.touchedUser
                 ? "Username is required"
-                : "" || (!validUser && touchedUser)
-                ? "Invalid Username"
-                : ""
+                : "" || (!userState.validUser && !userState.validEmail && userState.touchedUser)
+                  ? "Invalid Username or Email"
+                  : ""
             }
             required
             onChange={(e) => {
-              setUsername(e.target.value);
+              setUserState((prevState) => ({
+                ...prevState,
+                username: e.target.value,
+              }));
             }}
-            onBlur={() => setTouchedUser(true)}
+            onBlur={() => setUserState((prevState) => ({ ...prevState, touchedUser: true }))}
           />
 
           <TextField
             InputProps={{
-              endAdornment: <TbPasswordFingerprint />,
+              endAdornment: <TbPasswordFingerprint
+              onClick={() => {setShowPassword(!showPassword)}}
+               />,
             }}
             sx={{ width: "100%" }}
             label="Password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             required
             error={
-              (!password && touchedPassword) ||
-              (touchedPassword && !validPassword)
-              || attempted
+              (!userState.password && userState.touchedPassword) ||
+              (userState.touchedPassword && !userState.validPassword) ||
+              userState.attempted
             }
             helperText={
-              !password && touchedPassword
+              !userState.password && userState.touchedPassword
                 ? "Password is required"
-                : "" || (!validPassword && touchedPassword)
-                ? "Invalid Password"
-                : "" || attempted
-                ? "Invalid Username or Password"
-                : ""
-
+                : "" || (!userState.validPassword && userState.touchedPassword)
+                  ? "Invalid Password"
+                  : "" || userState.attempted
+                    ? "Invalid Username or Password"
+                    : ""
             }
             onChange={(e) => {
-              setPassword(e.target.value);
+              setUserState((prevState) => ({
+                ...prevState,
+                password: e.target.value,
+              }));
             }}
-            onBlur={() => setTouchedPassword(true)}
+            onBlur={() =>setUserState((prevState) => ({ ...prevState, touchedPassword: true }))}
           />
 
           <div className="remember-forgot">
@@ -132,7 +169,12 @@ function Login() {
               <input
                 name="dummy"
                 type="checkbox"
-                onChange={(e) => setRemember(e.target.value)}
+                onChange={(e) =>
+                  setUserState((prevState) => ({
+                    ...prevState,
+                    remember: e.target.checked,
+                  }))
+                }
               />
               <span className="checkmark"></span>
               Remember me
@@ -152,7 +194,7 @@ function Login() {
               },
             }}
             startIcon={<FiLogIn />}
-            disabled={!validUser || !validPassword}
+            disabled={!userState.validUser || !userState.validPassword}
             type="submit"
           >
             Login
@@ -198,12 +240,6 @@ function Login() {
 
 export default Login;
 
-
-
-
-
-
-
 //JSDocs comments for Storybook
 
 Login.propTypes = {
@@ -223,15 +259,15 @@ Login.propTypes = {
   validUser: PropTypes.bool,
   /** Checks if password is valid */
   validPassword: PropTypes.bool,
-  
+
   /** Handles form submission */
   handleSubmit: PropTypes.func,
   /** Handles google login */
   googleLogin: PropTypes.func,
 
-  /** Handles navigation to home upon successful login 
-   * successful login requires all fields to be valid, username and password to be found in the database 
-  */
+  /** Handles navigation to home upon successful login
+   * successful login requires all fields to be valid, username and password to be found in the database
+   */
   navigate: PropTypes.func,
   /** Material UI theme */
   theme: PropTypes.object,

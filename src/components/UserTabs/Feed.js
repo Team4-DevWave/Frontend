@@ -1,36 +1,46 @@
 import React, { useEffect, useState } from "react";
 import PostContainer from "../PostContainer";
 import PropTypes from "prop-types";
+import Cookies from "js-cookie";
 import axios from "axios";
 function PostFeed() {
   const [posts, setPosts] = useState([]);
 
-   var title;
+  var title;
   var content;
-  useEffect(() => {
-    fetch("http://localhost:3001/posts")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Posts data:", data);
+  const username = localStorage.getItem("username");
 
-        const mappedData = data
-          .map((item) => {
-            if (item.content) {
-              return {
-                id: item.id,
-                title: item.content.title,
-                content: item.content.content,
-              };
-            } else {
-              return null;
-            }
-          })
-          .filter(Boolean);
-        console.log("mappeddata", mappedData.content);
-        setPosts(mappedData.reverse());
-      })
-      .catch((error) => console.error("Error:", error));
-  }, []);
+  
+
+
+
+
+useEffect(() => {
+  axios
+    .get("http://localhost:8000/api/v1/posts", {
+  
+    })
+    .then((response) => {
+      console.log("Posts data:", response.data.data.posts);
+
+      const mappedData = response.data.data.posts
+        .map((item) => {
+          if (item.text_body) {
+            return {
+              id: item._id,
+              title: item.title,
+              content: item.text_body,
+            };
+          } else {
+            return null;
+          }
+        })
+        .filter(Boolean);
+      console.log("mappeddata", mappedData.content);
+      setPosts(mappedData.reverse());
+    })
+    .catch((error) => console.error("Error:", error));
+}, []);
 
   return (
     <div className="post-feed">
@@ -41,7 +51,6 @@ function PostFeed() {
     </div>
   );
 }
-
 
 export default PostFeed;
 
