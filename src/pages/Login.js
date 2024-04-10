@@ -11,6 +11,7 @@ import { LoginSocialFacebook } from "reactjs-social-login";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import PropTypes from "prop-types";
+import Cookies from "js-cookie";
 
 function Login() {
   let yourBearerToken = "";
@@ -66,6 +67,7 @@ function Login() {
         if (response.status === 200) {
           console.log("User is found");
           const token = response.data.token;
+          Cookies.set("token", token, { expires: 7 });
           axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
           localStorage.setItem("username", response.data.username);
           navigate("/");
