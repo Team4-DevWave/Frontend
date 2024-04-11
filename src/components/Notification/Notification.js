@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
+import axios from 'axios'; // Import axios
 import "../../pages/Notification/notification.css"; // Import the CSS file
 import {Meta} from '@storybook/react';
 import propTypes from 'prop-types';
@@ -13,25 +13,19 @@ import newPostImage from "../../images/newPost.png";
 import reportImage from "../../images/report.png";
 
 const Notification = ({setNotificationCount}) => {
-    const [socket, setSocket] = useState(null);
     const [data, setData] = useState([]); // State variable to store received data
     const [unreadCount, setUnreadCount] = useState(0); // State variable to store count of unread notifications
 
     useEffect(() => {
-        const socketIo = io("http://localhost:8000/notifications");
-
-        setSocket(socketIo);
-    }, []);
-
-    useEffect(() => {
-        if (socket) {
-            socket.on("receiveNotification", (receivedData) => {
-                setData((oldData) => [...oldData, receivedData]); // Store received data in state variable
-                // setUnreadCount((prevCount) => prevCount + 1);
+        axios.get('http://localhost:8000/get_notifications')
+            .then(response => {
+                setData(response.data);
+                setNotificationCount(response.data.length);
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
-            return ()=> socket.disconnect();
-        }
-    }, [socket]);
+    }, []);
 
     // Function to get the image based on the notification type
     const getImage = (type) => {
@@ -56,20 +50,13 @@ const Notification = ({setNotificationCount}) => {
     const markAsRead = (index) => {
         const notificationId = data[index].id; // Assuming each notification has an 'id' field
 
-        fetch('http://localhost:8000/hide_notification', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ notification_id: notificationId }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'unread') {
+        axios.post('http://localhost:8000/hide_notification', { notification_id: notificationId })
+            .then(response => {
+                if (response.data.status === 'false') {
                     // Mark the notification as read in the state
                     setData((oldData) => {
                         const newData = [...oldData];
-                        newData[index].status = "read";
+                        newData[index].status = "true";
                         return newData;
                     });
                     setNotificationCount((prevCount) => prevCount - 1);
