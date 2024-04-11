@@ -9,6 +9,9 @@ import ResetCredentials from "../pages/ResetCredentials";
 import CreatePost from "../components/Create_Post/Nav";
 import Profile from "../pages/Profile.js";
 import Subreddit from "../pages/Subreddit";
+import SelectGender from "../components/SelectGender.js";
+import SelectInterests from "../components/SelectInterests.js";
+import SelectUsername from "../components/SelectUsername.js";
 
 const routes = {
   "/": () => <Home />,
@@ -23,5 +26,10 @@ const routes = {
   "/CreatePost": () => <CreatePost />,
   "/profile": () => <Profile />,
  "/r/:subreddit":() => <Subreddit name = "Persona3" description = "h" rules = "h" members="h" />,
+
+ //**These are test routes and will be removed upon integration */
+ "/selectgender": () => <SelectGender />,
+ "/selectinterests": () => <SelectInterests />,
+ "/selectusername": () => <SelectUsername />,
 };
 export default routes;
