@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import PropTypes from "prop-types";
+import Cookies from "js-cookie";
 import {
   Button,
   Dialog,
@@ -45,24 +46,32 @@ function CreateCommunity() {
   };
 
   const [checked, setChecked] = useState(false);
+
   const toggleChecked = (e) => {
     setChecked(e.target.checked);
   };
+
+  const config = {
+    headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+  };
+
   const submitCommunity = () => {
+    console.log(communityName, radioValue, checked);
     axios
-      .post("http://localhost:8080/community", {
+      .post("http://localhost:8000/api/v1/r/create" ,{
         name: communityName,
-        type: radioValue,
-        mature: checked,
-      })
+        srType: radioValue,
+        nsfw: checked,
+      },config)
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 201) {
           console.log("Community is created");
-        } else {
-          console.log("Community is not created");
         }
         console.log(response);
-      });
+      }).catch((error) => {
+        console.log(error);
+      }
+      );
   };
   return (
     <>
@@ -157,7 +166,7 @@ function CreateCommunity() {
           <Button onClick={handleCloseModal}>Cancel</Button>
           <Button
             disabled={!communityName || !radioValue}
-            onClick={handleCloseModal}
+            onClick={() => {handleCloseModal(); submitCommunity();}}
           >
             {(communityName && <>Create t/{communityName}</>) || "Create"}
           </Button>
