@@ -3,6 +3,7 @@ import "./LoginForm.css";
 import { FaUserAstronaut, FaFacebook, FaGoogle } from "react-icons/fa";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import ForgetPassword from "../components/ForgetPassword";
+import ForgetUsername from "../components/ForgetUsername";
 import { TextField, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { FiLogIn } from "react-icons/fi";
@@ -42,7 +43,7 @@ function Login() {
     setUserState((prevState) => ({
       ...prevState,
       validUser: prevState.username.match(/^[a-zA-Z0-9_]{3,16}$/),
-      validEmail: prevState.username.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
+      validEmail: prevState.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
       validPassword: prevState.password.match(
         /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
       ),
@@ -104,12 +105,13 @@ function Login() {
 
   return (
     <div className="wrapper">
-      <div className="background-div">
+      
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Login</h2>
 
           <TextField
             InputProps={{
+              style: { borderRadius: 25 },
               endAdornment: <FaUserAstronaut />,
             }}
             sx={{ width: "100%", marginBottom: "25px" }}
@@ -128,6 +130,7 @@ function Login() {
               setUserState((prevState) => ({
                 ...prevState,
                 username: e.target.value,
+                email: e.target.value,
               }));
             }}
             onBlur={() => setUserState((prevState) => ({ ...prevState, touchedUser: true }))}
@@ -135,11 +138,13 @@ function Login() {
 
           <TextField
             InputProps={{
+              style: { borderRadius: 25 },
               endAdornment: <TbPasswordFingerprint
               onClick={() => {setShowPassword(!showPassword)}}
                />,
             }}
             sx={{ width: "100%" }}
+            
             label="Password"
             type={showPassword ? "text" : "password"}
             required
@@ -182,6 +187,7 @@ function Login() {
               Remember me
             </label>
             <ForgetPassword />
+            <ForgetUsername/>
           </div>
           <Button
             data-testid="login-btn"
@@ -190,39 +196,26 @@ function Login() {
               width: "100%",
               marginTop: "10px",
               padding: "10px",
+              borderRadius: "25px",
               backgroundColor: "#FF5700",
               "&:hover": {
                 backgroundColor: "#d32f2f",
               },
             }}
             startIcon={<FiLogIn />}
-            disabled={!userState.validUser || !userState.validPassword}
+            disabled={!userState.validUser && !userState.validEmail || !userState.validPassword}
             type="submit"
           >
             Login
           </Button>
 
-          <LoginSocialFacebook
-            appId="736104705323820"
-            onResolve={(response) => {}}
-            onReject={(response) => {}}
-          >
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
-              startIcon={<FaFacebook />}
-            >
-              Login with Facebook
-            </Button>
-          </LoginSocialFacebook>
 
           <Button
             id="googlebtn"
             onClick={() => googleLogin()}
             variant="contained"
             color="primary"
-            sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
+            sx={{ width: "100%", marginTop: "10px", padding: "10px" , borderRadius: "25px"}}
             startIcon={<FaGoogle />}
           >
             {" "}
@@ -236,7 +229,7 @@ function Login() {
           </div>
         </form>
       </div>
-    </div>
+    
   );
 }
 
