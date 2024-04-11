@@ -1,95 +1,45 @@
 {
-  "send": [],
+  "send": [
+    {
+      "id": "46fa",
+      "from": "user1",
+      "to": "user 2",
+      "subject": "check reply",
+      "message": "hello",
+      "read": true
+    }
+  ],
   "mention": [
     {
-      "id": "1ffb",
-      "user": "ismail",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
+      "id": "1",
+      "userName": "essam",
+      "mentionUser": "user1",
+      "mentionText": "Hello, I mentioned you",
+      "mentioned": false
     },
     {
-      "id": "1feb",
-      "user": "ismail",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
+      "id": "2",
+      "userName": "essam1",
+      "mentionUser": "user2",
+      "mentionText": "Hello, I mentioned you",
+      "mentioned": false
+    }
+    
+  ],
+  "users": [
+    {
+      "userName": "essam",
+      "id": "1",
+      "blockUser": "user1",
+      "blockText": "Hello, I blocked you",
+      "blocked": false
     },
     {
-      "id": "87c5",
-      "user": "ismail",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "517a",
-      "user": "ismail",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "5ec5",
-      "user": "ismail",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "aaf1",
-      "user": "ismail",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "abfb",
-      "user": "ismail",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "150f",
-      "user": "ismail",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "3b45",
-      "user": "ismail",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "7d7e",
-      "user": "ismail",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "363b",
-      "user": "essam",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "e2c7",
-      "user": "essam",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "3fa3",
-      "user": "essam",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "4cac",
-      "user": "essam",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
-    },
-    {
-      "id": "f336",
-      "user": "essam",
-      "postTitle": "video game",
-      "mentionText": "Hello, I mentioned you in my post"
+      "id": "2",
+      "userName": "essam1",
+      "blockUser": "user2",
+      "blockText": "Hello, I blocked you",
+      "blocked": false
     }
   ]
 }

@@ -69,21 +69,34 @@ import { useState } from 'react';
 // export default SendAPrivateMessage;
 
 
-
+const yourToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2NWY3ODAwMTFiNGE3ZjJjZjAzNmVkMTIiLCJpYXQiOjE3MTI4NDAzNTYsImV4cCI6MTcyMDYxNjM1Nn0.rOD2rzJMySQz_hgDedjkktUe0kavU-k3y23ykWy_-m0';
 function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject = "", initialMessage = "" }) {
 
-    const [from, setFrom] = useState(initialFrom || "user1");
+    const [from, setFrom] = useState(initialFrom);
     const [to, setTo] = useState(initialTo);
     const [subject, setSubject] = useState(initialSubject);
     const [message, setMessage] = useState(initialMessage);
     const read = false;
 
+    const messageData = {
+        from: "",
+        to: to,
+        subject: subject,
+        message: message,
+        read: read
+    };
     const SendMessage = async (event) => {
         event.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:3002/send', { from, to, subject, message, read });
-            alert('Message sent successfully');
+            const response = await axios({
+                method: 'post',
+                url: 'http://localhost:8000/api/v1/messages/compose',
+                data: messageData,
+                headers: {
+                    Authorization: `Bearer ${yourToken}`
+                }
+            });            alert('Message sent successfully');
 
             setFrom(initialFrom);
             setTo(initialTo);

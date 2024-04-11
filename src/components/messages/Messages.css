@@ -41,3 +41,8 @@
     display: flex;
     gap: 10px; 
 }
+
+
+.confirmation-button {
+    margin-right: 10px;
+}
