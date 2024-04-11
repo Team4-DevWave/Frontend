@@ -4,7 +4,7 @@ import Post from "./Post";
 import Link from "./Link";
 import Poll from "./Poll";
 import Img from "./Img";
-import Header from "../Header";
+import Header from "../../layouts/Header";
 // import PostDesign from './PostDesign';
 
 function Nav() {
