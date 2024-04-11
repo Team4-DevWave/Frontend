@@ -1,7 +1,6 @@
-import Header from "../components/Header";
+import Header from "../layouts/Header";
 import React from "react";
 import SideBar from "../layouts/Sidebar";
-import PostContainer from "../components/PostContainer";
 import PostFeed from "../components/UserTabs/Feed";
 import SortOptions from "../components/SortOptions";
 function Home() {

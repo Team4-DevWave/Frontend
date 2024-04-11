@@ -1,6 +1,6 @@
 //this is page for modquue
 import React from 'react';
-import Header from '../../components/Header';
+import Header from '../../layouts/Header';
 import SideBar from "../../layouts/Sidebar";
 import ModqueueNavBar from '../../components/Modqueue/ModqueueNavBar';
 import {Meta} from '@storybook/react';

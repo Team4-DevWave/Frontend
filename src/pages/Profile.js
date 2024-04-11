@@ -1,5 +1,5 @@
 import "./Profile.css"
-import Header from "../components/Header";
+import Header from "../layouts/Header";
 import React from "react";
 import SideBar from "../layouts/Sidebar";
 import RightSidebar from "../components/userProfile/RightSidebar";

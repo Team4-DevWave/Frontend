@@ -8,7 +8,7 @@ import {
   FormControlLabel,
   Radio,
 } from "@mui/material";
-import Header from "../components/Header";
+import Header from "../layouts/Header";
 import {
   Tabs,
   Tab,

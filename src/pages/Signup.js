@@ -4,57 +4,108 @@ import { FaUserAstronaut, FaFacebook, FaGoogle } from "react-icons/fa";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import { MdAlternateEmail } from "react-icons/md";
 import ReCAPTCHA from "react-google-recaptcha";
-import { TextField, Button } from "@mui/material";
+import { preferenceOptions } from "../utils/preferences";
+import useCountry from "../hooks/useCountry";
+import {
+  TextField,
+  Button,
+  InputLabel,
+  RadioGroup,
+  Radio,
+  Chip,
+  Box,
+  Select,
+  MenuItem,
+  FormControl,
+  OutlinedInput,
+  FormControlLabel,
+} from "@mui/material";
 import { FiLogIn } from "react-icons/fi";
 import { LoginSocialFacebook } from "reactjs-social-login";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import PropTypes from "prop-types";
-function Signup() {
-  const [errors, setErrors] = React.useState({});
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
-  const [captcha, setCaptcha] = React.useState(null);
-  const [validUser, setValidUser] = React.useState(false);
-  const [validPassword, setValidPassword] = React.useState(false);
-  const [validEmail, setValidEmail] = React.useState(false);
-  const [validConfirmPassword, setValidConfirmPassword] = React.useState(false);
 
-  const [attempted, setAttempted] = React.useState(false);
+function Signup() {
+  const country = useCountry();
+
+  const [showPass, setShowPass] = React.useState({
+    showPassword: false,
+    showConfirmPassword: false,
+  });
+
+  const [preferences, setPreferences] = React.useState([]);
+
+  const [userState, setUserState] = React.useState({
+    username: "",
+    password: "",
+    email: "",
+    confirmPassword: "",
+    gender: "",
+    captcha: null,
+    validUser: false,
+    validPassword: false,
+    validEmail: false,
+    validConfirmPassword: false,
+    attempted: false,
+    touchedUser: false,
+    touchedPassword: false,
+    touchedEmail: false,
+    touchedConfirmPassword: false,
+  });
 
   useEffect(() => {
-    setValidUser(username.match(/^[a-zA-Z0-9_]{3,16}$/));
-    setValidEmail(email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i));
-    setValidPassword(password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/));
-    setValidConfirmPassword(password === confirmPassword);
-  }, [username, password, email, confirmPassword]);
+    setUserState((prevState) => ({
+      ...prevState,
+      validUser: prevState.username.match(/^[a-zA-Z0-9_]{3,16}$/),
+      validEmail: prevState.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
+      validPassword: prevState.password.match(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+      ),
+      validConfirmPassword: prevState.confirmPassword === prevState.password,
+    }));
+  }, [
+    userState.username,
+    userState.password,
+    userState.email,
+    userState.confirmPassword,
+  ]);
 
-  const [touchedUser, setTouchedUser] = React.useState(false);
-  const [touchedPassword, setTouchedPassword] = React.useState(false);
-  const [touchedEmail, setTouchedEmail] = React.useState(false);
-  const [touchedConfirmPassword, setTouchedConfirmPassword] =
-    React.useState(false);
+  let bearerToken = "";
+
+  const config = {
+    headers: { Authorization: `Bearer ${bearerToken}` },
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(userState);
     axios
-      .post("http://localhost:8080/signup", {
-        username: username,
-        password: password,
-        email: email,
-      })
+      .post("http://localhost:8000/api/v1/users/signup", {
+        username: userState.username,
+        password: userState.password,
+        email: userState.email,
+        passwordConfirm: userState.confirmPassword,
+        country: country,
+        gender: userState.gender,
+        interests: preferences,
+      },config)
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 201) {
           console.log("User is created");
-          localStorage.setItem("token", response.data);
-          window.location.href = "/login";
+          const token = response.data.token;
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          localStorage.setItem("username", response.data.username);
+          window.location.href = "/";
         } else {
           console.log("User is not created");
-          setAttempted(true);
+          setUserState((prevState) => ({ ...prevState, attempted: true }));
         }
         console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        setUserState((prevState) => ({ ...prevState, attempted: true }));
       });
   };
   const googleLogin = useGoogleLogin({
@@ -74,6 +125,12 @@ function Signup() {
       console.log("logout");
     },
   });
+  const handleGenderChange = (event) => {
+    setUserState((prevState) => ({ ...prevState, gender: event.target.value }));
+  };
+  const handlePreferences = (event) => {
+    setPreferences(event.target.value);
+  };
   return (
     <div className="wrapper">
       <div className="background-div">
@@ -87,18 +144,29 @@ function Signup() {
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Email"
             type="text"
-            error={(!email && touchedEmail) || (touchedEmail && !validEmail)}
+            error={
+              (!userState.email && userState.touchedEmail) ||
+              (userState.touchedEmail && !userState.validEmail)
+            }
             helperText={
-              !email && touchedEmail
+              !userState.email && userState.touchedEmail
                 ? "Email is required"
-                : "" || (!validEmail && touchedEmail)
+                : "" || (!userState.validEmail && userState.touchedEmail)
                   ? "Invalid Email"
                   : ""
             }
             onChange={(e) => {
-              setEmail(e.target.value);
+              setUserState((prevState) => ({
+                ...prevState,
+                email: e.target.value,
+              }));
             }}
-            onBlur={() => setTouchedEmail(true)}
+            onBlur={() =>
+              setUserState((prevState) => ({
+                ...prevState,
+                touchedEmail: true,
+              }))
+            }
           />
 
           <TextField
@@ -109,72 +177,163 @@ function Signup() {
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Username"
             type="text"
-            error={(!username && touchedUser) || attempted}
+            error={
+              (!userState.username && userState.touchedUser) ||
+              userState.attempted
+            }
             helperText={
-              !username && touchedUser
+              !userState.username && userState.touchedUser
                 ? "Username is required"
-                : "" || attempted
+                : "" || userState.attempted
                   ? "Username already exists"
                   : ""
             }
             onChange={(e) => {
-              setUsername(e.target.value);
+              setUserState((prevState) => ({
+                ...prevState,
+                username: e.target.value,
+              }));
             }}
-            onBlur={() => setTouchedUser(true)}
+            onBlur={() =>
+              setUserState((prevState) => ({ ...prevState, touchedUser: true }))
+            }
           />
 
           <TextField
             data-testid="password"
             InputProps={{
-              endAdornment: <TbPasswordFingerprint />,
+              endAdornment: (
+                <TbPasswordFingerprint
+                  onClick={() =>
+                    setShowPass((prevState) => ({
+                      ...prevState,
+                      showPassword: !prevState.showPassword,
+                    }))
+                  }
+                />
+              ),
             }}
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Password"
-            type="password"
-            error={!password && touchedPassword}
+            type={showPass.showPassword ? "text" : "password"}
+            error={!userState.password && userState.touchedPassword}
             helperText={
-              !password && touchedPassword ? "Password is required" : ""
+              !userState.password && userState.touchedPassword
+                ? "Password is required"
+                : ""
             }
             onChange={(e) => {
-              setPassword(e.target.value);
+              setUserState((prevState) => ({
+                ...prevState,
+                password: e.target.value,
+              }));
             }}
-            onBlur={() => setTouchedPassword(true)}
+            onBlur={() =>
+              setUserState((prevState) => ({
+                ...prevState,
+                touchedPassword: true,
+              }))
+            }
           />
 
           <TextField
             data-testid="confirm-password"
             InputProps={{
-              endAdornment: <TbPasswordFingerprint />,
+              endAdornment: (
+                <TbPasswordFingerprint
+                  onClick={() => {
+                    setShowPass((prevState) => ({
+                      ...prevState,
+                      showConfirmPassword: !prevState.showConfirmPassword,
+                    }));
+                  }}
+                />
+              ),
             }}
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Confirm Password"
             type="password"
             error={
-              (!confirmPassword && touchedConfirmPassword) ||
-              (password !== confirmPassword && touchedConfirmPassword)
+              (!userState.confirmPassword &&
+                userState.touchedConfirmPassword) ||
+              (userState.password !== userState.confirmPassword &&
+                userState.touchedConfirmPassword)
             }
             helperText={
-              (!confirmPassword && touchedConfirmPassword) ||
-              (password !== confirmPassword && touchedConfirmPassword)
+              (!userState.confirmPassword &&
+                userState.touchedConfirmPassword) ||
+              (userState.password !== userState.confirmPassword &&
+                userState.touchedConfirmPassword)
                 ? "Passwords do not match"
                 : ""
             }
             onChange={(e) => {
-              setConfirmPassword(e.target.value);
+              setUserState((prevState) => ({
+                ...prevState,
+                confirmPassword: e.target.value,
+              }));
             }}
-            onBlur={() => setTouchedConfirmPassword(true)}
+            onBlur={() =>
+              setUserState((prevState) => ({
+                ...prevState,
+                touchedConfirmPassword: true,
+              }))
+            }
           />
+          <InputLabel required>Gender</InputLabel>
+          <RadioGroup
+            row
+            value={userState.gender}
+            onChange={handleGenderChange}
+          >
+            <FormControlLabel value="man" control={<Radio />} label="Male" />
+            <FormControlLabel
+              value="woman"
+              control={<Radio />}
+              label="Female"
+            />
+            <FormControlLabel
+              value="other"
+              control={<Radio />}
+              label="Prefer not to say"
+            />
+          </RadioGroup>
+          <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id="demo-multiple-chip-label">Intersests</InputLabel>
+            <Select
+              labelId="demo-multiple-chip-label"
+              id="demo-multiple-chip"
+              multiple
+              value={preferences}
+              onChange={handlePreferences}
+              input={
+                <OutlinedInput id="select-multiple-chip" label="Preferences" />
+              }
+              renderValue={(selected) => (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} />
+                  ))}
+                </Box>
+              )}
+            >
+              {preferenceOptions.map((preference) => (
+                <MenuItem key={preference} value={preference}>
+                  {preference}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           <div className="captcha">
             <ReCAPTCHA
               data-testid="captcha"
               sitekey="6LfwE4opAAAAAIroaJa6YdxlNtZiD7-OpS-QOoH0"
               onChange={(value) => {
-                setCaptcha(value);
+                setUserState((prevState) => ({ ...prevState, captcha: value }));
                 console.log(value);
               }}
             />
-            {errors.captcha && <div className="error">{errors.captcha}</div>}
           </div>
           <Button
             data-testid="signup-btn"
@@ -190,11 +349,12 @@ function Signup() {
             }}
             startIcon={<FiLogIn />}
             disabled={
-              !validUser ||
-              !validPassword ||
-              !validEmail ||
-              !validConfirmPassword ||
-              !captcha
+              !userState.validUser ||
+              !userState.validPassword ||
+              !userState.validEmail ||
+              !userState.gender ||
+              !userState.validConfirmPassword ||
+              !userState.captcha
             }
             type="submit"
           >
@@ -240,11 +400,11 @@ function Signup() {
 export default Signup;
 
 Signup.propTypes = {
-   /** mandatory email, displays error message if touched and left empty */
+  /** mandatory email, displays error message if touched and left empty */
   email: PropTypes.string,
- /** mandatory username, displays error message if touched and left empty */
+  /** mandatory username, displays error message if touched and left empty */
   username: PropTypes.string,
- /** mandatory password, displays error message if touched and left empty */
+  /** mandatory password, displays error message if touched and left empty */
   password: PropTypes.string,
   /** Checks that user field was touched */
   touchedUser: PropTypes.bool,
