@@ -108,7 +108,7 @@ function SideBar() {
                 <div className="sub-list">
                   <ul className="sub-list-items">
                     <li>
-                      <a href={routes["/ModQueue"]()} className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
                             rpl=""
                             fill="currentColor"
