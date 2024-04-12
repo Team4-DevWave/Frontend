@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import socketIOClient from "socket.io-client";
 import { PropTypes } from 'prop-types';
 import './Messages.css';
-import SendAPrivateMessage from './SendAPrivateMessage';
 function MessageRecived() {
     const [Messages, setMessages] = useState([]);
 

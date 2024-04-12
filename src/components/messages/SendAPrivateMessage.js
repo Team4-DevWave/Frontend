@@ -89,13 +89,14 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
             .post(
                 "http://localhost:8000/api/v1/messages/compose",
                 {
-                    from: "",
+                    from: from,
                     to: to,
                     subject: subject,
                     message: message,
                     read: read
                 },
                 config
+                
             )
             .then((response) => {
                 if (response.status === 201) {
@@ -109,6 +110,7 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
             .catch((error) => {
                 console.log(error);
             });
+            console.log('from1233333333:', from);
         };
 
     const SendMessage = async (event) => {
@@ -144,8 +146,7 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
 
                     <label htmlFor="from">From:</label>
                     <select id="from" name="from" value={from} onChange={e => setFrom(e.target.value)}>
-                        <option value="user1">User 1</option>
-                        <option value="user2">{userName}</option>
+                        <option value={'/u'+userName}>{'u/'+userName}</option>
                     </select>
                     <label htmlFor="to">To:</label>
                     <input type="text" id="to" name="to" value={to} onChange={e => setTo(e.target.value)} required />

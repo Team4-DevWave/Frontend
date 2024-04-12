@@ -70,7 +70,8 @@ function Login() {
           const token = response.data.token;
           Cookies.set("token", token, { expires: 7 });
           axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          localStorage.setItem("username", response.data.username);
+          localStorage.setItem("username", response.data.data.user.username);
+          localStorage.setItem("subreddit", response.data.data.joinedSubreddits);
           navigate("/");
         } else {
           console.log("User is not found");
