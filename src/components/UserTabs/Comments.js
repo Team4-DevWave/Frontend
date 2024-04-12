@@ -142,6 +142,7 @@ function Comments() {
             mentioned: item.mentioned,
             username: item.userID.username,
             commentsCount: item.commentsCount,
+            image: item.image,
           };
           console.log("mappeddata", mappedData.content);
           setPost(mappedData);
