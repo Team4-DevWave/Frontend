@@ -11,12 +11,17 @@ import Rules from "../components/Rules";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import NotificationsOffIcon from '@mui/icons-material/NotificationsOff';
-import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import Cookies from "js-cookie";
+import LoadingScreen from "../components/LoadingScreen";
+
 
 export default function Subreddit(props) {
+  
+
+
   const [posts, setPosts] = React.useState([]);
 
   const [notificationFrequency, setNotificationFrequency] = React.useState("");
@@ -81,6 +86,20 @@ export default function Subreddit(props) {
       .catch((error) => console.error("Error:", error));
   }, []);
 
+  const [loading, setLoading] = React.useState(true);
+    
+    
+  useEffect(()=>{
+   setTimeout(() => {
+     setLoading(false);
+   }, 2000);
+  },[]);
+ 
+  if(loading){
+    return <LoadingScreen/>
+  }
+
+
   return (
     <div style={{ marginTop: "80px" }}>
       <Header />
@@ -102,9 +121,17 @@ export default function Subreddit(props) {
         open={Boolean(notificationFrequencyAnchor)}
         onClose={handleCloseNotifFrequency}
       >
-        <MenuItem onClick={handleCloseNotifFrequency}><NotificationsActiveIcon/>Frequent</MenuItem>
-        <MenuItem onClick={handleCloseNotifFrequency}><NotificationsNoneOutlinedIcon/> Low</MenuItem>
-        <MenuItem onClick={handleCloseNotifFrequency}><NotificationsOffIcon/>Off</MenuItem>
+        <MenuItem onClick={handleCloseNotifFrequency}>
+          <NotificationsActiveIcon />
+          Frequent
+        </MenuItem>
+        <MenuItem onClick={handleCloseNotifFrequency}>
+          <NotificationsNoneOutlinedIcon /> Low
+        </MenuItem>
+        <MenuItem onClick={handleCloseNotifFrequency}>
+          <NotificationsOffIcon />
+          Off
+        </MenuItem>
       </Menu>
 
       <Rules name="t/Persona3" rules="" />

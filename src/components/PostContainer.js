@@ -5,11 +5,14 @@ import PostDesign from "././Create_Post/PostDesign";
 import { SlOptions } from "react-icons/sl";
 import { Button } from "react-bootstrap";
 import Alert from "@mui/material/Alert";
+import { useLocation, Link } from "react-router-dom";
 // import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
 function PostContainer({ postData }) {
   const shareMenu = useRef(null);
   const buttonRef = useRef(null);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/" || location.pathname === "/home";
 
   function toggleMenu() {
     if (shareMenu.current) {
@@ -98,7 +101,7 @@ function PostContainer({ postData }) {
   }
 
   return (
-    <div id="postcontainer" classname="max-width">
+    <div id="postcontainer" className="max-width">
       <div className="post-container">
         <a
           className="post-link"
@@ -113,11 +116,20 @@ function PostContainer({ postData }) {
             <PostDesign
               className="post-content"
               data-testid="post"
-              username={postData2.username}
+              username={postData.username}
               userpic={postData2.userpic}
-              community={postData2.community}
+              community={postData.community}
               incommunity={postData2.incommunity}
-              Date={postData2.Date}
+              Date={
+                postData.time.split("T")[0] +
+                " " +
+                postData.time
+                  .split("T")[1]
+                  .split("Z")[0]
+                  .split(":")
+                  .slice(0, 2)
+                  .join(":")
+              }
               title={postData.title} // Pass the title from postData
               text={postData.content} // Pass the content from postData as text
               image={postData.image}
@@ -231,30 +243,54 @@ function PostContainer({ postData }) {
           </span>
 
           <span className="comments">
-            <a
-              className="comment-link"
-              href={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
-            >
-              <span className="comment-container">
-                <span className="flex-text">
-                  <svg
-                    role="svg"
-                    rpl=""
-                    aria-hidden="true"
-                    class="icon-comment"
-                    fill="black"
-                    height="20"
-                    icon-name="comment-outline"
-                    viewBox="0 0 20 20"
-                    width="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M7.725 19.872a.718.718 0 0 1-.607-.328.725.725 0 0 1-.118-.397V16H3.625A2.63 2.63 0 0 1 1 13.375v-9.75A2.629 2.629 0 0 1 3.625 1h12.75A2.63 2.63 0 0 1 19 3.625v9.75A2.63 2.63 0 0 1 16.375 16h-4.161l-4 3.681a.725.725 0 0 1-.489.191ZM3.625 2.25A1.377 1.377 0 0 0 2.25 3.625v9.75a1.377 1.377 0 0 0 1.375 1.375h4a.625.625 0 0 1 .625.625v2.575l3.3-3.035a.628.628 0 0 1 .424-.165h4.4a1.377 1.377 0 0 0 1.375-1.375v-9.75a1.377 1.377 0 0 0-1.374-1.375H3.625Z"></path>
-                  </svg>
+            {isHomePage ? (
+              <Link
+                className="comment-link"
+                to={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
+              >
+                <span className="comment-container">
+                  <span className="flex-text">
+                    <svg
+                      role="svg"
+                      rpl=""
+                      aria-hidden="true"
+                      className="icon-comment"
+                      fill="black"
+                      height="20"
+                      icon-name="comment-outline"
+                      viewBox="0 0 20 20"
+                      width="20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M7.725 19.872a.718.718 0 0 1-.607-.328.725.725 0 0 1-.118-.397V16H3.625A2.63 2.63 0 0 1 1 13.375v-9.75A2.629 2.629 0 0 1 3.625 1h12.75A2.63 2.63 0 0 1 19 3.625v9.75A2.63 2.63 0 0 1 16.375 16h-4.161l-4 3.681a.725.725 0 0 1-.489.191ZM3.625 2.25A1.377 1.377 0 0 0 2.25 3.625v9.75a1.377 1.377 0 0 0 1.375 1.375h4a.625.625 0 0 1 .625.625v2.575l3.3-3.035a.628.628 0 0 1 .424-.165h4.4a1.377 1.377 0 0 0 1.375-1.375v-9.75a1.377 1.377 0 0 0-1.374-1.375H3.625Z"></path>
+                    </svg>
+                  </span>
                 </span>
-              </span>
-              <span>0</span>
-            </a>
+                <span>0</span>
+              </Link>
+            ) : (
+              <a className="comment-link" href="#comments">
+                <span className="comment-container">
+                  <span className="flex-text">
+                    <svg
+                      role="svg"
+                      rpl=""
+                      aria-hidden="true"
+                      className="icon-comment"
+                      fill="black"
+                      height="20"
+                      icon-name="comment-outline"
+                      viewBox="0 0 20 20"
+                      width="20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M7.725 19.872a.718.718 0 0 1-.607-.328.725.725 0 0 1-.118-.397V16H3.625A2.63 2.63 0 0 1 1 13.375v-9.75A2.629 2.629 0 0 1 3.625 1h12.75A2.63 2.63 0 0 1 19 3.625v9.75A2.63 2.63 0 0 1 16.375 16h-4.161l-4 3.681a.725.725 0 0 1-.489.191ZM3.625 2.25A1.377 1.377 0 0 0 2.25 3.625v9.75a1.377 1.377 0 0 0 1.375 1.375h4a.625.625 0 0 1 .625.625v2.575l3.3-3.035a.628.628 0 0 1 .424-.165h4.4a1.377 1.377 0 0 0 1.375-1.375v-9.75a1.377 1.377 0 0 0-1.374-1.375H3.625Z"></path>
+                    </svg>
+                  </span>
+                </span>
+                <span>0</span>
+              </a>
+            )}
           </span>
 
           <span className="share">
@@ -268,7 +304,7 @@ function PostContainer({ postData }) {
                   role="svg"
                   rpl=""
                   aria-hidden="true"
-                  class="icon-share"
+                  className="icon-share"
                   fill="black"
                   height="20"
                   icon-name="share-ios-outline"
@@ -288,7 +324,7 @@ function PostContainer({ postData }) {
                 <svg
                   role="svg"
                   rpl=""
-                  class="mt-[1px] ml-[4px]"
+                  className="mt-[1px] ml-[4px]"
                   fill="currentColor"
                   height="20"
                   icon-name="link-post-outline"
@@ -301,6 +337,25 @@ function PostContainer({ postData }) {
                 </svg>
                 <p>Copy Link</p>
               </button>
+
+              <a
+                className="share-menu-link"
+                href={`/submit?source_id=t3_${postData.id}`}
+              >
+                <svg
+                  rpl=""
+                  className="mt-[1px] ml-[4px]"
+                  fill="currentColor"
+                  height="20"
+                  icon-name="crosspost-outline"
+                  viewBox="0 0 20 20"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="m15.944 11.926-.888.879 1.925 1.945H12A4.873 4.873 0 0 1 7.138 10 4.873 4.873 0 0 1 12 5.25h4.971l-1.915 1.936.888.878L18.875 5.1a.727.727 0 0 0-.007-1.025l-2.929-2.9-.878.888L17.011 4H12a6.128 6.128 0 0 0-6.056 5.25H1v1.625h4.981A6.117 6.117 0 0 0 12 16h5l-1.94 1.92.878.89 2.929-2.9a.726.726 0 0 0 .006-1.025l-2.929-2.96Z"></path>
+                </svg>
+                <p className="crosspost">Crosspost</p>
+              </a>
             </div>
           </div>
         </div>
