@@ -6,6 +6,8 @@ import { SlOptions } from "react-icons/sl";
 import { Button } from "react-bootstrap";
 import Alert from "@mui/material/Alert";
 import { useLocation, Link } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 // import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
 function PostContainer({ postData }) {
@@ -13,6 +15,12 @@ function PostContainer({ postData }) {
   const buttonRef = useRef(null);
   const location = useLocation();
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
+
+  const token = Cookies.get("token");
+
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
 
   function toggleMenu() {
     if (shareMenu.current) {
@@ -69,30 +77,84 @@ function PostContainer({ postData }) {
     text: "mohmmm",
     //image: "https://via.placeholder.com/400",
   };
-  const [count, setCount] = useState(0);
-  const [voteStatus, setVoteStatus] = useState(0); // 0 = no vote, 1 = upvoted, -1 = downvoted
 
-  const handleUpvote = () => {
+  const [voteStatus, setVoteStatus] = useState(
+    Number(localStorage.getItem(`voteStatus-${postData.id}`)) || 0
+  ); // 0 = no vote, 1 = upvoted, -1 = downvoted
+  const [upvoteCount, setUpVoteCount] = useState(postData.votes.upvotes);
+  const [downvoteCount, setDownVoteCount] = useState(postData.votes.downvotes);
+  const totalVotes = upvoteCount - downvoteCount;
+  const [count, setCount] = useState(totalVotes);
+
+  const handleUpvote = async () => {
+    let newUpvoteCount = upvoteCount;
+    let newDownvoteCount = downvoteCount;
+
     if (voteStatus === 1) {
       // If already upvoted, cancel the upvote
       setCount(count - 1);
       setVoteStatus(0);
+      newUpvoteCount -= 1;
+      localStorage.removeItem(`voteStatus-${postData.id}`);
     } else {
       // If no vote or downvoted, upvote
-      setCount(count + 1 - voteStatus); // Subtract voteStatus to cancel out previous downvote if any
+      localStorage.setItem(`voteStatus-${postData.id}`, "1");
+      setCount(voteStatus === -1 ? count + 2 : count + 1);
       setVoteStatus(1);
+      newUpvoteCount += 1;
+      if (voteStatus === -1) newDownvoteCount -= 1;
+    }
+
+    setUpVoteCount(newUpvoteCount);
+    setDownVoteCount(newDownvoteCount);
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/posts/${postData.id}/vote`,
+        {
+          voteType: 1,
+        },
+        config
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  const handleDownvote = () => {
+  const handleDownvote = async () => {
+    let newUpvoteCount = upvoteCount;
+    let newDownvoteCount = downvoteCount;
+
     if (voteStatus === -1) {
       // If already downvoted, cancel the downvote
       setCount(count + 1);
       setVoteStatus(0);
+      newDownvoteCount -= 1;
+      localStorage.removeItem(`voteStatus-${postData.id}`);
     } else {
       // If no vote or upvoted, downvote
-      setCount(count - 1 - voteStatus); // Subtract voteStatus to cancel out previous upvote if any
+      setCount(voteStatus === 1 ? count - 2 : count - 1);
       setVoteStatus(-1);
+      newDownvoteCount += 1;
+      if (voteStatus === 1) newUpvoteCount -= 1;
+      localStorage.setItem(`voteStatus-${postData.id}`, "-1");
+    }
+
+    setUpVoteCount(newUpvoteCount);
+    setDownVoteCount(newDownvoteCount);
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/posts/${postData.id}/vote`,
+        {
+          voteType: -1,
+        },
+        config
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -266,7 +328,7 @@ function PostContainer({ postData }) {
                     </svg>
                   </span>
                 </span>
-                <span>0</span>
+                <span>{postData.commentsCount}</span>
               </Link>
             ) : (
               <a className="comment-link" href="#comments">
@@ -288,7 +350,7 @@ function PostContainer({ postData }) {
                     </svg>
                   </span>
                 </span>
-                <span>0</span>
+                <span>{postData.commentsCount}</span>
               </a>
             )}
           </span>
