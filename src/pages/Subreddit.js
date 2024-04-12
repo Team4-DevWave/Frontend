@@ -15,8 +15,13 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import NotificationsOffIcon from '@mui/icons-material/NotificationsOff';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import Cookies from "js-cookie";
+import LoadingScreen from "../components/LoadingScreen";
+
 
 export default function Subreddit(props) {
+  
+
+
   const [posts, setPosts] = React.useState([]);
 
   const [notificationFrequency, setNotificationFrequency] = React.useState("");
@@ -80,6 +85,20 @@ export default function Subreddit(props) {
       })
       .catch((error) => console.error("Error:", error));
   }, []);
+
+  const [loading, setLoading] = React.useState(true);
+    
+    
+  useEffect(()=>{
+   setTimeout(() => {
+     setLoading(false);
+   }, 2000);
+  },[]);
+ 
+  if(loading){
+    return <LoadingScreen/>
+  }
+
 
   return (
     <div style={{ marginTop: "80px" }}>
