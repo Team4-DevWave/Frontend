@@ -12,6 +12,13 @@ import Subreddit from "../pages/Subreddit";
 import SelectGender from "../components/SelectGender.js";
 import SelectInterests from "../components/SelectInterests.js";
 import SelectUsername from "../components/SelectUsername.js";
+import Comments from "../components/UserTabs/Comments.js";
+import { useParams } from "react-router-dom";
+
+function CommentsRoute() {
+  const { id, title } = useParams();
+  return <Comments postID={id} postTitle={title} />;
+}
 
 const routes = {
   "/": () => <Home />,
@@ -25,11 +32,14 @@ const routes = {
   "/Notification": () => <Notification />,
   "/CreatePost": () => <CreatePost />,
   "/profile": () => <Profile />,
- "/r/:subreddit":() => <Subreddit name = "Persona3" description = "h" rules = "h" members="h" />,
+  "/r/:subreddit": () => (
+    <Subreddit name="Persona3" description="h" rules="h" members="h" />
+  ),
+  "/comments/:id/:title": CommentsRoute,
 
- //**These are test routes and will be removed upon integration */
- "/selectgender": () => <SelectGender />,
- "/selectinterests": () => <SelectInterests />,
- "/selectusername": () => <SelectUsername />,
+  //**These are test routes and will be removed upon integration */
+  "/selectgender": () => <SelectGender />,
+  "/selectinterests": () => <SelectInterests />,
+  "/selectusername": () => <SelectUsername />,
 };
 export default routes;
