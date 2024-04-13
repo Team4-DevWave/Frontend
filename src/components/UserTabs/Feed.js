@@ -43,6 +43,8 @@ function PostFeed() {
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
+                ishide:false,
+                issaved:false,
               };
             } else {
               return null;

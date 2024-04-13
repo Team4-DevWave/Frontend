@@ -13,8 +13,12 @@ const PostDesign = ({
   text,
   image,
   Link,
+  video,
+  spoiler,
 }) => {
-  const isValidPost = (title && text) || (title && image) || (title && Link);
+  const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video);
+  console.log("isvaliddddddd:", isValidPost);
+  console.log("videoeeee:", video);
   return (
     <div>
       <div className="post-header">
@@ -33,6 +37,13 @@ const PostDesign = ({
           <div className="post-content">
             {text && <p className="post-text">{text}</p>}
             {image && <img src={image} alt="Post" className="post-image" />}
+            {video && (
+              <video controls className="post-video">
+                <source src={video} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              
+            )}
           </div>
         </>
       ) : (

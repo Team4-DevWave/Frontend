@@ -13,6 +13,9 @@ import SelectGender from "../components/SelectGender.js";
 import SelectInterests from "../components/SelectInterests.js";
 import SelectUsername from "../components/SelectUsername.js";
 import Comments from "../components/UserTabs/Comments.js";
+import UserSavedPost from "../components/UserTabs/UserSavedPost.js"
+import UserPost from "../components/UserTabs/UserPost.js"
+import UserHiddenPost from "../components/UserTabs/UserHiddenPost.js";
 import { useParams } from "react-router-dom";
 
 function CommentsRoute() {
@@ -41,5 +44,8 @@ const routes = {
   "/selectgender": () => <SelectGender />,
   "/selectinterests": () => <SelectInterests />,
   "/selectusername": () => <SelectUsername />,
+  "/UserSavedPost": () => <UserSavedPost />,
+  "/UserPost": () => <UserPost />,
+  "Userhiddenpost" : () => <UserHiddenPost/>,
 };
 export default routes;
