@@ -54,7 +54,7 @@ function NotificationDropDown() {
           Notifications
         </Typography>
        
-        {notifications.map((notification) => (
+        {Array.isArray(notifications) && notifications.map((notification) => (
           <MenuItem onClick={handleClose}>
             <Avatar alt={notification.alt} src={notification.src} />
             <p style={{ marginLeft: "2px", marginBottom: "0px" }}>
