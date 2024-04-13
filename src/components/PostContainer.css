@@ -22,7 +22,7 @@
 word-wrap: break-word;
 padding-left: 15px;
 padding-right: 15px;
-max-height: 600px;
+max-height: 100%;
 overflow: hidden;
 text-overflow: ellipsis;
 }
@@ -30,9 +30,11 @@ text-overflow: ellipsis;
 .post-link{
   text-decoration: none;
   word-wrap: break-word;
+  width: 100%;
   max-width: 730px;
-  max-height: 600px;
+  max-height: 100%;
   text-overflow: ellipsis;
+  object-fit: contain;
 }
 
 .post-buttons{
@@ -195,7 +197,7 @@ text-overflow: ellipsis;
 .share-menu-wrap{
   position: absolute;
   top: 96%;
-  left: 22%;
+  left: 28%;
   width: 190px;
   opacity: 0%;
   visibility: hidden;
