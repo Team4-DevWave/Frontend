@@ -59,7 +59,7 @@ export default function Subreddit(props) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/v1/posts`, {
+      .get(`https://www.threadit.tech/api/v1/posts`, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },

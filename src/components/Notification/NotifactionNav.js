@@ -10,7 +10,7 @@ function NotificationNav() {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:4000"); // Replace with your server URL
+    const newSocket = io("https://www.threadit.tech"); // Replace with your server URL
     setSocket(newSocket);
 
     return () => newSocket.disconnect(); // Cleanup function on unmount

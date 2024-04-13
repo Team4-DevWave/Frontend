@@ -21,7 +21,7 @@ function PostFeed() {
     console.log("Token:", token);
 
     axios
-      .get("http://localhost:8000/api/v1/posts", config)
+      .get("https://www.threadit.tech/api/v1/posts", config)
       .then((response) => {
         console.log("Posts data:", response.data.data.posts);
 

@@ -72,7 +72,7 @@ function Sent() {
     useEffect(() => {
         setLoading(true);
     
-        axios.get('http://localhost:8000/api/v1/messages/sent', config)
+        axios.get('https://www.threadit.tech/api/v1/messages/sent', config)
             .then(response => {
                 if (response.data.data.messages.length > 0) {
                     const uniqueMessages = response.data.data.messages.reduce((unique, message) => {

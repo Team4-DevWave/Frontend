@@ -1,7 +1,7 @@
 // Function to update profile information
 export async function updateProfileInfoAPI(profileData) {
   try {
-    const response = await fetch('http://localhost:8000/api/v1/users/me/settings/update-profile', {
+    const response = await fetch('https://www.threadit.tech/api/v1/users/me/settings/update-profile', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

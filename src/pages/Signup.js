@@ -90,7 +90,7 @@ function Signup() {
     console.log(userState);
     axios
       .post(
-        "http://localhost:8000/api/v1/users/signup",
+        "https://www.threadit.tech/api/v1/users/signup",
         {
           username: userState.username,
           password: userState.password,

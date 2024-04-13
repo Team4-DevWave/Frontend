@@ -8,7 +8,7 @@ function Unmoderated() {
         const where = 'unmoderated'; // to get the unmoderated posts
 
         // Construct the URL for the API request
-        const url = `http://localhost:8000/api/v1/r/${subreddit}/about/${where}`;
+        const url = `https://www.threadit.tech/api/v1/r/${subreddit}/about/${where}`;
 
         // Use fetch API to make a GET request
         fetch(url)

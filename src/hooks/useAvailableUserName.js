@@ -7,7 +7,7 @@ export default function useAvailableUserName(name) {
   
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/v1/users/check/${name}`)
+      .get(`https://www.threadit.tech/api/v1/users/check/${name}`)
       .then((response) => {
         if (response.status === 200) {
           setAvailable(true);

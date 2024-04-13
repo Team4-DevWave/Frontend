@@ -22,7 +22,7 @@ function CommentFeed(postID) {
 
     axios
       .get(
-        `http://localhost:8000/api/v1/posts/${postID.postID}/comments/
+        `https://www.threadit.tech/api/v1/posts/${postID.postID}/comments/
       `,
         config
       )

@@ -26,27 +26,27 @@ function Profile() {
     const fetchData = async () => {
       try {
         // Fetch user data
-        const userResponse = await axios.get('http://localhost:8000/api/v1/users/me/current');
+        const userResponse = await axios.get('https://www.threadit.tech/api/v1/users/me/current');
         const user = userResponse.data.data;
 
         // Fetch user overview
-        const overviewResponse = await axios.get(`http://localhost:8000/api/v1/users/${user.username}/overview?page=1`);
+        const overviewResponse = await axios.get(`https://www.threadit.tech/api/v1/users/${user.username}/overview?page=1`);
         const overviewData = overviewResponse.data.data;
 
         // Fetch user comments
-        const commentsResponse = await axios.get(`http://localhost:8000/api/v1/users/${user.username}/comments`);
+        const commentsResponse = await axios.get(`https://www.threadit.tech/api/v1/users/${user.username}/comments`);
         const comments = commentsResponse.data.data.comments;
 
         // Fetch user upvotes
-        const upvotesResponse = await axios.get('http://localhost:8000/api/v1/users/me/upvoted?page=1');
+        const upvotesResponse = await axios.get('https://www.threadit.tech/api/v1/users/me/upvoted?page=1');
         const upvotedComments = upvotesResponse.data.data.comments;
 
         // Fetch user downvotes
-        const downvotesResponse = await axios.get('http://localhost:8000/api/v1/users/me/downvoted?page=1');
+        const downvotesResponse = await axios.get('https://www.threadit.tech/api/v1/users/me/downvoted?page=1');
         const downvotedComments = downvotesResponse.data.data.comments;
 
         // Fetch user hidden posts
-        const hiddenResponse = await axios.get('http://localhost:8000/api/v1/users/me/hidden?page=1');
+        const hiddenResponse = await axios.get('https://www.threadit.tech/api/v1/users/me/hidden?page=1');
         const hiddenPosts = hiddenResponse.data.data.posts;
         
   

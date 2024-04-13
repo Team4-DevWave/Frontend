@@ -115,7 +115,7 @@ function PostContainer({ postData }) {
 
         axios
             .patch(
-                `http://localhost:8000/api/v1/posts/${postData.id}/save`, null,
+                `https://www.threadit.tech/api/v1/posts/${postData.id}/save`, null,
                 config
             )
             .then((response) => {
@@ -138,7 +138,7 @@ function PostContainer({ postData }) {
     const handleHidePost = () => {
         // Send API request to hide the post with postId using Axios
         setIsHidden(!isHidden);
-        axios.post(`http://localhost:8000/api/v1/posts/${postData.Id}/hide`)
+        axios.post(`https://www.threadit.tech/api/v1/posts/${postData.Id}/hide`)
             .then(response => {
                 // Handle response
                 console.log('Post hidden successfully');
@@ -156,7 +156,7 @@ function PostContainer({ postData }) {
 
         axios
             .delete(
-                `http://localhost:8000/api/v1/posts/${postData.id}/delete`,
+                `https://www.threadit.tech/api/v1/posts/${postData.id}/delete`,
               
                 config
             )
@@ -182,7 +182,7 @@ function PostContainer({ postData }) {
 console.log("lockeddddd------->",postData.locked);
         axios
             .patch(
-                `http://localhost:8000/api/v1/posts/${postData.id}/lock`,
+                `https://www.threadit.tech/api/v1/posts/${postData.id}/lock`,
                 null,
                 config
             )

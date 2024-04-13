@@ -169,7 +169,7 @@ function MessageRecived() {
     useEffect(() => {
         setLoading(true);
 
-        axios.get('http://localhost:8000/api/v1/messages/messages', config)
+        axios.get('https://www.threadit.tech/api/v1/messages/messages', config)
             .then(response => {
                 if (response.data.data.messages.length > 0) {
                     const uniqueMessages = response.data.data.messages.reduce((unique, message) => {
@@ -210,7 +210,7 @@ function MessageRecived() {
 
     async function handlePermalink(id) {
         try {
-            const response = await axios.patch(`http://localhost:3002/send/${id}`, {
+            const response = await axios.patch(`https://www.threadit.tech/send/${id}`, {
                 read: false
             });
 
@@ -222,7 +222,7 @@ function MessageRecived() {
 
 
     async function handleDelete(id) {
-        axios.delete(`http://localhost:8000/api/v1/messages/${id}/delete`, config)
+        axios.delete(`https://www.threadit.tech/api/v1/messages/${id}/delete`, config)
             .then(response => {
                 setallMessages(allMessages.filter(message => message._id !== id));
                 console.log('Message deleted:', response.data);
@@ -241,7 +241,7 @@ function MessageRecived() {
     }
 
     async function handleMarkUnread (message1)  {
-        axios.patch(`http://localhost:8000/api/v1/messages/${message1._id}/markread`, { read: !message1.read }, config)
+        axios.patch(`https://www.threadit.tech/api/v1/messages/${message1._id}/markread`, { read: !message1.read }, config)
             .then(response => {
                 setallMessages(allMessages.map(message =>
                     message._id === message1._id ? { ...message, read: true } : message
@@ -275,7 +275,7 @@ function MessageRecived() {
                 // message: replyText
             };
 
-            const response = await axios.put(`http://localhost:3002/send/${message1.id}`, {
+            const response = await axios.put(`https://www.threadit.tech/send/${message1.id}`, {
                 from: message1.from,
                 to: message1.to,
                 subject: message1.subject,

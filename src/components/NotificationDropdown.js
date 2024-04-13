@@ -15,7 +15,7 @@ function NotificationDropDown() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/notifications").then((response) => {
+    axios.get("https://www.threadit.tech/notifications").then((response) => {
       setNotifications(response.data);
       console.log(response);
     }).catch((error) => {

@@ -104,7 +104,7 @@ function CommentContainer({ commentData }) {
 
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/comments/${commentData.id}/vote`,
+        `https://www.threadit.tech/api/v1/comments/${commentData.id}/vote`,
         {
           voteType: 1,
         },
@@ -140,7 +140,7 @@ function CommentContainer({ commentData }) {
 
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/comments/${commentData.id}/vote`,
+        `https://www.threadit.tech/api/v1/comments/${commentData.id}/vote`,
         {
           voteType: -1,
         },

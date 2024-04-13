@@ -44,7 +44,7 @@ function CreatePost() {
             // italic: isItalic
         };
         try {
-            const response = await axios.post(`http://localhost:8000/api/v1/posts/submit/u/${username}`, { content: postdata });
+            const response = await axios.post(`https://www.threadit.tech/api/v1/posts/submit/u/${username}`, { content: postdata });
             setPostDone(true);
             setTitle('');
             setContent('');

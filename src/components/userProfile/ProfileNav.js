@@ -27,7 +27,7 @@ function ProfileNav({
 
   const fetchData = async (tabIndex) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/users/me/${getTabName(tabIndex)}`, {
+      const response = await axios.get(`https://www.threadit.tech/api/v1/users/me/${getTabName(tabIndex)}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

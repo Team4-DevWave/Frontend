@@ -31,7 +31,7 @@ function ForgetPassword() {
     setOpen(false);
     openSnack(true);
     setRecoveryMail("");
-    axios.post("http://localhost:8000/api/v1/users/forgotPassword",{
+    axios.post("https://www.threadit.tech/api/v1/users/forgotPassword",{
       email: recoveryMail,
       username: recoverUsername
     },config);

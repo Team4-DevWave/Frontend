@@ -8,7 +8,7 @@ function Reported() {
         const where = 'reports'; // to get the reported posts
 
         // Construct the URL for the API request
-        const url = `http://localhost:8000/api/v1/r/${subreddit}/about/${where}`;
+        const url = `https://www.threadit.tech/api/v1/r/${subreddit}/about/${where}`;
 
         // Use fetch API to make a GET request
         fetch(url)

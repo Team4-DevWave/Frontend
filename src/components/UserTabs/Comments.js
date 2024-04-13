@@ -124,7 +124,7 @@ function Comments() {
     console.log("Token:", token);
 
     axios
-      .get(`http://localhost:8000/api/v1/posts/${id}`, config)
+      .get(`https://www.threadit.tech/api/v1/posts/${id}`, config)
       .then((response) => {
         console.log("Posts data:", response.data.data.post);
 
@@ -162,7 +162,7 @@ function Comments() {
     console.log("Token:", token);
     axios
       .post(
-        `http://localhost:8000/api/v1/posts/${id}/comments/`,
+        `https://www.threadit.tech/api/v1/posts/${id}/comments/`,
         { content: comment },
         config
       )

@@ -87,7 +87,7 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
     const handleSubmit = (e) => {
         axios
             .post(
-                "http://localhost:8000/api/v1/messages/compose",
+                "https://www.threadit.tech/api/v1/messages/compose",
                 {
                     from: from,
                     to: to,

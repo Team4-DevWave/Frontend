@@ -26,7 +26,7 @@ useEffect(() => {
   console.log("username:", username);
 
   axios
-    .get(`http://localhost:8000/api/v1/users/${username}/posts`,config)
+    .get(`https://www.threadit.tech/api/v1/users/${username}/posts`,config)
     .then((response) => {
       console.log("Posts data:", response.data.data.posts);
 

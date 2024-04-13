@@ -17,7 +17,7 @@ const Notification = ({setNotificationCount}) => {
     const [unreadCount, setUnreadCount] = useState(0); // State variable to store count of unread notifications
 
     useEffect(() => {
-        axios.get('http://localhost:8000/get_notifications')
+        axios.get('https://www.threadit.tech/get_notifications')
             .then(response => {
                 setData(response.data);
                 setNotificationCount(response.data.length);
@@ -50,7 +50,7 @@ const Notification = ({setNotificationCount}) => {
     const markAsRead = (index) => {
         const notificationId = data[index].id; // Assuming each notification has an 'id' field
 
-        axios.post('http://localhost:8000/hide_notification', { notification_id: notificationId })
+        axios.post('https://www.threadit.tech/hide_notification', { notification_id: notificationId })
             .then(response => {
                 if (response.data.status === 'false') {
                     // Mark the notification as read in the state

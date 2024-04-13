@@ -26,7 +26,7 @@ useEffect(() => {
   console.log("Token1:", token);
 
   axios
-    .get("http://localhost:8000/api/v1/users/me/saved?page=1",config)
+    .get("https://www.threadit.tech/api/v1/users/me/saved?page=1",config)
     .then((response) => {
       console.log("Posts data:", response.data.data.posts);
       console.log("title=",response.data.data.posts[0].title);

@@ -7,7 +7,7 @@ export default function useAvailableEmail(name) {
   
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/v1/users/checkEmail/${name}`)
+      .get(`https://www.threadit.tech/api/v1/users/checkEmail/${name}`)
       .then((response) => {
         if (response.status === 200) {
           setAvailable(true);

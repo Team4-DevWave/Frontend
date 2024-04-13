@@ -58,7 +58,7 @@ function CreateCommunity() {
   const submitCommunity = () => {
     console.log(communityName, radioValue, checked);
     axios
-      .post("http://localhost:8000/api/v1/r/create" ,{
+      .post("https://www.threadit.tech/api/v1/r/create" ,{
         name: communityName,
         srType: radioValue,
         nsfw: checked,
