@@ -56,7 +56,7 @@ function Login() {
 
     axios
       .post(
-        "http://localhost:8000/api/v1/users/login",
+        "https://www.threadit.tech/api/v1/users/login",
         {
           username: userState.username,
           email: userState.email,
