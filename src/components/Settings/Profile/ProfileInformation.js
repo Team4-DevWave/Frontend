@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Box, TextField } from '@mui/material';
-import { updateProfileInfoAPI } from '.././APIs/ProfileAPI.js'; // Import your API function
 import CustomSnackbar from '../../MUIEdited/CustomSnackbar'; // Import your CustomSnackbar component
 
 function ProfileInformation() {
@@ -12,15 +11,6 @@ function ProfileInformation() {
     const inputValue = event.target.value;
     if (inputValue.length <= 200) {
       setDisplayNameMulti(inputValue);
-      // Call API to update about section
-      updateProfileInfoAPI({ about: inputValue }).then(response => {
-        if (!response.success) {
-          setSnackbarInfo({ isOpen: true, message: 'Failed to update about section. Please try again later.', severity: 'error' });
-        }
-      }).catch(error => {
-        console.error('Error updating about section:', error);
-        setSnackbarInfo({ isOpen: true, message: 'An error occurred while updating about section. Please try again later.', severity: 'error' });
-      });
     }
   };
 
@@ -28,15 +18,6 @@ function ProfileInformation() {
     const inputValue = event.target.value;
     if (inputValue.length <= 50) {
       setDisplayName(inputValue);
-      // Call API to update display name
-      updateProfileInfoAPI({ displayName: inputValue }).then(response => {
-        if (!response.success) {
-          setSnackbarInfo({ isOpen: true, message: 'Failed to update display name. Please try again later.', severity: 'error' });
-        }
-      }).catch(error => {
-        console.error('Error updating display name:', error);
-        setSnackbarInfo({ isOpen: true, message: 'An error occurred while updating display name. Please try again later.', severity: 'error' });
-      });
     }
   };
 

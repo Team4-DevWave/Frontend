@@ -21,7 +21,8 @@ function ButtonDelete(){
                 },
               
             }}
-          ><img src="./images/delete.png" width="20px" alt="Delete" /> <span> DELETE ACCOUNT</span></Button>
+          >
+            <img src="delete.png" width="20px" alt="Delete" /> <span> DELETE ACCOUNT</span></Button>
         </div>
   );
 }

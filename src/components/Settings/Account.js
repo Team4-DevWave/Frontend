@@ -5,7 +5,6 @@ import ButtonDelete from '../MUIEdited/ButtonDelete';
 import CustomSelect from '../MUIEdited/CustomSelect';
 import CustomSnackbar from '../MUIEdited/CustomSnackbar';
 import LanguageSelectionDialog from '../MUIEdited/LanguageSelectionDialog';
-import { changeEmailAPI, changePreferenceAPI } from './APIs/AccountAPI';
 
 function Account() {
   const [email, setEmail] = useState("example@gmail.com");
@@ -19,21 +18,11 @@ function Account() {
 
   const handleSnackbarClose = () => setSnackbarInfo({ ...snackbarInfo, isOpen: false });
 
-  const handleEmailChange = async () => {
+  const handleEmailChange = () => {
     const isValidEmail = validateEmail(newEmail);
     if (isValidEmail) {
-      try {
-        const response = await changeEmailAPI(newEmail);
-        if (response.success) {
-          setEmail(newEmail);
-          setSnackbarInfo({ isOpen: true, message: "Email changed successfully!", severity: "success" });
-        } else {
-          setSnackbarInfo({ isOpen: true, message: "Failed to change email. Please try again later.", severity: "error" });
-        }
-      } catch (error) {
-        console.error("Error changing email:", error);
-        setSnackbarInfo({ isOpen: true, message: "An error occurred while changing email. Please try again later.", severity: "error" });
-      }
+      setEmail(newEmail);
+      setSnackbarInfo({ isOpen: true, message: "Email changed successfully!", severity: "success" });
       setOpenEmailDialog(false); // Close the dialog
     } else {
       setSnackbarInfo({ isOpen: true, message: "Invalid email address!", severity: "error" });
@@ -43,18 +32,8 @@ function Account() {
   const handleOpenEmailDialog = () => setOpenEmailDialog(true);
   const handleCloseEmailDialog = () => setOpenEmailDialog(false);
 
-  const handleChange = async (prop, value) => {
-    try {
-      const response = await changePreferenceAPI(prop, value);
-      if (response.success) {
-        setSnackbarInfo({ isOpen: true, message: `${prop.charAt(0).toUpperCase() + prop.slice(1)} changed successfully!`, severity: "success" });
-      } else {
-        setSnackbarInfo({ isOpen: true, message: `Failed to change ${prop}. Please try again later.`, severity: "error" });
-      }
-    } catch (error) {
-      console.error(`Error changing ${prop}:`, error);
-      setSnackbarInfo({ isOpen: true, message: `An error occurred while changing ${prop}. Please try again later.`, severity: "error" });
-    }
+  const handleChange = (prop, value) => {
+    setSnackbarInfo({ isOpen: true, message: `${prop.charAt(0).toUpperCase() + prop.slice(1)} changed successfully!`, severity: "success" });
   };
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -65,7 +44,7 @@ function Account() {
       <div className='settingsData'>
         <div className='titleData'>
           <h2 className="titleDataItem">ACCOUNT PREFERENCES</h2>
-          <div class="horizontalLine horizontalLine-2"></div>
+          <div className="horizontalLine horizontalLine-2"></div>
         </div>
         <div className="settingsItem">
           <div>
@@ -79,7 +58,7 @@ function Account() {
             color="var(--color-blue)"
             value="Change"
             onClick={handleOpenEmailDialog} 
-            />
+          />
           {/* Dialog for changing email */}
           <Dialog open={openEmailDialog} onClose={handleCloseEmailDialog}>
             <DialogTitle>Change Email Address</DialogTitle>
@@ -106,7 +85,6 @@ function Account() {
             <h2 className="titleBody-2">Gender</h2>
             <p className="settingsParagraph">This information may be used to improve your recommendations and ads.</p>
           </div>
-          <label htmlFor="gender">Gender</label>
 
           <CustomSelect defaultValue="Man" values={['Man', 'Woman']} mr='none' ml='auto' onSelection={(value) => handleChange('gender', value)} />
         </div>
@@ -134,7 +112,7 @@ function Account() {
         </div>
         <div className='titleData'>
           <h2 className="titleDataItem">DELETE ACCOUNT</h2>
-          <div class="horizontalLine horizontalLine-2"></div>
+          <div className="horizontalLine horizontalLine-2"></div>
         </div>
         <ButtonDelete/>
       </div>

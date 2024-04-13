@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Box, Avatar, Button } from '@mui/material';
-import { fetchBlockedUsers } from '../APIs/SafetyAPI.js'; // Import your API function
 
 function BlockedUsers({ setSnackbarInfo }) {
   const [blockedUsers, setBlockedUsers] = useState([]);
@@ -9,7 +8,6 @@ function BlockedUsers({ setSnackbarInfo }) {
 
   useEffect(() => {
     setIsAddButtonDisabled(userName.trim() === '');
-    fetchBlockedUsers(setSnackbarInfo).then(data => setBlockedUsers(data));
   }, [userName, setSnackbarInfo]);
 
         const handleAddUser = () => {
