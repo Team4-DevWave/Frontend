@@ -6,6 +6,8 @@ import Cookies from "js-cookie";
 import Header from "../../layouts/Header";
 import SideBar from "../../layouts/Sidebar";
 import "./Comments.css";
+import LoadingScreen from ".././LoadingScreen";
+import CommentFeed from "./commentFeed.js";
 
 function Comments() {
   //VARIABLES
@@ -206,7 +208,17 @@ function Comments() {
   //   })
   //     .catch((error) => console.error("Error:", error));
   // }, []);
+  const [loading, setLoading] = React.useState(true);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
   return (
     <div style={{ marginTop: "67px" }}>
       <Header />
@@ -332,6 +344,8 @@ function Comments() {
           T
         </button>
       </div>
+
+      <CommentFeed postID={id} />
     </div>
   );
 }
