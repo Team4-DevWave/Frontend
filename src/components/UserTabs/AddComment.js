@@ -126,7 +126,7 @@ function AddComment(id) {
     console.log("id", id);
     axios
       .post(
-        `http://localhost:8000/api/v1/posts/${id.postID}/comments/`,
+        `https://www.threadit.tech/api/v1/posts/${id.postID}/comments/`,
         { content: comment },
         config
       )
