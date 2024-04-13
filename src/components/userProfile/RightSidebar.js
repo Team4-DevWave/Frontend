@@ -1,17 +1,21 @@
-const RightSidebar = ({ username = "Anonymous", postKarma = 0, commentKarma = 0, cakeDay = "Unknown", goldReceived = 0, socialLinks = [], moderationTools = [] }) => {
+import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from React Router
+
+const RightSidebar = ({ username = "Mahmoud", postKarma = 0, commentKarma = 0, cakeDay, goldReceived = 0, socialLinks = [], moderationTools = [] }) => {
   return (
     <div className="right-sidebar">
       <div className="user-info">
-        <img src="/avatar.jpg" alt={username} className="avatar" />
         <h3>{username}</h3>
         <p>Post Karma: {postKarma}</p>
         <p>Comment Karma: {commentKarma}</p>
-        <p>Cake Day: {cakeDay}</p>
+        <p>Cake Day: {cakeDay} April 14, 2024</p>
         <p>Gold Received: {goldReceived}</p>
       </div>
       <hr />
       <div className="settings">
-        <button className="edit-profile">Edit Profile</button>
+        <Link to="/settings">
+          <button className="edit-profile">Edit Profile</button>
+        </Link>
       </div>
       <hr />
       <div className="moderation">
@@ -30,6 +34,12 @@ const RightSidebar = ({ username = "Anonymous", postKarma = 0, commentKarma = 0,
             {link.text}
           </a>
         ))}
+      </div>
+      <hr />
+      <div className="community">
+        <h3>Join the Community</h3>
+        <p>Subscribe to get the latest updates and news</p>
+        <button className="subscribe-button">Subscribe</button>
       </div>
     </div>
   );
