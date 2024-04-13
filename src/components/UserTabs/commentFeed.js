@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import CommentContainer from "./commentContainer";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { LiveCommentsContext } from "./Comments.js";
 
 function CommentFeed(postID) {
   const [comments, setComments] = useState([]);
@@ -10,6 +11,8 @@ function CommentFeed(postID) {
   var title;
   var content;
   const username = localStorage.getItem("username");
+
+  const { liveComments } = useContext(LiveCommentsContext);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -34,7 +37,7 @@ function CommentFeed(postID) {
             if (item.content) {
               return {
                 id: item._id,
-                user: item.user,
+                user: item.user.username,
                 content: item.content,
                 time: item.createdAt,
                 post: item.post,
@@ -50,7 +53,7 @@ function CommentFeed(postID) {
           })
           .filter(Boolean);
         console.log("mappeddata", mappedData.content);
-        setComments(mappedData.reverse());
+        setComments(mappedData);
       })
       .catch((error) => console.error("Error:", error));
   }, []);
@@ -59,6 +62,11 @@ function CommentFeed(postID) {
     <div className="post-feed">
       {comments.map((comment, index) => {
         console.log("comment data:", comment); // Log the comment data here
+        return <CommentContainer key={index} commentData={comment} />;
+      })}
+
+      {/* Display the live comments */}
+      {liveComments.map((comment, index) => {
         return <CommentContainer key={index} commentData={comment} />;
       })}
     </div>

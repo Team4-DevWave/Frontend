@@ -162,12 +162,13 @@ function PostContainer({ postData }) {
     return <div>Loading...</div>; // or some loading spinner
   }
   const handelsavedpost = () => {
-    console.log("id posstttttt=",postData.id);
-    console.log("tokeeeen=",token);
+    console.log("id posstttttt=", postData.id);
+    console.log("tokeeeen=", token);
 
     axios
       .patch(
-        `https://www.threadit.tech/api/v1/posts/${postData.id}/save`,null,
+        `https://www.threadit.tech/api/v1/posts/${postData.id}/save`,
+        null,
         config
       )
       .then((response) => {
@@ -178,57 +179,58 @@ function PostContainer({ postData }) {
         } else {
           console.log("post is not Save");
         }
-        console.log("responeeeeesssss------->",response);
+        console.log("responeeeeesssss------->", response);
       })
       .catch((error) => {
         console.log(error);
-        console.log("idd==",postData.id);
-        
+        console.log("idd==", postData.id);
       });
   };
 
-    const handleHidePost = () => {
+  const handleHidePost = () => {
     // Send API request to hide the post with postId using Axios
     console.log("idddddddd:", postData.id);
     if (postData.ishide === true) {
       console.log("ishide===", postData.ishide);
       postData.ishide = false;
       axios
-      .delete(
+        .delete(
           `https://www.threadit.tech/api/v1/posts/${postData.id}/unhide`,
-        
+
           config
-      )
-      .then((response) => {
+        )
+        .then((response) => {
           if (response.status === 201) {
-              console.log("Doneeee");
+            console.log("Doneeee");
 
-              window.location.href = "/";
+            window.location.href = "/";
           } else {
-              console.log("faliedddddddddddddd");
-
+            console.log("faliedddddddddddddd");
           }
           console.log(response);
-      })
-      .catch((error) => {
+        })
+        .catch((error) => {
           console.log(error);
           console.log("falissssss");
-      });
-    }
-    else {
+        });
+    } else {
       console.log("ishide===", postData.ishide);
 
-      axios.patch(`https://www.threadit.tech/api/v1/posts/${postData.id}/hide`, null, config)
-        .then(response => {
+      axios
+        .patch(
+          `https://www.threadit.tech/api/v1/posts/${postData.id}/hide`,
+          null,
+          config
+        )
+        .then((response) => {
           // Handle response
-          console.log('Post hidden successfully');
+          console.log("Post hidden successfully");
         })
-        .catch(error => {
+        .catch((error) => {
           // Handle error
-          console.error('Error hiding post:', error);
+          console.error("Error hiding post:", error);
         });
       postData.ishide = true;
-
     }
   };
   return (
@@ -282,8 +284,12 @@ function PostContainer({ postData }) {
             <div className="options-list">
               <ul>
                 <li>Show fewer posts like this</li>
-                <li onClick={handleHidePost}>{postData.ishide ? "Un Hide" : "Hide"}</li>
-                <li onClick={handelsavedpost}>{postData.issaved ? "Un Save" : "Saved"}</li>
+                <li onClick={handleHidePost}>
+                  {postData.ishide ? "Un Hide" : "Hide"}
+                </li>
+                <li onClick={handelsavedpost}>
+                  {postData.issaved ? "Un Save" : "Saved"}
+                </li>
                 <li>Report</li>
               </ul>
             </div>
