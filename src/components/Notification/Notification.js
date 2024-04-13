@@ -70,7 +70,7 @@ const Notification = ({setNotificationCount}) => {
     return (
         <div>
             {/* Display the received data */}
-            {data.map((notification, index) => (
+            {Array.isArray(data) && data.map((notification, index) => (
                 !notification.isRead &&(
                     <div key={index} className={`notification`}  onClick={() => markAsRead(index)}>
                         <img
