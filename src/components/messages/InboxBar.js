@@ -3,7 +3,7 @@ import Unread from './Unread';
 import MessageRecived from './MessageRecived';
 import commentReplies from './CommentReplies';
 import MentionedUsername from './MentionedUsername';   
-import postReplies from './PostReplies';
+import PostReplies from './PostReplies';
 import React, { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 
@@ -27,7 +27,6 @@ function InboxBar() {
                 <Tab label="All" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Unread" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Messages" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-                <Tab label="Comment Replies" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Post Replies" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Username Mentions" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
 
@@ -38,9 +37,8 @@ function InboxBar() {
             {activeNavItem === 0 && <All />}
             {activeNavItem === 1 && <Unread />}
             {activeNavItem === 2 && <MessageRecived/>}
-            {activeNavItem === 3 && <commentReplies/>}
-            {activeNavItem === 4 && <postReplies />}
-            {activeNavItem === 5 && <MentionedUsername />}
+            {activeNavItem === 3 && <PostReplies/>}
+            {activeNavItem === 4 && <MentionedUsername />}
         </>
     );
 }
