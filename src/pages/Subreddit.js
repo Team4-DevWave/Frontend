@@ -17,11 +17,7 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import Cookies from "js-cookie";
 import LoadingScreen from "../components/LoadingScreen";
 
-
 export default function Subreddit(props) {
-  
-
-
   const [posts, setPosts] = React.useState([]);
 
   const [notificationFrequency, setNotificationFrequency] = React.useState("");
@@ -74,6 +70,19 @@ export default function Subreddit(props) {
                 id: item._id,
                 title: item.title,
                 content: item.text_body,
+                time: item.postedTime,
+                votes: item.votes,
+                numviews: item.numViews,
+                spoiler: item.spoiler,
+                nsfw: item.nsfw,
+                locked: item.locked,
+                approved: item.approved,
+                mentioned: item.mentioned,
+                username: item.userID.username,
+                commentsCount: item.commentsCount,
+                image: item.image,
+                ishide: false,
+                issaved: false,
               };
             } else {
               return null;
@@ -87,18 +96,16 @@ export default function Subreddit(props) {
   }, []);
 
   const [loading, setLoading] = React.useState(true);
-    
-    
-  useEffect(()=>{
-   setTimeout(() => {
-     setLoading(false);
-   }, 2000);
-  },[]);
- 
-  if(loading){
-    return <LoadingScreen/>
-  }
 
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div style={{ marginTop: "80px" }}>
