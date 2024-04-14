@@ -17,16 +17,14 @@ app.use((req, res, next) => {
 
 app.use(express.static('public')); // Serve static files from the 'public' directory
 
+// json { "status": "", [ "timestamp": "", "username": "", "subreddit": "", "type": "", "body": "" ] }
 const data = {
-    userName: "auth.currentUser.displayName",
-    recipientUserId: "recipientUserId",
-    senderUserEmail: "auth.currentUser.email",
-    senderUserId: "auth.currentUser.uid",
-    type: "report",
-    threadID: "threadID",
-    threadData: "threadData",
+    status: "unread",
     timestamp: moment().format(),
-    isRead: false
+    username: "Alice",
+    subreddit: "r/aww",
+    type: "comment",
+    body: "This is a test comment"
 };
 const mess = {
     id: 1,
@@ -47,13 +45,11 @@ io.on('connection', (socket) => {
 
     setInterval(() => {
         socket.emit('receiveNotification', data);
-        socket.emit('message1', mess);
-        console.log('Mess sent to client!')
         console.log('Notification sent to client!')
     }, 1000);
 });
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 4000;
 http.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });

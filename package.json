@@ -27,6 +27,7 @@
     "dotenv": "^16.4.5",
     "jest": "^27.5.1",
     "jest-mock-axios": "^4.7.3",
+    "js-cookie": "^3.0.5",
     "json-server": "^1.0.0-alpha.23",
     "moment": "^2.30.1",
     "react": "^18.2.0",
@@ -35,6 +36,7 @@
     "react-google-recaptcha": "^3.1.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.0.1",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.22.2",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.4",
@@ -79,6 +81,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.24.3",
     "@chromatic-com/storybook": "^1.2.25",
     "@storybook/addon-docs": "^8.0.4",

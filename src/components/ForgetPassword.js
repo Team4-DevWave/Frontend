@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import CustomSnackbar from "./MUIEdited/CustomSnackbar";
+import axios from "axios";
 import {
   Button,
   Dialog,
@@ -20,10 +21,20 @@ function ForgetPassword() {
     setOpen(true);
   };
 
+  let yourBearerToken = "";
+
+  const config = {
+    headers: { Authorization: `Bearer ${yourBearerToken}` },
+  };
+
   const handleCloseModal = () => {
     setOpen(false);
     openSnack(true);
     setRecoveryMail("");
+    axios.post("http://localhost:8000/api/v1/users/forgotPassword",{
+      email: recoveryMail,
+      username: recoverUsername
+    },config);
   };
 
   const handleCancelModal = () => {
@@ -34,15 +45,29 @@ function ForgetPassword() {
 
   const [recoveryMail, setRecoveryMail] = useState("");
 
-  const [valid, setValid] = useState(false);
+  const [recoverUsername, setRecoverUsername] = useState("");
+
+  const [validMail, setValidMail] = useState(false);
+
+  const [validUsername, setValidUsername] = useState(false);
+
+  
 
   useEffect(() => {
     if (recoveryMail.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
-      setValid(true);
+      setValidMail(true);
     } else {
-      setValid(false);
+      setValidMail(false);
     }
   }, [recoveryMail]);
+
+  useEffect(() => {
+    if (recoverUsername.match(/^[a-zA-Z0-9_]{3,16}$/)) {
+      setValidUsername(true);
+    } else {
+      setValidUsername(false);
+    }
+  }, [recoverUsername]);
 
   const [snack, openSnack] = useState(false);
   const [message, setMessage] = useState("An email has been sent to you for password recovery.");
@@ -57,7 +82,7 @@ function ForgetPassword() {
       </Link>
         <Dialog
             open={open}
-            onClose={handleCloseModal}
+            onClose={handleCancelModal}
             aria-labelledby="form-dialog-title"
             >
             <DialogTitle id="form-dialog-title">Reset Password</DialogTitle>
@@ -66,6 +91,10 @@ function ForgetPassword() {
                     Enter your email address to reset your password
                 </DialogContentText>
                 <TextField
+                     InputProps={{
+                      style: { borderRadius: 25 },
+                      
+                    }}
                     autoFocus
                     margin="dense"
                     id="name"
@@ -74,12 +103,23 @@ function ForgetPassword() {
                     fullWidth
                     onChange={(e) => setRecoveryMail(e.target.value)}
                 />
+                <TextField
+                    InputProps={{
+                      style: { borderRadius: 25 },
+                    }}
+                    margin="dense"
+                    id="name"
+                    label="Username"
+                    type="text"
+                    fullWidth
+                    onChange={(e) => setRecoverUsername(e.target.value)}
+                />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleCancelModal} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={handleCloseModal} disabled={!valid} color="primary">
+                <Button onClick={handleCloseModal} disabled={!validMail || !validUsername} color="primary">
                     Submit
                 </Button>
             </DialogActions>

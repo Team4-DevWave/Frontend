@@ -13,13 +13,12 @@ const PostDesign = ({
   text,
   image,
   Link,
+  video,
+  spoiler,
 }) => {
-  const isValidPost = (title && text) || (title && image) || (title && Link);
-  const [showOptions, setShowOptions] = useState(false);
-
-  const toggleOptions = () => {
-    setShowOptions(!showOptions);
-  };
+  const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video);
+  console.log("isvaliddddddd:", isValidPost);
+  console.log("videoeeee:", video);
   return (
     <div>
       <div className="post-header">
@@ -31,26 +30,6 @@ const PostDesign = ({
             <p className="date">{Date}</p>
           </div>
         </div>
-        <div className="options-container">
-          <Button
-            variant="danger"
-            className="options-button"
-            onClick={toggleOptions}
-          >
-            <SlOptions />
-          </Button>
-
-          {showOptions && (
-            <div className="options-list">
-              <ul>
-                <li>Show fewer posts like this</li>
-                <li>Hide</li>
-                <li>Save</li>
-                <li>Report</li>
-              </ul>
-            </div>
-          )}
-        </div>
       </div>
       {isValidPost ? (
         <>
@@ -58,6 +37,13 @@ const PostDesign = ({
           <div className="post-content">
             {text && <p className="post-text">{text}</p>}
             {image && <img src={image} alt="Post" className="post-image" />}
+            {video && (
+              <video controls className="post-video">
+                <source src={video} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              
+            )}
           </div>
         </>
       ) : (

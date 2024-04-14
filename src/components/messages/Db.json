@@ -1,92 +1,45 @@
 {
-  "posts": [
+  "send": [
     {
-      "id": "0f64",
+      "id": "46fa",
       "from": "user1",
-      "to": "meme",
-      "subject": "asd",
+      "to": "user 2",
+      "subject": "check reply",
       "message": "hello",
       "read": true
+    }
+  ],
+  "mention": [
+    {
+      "id": "1",
+      "userName": "essam",
+      "mentionUser": "user1",
+      "mentionText": "Hello, I mentioned you",
+      "mentioned": false
     },
     {
-      "id": "cf87",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
+      "id": "2",
+      "userName": "essam1",
+      "mentionUser": "user2",
+      "mentionText": "Hello, I mentioned you",
+      "mentioned": false
+    }
+    
+  ],
+  "users": [
+    {
+      "userName": "essam",
+      "id": "1",
+      "blockUser": "user1",
+      "blockText": "Hello, I blocked you",
+      "blocked": false
     },
     {
-      "id": "d646",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "1572",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "e964",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "bfca",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "e26d",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "126e",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "35a4",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "hello",
-      "read": true
-    },
-    {
-      "id": "30f0",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "byeye",
-      "read": true
-    },
-    {
-      "id": "0388",
-      "from": "user1",
-      "to": "meme",
-      "subject": "asd",
-      "message": "byeye",
-      "read": true
+      "id": "2",
+      "userName": "essam1",
+      "blockUser": "user2",
+      "blockText": "Hello, I blocked you",
+      "blocked": false
     }
   ]
 }

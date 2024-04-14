@@ -1,0 +1,266 @@
+.comments-container{
+    width: 730px;
+    height: auto;
+    position: relative;
+    left: 34%;
+    text-decoration: none;
+  }
+  
+  #commentscontainer hr{
+    width: 730px;
+    position: relative;
+    left: 34%;
+    margin: 8px;
+  }
+  
+  .comments-content {
+  word-wrap: break-word;
+  padding-left: 15px;
+  padding-right: 15px;
+  max-height: 600px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  }
+  
+  .comments-link{
+    text-decoration: none;
+    word-wrap: break-word;
+    max-width: 730px;
+    max-height: 600px;
+    text-overflow: ellipsis;
+  }
+  
+  .comments-buttons{
+    justify-content: flex-start;
+    overflow: hidden;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    display: flex;
+    padding-left: 15px;
+    padding-bottom: 5px;
+   
+  }
+  
+  .reach{
+    position: relative;
+    background: #ebeaea;
+    border-radius: 20px;
+    margin-right: 12px;
+  }
+  
+  .reach:hover{
+    background: #e2e2e2;
+    border-radius: 20px;
+    
+  }
+  
+  .flex-text{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #c0bebe;
+    margin: 0px 8px;
+  }
+  
+  .upvote{
+    height: 30px;
+  }
+  
+  .downvote{
+    height: 30px;
+  }
+  
+  .upvote:hover{
+    background: #d3d3d3;
+    border-radius: 50%;
+  }
+  
+  .downvote:hover{
+    background: #d3d3d3;
+    border-radius: 50%;
+  }
+  
+  .upvote.upvoted:hover {
+    background-color: #974806; /* Change to the color you want for upvoted */
+  }
+  
+  .downvote.upvoted:hover {
+    background-color: #974806; /* Change to the color you want for upvoted */
+  }
+  
+  .downvote.downvoted:hover {
+    background-color: #4a54ad; /* Change to the color you want for downvoted */
+  }
+  
+  .upvote.downvoted:hover {
+    background-color: #4a54ad; /* Change to the color you want for downvoted */
+  }
+  
+  
+  .upvote svg:hover{
+    fill: #ff0000;
+  }
+  
+  .upvote svg.upvoted:hover{
+    fill: white;
+  }
+  
+  .upvote svg.downvoted:hover{
+    fill: white;
+  }
+  
+  .downvote svg:hover{
+    fill: #001aff;
+  }
+  
+  .downvote svg.upvoted:hover{
+    fill: white;
+  }
+  
+  .downvote svg.downvoted:hover{
+    fill: white;
+  }
+  
+  
+  .reach.upvoted {
+    background-color: #f85616; /* Change to the color you want for upvoted */
+  }
+  
+  .reach.downvoted {
+    background-color: #727eec; /* Change to the color you want for downvoted */
+  }
+  
+  .share{
+    position: relative;
+    height: 30px;
+    display: flex;
+    background: #ebeaea;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: 6px;
+  }
+  .share-button{
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: 5px;
+    align-items: center;
+    display: flex;
+  }
+  
+  .share:hover{
+    background: #e2e2e2;
+    border-radius: 20px;
+  }
+  
+  .share-menu-wrap{
+    position: absolute;
+    top: 96%;
+    left: 10%;
+    width: 190px;
+    opacity: 0%;
+    visibility: hidden;
+    overflow: hidden;
+    cursor: auto;
+    transition: opacity 0.25s;
+  }
+  
+  .share-menu-wrap.open-menu{
+    opacity: 100%;
+    visibility: visible;
+    cursor: pointer;
+    z-index: 1;
+  }
+  
+  .share-menu{
+    position: relative;
+    background: white;
+    margin: 10px;
+    border-radius: 8%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .share-menu-link{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: 170px;
+    line-height: 21px;
+    cursor: pointer;
+    color: black;
+    padding: 8px 9px 8px 0px;
+  }
+  .share-menu-link p{
+    width: 100%;
+    justify-content: center;
+    position: relative;
+    top: 7px;
+  }
+  
+  .share-menu-link svg{
+    margin-right: -10px;
+    margin-top: 1px;
+    margin-left: 20px;
+  }
+  
+  .crosscomment{
+    margin-left:35px;
+  }
+  
+  .share-menu-link:hover{
+    background: #f5f5f5;
+    border-radius: 8%;
+    cursor: pointer;
+  }
+  
+  .options-container {
+    position: absolute;
+    top: 0%;
+    left: 95%;
+  }
+  
+  .options-button {
+    background-color: #fff;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .options-button:hover {
+    background-color: #e2e2e2; /* Change to black */
+    color: black; /* Change text color to white when hovered */
+    border-radius: 50px; /* Reset border-radius */
+  }
+  
+  
+  .options-list {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 1;
+  }
+  
+  .options-list ul {
+    
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .options-list ul li {
+    width: 250px;
+    padding: 8px 17px;
+    cursor: pointer;
+  }
+  
+  .options-list ul li:hover {
+    background-color: #f0f0f0;
+  }
+  

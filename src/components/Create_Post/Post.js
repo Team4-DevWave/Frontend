@@ -29,16 +29,22 @@ function CreatePost() {
     //         setFileUploaded(false); // Disable the buttons if no file is uploaded
     //     }
     // };
+
+    const username = localStorage.getItem('username');
     const handelpostclick = async (e) => {
         e.preventDefault();
         const postdata = {
             title: title,
             content: content,
-            bold: isBold,
-            italic: isItalic
+            type: 'text',
+            NSFW: false,
+            spoiler: false,
+            locked: false,
+            // bold: isBold,
+            // italic: isItalic
         };
         try {
-            const response = await axios.post('http://localhost:3001/posts', { content: postdata });
+            const response = await axios.post(`http://localhost:8000/api/v1/posts/submit/u/${username}`, { content: postdata });
             setPostDone(true);
             setTitle('');
             setContent('');

@@ -4,59 +4,130 @@ import { FaUserAstronaut, FaFacebook, FaGoogle } from "react-icons/fa";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import { MdAlternateEmail } from "react-icons/md";
 import ReCAPTCHA from "react-google-recaptcha";
-import { TextField, Button } from "@mui/material";
+import { preferenceOptions } from "../utils/preferences";
+import useCountry from "../hooks/useCountry";
+import useAvailableEmail from "../hooks/useAvailableEmail";
+import SelectGender from "../components/SelectGender";
+import SelectInterests from "../components/SelectInterests";
+import SelectUsername from "../components/SelectUsername";
+import {
+  TextField,
+  Button,
+  InputLabel,
+  RadioGroup,
+  Radio,
+  Chip,
+  Box,
+  Select,
+  MenuItem,
+  FormControl,
+  OutlinedInput,
+  FormControlLabel,
+} from "@mui/material";
 import { FiLogIn } from "react-icons/fi";
 import { LoginSocialFacebook } from "reactjs-social-login";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import PropTypes from "prop-types";
-function Signup() {
-  const [errors, setErrors] = React.useState({});
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
-  const [captcha, setCaptcha] = React.useState(null);
-  const [validUser, setValidUser] = React.useState(false);
-  const [validPassword, setValidPassword] = React.useState(false);
-  const [validEmail, setValidEmail] = React.useState(false);
-  const [validConfirmPassword, setValidConfirmPassword] = React.useState(false);
 
-  const [attempted, setAttempted] = React.useState(false);
+function Signup() {
+  const country = useCountry();
+
+  const [showPass, setShowPass] = React.useState({
+    showPassword: false,
+    showConfirmPassword: false,
+  });
+
+  const [stage, setStage] = React.useState(1);
+
+  const [preferences, setPreferences] = React.useState([]);
+
+  const [userState, setUserState] = React.useState({
+    username: "",
+    password: "",
+    email: "",
+    confirmPassword: "",
+    gender: "",
+    captcha: null,
+    validUser: false,
+    validPassword: false,
+    validEmail: false,
+    validConfirmPassword: false,
+    attempted: false,
+    touchedUser: false,
+    touchedPassword: false,
+    touchedEmail: false,
+    touchedConfirmPassword: false,
+  });
+
+  const available = useAvailableEmail(userState.email);
 
   useEffect(() => {
-    setValidUser(username.match(/^[a-zA-Z0-9_]{3,16}$/));
-    setValidEmail(email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i));
-    setValidPassword(password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/));
-    setValidConfirmPassword(password === confirmPassword);
-  }, [username, password, email, confirmPassword]);
+    setUserState((prevState) => ({
+      ...prevState,
+      validUser: prevState.username.match(/^[a-zA-Z0-9_]{3,16}$/),
+      validEmail: prevState.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
+      validPassword: prevState.password.match(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+      ),
+      validConfirmPassword: prevState.confirmPassword === prevState.password,
+    }));
+  }, [
+    userState.username,
+    userState.password,
+    userState.email,
+    userState.confirmPassword,
+  ]);
 
-  const [touchedUser, setTouchedUser] = React.useState(false);
-  const [touchedPassword, setTouchedPassword] = React.useState(false);
-  const [touchedEmail, setTouchedEmail] = React.useState(false);
-  const [touchedConfirmPassword, setTouchedConfirmPassword] =
-    React.useState(false);
+  let bearerToken = "";
+
+  const config = {
+    headers: { Authorization: `Bearer ${bearerToken}` },
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    
+    console.log(userState);
     axios
-      .post("http://localhost:8080/signup", {
-        username: username,
-        password: password,
-        email: email,
-      })
+      .post(
+        "http://localhost:8000/api/v1/users/signup",
+        {
+          username: userState.username,
+          password: userState.password,
+          email: userState.email,
+          passwordConfirm: userState.confirmPassword,
+          country: country,
+          gender: userState.gender,
+          interests: preferences,
+        },
+        config
+      )
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 201) {
           console.log("User is created");
-          localStorage.setItem("token", response.data);
-          window.location.href = "/login";
+          const token = response.data.token;
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          localStorage.setItem("username", response.data.username);
+          window.location.href = "/";
         } else {
           console.log("User is not created");
-          setAttempted(true);
+          setUserState((prevState) => ({ ...prevState, attempted: true }));
         }
         console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        setUserState((prevState) => ({ ...prevState, attempted: true }));
       });
   };
+
+  useEffect(() => {
+    if(stage===5){
+      handleSubmit();
+    }
+  }, [stage]);
+
+
   const googleLogin = useGoogleLogin({
     clientId:
       "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
@@ -74,95 +145,137 @@ function Signup() {
       console.log("logout");
     },
   });
+  const handleGenderChange = (event) => {
+    setUserState((prevState) => ({ ...prevState, gender: event.target.value }));
+  };
+  const handlePreferences = (event) => {
+    setPreferences(event.target.value);
+  };
   return (
     <div className="wrapper">
-      <div className="background-div">
-        <form className="login-form" onSubmit={handleSubmit}>
+      {stage === 1 && (
+        <form className="login-form" >
           <h2>Signup</h2>
           <TextField
             data-testid="email"
             InputProps={{
+              style: { borderRadius: 25 },
               endAdornment: <MdAlternateEmail />,
             }}
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Email"
             type="text"
-            error={(!email && touchedEmail) || (touchedEmail && !validEmail)}
+            error={
+              (!userState.email && userState.touchedEmail) ||
+              (userState.touchedEmail && !userState.validEmail)
+              || (!available && userState.touchedEmail)
+            }
             helperText={
-              !email && touchedEmail
+              !userState.email && userState.touchedEmail
                 ? "Email is required"
-                : "" || (!validEmail && touchedEmail)
+                : "" || (!userState.validEmail && userState.touchedEmail)
                   ? "Invalid Email"
-                  : ""
-            }
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            onBlur={() => setTouchedEmail(true)}
-          />
+                  : "" ||(!available && userState.touchedEmail)
+                    ? "Email is already taken"
+                    : ""
 
-          <TextField
-            data-testid="username"
-            InputProps={{
-              endAdornment: <FaUserAstronaut />,
-            }}
-            sx={{ width: "100%", marginBottom: "25px" }}
-            label="Username"
-            type="text"
-            error={(!username && touchedUser) || attempted}
-            helperText={
-              !username && touchedUser
-                ? "Username is required"
-                : "" || attempted
-                  ? "Username already exists"
-                  : ""
             }
             onChange={(e) => {
-              setUsername(e.target.value);
+              setUserState((prevState) => ({
+                ...prevState,
+                email: e.target.value,
+              }));
             }}
-            onBlur={() => setTouchedUser(true)}
+            onBlur={() =>
+              setUserState((prevState) => ({
+                ...prevState,
+                touchedEmail: true,
+              }))
+            }
           />
 
           <TextField
             data-testid="password"
             InputProps={{
-              endAdornment: <TbPasswordFingerprint />,
+              style: { borderRadius: 25 },
+              endAdornment: (
+                <TbPasswordFingerprint
+                  onClick={() =>
+                    setShowPass((prevState) => ({
+                      ...prevState,
+                      showPassword: !prevState.showPassword,
+                    }))
+                  }
+                />
+              ),
             }}
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Password"
-            type="password"
-            error={!password && touchedPassword}
+            type={showPass.showPassword ? "text" : "password"}
+            error={!userState.password && userState.touchedPassword}
             helperText={
-              !password && touchedPassword ? "Password is required" : ""
+              !userState.password && userState.touchedPassword
+                ? "Password is required"
+                : ""
             }
             onChange={(e) => {
-              setPassword(e.target.value);
+              setUserState((prevState) => ({
+                ...prevState,
+                password: e.target.value,
+              }));
             }}
-            onBlur={() => setTouchedPassword(true)}
+            onBlur={() =>
+              setUserState((prevState) => ({
+                ...prevState,
+                touchedPassword: true,
+              }))
+            }
           />
 
           <TextField
             data-testid="confirm-password"
             InputProps={{
-              endAdornment: <TbPasswordFingerprint />,
+              style: { borderRadius: 25 },
+              endAdornment: (
+                <TbPasswordFingerprint
+                  onClick={() => {
+                    setShowPass((prevState) => ({
+                      ...prevState,
+                      showConfirmPassword: !prevState.showConfirmPassword,
+                    }));
+                  }}
+                />
+              ),
             }}
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Confirm Password"
-            type="password"
+            type= {showPass.showConfirmPassword ? "text" : "password"}
             error={
-              (!confirmPassword && touchedConfirmPassword) ||
-              (password !== confirmPassword && touchedConfirmPassword)
+              (!userState.confirmPassword &&
+                userState.touchedConfirmPassword) ||
+              (userState.password !== userState.confirmPassword &&
+                userState.touchedConfirmPassword)
             }
             helperText={
-              (!confirmPassword && touchedConfirmPassword) ||
-              (password !== confirmPassword && touchedConfirmPassword)
+              (!userState.confirmPassword &&
+                userState.touchedConfirmPassword) ||
+              (userState.password !== userState.confirmPassword &&
+                userState.touchedConfirmPassword)
                 ? "Passwords do not match"
                 : ""
             }
             onChange={(e) => {
-              setConfirmPassword(e.target.value);
+              setUserState((prevState) => ({
+                ...prevState,
+                confirmPassword: e.target.value,
+              }));
             }}
-            onBlur={() => setTouchedConfirmPassword(true)}
+            onBlur={() =>
+              setUserState((prevState) => ({
+                ...prevState,
+                touchedConfirmPassword: true,
+              }))
+            }
           />
 
           <div className="captcha">
@@ -170,17 +283,18 @@ function Signup() {
               data-testid="captcha"
               sitekey="6LfwE4opAAAAAIroaJa6YdxlNtZiD7-OpS-QOoH0"
               onChange={(value) => {
-                setCaptcha(value);
+                setUserState((prevState) => ({ ...prevState, captcha: value }));
                 console.log(value);
               }}
             />
-            {errors.captcha && <div className="error">{errors.captcha}</div>}
           </div>
           <Button
+           onClick={ () => setStage(2) }
             data-testid="signup-btn"
             variant="contained"
             sx={{
               width: "100%",
+              borderRadius: "25px",
               marginTop: "10px",
               padding: "10px",
               backgroundColor: "#FF5700",
@@ -190,37 +304,29 @@ function Signup() {
             }}
             startIcon={<FiLogIn />}
             disabled={
-              !validUser ||
-              !validPassword ||
-              !validEmail ||
-              !validConfirmPassword ||
-              !captcha
+         
+              !userState.validPassword ||
+              !userState.validEmail ||
+              !available ||
+              !userState.validConfirmPassword ||
+              !userState.captcha
             }
             type="submit"
           >
             Signup
           </Button>
-          <LoginSocialFacebook
-            appId="736104705323820"
-            onResolve={(response) => {}}
-            onReject={(response) => {}}
-          >
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
-              startIcon={<FaFacebook />}
-            >
-              Signup with Facebook
-            </Button>
-          </LoginSocialFacebook>
 
           <Button
             id="googlebtn"
             onClick={() => googleLogin()}
             variant="contained"
             color="primary"
-            sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
+            sx={{
+              width: "100%",
+              marginTop: "10px",
+              padding: "10px",
+              borderRadius: "25px",
+            }}
             startIcon={<FaGoogle />}
           >
             {" "}
@@ -232,7 +338,33 @@ function Signup() {
             </p>
           </div>
         </form>
-      </div>
+      )}
+      {stage === 2 && (
+        <SelectUsername
+          stage={stage}
+          setStage={setStage}
+          username={userState.username}
+          setUsername={(username) =>
+            setUserState((prevState) => ({ ...prevState, username }))
+          }
+        />
+      )}
+      {stage === 3 && (
+        <SelectGender
+          stage={stage}
+          setStage={setStage}
+          gender={userState.gender}
+          setGender={(gender) =>
+            setUserState((prevState) => ({ ...prevState, gender }))
+          }
+        />
+      )}
+      {stage === 4 && <SelectInterests
+         stage={stage}
+         setStage={setStage}
+         preferences={preferences}
+         setPreferences={setPreferences}
+      />}
     </div>
   );
 }
@@ -240,11 +372,11 @@ function Signup() {
 export default Signup;
 
 Signup.propTypes = {
-   /** mandatory email, displays error message if touched and left empty */
+  /** mandatory email, displays error message if touched and left empty */
   email: PropTypes.string,
- /** mandatory username, displays error message if touched and left empty */
+  /** mandatory username, displays error message if touched and left empty */
   username: PropTypes.string,
- /** mandatory password, displays error message if touched and left empty */
+  /** mandatory password, displays error message if touched and left empty */
   password: PropTypes.string,
   /** Checks that user field was touched */
   touchedUser: PropTypes.bool,

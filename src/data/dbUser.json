@@ -25,10 +25,16 @@
       "password": "testuser400"
     },
     {
-      "id": 5,
+      "id": "5",
       "username": "EcoBackend",
       "password": "testuser100",
       "email": "mo.ashraf.mcs@gmail.com"
+    },
+    {
+      "id": 6,
+      "username": "mody123",
+      "password": "testuser100",
+      "email": "modyxstar@gmail.com"
     }
   ],
   "notifications": [
