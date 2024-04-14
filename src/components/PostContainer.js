@@ -229,16 +229,13 @@ function PostContainer({ postData }) {
               userpic={postData2.userpic}
               community={postData.community}
               incommunity={postData2.incommunity}
-              Date={
-                postData.time.split("T")[0] +
-                " " +
-                postData.time
-                  .split("T")[1]
-                  .split("Z")[0]
-                  .split(":")
-                  .slice(0, 2)
-                  .join(":")
-              }
+              Date={new Date(postData.time).toLocaleString([], {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
               title={postData.title} // Pass the title from postData
               text={postData.content} // Pass the content from postData as text
               image={postData.image}

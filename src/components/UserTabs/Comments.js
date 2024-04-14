@@ -23,7 +23,6 @@ export const LiveCommentsProvider = ({ children }) => {
   const addLiveComment = (comment) => {
     setLiveComments([...liveComments, comment]);
   };
-
   return (
     <LiveCommentsContext.Provider value={{ liveComments, addLiveComment }}>
       {children}

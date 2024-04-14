@@ -15,7 +15,7 @@ function CommentContainer({ commentData }) {
     title: " ",
   });
 
-  console.log("commentData", commentData);
+  console.log("commentData", commentData.user);
 
   const [showOptions, setShowOptions] = useState(false);
   const toggleOptions = () => {
@@ -125,17 +125,6 @@ function CommentContainer({ commentData }) {
       console.error(error);
     }
   };
-  const date =
-    typeof commentData.time === "string"
-      ? commentData.time.split("T")[0] +
-        " " +
-        commentData.time
-          .split("T")[1]
-          .split("Z")[0]
-          .split(":")
-          .slice(0, 2)
-          .join(":")
-      : "Just now";
 
   return (
     <div className="comments-container">
@@ -146,7 +135,13 @@ function CommentContainer({ commentData }) {
         userpic={commentData2.userpic}
         community={commentData.community}
         incommunity={commentData2.incommunity}
-        Date={date}
+        Date={new Date(commentData.time).toLocaleString([], {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        })}
         text={commentData.content}
         title={commentData2.title}
       />
