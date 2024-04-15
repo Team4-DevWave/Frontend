@@ -62,6 +62,7 @@ function Feed() {
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
+                video:item.video,
                 ishide: false,
                 issaved: false,
               };

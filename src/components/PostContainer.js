@@ -243,6 +243,7 @@ function PostContainer({ postData }) {
               text={postData.content} // Pass the content from postData as text
               image={postData.image}
               Link={postData.Link}
+              video={postData.video}
             />{" "}
           </article>
         </a>
