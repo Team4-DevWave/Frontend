@@ -45,7 +45,7 @@ function OverView() {
 
     axios
       .get(
-        `http://localhost:8000/api/v1/users/${username}/overview?page=${page}
+        `https://www.threadit.tech/api/v1/users/${username}/overview?page=${page}
       `,
         config
       )

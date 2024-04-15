@@ -80,7 +80,7 @@ function MessageRecived() {
     }
 
     async function handleBlockUser(usernameToBlock) {
-        axios.post(`http://localhost:8000/api/v1/users/me/block/${usernameToBlock}`, {}, config)
+        axios.post(`https://www.threadit.tech/api/v1/users/me/block/${usernameToBlock}`, {}, config)
             .then(response => {
                 console.log('User blocked:', response.data);
             })

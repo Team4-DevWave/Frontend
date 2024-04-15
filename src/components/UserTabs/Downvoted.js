@@ -44,7 +44,7 @@ function Downvoted() {
 
     axios
       .get(
-        `http://localhost:8000/api/v1/users/me/downvoted?page=${page}`,
+        `https://www.threadit.tech/api/v1/users/me/downvoted?page=${page}`,
         config
       )
       .then((response) => {
@@ -52,7 +52,7 @@ function Downvoted() {
         const postPromises = response.data.data.posts
           .filter(Boolean)
           .map((item) =>
-            axios.get(`http://localhost:8000/api/v1/posts/${item}`, config)
+            axios.get(`https://www.threadit.tech/api/v1/posts/${item}`, config)
           );
 
         return Promise.all(postPromises);

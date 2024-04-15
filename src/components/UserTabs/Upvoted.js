@@ -43,11 +43,11 @@ function Upvoted() {
     console.log(`Fetching page ${page}...`);
 
     axios
-      .get(`http://localhost:8000/api/v1/users/me/upvoted?page=${page}`, config)
+      .get(`https://www.threadit.tech/api/v1/users/me/upvoted?page=${page}`, config)
       .then((response) => {
         console.log("Posts data:", response.data.data.posts);
         const postPromises = response.data.data.posts.map((item) =>
-          axios.get(`http://localhost:8000/api/v1/posts/${item}`, config)
+          axios.get(`https://www.threadit.tech/api/v1/posts/${item}`, config)
         );
 
         return Promise.all(postPromises);

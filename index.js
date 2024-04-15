@@ -3,7 +3,7 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: 'https://www.threadit.tech',
         methods: ['GET', 'POST'],
         credentials: true
     }
@@ -11,7 +11,7 @@ const io = require('socket.io')(http, {
 const moment = require('moment');
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', 'https://www.threadit.tech');
     next();
 });
 

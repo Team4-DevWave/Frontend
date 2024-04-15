@@ -30,7 +30,7 @@ function PostReplies() {
     useEffect(() => {
         setLoading(true);
 
-        axios.get('http://localhost:8000/api/v1/messages/postreply', config)
+        axios.get('https://www.threadit.tech/api/v1/messages/postreply', config)
             .then(response => {
                 if (response.data.data.messages.length > 0) {
                     const uniqueMessages = response.data.data.messages.reduce((unique, message) => {
@@ -72,7 +72,7 @@ function PostReplies() {
 
 
     async function handleDelete(id) {
-        axios.delete(`http://localhost:8000/api/v1/messages/${id}/delete`, config)
+        axios.delete(`https://www.threadit.tech/api/v1/messages/${id}/delete`, config)
             .then(response => {
                 setallMessages(allMessages.filter(message => message._id !== id));
                 console.log('Message deleted:', response.data);
@@ -87,7 +87,7 @@ function PostReplies() {
     }
 
     async function handleBlockUser(usernameToBlock) {
-        axios.post(`http://localhost:8000/api/v1/users/me/block/${usernameToBlock}`, {}, config)
+        axios.post(`https://www.threadit.tech/api/v1/users/me/block/${usernameToBlock}`, {}, config)
             .then(response => {
                 console.log('User blocked:', response.data);
             })
@@ -97,7 +97,7 @@ function PostReplies() {
     };
     
     async function handleMarkUnread(message1) {
-        axios.patch(`http://localhost:8000/api/v1/messages/${message1._id}/markread`, { read: !message1.read }, config)
+        axios.patch(`https://www.threadit.tech/api/v1/messages/${message1._id}/markread`, { read: !message1.read }, config)
             .then(response => {
                 setallMessages(allMessages.map(message =>
                     message._id === message1._id ? { ...message, read: !message1.read } : message
@@ -142,7 +142,7 @@ function PostReplies() {
                 // message: replyText
             };
 
-            const response = await axios.put(`http://localhost:3002/send/${message1.id}`, {
+            const response = await axios.put(`https://www.threadit.tech/send/${message1.id}`, {
                 from: message1.from,
                 to: message1.to,
                 subject: message1.subject,

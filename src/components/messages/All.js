@@ -81,7 +81,7 @@ function All() {
     }
 
     async function handleBlockUser(usernameToBlock) {
-        axios.post(`http://localhost:8000/api/v1/users/me/block/${usernameToBlock}`, {}, config)
+        axios.post(`https://www.threadit.tech/api/v1/users/me/block/${usernameToBlock}`, {}, config)
             .then(response => {
                 console.log('User blocked:', response.data);
             })
@@ -91,7 +91,7 @@ function All() {
     };
     
     async function handleMarkUnread(message1) {
-        axios.patch(`http://localhost:8000/api/v1/messages/${message1._id}/markread`, { read: !message1.read }, config)
+        axios.patch(`https://www.threadit.tech/api/v1/messages/${message1._id}/markread`, { read: !message1.read }, config)
             .then(response => {
                 setallMessages(allMessages.map(message =>
                     message._id === message1._id ? { ...message, read: !message1.read } : message
