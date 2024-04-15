@@ -1,8 +1,9 @@
 .sort-options{
     width: 730px;
     position: relative;
-    margin-left: 300px;
-    margin:8px 4px 0px 4px;
+    left: 100px;
+    /* margin-left: 300px; */
+    /* margin:8px 4px 0px 4px; */
 }
 
 .sort-options button{
@@ -75,4 +76,39 @@
 
   SortOptions hr{
     margin: 10px 0px 0px 0px;
+  }
+
+  @media (max-width: 1350px) {
+    .post-container {
+      left: 100px;
+    }
+    .post-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .post-buttons {
+      padding-left: 0;
+    }
+    
+  }
+  
+  @media (max-width: 980px) {
+    .sort-options {
+      left: 100px;
+      max-width: 600px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .sort-options {
+      left: 100px;
+      max-width: 450px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .sort-options {
+      left: 100px;
+      max-width: 350px;
+    }
   }
