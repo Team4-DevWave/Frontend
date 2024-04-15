@@ -11,7 +11,6 @@ function All() {
     const [page, setPage] = useState(1); // initial page
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-
     const limit = 10;
 
     let bearerToken = Cookies.get('token');
@@ -48,6 +47,7 @@ function All() {
                 console.error('Error fetching data:', error);
             });
     }, [page]);
+    
     const observer = useRef();
     const lastMessageElementRef = useCallback(node => {
         if (loading) return;
