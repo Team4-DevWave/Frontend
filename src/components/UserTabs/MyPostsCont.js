@@ -227,11 +227,11 @@ console.log("lockeddddd------->",postData.locked);
                                         <PostDesign
                                             className="post-content"
                                             data-testid="post"
-                                            username={postData2.username}
-                                            userpic={postData2.userpic}
-                                            community={postData2.community}
+                                            username={postData.username}
+                                            userpic={postData.userpic}
+                                            community={postData.community}
                                             incommunity={postData2.incommunity}
-                                            Date={postData2.Date}
+                                            Date={postData.Date}
                                             title={postData.title} // Pass the title from postData
                                             text={postData.content} // Pass the content from postData as text
                                             image={postData.image}

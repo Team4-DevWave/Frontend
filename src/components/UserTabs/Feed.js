@@ -63,7 +63,7 @@ function Feed() {
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
-                video:item.video,
+                video: item.video,
                 ishide: false,
                 issaved: false,
               };
@@ -98,7 +98,7 @@ function Feed() {
   };
 
   return (
-    <div className="post-feed">
+    <div>
       {posts.map((post, index) => {
         console.log("post data:", post); // Log the post data here
         return <PostContainer key={index} postData={post} />;
@@ -107,6 +107,7 @@ function Feed() {
         ref={loader}
         style={{
           height: "50px",
+          width: "730px",
           margin: "20px",
           display: "flex",
           justifyContent: "center",

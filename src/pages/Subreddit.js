@@ -197,41 +197,41 @@ export default function Subreddit(props) {
               <div className="subreddit-strip">
                 <h1 className="subreddit-title">t/{props.name}</h1>
                 <div className="subreddit-features">
-                <a
-                  className="nav-link subreddit-create-post post-in-subreddit"
-                  href="/CreatePost"
-                  data-testid="create-post-nav"
-                >
-                  <svg
-                    rpl=""
-                    fill="currentColor"
-                    height="20"
-                    icon-name="add-outline"
-                    viewBox="0 0 20 20"
-                    width="20"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <a
+                    className="nav-link subreddit-create-post post-in-subreddit"
+                    href="/CreatePost"
+                    data-testid="create-post-nav"
                   >
-                    <path d="M19 9.375h-8.375V1h-1.25v8.375H1v1.25h8.375V19h1.25v-8.375H19v-1.25Z"></path>
-                  </svg>
-                  <span className="create ">Create a post</span>
-                </a>
-                <button onClick={handleJoin} className="join-subreddit">
-                  {joinStatus}
-                </button>
-                <button className="more-subreddit" onClick={handleMore}>
-                  <MoreHorizIcon />
-                </button>
-                <button className="bell-icon" onClick={handleNotifFrequency}>
-                  <svg
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                    focusable="false"
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                    data-testid="NotificationsIcon"
-                  >
-                    <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2m6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1z"></path>
-                  </svg>
-                </button>
+                    <svg
+                      rpl=""
+                      fill="currentColor"
+                      height="20"
+                      icon-name="add-outline"
+                      viewBox="0 0 20 20"
+                      width="20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M19 9.375h-8.375V1h-1.25v8.375H1v1.25h8.375V19h1.25v-8.375H19v-1.25Z"></path>
+                    </svg>
+                    <span className="create ">Create a post</span>
+                  </a>
+                  <button onClick={handleJoin} className="join-subreddit">
+                    {joinStatus}
+                  </button>
+                  <button className="more-subreddit" onClick={handleMore}>
+                    <MoreHorizIcon />
+                  </button>
+                  <button className="bell-icon" onClick={handleNotifFrequency}>
+                    <svg
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      focusable="false"
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      data-testid="NotificationsIcon"
+                    >
+                      <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2m6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1z"></path>
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>

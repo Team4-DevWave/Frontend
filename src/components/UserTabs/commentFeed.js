@@ -50,6 +50,7 @@ function CommentFeed(postID) {
           })
           .filter(Boolean);
         console.log("page comments id:", comments[comments.length - 1]);
+        console.log("page comments mapped:", mappedData[mappedData.length - 1]);
         if (
           mappedData.length === 0 ||
           (comments.length > 0 &&
@@ -60,7 +61,7 @@ function CommentFeed(postID) {
           console.log("page last", page);
         } else {
           setComments((prevComments) => [...prevComments, ...mappedData]);
-          setPage(page + 1);
+          setPage((prevPage) => prevPage + 1);
           console.log("page num", page);
         }
         setLoading(false);
