@@ -31,6 +31,7 @@ function AddComment(id) {
   const [isstrikethrough, setIsstrikethrough] = useState(false);
   const [isInlinecode, setIsInlinecode] = useState(false);
   const [commentDone, setcommentDone] = useState(false);
+  const username = localStorage.getItem("username");
 
   //HANDLERS
   useEffect(() => {
@@ -138,7 +139,11 @@ function AddComment(id) {
         setIsstrikethrough(false);
         setIsInlinecode(false);
         console.log("success");
-        addLiveComment(response.data.data.comment);
+        const livecomment = { ...response.data.data.comment };
+        livecomment.user = username; // Replace "New User" with the new value
+        livecomment.time = response.data.data.comment.createdAt;
+        addLiveComment(livecomment);
+        console.log("Live comment time:", livecomment.time);
       })
       .catch((error) => console.error("Error:", error));
   }

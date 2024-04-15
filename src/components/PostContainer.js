@@ -8,6 +8,7 @@ import Alert from "@mui/material/Alert";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Report from "./Report";
 // import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
 function PostContainer({ postData }) {
@@ -78,36 +79,14 @@ function PostContainer({ postData }) {
     //image: "https://via.placeholder.com/400",
   };
 
-  const [voteStatus, setVoteStatus] = useState(
-    Number(localStorage.getItem(`voteStatus-${postData.id}`)) || 0
-  ); // 0 = no vote, 1 = upvoted, -1 = downvoted
+  const [voteStatus, setVoteStatus] = useState(0); // 0 = no vote, 1 = upvoted, -1 = downvoted
   const [upvoteCount, setUpVoteCount] = useState(postData.votes.upvotes);
   const [downvoteCount, setDownVoteCount] = useState(postData.votes.downvotes);
-  const totalVotes = upvoteCount - downvoteCount;
-  const [count, setCount] = useState(totalVotes);
+  const [count, setCount] = useState(
+    postData.votes.upvotes - postData.votes.downvotes
+  );
 
   const handleUpvote = async () => {
-    let newUpvoteCount = upvoteCount;
-    let newDownvoteCount = downvoteCount;
-
-    if (voteStatus === 1) {
-      // If already upvoted, cancel the upvote
-      setCount(count - 1);
-      setVoteStatus(0);
-      newUpvoteCount -= 1;
-      localStorage.removeItem(`voteStatus-${postData.id}`);
-    } else {
-      // If no vote or downvoted, upvote
-      localStorage.setItem(`voteStatus-${postData.id}`, "1");
-      setCount(voteStatus === -1 ? count + 2 : count + 1);
-      setVoteStatus(1);
-      newUpvoteCount += 1;
-      if (voteStatus === -1) newDownvoteCount -= 1;
-    }
-
-    setUpVoteCount(newUpvoteCount);
-    setDownVoteCount(newDownvoteCount);
-
     try {
       const response = await axios.patch(
         `https://www.threadit.tech/api/v1/posts/${postData.id}/vote`,
@@ -116,34 +95,22 @@ function PostContainer({ postData }) {
         },
         config
       );
-      console.log(response.data);
+      console.log("Upvotes:", response.data.data.upvotes);
+      console.log("Downvotes:", response.data.data.downvotes);
+      console.log("UPPP:", response.data);
+      // Assuming the response contains the updated upvote and downvote counts
+      setUpVoteCount(Number(response.data.data.upvotes));
+      setDownVoteCount(Number(response.data.data.downvotes));
+      setCount(
+        Number(response.data.data.upvotes) -
+          Number(response.data.data.downvotes)
+      );
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleDownvote = async () => {
-    let newUpvoteCount = upvoteCount;
-    let newDownvoteCount = downvoteCount;
-
-    if (voteStatus === -1) {
-      // If already downvoted, cancel the downvote
-      setCount(count + 1);
-      setVoteStatus(0);
-      newDownvoteCount -= 1;
-      localStorage.removeItem(`voteStatus-${postData.id}`);
-    } else {
-      // If no vote or upvoted, downvote
-      setCount(voteStatus === 1 ? count - 2 : count - 1);
-      setVoteStatus(-1);
-      newDownvoteCount += 1;
-      if (voteStatus === 1) newUpvoteCount -= 1;
-      localStorage.setItem(`voteStatus-${postData.id}`, "-1");
-    }
-
-    setUpVoteCount(newUpvoteCount);
-    setDownVoteCount(newDownvoteCount);
-
     try {
       const response = await axios.patch(
         `https://www.threadit.tech/api/v1/posts/${postData.id}/vote`,
@@ -152,7 +119,16 @@ function PostContainer({ postData }) {
         },
         config
       );
+      console.log("Upvotes:", response.data.newUpvoteCount);
+      console.log("Downvotes:", response.data.newDownvoteCount);
       console.log(response.data);
+      // Assuming the response contains the updated upvote and downvote counts
+      setUpVoteCount(Number(response.data.data.upvotes));
+      setDownVoteCount(Number(response.data.data.downvotes));
+      setCount(
+        Number(response.data.data.upvotes) -
+          Number(response.data.data.downvotes)
+      );
     } catch (error) {
       console.error(error);
     }
@@ -253,20 +229,18 @@ function PostContainer({ postData }) {
               userpic={postData2.userpic}
               community={postData.community}
               incommunity={postData2.incommunity}
-              Date={
-                postData.time.split("T")[0] +
-                " " +
-                postData.time
-                  .split("T")[1]
-                  .split("Z")[0]
-                  .split(":")
-                  .slice(0, 2)
-                  .join(":")
-              }
+              Date={new Date(postData.time).toLocaleString([], {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
               title={postData.title} // Pass the title from postData
               text={postData.content} // Pass the content from postData as text
               image={postData.image}
               Link={postData.Link}
+              video={postData.video}
             />{" "}
           </article>
         </a>
@@ -290,7 +264,11 @@ function PostContainer({ postData }) {
                 <li onClick={handelsavedpost}>
                   {postData.issaved ? "Un Save" : "Saved"}
                 </li>
-                <li>Report</li>
+                <li>
+                  <p>
+                    <Report />
+                  </p>
+                </li>
               </ul>
             </div>
           )}

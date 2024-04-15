@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Tabs, Tab, Typography, useMediaQuery, useTheme } from '@mui/material';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Tabs, Tab, Typography, useMediaQuery, useTheme } from "@mui/material";
+import axios from "axios";
 
-function ProfileNav({ 
-  overviewData, 
-  postsData, 
-  commentsData, 
-  savedData, 
-  hiddenData, 
-  upvotedData, 
-  downvotedData 
-}){
+function ProfileNav({
+  overviewData,
+  postsData,
+  commentsData,
+  savedData,
+  hiddenData,
+  upvotedData,
+  downvotedData,
+}) {
   const [activeTab, setActiveTab] = useState(0);
   const [tabData, setTabData] = useState(null); // State to store tab-specific data
-  const token = 'your_token_here'; // Replace 'your_token_here' with your actual token
+  const token = "your_token_here"; // Replace 'your_token_here' with your actual token
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -27,14 +27,17 @@ function ProfileNav({
 
   const fetchData = async (tabIndex) => {
     try {
-      const response = await axios.get(`https://www.threadit.tech/api/v1/users/me/${getTabName(tabIndex)}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `https://www.threadit.tech/api/v1/users/me/${getTabName(tabIndex)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setTabData(response.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
       setTabData(null); // Clear tab data in case of error
     }
   };
@@ -42,28 +45,28 @@ function ProfileNav({
   const getTabName = (index) => {
     switch (index) {
       case 0:
-        return 'overview';
+        return "overview";
       case 1:
-        return 'posts';
+        return "posts";
       case 2:
-        return 'comments';
+        return "comments";
       case 3:
-        return 'saved';
+        return "saved";
       case 4:
-        return 'hidden';
+        return "hidden";
       case 5:
-        return 'upvoted';
+        return "upvoted";
       case 6:
-        return 'downvoted';
+        return "downvoted";
       default:
-        return '';
+        return "";
     }
   };
 
   return (
     <div>
       <Tabs
-      className="profileNavTabs"
+        className="profileNavTabs"
         value={activeTab}
         onChange={handleTabChange}
         variant={isMobile ? "scrollable" : "standard"}
@@ -71,55 +74,69 @@ function ProfileNav({
         textColor="primary"
         left
       >
-        <Tab label="Overview"
+        <Tab
+          label="Overview"
           sx={{
             textTransform: "none",
             fontWeight: "bold",
             fontSize: "var(--font-small)",
             "&:hover": { color: "var(--color-black)" },
-          }} />
-        <Tab label="Posts" 
-        sx={{
+          }}
+        />
+        <Tab
+          label="Posts"
+          sx={{
             textTransform: "none",
             fontWeight: "bold",
             fontSize: "var(--font-small)",
             "&:hover": { color: "var(--color-black)" },
-          }} />
-        <Tab label="Comments" 
-        sx={{
+          }}
+        />
+        <Tab
+          label="Comments"
+          sx={{
             textTransform: "none",
             fontWeight: "bold",
             fontSize: "var(--font-small)",
             "&:hover": { color: "var(--color-black)" },
-          }} />
-        <Tab label="Saved" 
-        sx={{
+          }}
+        />
+        <Tab
+          label="Saved"
+          sx={{
             textTransform: "none",
             fontWeight: "bold",
             fontSize: "var(--font-small)",
             "&:hover": { color: "var(--color-black)" },
-          }} />
-        <Tab label="Hidden" 
-        sx={{
+          }}
+        />
+        <Tab
+          label="Hidden"
+          sx={{
             textTransform: "none",
             fontWeight: "bold",
             fontSize: "var(--font-small)",
             "&:hover": { color: "var(--color-black)" },
-          }} />
-        <Tab label="Upvoted" 
-        sx={{
+          }}
+        />
+        <Tab
+          label="Upvoted"
+          sx={{
             textTransform: "none",
             fontWeight: "bold",
             fontSize: "var(--font-small)",
             "&:hover": { color: "var(--color-black)" },
-          }} />
-        <Tab label="Downvoted" 
-        sx={{
+          }}
+        />
+        <Tab
+          label="Downvoted"
+          sx={{
             textTransform: "none",
             fontWeight: "bold",
             fontSize: "var(--font-small)",
             "&:hover": { color: "var(--color-black)" },
-          }} />
+          }}
+        />
       </Tabs>
 
       <div>

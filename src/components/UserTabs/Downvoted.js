@@ -5,13 +5,14 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function Feed() {
+function Downvoted() {
   const [posts, setPosts] = useState([]);
+  var title;
+  var content;
+  const username = localStorage.getItem("username");
   const [page, setPage] = useState(1);
   const loader = useRef(null);
   const [stop, setStop] = useState(false);
-  const lastData = useRef(null);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (stop) {
@@ -26,6 +27,7 @@ function Feed() {
       observer.observe(loader.current);
     }
   }, []);
+  const lastData = useRef(null);
 
   useEffect(() => {
     if (stop) {
@@ -41,13 +43,27 @@ function Feed() {
     console.log(`Fetching page ${page}...`);
 
     axios
-      .get(`https://www.threadit.tech/api/v1/posts?page=${page}`, config)
+      .get(
+        `http://localhost:8000/api/v1/users/me/downvoted?page=${page}`,
+        config
+      )
       .then((response) => {
         console.log("Posts data:", response.data.data.posts);
+        const postPromises = response.data.data.posts
+          .filter(Boolean)
+          .map((item) =>
+            axios.get(`http://localhost:8000/api/v1/posts/${item}`, config)
+          );
 
-        const mappedData = response.data.data.posts
-          .map((item) => {
-            if (item.text_body) {
+        return Promise.all(postPromises);
+      })
+      .then((responses) => {
+        console.log("Responses:", responses);
+        const mappedData = responses
+          .map((response) => {
+            const item = response.data.data.post;
+            console.log("items:", item.text_body);
+            if (item) {
               return {
                 id: item._id,
                 title: item.title,
@@ -63,7 +79,6 @@ function Feed() {
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
-                video:item.video,
                 ishide: false,
                 issaved: false,
               };
@@ -73,21 +88,22 @@ function Feed() {
           })
           .filter(Boolean);
 
-        if (lastData.current && mappedData.length > 0) {
-          const lastDataIds = lastData.current.map((post) => post.id);
-          const mappedDataIds = mappedData.map((post) => post.id);
+        const lastDataIds = lastData.current
+          ? lastData.current.map((post) => post._id)
+          : [];
+        const mappedDataIds = mappedData.map((post) => post._id);
 
-          if (JSON.stringify(lastDataIds) === JSON.stringify(mappedDataIds)) {
-            setStop(true);
-            return;
-          }
+        if (JSON.stringify(lastDataIds) === JSON.stringify(mappedDataIds)) {
+          setStop(true);
+          return;
         }
 
-        lastData.current = mappedData;
+        console.log("mappeddata", mappedData.content);
         setPosts((prevPosts) => [...prevPosts, ...mappedData]);
+        lastData.current = mappedData;
       })
       .catch((error) => console.error("Error:", error));
-  }, [page, stop]);
+  }, [page]);
 
   const handleObserver = (entities) => {
     const target = entities[0];
@@ -119,8 +135,8 @@ function Feed() {
   );
 }
 
-export default Feed;
+export default Downvoted;
 
-Feed.propTypes = {
+Downvoted.propTypes = {
   postData: PropTypes.array,
 };

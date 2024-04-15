@@ -16,12 +16,9 @@ import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import Cookies from "js-cookie";
 import LoadingScreen from "../components/LoadingScreen";
-
+import SubredditRules from "../components/SubredditRules";
 
 export default function Subreddit(props) {
-  
-
-
   const [posts, setPosts] = React.useState([]);
 
   const [notificationFrequency, setNotificationFrequency] = React.useState("");
@@ -74,6 +71,19 @@ export default function Subreddit(props) {
                 id: item._id,
                 title: item.title,
                 content: item.text_body,
+                time: item.postedTime,
+                votes: item.votes,
+                numviews: item.numViews,
+                spoiler: item.spoiler,
+                nsfw: item.nsfw,
+                locked: item.locked,
+                approved: item.approved,
+                mentioned: item.mentioned,
+                username: item.userID.username,
+                commentsCount: item.commentsCount,
+                image: item.image,
+                ishide: false,
+                issaved: false,
               };
             } else {
               return null;
@@ -87,24 +97,47 @@ export default function Subreddit(props) {
   }, []);
 
   const [loading, setLoading] = React.useState(true);
-    
-    
-  useEffect(()=>{
-   setTimeout(() => {
-     setLoading(false);
-   }, 2000);
-  },[]);
- 
-  if(loading){
-    return <LoadingScreen/>
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  const [isSticky, setSticky] = React.useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        console.log("Sticky");
+        setSticky(true);
+      } else {
+        console.log("Not sticky");
+        setSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  if (loading) {
+    return <LoadingScreen />;
   }
 
-
   return (
-    <div style={{ marginTop: "80px" }}>
-      <Header />
-      <SideBar />
+    // <div style={{ marginTop: "80px" }}>
+    //   <Header />
+    //   <SideBar />
 
+    //   <Rules name="t/Persona3" rules="" />
+
+    //   </div>
+    // </div>
+    <div>
       <Menu
         anchorEl={anchorEl}
         keepMounted
@@ -134,59 +167,75 @@ export default function Subreddit(props) {
         </MenuItem>
       </Menu>
 
-      <Rules name="t/Persona3" rules="" />
-      <div className="subreddit-container">
-        <div className="subreddit-banner"></div>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img
-            className="subreddit-image"
-            src="https://store-images.s-microsoft.com/image/apps.1955.14321970625114405.1d07d0b2-cd93-4202-aa4c-3a3b8640c4e3.3585937a-a7b5-45f4-902c-6026a8beca90?mode=scale&q=90&h=1080&w=1920&background=%23FFFFFF"
-          />
-          <h1 className="subreddit-title">t/{props.name}</h1>
-          <div className="subreddit-features">
-            <a
-              className="nav-link subreddit-create-post post-in-subreddit"
-              href="/CreatePost"
-              data-testid="create-post-nav"
-            >
-              <svg
-                rpl=""
-                fill="currentColor"
-                height="20"
-                icon-name="add-outline"
-                viewBox="0 0 20 20"
-                width="20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M19 9.375h-8.375V1h-1.25v8.375H1v1.25h8.375V19h1.25v-8.375H19v-1.25Z"></path>
-              </svg>
-              <span className="create ">Create a post</span>
-            </a>
-            <button onClick={handleJoin} className="join-subreddit">
-              {joinStatus}
-            </button>
-            <button className="more-subreddit" onClick={handleMore}>
-              <MoreHorizIcon />
-            </button>
-            <button className="bell-icon" onClick={handleNotifFrequency}>
-              <svg
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                focusable="false"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                data-testid="NotificationsIcon"
-              >
-                <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2m6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1z"></path>
-              </svg>
-            </button>
+      <div class="angry-grid">
+        <div id="item-0">
+          <Header />
+        </div>
+        <div id="item-1">
+          <SideBar />
+        </div>
+        <div id="item-2">
+          <SortOptions />
+          <div className="post-feed">
+            {posts.map((post, index) => {
+              return <PostContainer key={index} postData={post} />;
+            })}
           </div>
         </div>
-
-        <SortOptions />
-        <div className="post-feed">
-          {posts.map((post, index) => {
-            return <PostContainer key={index} postData={post} />;
-          })}
+        <div id="item-3">
+          <SubredditRules isSticky={isSticky} />
+        </div>
+        <div id="item-4">
+          {" "}
+          <div className="subreddit-container">
+            <div className="subreddit-banner"></div>
+            <div className="internal-banner-strip">
+              <img
+                className="subreddit-image"
+                src="https://store-images.s-microsoft.com/image/apps.1955.14321970625114405.1d07d0b2-cd93-4202-aa4c-3a3b8640c4e3.3585937a-a7b5-45f4-902c-6026a8beca90?mode=scale&q=90&h=1080&w=1920&background=%23FFFFFF"
+              />
+              <div className="subreddit-strip">
+                <h1 className="subreddit-title">t/{props.name}</h1>
+                <div className="subreddit-features">
+                <a
+                  className="nav-link subreddit-create-post post-in-subreddit"
+                  href="/CreatePost"
+                  data-testid="create-post-nav"
+                >
+                  <svg
+                    rpl=""
+                    fill="currentColor"
+                    height="20"
+                    icon-name="add-outline"
+                    viewBox="0 0 20 20"
+                    width="20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M19 9.375h-8.375V1h-1.25v8.375H1v1.25h8.375V19h1.25v-8.375H19v-1.25Z"></path>
+                  </svg>
+                  <span className="create ">Create a post</span>
+                </a>
+                <button onClick={handleJoin} className="join-subreddit">
+                  {joinStatus}
+                </button>
+                <button className="more-subreddit" onClick={handleMore}>
+                  <MoreHorizIcon />
+                </button>
+                <button className="bell-icon" onClick={handleNotifFrequency}>
+                  <svg
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    focusable="false"
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    data-testid="NotificationsIcon"
+                  >
+                    <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2m6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1z"></path>
+                  </svg>
+                </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

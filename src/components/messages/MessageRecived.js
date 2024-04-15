@@ -1,142 +1,3 @@
-// import axios from 'axios';
-// import React, { useState, useEffect } from 'react';
-// import socketIOClient from "socket.io-client";
-// import { PropTypes } from 'prop-types';
-// import './Messages.css';
-// function MessageRecived() {
-//     const [Messages, setMessages] = useState([]);
-
-
-//     const [ReplyingTo, setReplyingTo] = useState(null);
-//     const [replyText, setReplyText] = useState('');
-//     useEffect(() => {
-//         axios.get('http://localhost:8000/api/v1/messages/messages')
-//             .then(response => {
-//                 setMessages(response.data);
-//             })
-//             .catch(error => {
-//                 console.error('Error fetching data:', error);
-//             });
-//     }, []);
-
-//     async function handleDelete(id) {
-//         try {
-//             const response = await axios.delete(`http://localhost:3002/send/${id}`);
-            
-//             // If the message was deleted successfully, remove it from the state
-//             if (response.status === 200) {
-//                 setMessages(Messages.filter(message => message.id !== id));
-//             }
-//         } catch (error) {
-//             console.error('Failed to delete message:', error);
-//         }
-//     }
-
-//     function handleReport(id) {
-//         // Report the message with the given ID
-//     }
-
-//     function handleBlockUser(user) {
-//         // Block the user with the given name
-//     }
-
-//    async function handleMarkUnread(id) {
-//     try {
-//         const response = await axios.patch(`http://localhost:3002/send/${id}`, {
-//             read: false
-//         });
-
-    
-//     } catch (error) {
-//         console.error('Failed to mark message as unread:', error);
-//     }
-//     }
-
-//     const handleReplyClick = (id) => {
-//         setReplyingTo(id);
-//     };
-
-//     const handleCancelClick = () => {
-//         setReplyingTo(false);
-//         setReplyText('');
-//     };
-
-//     const handleSendClick = async (message1) => {
-
-//         try {
-//             const newReply = {
-//                 from: message1.to,
-//                 to: message1.from,
-//                 subject: message1.subject,
-//                 message: replyText
-//             };
-
-//             const response = await axios.put(`http://localhost:3002/send/${message1.id}`, {
-//                 from: message1.from,
-//                 to: message1.to,
-//                 subject: message1.subject,
-//                 message: message1.message,
-//                 replies: [...message1.replies || [], newReply]
-//             });
-
-//             if (response.status === 200) {
-//                 setReplyText('');
-//             }
-//         } catch (error) {
-//             console.error('Failed to send message:', error);
-//         }
-
-//         setReplyingTo(false);
-//         setReplyText('');
-//     };
-
-//     return (
-//         <div >
-//             {Messages.map((message, index) => (
-//                 <div className="message-container" key={index}>
-//                     <h2>From: {message.from}</h2>
-//                     <h3>To: {message.to}</h3>
-//                     <h3>Subject: {message.subject}</h3>
-//                     <h4>{message.message}</h4>
-
-//                     {message.replies && message.replies.map((reply, index) => (
-//                         <div key={index}>
-//                             <h3>Reply from {reply.from}</h3>
-//                             <p>{reply.message}</p>
-//                         </div>
-//                     ))}
-//                     <div className="button-container-in-messageRecived">
-
-//                         <button onClick={() => handleDelete(message.id)}>Delete</button>
-//                         <button onClick={() => handleReport(message.id)}>Report</button>
-//                         <button onClick={() => handleBlockUser(message.from)}>Block User</button>
-//                         <button onClick={() => handleMarkUnread(message.id)}>Mark Unread</button>
-//                         <button onClick={() => handleReplyClick(message.id)}>Reply</button>
-
-//                         {ReplyingTo === message.id && (
-//                             <div>
-//                                 <textarea value={replyText} onChange={e => setReplyText(e.target.value)} />
-//                                 <button onClick={() => handleSendClick(message)}>Send</button>
-//                                 <button onClick={handleCancelClick}>Cancel</button>
-//                             </div>
-//                         )}
-//                     </div>
-
-//                 </div>
-//             ))}
-
-//         </div>
-//     );
-// }
-
-
-// MessageRecived.propTypes = {
-
-// };
-
-// export default MessageRecived;
-
-
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
@@ -145,12 +6,6 @@ import './Messages.css';
 
 
 function MessageRecived() {
-
-
-
-
-
-
     const [allMessages, setallMessages] = useState([]);
 
     const [page, setPage] = useState(1); // initial page
@@ -208,18 +63,6 @@ function MessageRecived() {
 
     ////////////////////////
 
-    async function handlePermalink(id) {
-        try {
-            const response = await axios.patch(`https://www.threadit.tech/send/${id}`, {
-                read: false
-            });
-
-
-        } catch (error) {
-            console.error('Failed to mark message as unread:', error);
-        }
-    }
-
 
     async function handleDelete(id) {
         axios.delete(`https://www.threadit.tech/api/v1/messages/${id}/delete`, config)
@@ -236,15 +79,21 @@ function MessageRecived() {
         // Report the message with the given ID
     }
 
-    function handleBlockUser(user) {
-        // Block the user with the given name
-    }
+    async function handleBlockUser(usernameToBlock) {
+        axios.post(`http://localhost:8000/api/v1/users/me/block/${usernameToBlock}`, {}, config)
+            .then(response => {
+                console.log('User blocked:', response.data);
+            })
+            .catch(error => {
+                console.error('Error blocking user:', error);
+            });
+    };
 
     async function handleMarkUnread (message1)  {
         axios.patch(`https://www.threadit.tech/api/v1/messages/${message1._id}/markread`, { read: !message1.read }, config)
             .then(response => {
                 setallMessages(allMessages.map(message =>
-                    message._id === message1._id ? { ...message, read: true } : message
+                    message._id === message1._id ? { ...message, read: !message1.read } : message
                     
                 ));
                 console.log('Message updated:', response.data);
@@ -309,13 +158,12 @@ function MessageRecived() {
                             <h3>To: {message.to.username}</h3>
                             <h3>Subject: {message.subject}</h3>
                             <h4>Message: {message.message}</h4>
-                            <h5>Time: {message.createdAt}</h5>
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
                             <div className="button-container-in-messageRecived">
-                                <button onClick={() => handlePermalink(message._id)}>Permalink</button>
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
                                 <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
-                                <button onClick={() => handleMarkUnread(message)}>Mark Unread</button>
+                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
                                 <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
                             </div>
                         </div>
@@ -327,13 +175,12 @@ function MessageRecived() {
                             <h3>To: {message.to.username}</h3>
                             <h3>Subject: {message.subject}</h3>
                             <h4>Message: {message.message}</h4>
-                            <h5>Time: {message.createdAt}</h5>
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
                             <div className="button-container-in-messageRecived">
-                                <button onClick={() => handlePermalink(message._id)}>Permalink</button>
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
                                 <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
-                                <button onClick={() => handleMarkUnread(message._id)}>Mark Unread</button>
+                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
                                 <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
                             </div>
                         </div>

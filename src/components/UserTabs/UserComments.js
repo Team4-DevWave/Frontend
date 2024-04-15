@@ -1,17 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
-import PostContainer from "../PostContainer";
+import CommentContainer from "./commentContainer";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function Feed() {
-  const [posts, setPosts] = useState([]);
+function UserComments() {
+  const [comments, setComments] = useState([]);
+  var title;
+  var content;
+  const username = localStorage.getItem("username");
   const [page, setPage] = useState(1);
   const loader = useRef(null);
   const [stop, setStop] = useState(false);
-  const lastData = useRef(null);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (stop) {
@@ -26,6 +27,7 @@ function Feed() {
       observer.observe(loader.current);
     }
   }, []);
+  const [lastData, setLastData] = useState(null);
 
   useEffect(() => {
     if (stop) {
@@ -41,31 +43,28 @@ function Feed() {
     console.log(`Fetching page ${page}...`);
 
     axios
-      .get(`https://www.threadit.tech/api/v1/posts?page=${page}`, config)
+      .get(
+        `http://localhost:8000/api/v1/users/${username}/comments?page=${page}
+      `,
+        config
+      )
       .then((response) => {
-        console.log("Posts data:", response.data.data.posts);
+        console.log("Posts data:", response.data.data.comments);
 
-        const mappedData = response.data.data.posts
+        const mappedData = response.data.data.comments
           .map((item) => {
-            if (item.text_body) {
+            if (item.content) {
               return {
                 id: item._id,
-                title: item.title,
-                content: item.text_body,
-                time: item.postedTime,
+                user: item.user.username,
+                content: item.content,
+                time: item.createdAt,
+                post: item.post,
+                hidden: item.hidden,
                 votes: item.votes,
-                numviews: item.numViews,
-                spoiler: item.spoiler,
-                nsfw: item.nsfw,
-                locked: item.locked,
-                approved: item.approved,
+                saved: item.saved,
+                collapsed: item.collapsed,
                 mentioned: item.mentioned,
-                username: item.userID.username,
-                commentsCount: item.commentsCount,
-                image: item.image,
-                video:item.video,
-                ishide: false,
-                issaved: false,
               };
             } else {
               return null;
@@ -73,35 +72,31 @@ function Feed() {
           })
           .filter(Boolean);
 
-        if (lastData.current && mappedData.length > 0) {
-          const lastDataIds = lastData.current.map((post) => post.id);
-          const mappedDataIds = mappedData.map((post) => post.id);
-
-          if (JSON.stringify(lastDataIds) === JSON.stringify(mappedDataIds)) {
-            setStop(true);
-            return;
-          }
+        if (JSON.stringify(mappedData) === JSON.stringify(lastData)) {
+          setStop(true);
+          return;
         }
 
-        lastData.current = mappedData;
-        setPosts((prevPosts) => [...prevPosts, ...mappedData]);
+        console.log("mappeddata", mappedData.content);
+        setComments((prevComments) => [...prevComments, ...mappedData]);
+        setLastData(mappedData);
       })
       .catch((error) => console.error("Error:", error));
-  }, [page, stop]);
+  }, [page]);
 
   const handleObserver = (entities) => {
     const target = entities[0];
     if (target.isIntersecting) {
-      console.log("Bottom reached, loading more posts...");
+      console.log("Bottom reached, loading more comments...");
       setPage((prevPage) => prevPage + 1);
     }
   };
 
   return (
     <div className="post-feed">
-      {posts.map((post, index) => {
-        console.log("post data:", post); // Log the post data here
-        return <PostContainer key={index} postData={post} />;
+      {comments.map((comment, index) => {
+        console.log("comment data:", comment); // Log the comment data here
+        return <CommentContainer key={index} commentData={comment} />;
       })}
       <div
         ref={loader}
@@ -119,8 +114,8 @@ function Feed() {
   );
 }
 
-export default Feed;
+export default UserComments;
 
-Feed.propTypes = {
+UserComments.propTypes = {
   postData: PropTypes.array,
 };

@@ -164,12 +164,19 @@ Header .create {
 /* //End Header */
 .side-bar{
   position: fixed;
-  left: 156px;
+  display: inline;
+  /* left: 156px; */
   width: 250px;
   border-right: 1px solid #c9c7c7;
   height: 90vh;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.side-bar-container{
+  width: 250px;
+}
+.Sidebar{
+  max-width: 250px;
 }
 
 .side-bar::before {

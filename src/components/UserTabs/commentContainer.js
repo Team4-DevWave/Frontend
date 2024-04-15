@@ -6,6 +6,7 @@ import { SlOptions } from "react-icons/sl";
 import Alert from "@mui/material/Alert";
 import Cookies from "js-cookie";
 import axios from "axios";
+import Report from "../Report";
 
 function CommentContainer({ commentData }) {
   const [commentData2, setCommentData2] = useState({
@@ -14,7 +15,7 @@ function CommentContainer({ commentData }) {
     title: " ",
   });
 
-  console.log("commentData", commentData);
+  console.log("commentData", commentData.user);
 
   const [showOptions, setShowOptions] = useState(false);
   const toggleOptions = () => {
@@ -40,9 +41,7 @@ function CommentContainer({ commentData }) {
 
   function copyLink() {
     // Get the URL of the current post
-    var copyText =
-      window.location.origin +
-      `/comments/${commentData.id}/${commentData.title.toLowerCase().replace(/ /g, "-")}`;
+    var copyText = window.location.origin + `/comments/${commentData.id}/`;
 
     // Copy the URL to the clipboard
     navigator.clipboard.writeText(copyText);
@@ -70,38 +69,16 @@ function CommentContainer({ commentData }) {
     };
   }, [shareMenu]);
 
-  const [voteStatus, setVoteStatus] = useState(
-    Number(localStorage.getItem(`voteStatus-${commentData.id}`)) || 0
-  ); // 0 = no vote, 1 = upvoted, -1 = downvoted
+  const [voteStatus, setVoteStatus] = useState(0); // 0 = no vote, 1 = upvoted, -1 = downvoted
   const [upvoteCount, setUpVoteCount] = useState(commentData.votes.upvotes);
   const [downvoteCount, setDownVoteCount] = useState(
     commentData.votes.downvotes
   );
-  const totalVotes = upvoteCount - downvoteCount;
-  const [count, setCount] = useState(totalVotes);
+  const [count, setCount] = useState(
+    commentData.votes.upvotes - commentData.votes.downvotes
+  );
 
   const handleUpvote = async () => {
-    let newUpvoteCount = upvoteCount;
-    let newDownvoteCount = downvoteCount;
-
-    if (voteStatus === 1) {
-      // If already upvoted, cancel the upvote
-      setCount(count - 1);
-      setVoteStatus(0);
-      newUpvoteCount -= 1;
-      localStorage.removeItem(`voteStatus-${commentData.id}`);
-    } else {
-      // If no vote or downvoted, upvote
-      localStorage.setItem(`voteStatus-${commentData.id}`, "1");
-      setCount(voteStatus === -1 ? count + 2 : count + 1);
-      setVoteStatus(1);
-      newUpvoteCount += 1;
-      if (voteStatus === -1) newDownvoteCount -= 1;
-    }
-
-    setUpVoteCount(newUpvoteCount);
-    setDownVoteCount(newDownvoteCount);
-
     try {
       const response = await axios.patch(
         `https://www.threadit.tech/api/v1/comments/${commentData.id}/vote`,
@@ -110,34 +87,22 @@ function CommentContainer({ commentData }) {
         },
         config
       );
-      console.log(response.data);
+      console.log("Upvotes:", response.data.data.upvotes);
+      console.log("Downvotes:", response.data.data.downvotes);
+      console.log("UPPP:", response.data);
+      // Assuming the response contains the updated upvote and downvote counts
+      setUpVoteCount(Number(response.data.data.upvotes));
+      setDownVoteCount(Number(response.data.data.downvotes));
+      setCount(
+        Number(response.data.data.upvotes) -
+          Number(response.data.data.downvotes)
+      );
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleDownvote = async () => {
-    let newUpvoteCount = upvoteCount;
-    let newDownvoteCount = downvoteCount;
-
-    if (voteStatus === -1) {
-      // If already downvoted, cancel the downvote
-      setCount(count + 1);
-      setVoteStatus(0);
-      newDownvoteCount -= 1;
-      localStorage.removeItem(`voteStatus-${commentData.id}`);
-    } else {
-      // If no vote or upvoted, downvote
-      setCount(voteStatus === 1 ? count - 2 : count - 1);
-      setVoteStatus(-1);
-      newDownvoteCount += 1;
-      if (voteStatus === 1) newUpvoteCount -= 1;
-      localStorage.setItem(`voteStatus-${commentData.id}`, "-1");
-    }
-
-    setUpVoteCount(newUpvoteCount);
-    setDownVoteCount(newDownvoteCount);
-
     try {
       const response = await axios.patch(
         `https://www.threadit.tech/api/v1/comments/${commentData.id}/vote`,
@@ -146,22 +111,20 @@ function CommentContainer({ commentData }) {
         },
         config
       );
+      console.log("Upvotes:", response.data.newUpvoteCount);
+      console.log("Downvotes:", response.data.newDownvoteCount);
       console.log(response.data);
+      // Assuming the response contains the updated upvote and downvote counts
+      setUpVoteCount(Number(response.data.data.upvotes));
+      setDownVoteCount(Number(response.data.data.downvotes));
+      setCount(
+        Number(response.data.data.upvotes) -
+          Number(response.data.data.downvotes)
+      );
     } catch (error) {
       console.error(error);
     }
   };
-  const date =
-    typeof commentData.time === "string"
-      ? commentData.time.split("T")[0] +
-        " " +
-        commentData.time
-          .split("T")[1]
-          .split("Z")[0]
-          .split(":")
-          .slice(0, 2)
-          .join(":")
-      : "Just now";
 
   return (
     <div className="comments-container">
@@ -172,7 +135,13 @@ function CommentContainer({ commentData }) {
         userpic={commentData2.userpic}
         community={commentData.community}
         incommunity={commentData2.incommunity}
-        Date={date}
+        Date={new Date(commentData.time).toLocaleString([], {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        })}
         text={commentData.content}
         title={commentData2.title}
       />
@@ -191,7 +160,9 @@ function CommentContainer({ commentData }) {
               <li>Show fewer posts like this</li>
               <li>Hide</li>
               <li>Save</li>
-              <li>Report</li>
+              <li>
+                <Report />
+              </li>
             </ul>
           </div>
         )}

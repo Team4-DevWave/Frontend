@@ -7,6 +7,7 @@ import './CreatePost.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
+import Cookies from "js-cookie";
 
 function CreatePost() {
     const [title, setTitle] = useState('');
@@ -22,6 +23,11 @@ function CreatePost() {
 
     const textAreaRef = useRef(null);
 
+    const token = Cookies.get("token");
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
     // const handleFileChange = (e) => {
     //     if (e.target.files.length > 0) {
     //         setFileUploaded(true); // Enable the buttons when a file is uploaded
@@ -33,18 +39,27 @@ function CreatePost() {
     const username = localStorage.getItem('username');
     const handelpostclick = async (e) => {
         e.preventDefault();
-        const postdata = {
+
+
+    
+        console.log("usernammmeeee==",username);
+
+        axios
+        .post(
+          `http://localhost:8000/api/v1/posts/submit/u/${username}`,
+          {
             title: title,
-            content: content,
+            text_body: content,
             type: 'text',
-            NSFW: false,
+            nsfw: false,
             spoiler: false,
             locked: false,
-            // bold: isBold,
-            // italic: isItalic
-        };
-        try {
-            const response = await axios.post(`https://www.threadit.tech/api/v1/posts/submit/u/${username}`, { content: postdata });
+            image:"",
+            video:""
+          },
+          config
+        )
+        .then((response) => {
             setPostDone(true);
             setTitle('');
             setContent('');
@@ -52,13 +67,19 @@ function CreatePost() {
             setIsItalic(false);
             setIsstrikethrough(false);
             setIsInlinecode(false);
+          if (response.status === 201) {
+            console.log("post is created");
 
-        }
-        catch (error) {
-            console.error('Error submitting post:', error);
-
-
-        }
+          } else {
+            console.log("post is not created");
+          }
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("ssssssssssss");
+        });
+        alert("Post done");
 
     };
 
@@ -188,7 +209,7 @@ function CreatePost() {
                     <div>
                         <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled ={!title}   className={!title ? 'disabled-button' : ''}>Save Draft</button>
                         <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''} >Post</button>
-                        {postDone && <p>Post done</p>}
+                        {postDone &&<script>alert("Post done");</script>}
 
                     </div>
 
