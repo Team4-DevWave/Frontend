@@ -19,6 +19,7 @@ const PostDesign = ({
   const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video);
   console.log("isvaliddddddd:", isValidPost);
   console.log("videoeeee:", video);
+  console.log("userrrrrrnasmeee=",username);
   return (
     <div>
       <div className="post-header">
