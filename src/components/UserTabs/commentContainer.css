@@ -2,14 +2,14 @@
     width: 730px;
     height: auto;
     position: relative;
-    left: 34%;
+    left: 100px;
     text-decoration: none;
   }
   
   #commentscontainer hr{
     width: 730px;
     position: relative;
-    left: 34%;
+    left: 100px;
     margin: 8px;
   }
   
@@ -262,5 +262,75 @@
   
   .options-list ul li:hover {
     background-color: #f0f0f0;
+  }
+
+
+  @media (max-width: 1350px) {
+    .comments-container {
+      left: 100px;
+    }
+    .comments-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .comments-buttons {
+      padding-left: 0;
+    }
+    #commentscontainer hr{
+      width: 730px;
+      position: relative;
+      left: 90px;
+      margin: 8px;
+    }
+    
+  }
+  
+  @media (max-width: 980px) {
+    .comments-container {
+      left: 100px;
+      max-width: 600px;
+    }
+    .comments-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .comments-buttons {
+      padding-left: 0;
+    }
+    #commentscontainer hr{
+      width: 600px;
+      position: relative;
+      left: 90px;
+      margin: 8px;
+    }
+  
+  }
+  
+  @media (max-width: 768px) {
+    .comments-container {
+      left: 100px;
+      max-width: 450px;
+    }
+    .comments-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .comments-buttons {
+      padding-left: 0;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .comments-container {
+      left: 100px;
+      max-width: 350px;
+    }
+    .comments-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .comments-buttons {
+      padding-left: 0;
+    }
   }
   
