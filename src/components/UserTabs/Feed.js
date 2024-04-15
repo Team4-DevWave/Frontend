@@ -10,7 +10,8 @@ function Feed() {
   const [page, setPage] = useState(1);
   const loader = useRef(null);
   const [stop, setStop] = useState(false);
-  const [lastData, setLastData] = useState(null);
+  const lastData = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (stop) {
@@ -62,6 +63,7 @@ function Feed() {
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
+                video:item.video,
                 ishide: false,
                 issaved: false,
               };
@@ -71,17 +73,21 @@ function Feed() {
           })
           .filter(Boolean);
 
-        if (JSON.stringify(mappedData) === JSON.stringify(lastData)) {
-          setStop(true);
-          return;
+        if (lastData.current && mappedData.length > 0) {
+          const lastDataIds = lastData.current.map((post) => post.id);
+          const mappedDataIds = mappedData.map((post) => post.id);
+
+          if (JSON.stringify(lastDataIds) === JSON.stringify(mappedDataIds)) {
+            setStop(true);
+            return;
+          }
         }
 
-        console.log("mappeddata", mappedData.content);
+        lastData.current = mappedData;
         setPosts((prevPosts) => [...prevPosts, ...mappedData]);
-        setLastData(mappedData);
       })
       .catch((error) => console.error("Error:", error));
-  }, [page]);
+  }, [page, stop]);
 
   const handleObserver = (entities) => {
     const target = entities[0];

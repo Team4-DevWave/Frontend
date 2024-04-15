@@ -1,15 +1,17 @@
 .post-container{
-  width: 730px;
+  max-width: 730px;
+  min-width: 400px;
   height: auto;
   position: relative;
-  left: 34%;
+ margin-left: 100px;
   text-decoration: none;
 }
 
 #postcontainer hr{
-  width: 730px;
+  max-width: 730px;
+  min-width: 400px;
   position: relative;
-  left: 34%;
+  
   margin: 8px;
 }
 
