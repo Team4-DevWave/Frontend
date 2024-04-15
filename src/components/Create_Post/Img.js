@@ -6,13 +6,20 @@ import { AiOutlineDelete } from 'react-icons/ai';
 // import axios from 'axios';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
+import Cookies from "js-cookie";
+import axios from 'axios';
 
 function Img() {
     const [title, setTitle] = useState('');
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [captions, setCaptions] = useState([]);
 
+    const token = Cookies.get("token");
 
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    const username = localStorage.getItem('username');
 
     const handelpostclick = async (event) => {
         event.preventDefault();
@@ -26,18 +33,44 @@ function Img() {
                 caption: captions[index]
             }))
         };
-    // try {
-    //     const response = await axios.post('http://localhost:3001/posts', { content: postData });
+        const imageURLs = uploadedFiles.map((file) => URL.createObjectURL(file));
+        const formData = new FormData();
+        uploadedFiles.forEach((file, index) => {
+            formData.append(`file${index}`, file);
+        });
+        console.log("usernammmeeee==",username);
+        console.log("imageeee===",imageURLs);
 
-    // } catch (error) {
-        
-    // }
-        //console.log('Post Data:', postData);
-    
-        // Reset form fields after submission
-        setTitle('');
-        setUploadedFiles([]);
-        setCaptions([]);
+        axios
+        .post(
+          `http://localhost:8000/api/v1/posts/submit/u/${username}`,
+          {
+            title: title,
+            text_body:"",
+            type: "image/video",
+            nsfw: false,
+            spoiler: false,
+            locked: false,
+            image:imageURLs.toString(),
+            video:""
+          },
+          config
+        )
+        .then((response) => {
+
+          if (response.status === 201) {
+            console.log("post is created");
+
+          } else {
+            console.log("post is not created");
+          }
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("ssssssssssss");
+        });
+        alert("Post done");
     };
     
     
