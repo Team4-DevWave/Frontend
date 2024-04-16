@@ -24,10 +24,10 @@ function UserProfileHeader() {
       <Avatar src={process.env.PUBLIC_URL + "/images/erenyega.jpg"} alt={userName} sx={{ width: 100, height: 100, marginRight: '20px' }} />
       <div>
         <Typography variant="h5" gutterBottom>
-          {username1}
+          {userName}
         </Typography>
         <Typography variant="body1" color="textSecondary">
-          u/{username1}
+          u/{userName}
         </Typography>
       </div>
     </div>
