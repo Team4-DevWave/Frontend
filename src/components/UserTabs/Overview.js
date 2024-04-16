@@ -5,6 +5,9 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import PostContainer from "../PostContainer";
+import "./overview.css";
+import UserPostContainer from "./UserPostContainer";
+import UserCommentContainer from "./UserCommentContainer";
 
 function OverView() {
   const [overviewData, setOverviewData] = useState([]);
@@ -111,14 +114,14 @@ function OverView() {
   };
 
   return (
-    <div className="home-grid">
-      <div id="grid-2">
+    <div className="profile-grid">
+      <div id="profgrid-2">
         <div className="post-feed">
           {overviewData.map((data, index) => (
             <React.Fragment key={index}>
-              {data.type === "post" && <PostContainer postData={data} />}
+              {data.type === "post" && <UserPostContainer postData={data} />}
               {data.type === "comment" && (
-                <CommentContainer commentData={data} />
+                <UserCommentContainer commentData={data} />
               )}
             </React.Fragment>
           ))}
