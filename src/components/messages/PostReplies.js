@@ -191,8 +191,16 @@ function PostReplies() {
                                 <button onClick={() => handleFullComment(message)}>Full comment</button>
                                 <button onClick={() => handleDelete(message._id)}>Remove</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
-                                <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
-                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
+                                {!HideBlockButton ? (
+                                <button onClick={handleBlock}>Block</button>
+                            ) : (
+                                
+                                    <div>
+                                        <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                                        <button className='yes_Button' onClick={() =>handleBlockUser(message.from.username)}>Yes</button>
+                                        <button onClick={handleCancel}>No</button>
+                                    </div>
+                                )}                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
                                 <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
                             </div>
                         </div>
@@ -210,8 +218,16 @@ function PostReplies() {
 
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
-                                <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
-                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
+                                {!HideBlockButton ? (
+                                <button onClick={handleBlock}>Block</button>
+                            ) : (
+                                
+                                    <div>
+                                        <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                                        <button className='yes_Button' onClick={() =>handleBlockUser(message.from.username)}>Yes</button>
+                                        <button onClick={handleCancel}>No</button>
+                                    </div>
+                                )}                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
                                 <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
 
                             </div>
