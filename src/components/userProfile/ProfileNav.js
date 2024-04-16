@@ -9,6 +9,7 @@ import axios from "axios";
 import UserPost from "../UserTabs/UserPost";
 import UserSavedPost from "../UserTabs/UserSavedPost";
 import UserHidden from "../UserTabs/UserHiddenPost";
+import Downvoted from "../UserTabs/Downvoted";
 function ProfileNav({
   overviewData,
   postsData,
@@ -149,14 +150,14 @@ function ProfileNav({
       <div>
         {!tabData ? (
           <Typography component="div" sx={{ p: 3 }}>
-            {activeTab === 0 && <OverView  />}
-            {activeTab === 1 && <UserPost  />}
+            {activeTab === 0 && <OverView />}
+            {activeTab === 1 && <UserPost />}
             {activeTab === 2 && <UserComments />}
-            {activeTab === 3 && <UserSavedPost/>}
-            {activeTab === 4 && <UserHidden/>}
+            {activeTab === 3 && <UserSavedPost />}
+            {activeTab === 4 && <UserHidden />}
 
             {activeTab === 5 && <Upvoted />}
-            {activeTab === 6 && JSON.stringify(downvotedData)}
+            {activeTab === 6 && <Downvoted />}
           </Typography>
         ) : (
           <Typography component="div" sx={{ p: 3 }}>

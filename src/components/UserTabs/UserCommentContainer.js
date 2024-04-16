@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import Report from "../Report";
 
-function CommentContainer({ commentData }) {
+function UserCommentContainer({ commentData }) {
   const [commentData2, setCommentData2] = useState({
     userpic: "https://randomuser.me/api/portraits/men/1.jpg",
     community: "ismail's Community",
@@ -125,26 +125,55 @@ function CommentContainer({ commentData }) {
       console.error(error);
     }
   };
+  const handleDelete = async () => {
+    const token = Cookies.get("token");
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
 
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/api/v1/comments/${commentData.id}`,
+        config
+      );
+      if (response.status === 200) {
+        console.log("Comment deleted successfully");
+        // Comment deleted successfully
+        // You can update your state here to remove the comment from the list
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
   return (
     <div className="comments-container">
-      <PostDesign
-        className="comments-content"
-        data-testid="post"
-        username={commentData.user}
-        userpic={commentData2.userpic}
-        community={commentData.community}
-        incommunity={commentData2.incommunity}
-        Date={new Date(commentData.time).toLocaleString([], {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        })}
-        text={commentData.content}
-        title={commentData2.title}
-      />
+      <a
+        className="post-link"
+        // href={`/comments//${postData.title.toLowerCase().replace(/ /g, "-")}`}
+        onClick={(event) => {
+          if (event.target.tagName === "BUTTON") {
+            event.preventDefault();
+          }
+        }}
+      >
+        <PostDesign
+          className="comments-content"
+          data-testid="post"
+          username={commentData.user}
+          userpic={commentData2.userpic}
+          community={commentData.community}
+          incommunity={commentData2.incommunity}
+          Date={new Date(commentData.time).toLocaleString([], {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+          text={commentData.content}
+          title={commentData2.title}
+        />
+      </a>
       <div className="options-container">
         <Button
           variant="danger"
@@ -157,11 +186,10 @@ function CommentContainer({ commentData }) {
         {showOptions && (
           <div className="options-list">
             <ul>
-              <li>Show fewer posts like this</li>
-              <li>Hide</li>
               <li>Save</li>
+              <li>Edit</li>
               <li>
-                <Report />
+                <button onClick={handleDelete}>Delete</button>
               </li>
             </ul>
           </div>
@@ -297,4 +325,4 @@ function CommentContainer({ commentData }) {
     </div>
   );
 }
-export default CommentContainer;
+export default UserCommentContainer;

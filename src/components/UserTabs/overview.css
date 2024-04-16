@@ -1,0 +1,21 @@
+.profile-grid {
+    display: grid; 
+ 
+    grid-template-rows: 70px 300px auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    
+    gap: 0px;
+    height: 100%;
+    
+ }
+
+ #profgrid-2 {
+ 
+    /* background-color: #CD9CEF;  */
+    grid-row-start: 2;
+    grid-column-start: 1;
+ 
+    grid-row-end: 7;
+    grid-column-end: 4;
+    
+ }

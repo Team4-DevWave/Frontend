@@ -58,8 +58,8 @@ function PostFeed() {
   }, []);
 
   return (
-    <div className="home-grid">
-      <div id="grid-2">
+    <div className="profile-grid">
+      <div id="profgrid-2">
         <div className="post-feed">
           {posts.map((post, index) => {
             console.log("Post data:", post); // Log the post data here
