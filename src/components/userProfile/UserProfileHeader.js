@@ -11,26 +11,11 @@ function UserProfileHeader() {
 
 
 
-  const [userInfo, setuserInfo] = useState();
-  const [userName, setuserName] = useState();
-
+  const userName = localStorage.getItem("username");
   let bearerToken = Cookies.get('token');
     const config = {
         headers: { Authorization: `Bearer ${bearerToken}` },
     };
-
-    useEffect(() => {
-      axios.get('http://localhost:8000/api/v1/users/me/current', config)
-        .then(response => {
-          setuserInfo(response.data.data.user);
-          console.log('userInfo:', userInfo.username);
-          setuserName(userInfo.username)
-          
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-        });
-    }, []);
 
 
   return (
