@@ -13,6 +13,7 @@ function PostReplies() {
 
 
     const [allMessages, setallMessages] = useState([]);
+    const [HideBlockButton, setHideBlockButton] = useState(false);
 
     const [page, setPage] = useState(1); // initial page
     const [loading, setLoading] = useState(false);
@@ -85,8 +86,15 @@ function PostReplies() {
     function handleReport(id) {
         // Report the message with the given ID
     }
+    const handleBlock = () => {
+        setHideBlockButton(true);
+      };
+      const handleCancel = () => {
+        setHideBlockButton(false);
+      };
 
     async function handleBlockUser(usernameToBlock) {
+
         axios.post(`http://localhost:8000/api/v1/users/me/block/${usernameToBlock}`, {}, config)
             .then(response => {
                 console.log('User blocked:', response.data);
@@ -94,6 +102,8 @@ function PostReplies() {
             .catch(error => {
                 console.error('Error blocking user:', error);
             });
+
+            setHideBlockButton(false);
     };
     
     async function handleMarkUnread(message1) {
