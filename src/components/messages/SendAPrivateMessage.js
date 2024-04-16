@@ -7,67 +7,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useState } from 'react';
 import { Cookie } from '@mui/icons-material';
 import Cookies from 'js-cookie';
-
-/**
- * This component is used to send a private message.
- * It requires specific details such as the sender, recipient,
- * subject, and message content.
- */
-// function SendAPrivateMessage() {
-//     const SendMessage = async (event) => {
-//         event.preventDefault();
-
-//         const from = event.target.elements.from.value;
-//         const to = event.target.elements.to.value;
-//         const subject = event.target.elements.subject.value;
-//         const message = event.target.elements.message.value;
-//         const read = false;
-
-//         try {
-//             const response = await axios.post('http://localhost:3002/send', { from, to, subject, message, read });
-//             alert('Message sent successfully');
-
-//         } catch (error) {
-//             console.error('Failed to send message:', error);
-//         }
-//     };
-//     return (
-//         <div className="SendMessageform">
-//             <form onSubmit={SendMessage}>
-
-//                 <label htmlFor="from">From:</label>
-//                 <select id="from" name="from">
-//                     <option value="user1">User 1</option>
-//                     <option value="user2">User 2</option>
-//                 </select>
-//                 <label htmlFor="to">To:</label>
-//                 <input type="text" id="to" name="to" required />
-
-//                 <label htmlFor="subject">Subject:</label>
-//                 <input type="text" id="subject" name="subject" required />
-
-//                 <label htmlFor="message">Message:</label>
-//                 <textarea id="message" name="message" required></textarea>
-
-//                 <div id="robotBox">
-//                     <label htmlFor="robotCheck" id="robotLabel">
-//                         I'm not a robot
-//                     </label>
-//                     <ReCAPTCHA sitekey="6LdfsqUpAAAAANHJI04i3JAk-rOSEKtrJFT5QY-k" className="robotCheckbox" />
-
-//                     {/* 6LdfsqUpAAAAAHtwlBE_xNZ7Mb9K2kE9_hWsRNn4    the secreate key*/}
-//                 </div>
-
-//                 <Button variant="contained" color="primary" type="submit" id="submitButton">
-//                     Send Message
-//                 </Button>
-
-//             </form>
-//         </div>
-
-//     );
-// }
-// export default SendAPrivateMessage;
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject = "", initialMessage = "" }) {
@@ -101,7 +42,7 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
             .then((response) => {
                 if (response.status === 201) {
                     console.log("Message sent successfully");
-                    alert('Message sent successfully');
+                    toast.success('Message sent successfully');
                 } else {
                     console.log("Failed to send message");
                 }
@@ -170,7 +111,7 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
                     <Button variant="contained" color="primary" type="submit" id="submitButton">
                         Send Message
                     </Button>
-
+                    <ToastContainer />
                 </form>
             </div>
 

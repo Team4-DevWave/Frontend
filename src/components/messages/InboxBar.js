@@ -1,7 +1,6 @@
 import All from './All';
 import Unread from './Unread';
 import MessageRecived from './MessageRecived';
-import commentReplies from './CommentReplies';
 import MentionedUsername from './MentionedUsername';   
 import PostReplies from './PostReplies';
 import React, { useState } from 'react';

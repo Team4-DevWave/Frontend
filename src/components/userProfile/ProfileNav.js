@@ -1,7 +1,14 @@
+import OverView from "../UserTabs/Overview";
+import PostFeed from "../UserTabs/UserPost";
+// import PostFeed from "../UserTabs/UserHiddenPost";
+import UserComments from "../UserTabs/UserComments";
+import Upvoted from "../UserTabs/Upvoted";
 import React, { useState, useEffect } from "react";
 import { Tabs, Tab, Typography, useMediaQuery, useTheme } from "@mui/material";
 import axios from "axios";
-
+import UserPost from "../UserTabs/UserPost";
+import UserSavedPost from "../UserTabs/UserSavedPost";
+import UserHidden from "../UserTabs/UserHiddenPost";
 function ProfileNav({
   overviewData,
   postsData,
@@ -140,14 +147,15 @@ function ProfileNav({
       </Tabs>
 
       <div>
-        {tabData ? (
+        {!tabData ? (
           <Typography component="div" sx={{ p: 3 }}>
-            {activeTab === 0 && JSON.stringify(overviewData)}
-            {activeTab === 1 && JSON.stringify(postsData)}
-            {activeTab === 2 && JSON.stringify(commentsData)}
-            {activeTab === 3 && JSON.stringify(savedData)}
-            {activeTab === 4 && JSON.stringify(hiddenData)}
-            {activeTab === 5 && JSON.stringify(upvotedData)}
+            {activeTab === 0 && <OverView  />}
+            {activeTab === 1 && <UserPost  />}
+            {activeTab === 2 && <UserComments />}
+            {activeTab === 3 && <UserSavedPost/>}
+            {activeTab === 4 && <UserHidden/>}
+
+            {activeTab === 5 && <Upvoted />}
             {activeTab === 6 && JSON.stringify(downvotedData)}
           </Typography>
         ) : (
