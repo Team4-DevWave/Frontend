@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import CreateCommunity from "../components/CreateCommunity";
 import NotificationDropdown from "../components/NotificationDropdown";
 import { PropTypes } from "prop-types";
+import Cookies from "js-cookie";
 export default function Header() {
   const subMenu = useRef(null);
   const imgRef = useRef(null);
@@ -168,6 +169,7 @@ export default function Header() {
                       href="#"
                       className="sub-menu-link"
                       data-testid="log-out-nav"
+                      onClick={() => {Cookies.remove("token"); window.location.href = "/login";}}
                     >
                       <svg
                         rpl=""

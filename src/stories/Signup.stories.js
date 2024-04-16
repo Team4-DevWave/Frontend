@@ -4,7 +4,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Meta } from "@storybook/addon-docs/blocks";
 <Meta title="Components/Login" component={Signup} />;
 export default {
-  title: "Signup Component",
+  title: "Auth/Signup Component",
   component: Signup,
   tags: ["autodocs"],
   argTypes: {
@@ -18,6 +18,7 @@ export default {
     validPassword: { control: { disable: true } },
     validEmail: { control: { disable: true } },
     validConfirmPassword: { control: { disable: true } },
+    interests : { control: { disable: true } },
     captcha: { control: { disable: true } },
     handleSubmit: { control: { disable: true } },
     googleLogin: { control: { disable: true } },

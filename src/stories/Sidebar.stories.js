@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Meta } from '@storybook/react';
 import SideBar from '../layouts/Sidebar';
+import "../index.css";
 import exp from 'constants';
 
 export default {
@@ -17,7 +18,9 @@ export default {
 
 export const SideBarComp = (args) => (
   <>
+    <div style={{height:"100vh"}}>
+      <SideBar />
+    </div>
     
-    <SideBar />
   </>
 );

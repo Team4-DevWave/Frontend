@@ -13,6 +13,7 @@ import {
   TextField,
 
 } from "@mui/material";
+import PropTypes from "prop-types";
 
 function ForgetPassword() {
   const [open, setOpen] = React.useState(false);
@@ -131,3 +132,14 @@ function ForgetPassword() {
 }
 
 export default ForgetPassword;
+
+ForgetPassword.propTypes = {
+  /** The user's email */
+  email: PropTypes.string,
+  /** The user's username */
+  username: PropTypes.string,
+  /** Cancels the reset form */
+  cancelBtn: PropTypes.func,
+  /** Submits the reset form, sends request to API to send a reset email */
+  submitBtn: PropTypes.func,
+};
