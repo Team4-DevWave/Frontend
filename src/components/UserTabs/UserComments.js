@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import UserCommentContainer from "./UserCommentContainer";
 
 function UserComments() {
   const [comments, setComments] = useState([]);
@@ -77,11 +78,11 @@ function UserComments() {
   };
 
   return (
-    <div className="home-grid">
-      <div id="grid-2">
+    <div className="profile-grid">
+      <div id="profgrid-2">
         <div className="post-feed">
           {comments.map((comment, index) => (
-            <CommentContainer key={index} commentData={comment} />
+            <UserCommentContainer key={index} commentData={comment} />
           ))}
           {loading && (
             <div
