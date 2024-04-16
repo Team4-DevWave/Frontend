@@ -8,24 +8,16 @@ function PostFeed() {
   const [posts, setPosts] = useState([]);
   const [noPosts, setNoPosts] = useState(false); // State to track if there are no posts
 
-
-
-
-useEffect(() => {
-  const token = Cookies.get("token");
+  useEffect(() => {
+    const token = Cookies.get("token");
 
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    console.log("Token1:", token);
-
     axios
       .get("http://localhost:8000/api/v1/users/me/hidden?page=1", config)
       .then((response) => {
-        console.log("Posts data:", response.data.data.posts);
-        console.log("title=", response.data.data.posts[0].title);
-
         const mappedData = response.data.data.posts
           .map((item) => {
             if (item.text_body) {
@@ -53,20 +45,33 @@ useEffect(() => {
             }
           })
           .filter(Boolean);
-        console.log("mappeddata->", mappedData);
+
+        if (mappedData.length === 0) {
+          setNoPosts(true); // Set noPosts state to true if there are no posts
+        }
+
         setPosts(mappedData.reverse());
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Error:", error);
+        setNoPosts(true); // Set noPosts state to true if there's an error
+      });
   }, []);
 
   return (
     <div className="home-grid">
       <div id="grid-2">
         <div className="post-feed">
-          {posts.map((post, index) => {
-            console.log("Post data:", post); // Log the post data here
-            return <UserPostContainer key={index} postData={post} />;
-          })}
+          {/* Check if noPosts is true and render the appropriate message */}
+          {noPosts ? (
+            <h1 className="deleted-post">No hidden posts found</h1>
+          ) : (
+            // Render the posts
+            posts.map((post, index) => {
+              console.log("Post data:", post); // Log the post data here
+              return <UserPostContainer key={index} postData={post} />;
+            })
+          )}
         </div>
       </div>
     </div>

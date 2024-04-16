@@ -63,13 +63,6 @@ function PostFeed() {
   }, []);
 
   return (
-<<<<<<< Updated upstream
-    <div className="post-feed">
-      {posts.map((post, index) => {
-        console.log("Post data:", post); // Log the post data here
-        return <MyPostsCont key={index} postData={post} />;
-      })}
-=======
     <div className="home-grid">
       <div id="grid-2">
         <div className="post-feed">
@@ -85,7 +78,6 @@ function PostFeed() {
           )}
         </div>
       </div>
->>>>>>> Stashed changes
     </div>
   );
 }
