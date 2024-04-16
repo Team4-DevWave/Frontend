@@ -4,7 +4,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Meta} from "@storybook/addon-docs/blocks";
 <Meta title="Components/Login" component={Login} />
 export default {
-  title: "Login Component",
+  title: "Auth/Login Component",
   component: Login,
 
 

@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import PropTypes, { bool } from "prop-types";
 import { useEffect } from "react";
 import axios from "axios";
 import PostContainer from "../components/PostContainer";
@@ -241,3 +241,30 @@ export default function Subreddit(props) {
     </div>
   );
 }
+
+Subreddit.propTypes = {
+  /** Subreddit name */
+  name: PropTypes.string,
+  /** Subreddit banner */
+  banner: PropTypes.string,
+  /** Subreddit description */
+  description: PropTypes.string,
+  /** Subreddit rules */
+  rules: PropTypes.array,
+  /** Subreddit members */
+  members: PropTypes.number,
+  /** Subreddit rank */
+  rank: PropTypes.string,
+  /** Subreddit moderators */
+  moderators: PropTypes.array,
+  /** Subreddit online members */
+  online: PropTypes.number,
+  /** Subreddit posts */
+  posts: PropTypes.array,
+  /** Subreddit join status */
+  joinStatus: PropTypes.bool,
+  /** Subreddit notification frequency */
+  notificationFrequency: PropTypes.string,
+  
+
+};

@@ -12,6 +12,7 @@ import {
   TextField,
 
 } from "@mui/material";
+import PropTypes from "prop-types";
 
 function ForgetUsername() {
   const [open, setOpen] = React.useState(false);
@@ -95,3 +96,12 @@ function ForgetUsername() {
 }
 
 export default ForgetUsername;
+
+ForgetUsername.propTypes = {
+  /** The email address of the user */
+  email: PropTypes.string,
+  /** The cancel button */
+  cancelBtn: PropTypes.func,
+  /** The submit button */
+  submitBtn: PropTypes.func,
+};
