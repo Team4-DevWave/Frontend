@@ -86,7 +86,7 @@ function Profile() {
 
       <div class="profileCSS">
         <div class="userProfileHeader">
-          <UserProfileHeader username={userData.username}/>
+          <UserProfileHeader/>
         </div>
       </div>
         <div class="profileNav ">

@@ -16,6 +16,7 @@ function MentionedUsername() {
     const [allMessages, setallMessages] = useState([]);
     const [showReplyTextArea, setshowReplyTextArea] = useState(false);
     const [replyText, setReplyText] = useState('');
+    const [HideBlockButton, setHideBlockButton] = useState(false);
 
     const [page, setPage] = useState(1); // initial page
     const [loading, setLoading] = useState(false);
@@ -100,7 +101,15 @@ function MentionedUsername() {
         // Report the message with the given ID
     }
 
+    const handleBlock = () => {
+        setHideBlockButton(true);
+      };
+      const handleCancel = () => {
+        setHideBlockButton(false);
+      };
+
     async function handleBlockUser(usernameToBlock) {
+
         axios.post(`https://www.threadit.tech/api/v1/users/me/block/${usernameToBlock}`, {}, config)
             .then(response => {
                 console.log('User blocked:', response.data);
@@ -108,6 +117,8 @@ function MentionedUsername() {
             .catch(error => {
                 console.error('Error blocking user:', error);
             });
+
+            setHideBlockButton(false);
     };
 
     const handleReplyChange = (event) => {

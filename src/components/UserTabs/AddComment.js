@@ -13,7 +13,7 @@ import SideBar from "../../layouts/Sidebar";
 import "./Comments.css";
 import { LiveCommentsContext } from "./Comments.js";
 
-function AddComment(id) {
+function AddComment(id, lock) {
   const textareaRef = useRef(null);
   const outline = useRef(null);
   const commentBar = useRef(null);
@@ -66,6 +66,28 @@ function AddComment(id) {
     if (boldBG.current) {
       boldBG.current.classList.toggle("bold");
     }
+
+    // Get the current selection
+    const start = textareaRef.current.selectionStart;
+    const end = textareaRef.current.selectionEnd;
+
+    // Get the current value of the textarea
+    const value = textareaRef.current.value;
+
+    // Create the new value by wrapping the selected text with **
+    const newValue =
+      value.substring(0, start) +
+      "**" +
+      value.substring(start, end) +
+      "**" +
+      value.substring(end);
+
+    // Update the value of the textarea
+    setComment(newValue);
+
+    // Update the selection to be after the inserted **
+    textareaRef.current.selectionStart = start + 2;
+    textareaRef.current.selectionEnd = end + 2;
   };
 
   const handleItalicClick = () => {
@@ -125,6 +147,7 @@ function AddComment(id) {
 
     console.log("Token:", token);
     console.log("id", id);
+
     axios
       .post(
         `https://www.threadit.tech/api/v1/posts/${id.postID}/comments/`,
@@ -252,6 +275,7 @@ function AddComment(id) {
           className="addcomment-box"
           value={comment}
           onChange={handleCommentChange}
+          disabled={id.lock}
         />
         <button className="cancel-btn" onClick={toggleComment}>
           Cancel

@@ -8,14 +8,13 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import Report from "../Report";
 
-function CommentContainer({ commentData }) {
+function UserCommentContainer({ commentData }) {
   const [commentData2, setCommentData2] = useState({
     userpic: "https://randomuser.me/api/portraits/men/1.jpg",
     community: "ismail's Community",
     title: " ",
   });
-  const username = localStorage.getItem("username");
-  console.log("user", username);
+
   console.log("commentData", commentData.user);
 
   const [showOptions, setShowOptions] = useState(false);
@@ -82,7 +81,7 @@ function CommentContainer({ commentData }) {
   const handleUpvote = async () => {
     try {
       const response = await axios.patch(
-        `https://www.threadit.tech/api/v1/comments/${commentData.id}/vote`,
+        `http://localhost:8000/api/v1/comments/${commentData.id}/vote`,
         {
           voteType: 1,
         },
@@ -106,7 +105,7 @@ function CommentContainer({ commentData }) {
   const handleDownvote = async () => {
     try {
       const response = await axios.patch(
-        `https://www.threadit.tech/api/v1/comments/${commentData.id}/vote`,
+        `http://localhost:8000/api/v1/comments/${commentData.id}/vote`,
         {
           voteType: -1,
         },
@@ -126,7 +125,6 @@ function CommentContainer({ commentData }) {
       console.error(error);
     }
   };
-
   const handleDelete = async () => {
     const token = Cookies.get("token");
     const config = {
@@ -147,78 +145,35 @@ function CommentContainer({ commentData }) {
       console.error("Error deleting comment:", error);
     }
   };
-
-  const handleSaved = () => {
-    console.log("id posstttttt=", commentData.id);
-    console.log("tokeeeen=", token);
-
-    axios
-      .patch(
-        `http://localhost:8000/api/v1/comments/${commentData.id}/save`,
-        null,
-        config
-      )
-      .then((response) => {
-        if (response.status === 201) {
-          console.log("Post Saved");
-
-          window.location.href = "/";
-        } else {
-          console.log("post is not Save");
-        }
-        console.log("responeeeeesssss------->", response);
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log("idd==", commentData.id);
-      });
-  };
-
-  const handleUnsaved = () => {
-    console.log("id posstttttt=", commentData.id);
-    console.log("tokeeeen=", token);
-
-    axios
-      .patch(
-        `http://localhost:8000/api/v1/comments/${commentData.id}/save`,
-        null,
-        config
-      )
-      .then((response) => {
-        if (response.status === 201) {
-          console.log("Post Saved");
-
-          window.location.href = "/";
-        } else {
-          console.log("post is not Save");
-        }
-        console.log("responeeeeesssss------->", response);
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log("idd==", commentData.id);
-      });
-  };
-
   return (
     <div className="comments-container">
-      <PostDesign
-        className="comments-content"
-        data-testid="post"
-        username={commentData.user}
-        userpic={commentData2.userpic}
-        community={commentData.community}
-        incommunity={commentData2.incommunity}
-        Date={new Date(commentData.time).toLocaleString([], {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        })}
-        text={commentData.content}
-        title={commentData2.title}
-      />
+      <a
+        className="post-link"
+        // href={`/comments//${postData.title.toLowerCase().replace(/ /g, "-")}`}
+        onClick={(event) => {
+          if (event.target.tagName === "BUTTON") {
+            event.preventDefault();
+          }
+        }}
+      >
+        <PostDesign
+          className="comments-content"
+          data-testid="post"
+          username={commentData.user}
+          userpic={commentData2.userpic}
+          community={commentData.community}
+          incommunity={commentData2.incommunity}
+          Date={new Date(commentData.time).toLocaleString([], {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+          text={commentData.content}
+          title={commentData2.title}
+        />
+      </a>
       <div className="options-container">
         <Button
           variant="danger"
@@ -231,32 +186,15 @@ function CommentContainer({ commentData }) {
         {showOptions && (
           <div className="options-list">
             <ul>
-              {commentData.user === username ? (
-                <>
-                  <li
-                    onClick={commentData.issaved ? handleUnsaved : handleSaved}
-                  >
-                    {commentData.issaved ? "Remove from saved" : "Save"}
-                  </li>
-                  <li onClick={handleDelete}>Delete</li>
-                </>
-              ) : (
-                <>
-                  <li
-                    onClick={commentData.issaved ? handleUnsaved : handleSaved}
-                  >
-                    {commentData.issaved ? "Remove from saved" : "Save"}
-                  </li>
-                  <li>
-                    <Report />
-                  </li>
-                </>
-              )}
+              <li>Save</li>
+              <li>Edit</li>
+              <li>
+                <button onClick={handleDelete}>Delete</button>
+              </li>
             </ul>
           </div>
         )}
       </div>
-
       <div className="comments-buttons">
         <span
           className={`reach ${
@@ -387,4 +325,4 @@ function CommentContainer({ commentData }) {
     </div>
   );
 }
-export default CommentContainer;
+export default UserCommentContainer;

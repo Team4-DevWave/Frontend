@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 
 // import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
-function PostContainer({ postData }) {
+function UserPostContainer({ postData }) {
   const shareMenu = useRef(null);
   const buttonRef = useRef(null);
 
@@ -110,7 +110,8 @@ function PostContainer({ postData }) {
 
     axios
       .patch(
-        `https://www.threadit.tech/api/v1/posts/${postData.id}/save`, null,
+        `https://www.threadit.tech/api/v1/posts/${postData.id}/save`,
+        null,
         config
       )
       .then((response) => {
@@ -126,9 +127,7 @@ function PostContainer({ postData }) {
       .catch((error) => {
         console.log(error);
         console.log("idd==", postData.id);
-
       });
-
   };
   const handleHidePost = () => {
     // Send API request to hide the post with postId using Axios
@@ -137,43 +136,44 @@ function PostContainer({ postData }) {
       console.log("ishide===", postData.ishide);
       postData.ishide = false;
       axios
-      .delete(
+        .delete(
           `https://www.threadit.tech/api/v1/posts/${postData.id}/unhide`,
-        
+
           config
-      )
-      .then((response) => {
+        )
+        .then((response) => {
           if (response.status === 201) {
-              console.log("Doneeee");
+            console.log("Doneeee");
 
-              window.location.href = "/";
+            window.location.href = "/";
           } else {
-              console.log("faliedddddddddddddd");
-
+            console.log("faliedddddddddddddd");
           }
           console.log(response);
-      })
-      .catch((error) => {
+        })
+        .catch((error) => {
           console.log(error);
           console.log("falissssss");
-      });
-    }
-    else {
+        });
+    } else {
       console.log("ishide===", postData.ishide);
 
-      axios.patch(`https://www.threadit.tech/api/v1/posts/${postData.id}/hide`, null, config)
-        .then(response => {
+      axios
+        .patch(
+          `https://www.threadit.tech/api/v1/posts/${postData.id}/hide`,
+          null,
+          config
+        )
+        .then((response) => {
           // Handle response
-          console.log('Post hidden successfully');
+          console.log("Post hidden successfully");
         })
-        .catch(error => {
+        .catch((error) => {
           // Handle error
-          console.error('Error hiding post:', error);
+          console.error("Error hiding post:", error);
         });
       postData.ishide = true;
-
     }
-
   };
   return (
     <div id="postcontainer" classname="max-width">
@@ -217,8 +217,12 @@ function PostContainer({ postData }) {
           {showOptions && (
             <div className="options-list">
               <ul>
-                <li onClick={handelUnsaved}>{postData.issaved ? "Remove from saved" : "Save"}</li>
-                <li onClick={handleHidePost}>{postData.ishide ? "Un Hide" : "Hide"}</li>
+                <li onClick={handelUnsaved}>
+                  {postData.issaved ? "Remove from saved" : "Save"}
+                </li>
+                <li onClick={handleHidePost}>
+                  {postData.ishide ? "Un Hide" : "Hide"}
+                </li>
                 <li>Report</li>
               </ul>
             </div>
@@ -227,21 +231,23 @@ function PostContainer({ postData }) {
 
         <div className="post-buttons">
           <span
-            className={`reach ${voteStatus === 1
+            className={`reach ${
+              voteStatus === 1
                 ? "upvoted"
                 : voteStatus === -1
                   ? "downvoted"
                   : ""
-              }`}
+            }`}
           >
             <span className="upvote-downvote">
               <button
-                className={`upvote ${voteStatus === 1
+                className={`upvote ${
+                  voteStatus === 1
                     ? "upvoted"
                     : voteStatus === -1
                       ? "downvoted"
                       : ""
-                  }`}
+                }`}
                 aria-label="upvote"
                 onClick={handleUpvote}
               >
@@ -255,12 +261,13 @@ function PostContainer({ postData }) {
                     viewBox="0 0 20 20"
                     width="16"
                     xmlns="http://www.w3.org/2000/svg"
-                    className={`upvoteButton ${voteStatus === 1
+                    className={`upvoteButton ${
+                      voteStatus === 1
                         ? "upvoted"
                         : voteStatus === -1
                           ? "downvoted"
                           : ""
-                      }`}
+                    }`}
                   >
                     <path d="M12.877 19H7.123A1.125 1.125 0 0 1 6 17.877V11H2.126a1.114 1.114 0 0 1-1.007-.7 1.249 1.249 0 0 1 .171-1.343L9.166.368a1.128 1.128 0 0 1 1.668.004l7.872 8.581a1.25 1.25 0 0 1 .176 1.348 1.113 1.113 0 0 1-1.005.7H14v6.877A1.125 1.125 0 0 1 12.877 19ZM7.25 17.75h5.5v-8h4.934L10 1.31 2.258 9.75H7.25v8ZM2.227 9.784l-.012.016c.01-.006.014-.01.012-.016Z"></path>
                   </svg>
@@ -270,12 +277,13 @@ function PostContainer({ postData }) {
               <span data-testid="upvote-count">{count}</span>
 
               <button
-                className={`downvote ${voteStatus === 1
+                className={`downvote ${
+                  voteStatus === 1
                     ? "upvoted"
                     : voteStatus === -1
                       ? "downvoted"
                       : ""
-                  }`}
+                }`}
                 aria-label="downvote"
                 onClick={handleDownvote}
               >
@@ -289,12 +297,13 @@ function PostContainer({ postData }) {
                     viewBox="0 0 20 20"
                     width="16"
                     xmlns="http://www.w3.org/2000/svg"
-                    className={`downvoteButton ${voteStatus === 1
+                    className={`downvoteButton ${
+                      voteStatus === 1
                         ? "upvoted"
                         : voteStatus === -1
                           ? "downvoted"
                           : ""
-                      }`}
+                    }`}
                   >
                     <path d="M10 20a1.122 1.122 0 0 1-.834-.372l-7.872-8.581A1.251 1.251 0 0 1 1.118 9.7 1.114 1.114 0 0 1 2.123 9H6V2.123A1.125 1.125 0 0 1 7.123 1h5.754A1.125 1.125 0 0 1 14 2.123V9h3.874a1.114 1.114 0 0 1 1.007.7 1.25 1.25 0 0 1-.171 1.345l-7.876 8.589A1.128 1.128 0 0 1 10 20Zm-7.684-9.75L10 18.69l7.741-8.44H12.75v-8h-5.5v8H2.316Zm15.469-.05c-.01 0-.014.007-.012.013l.012-.013Z"></path>
                   </svg>
@@ -388,6 +397,6 @@ function PostContainer({ postData }) {
   );
 }
 
-export default PostContainer;
+export default UserPostContainer;
 
-PostContainer.propTypes = {};
+UserPostContainer.propTypes = {};

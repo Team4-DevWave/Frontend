@@ -100,7 +100,7 @@ function Comments() {
           </div>
           <div id="grid-2">
             {post && <PostContainer postData={post} />}
-            <AddComment postID={id} />
+            <AddComment postID={id} lock={post.locked} />
             <CommentFeed postID={id} />
           </div>
         </div>
