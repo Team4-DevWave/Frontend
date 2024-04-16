@@ -397,6 +397,9 @@ Signup.propTypes = {
   /** Captcha must be solved to enable user creation */
   captcha: PropTypes.string,
 
+  /** User interests to be picked from a multi-category list */
+  interests: PropTypes.array,
+
   /** Handles form submission
    * username must not already exist in database
    * email must not already exist in database
