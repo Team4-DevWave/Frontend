@@ -120,7 +120,7 @@ function Downvoted() {
         <div className="post-feed">
           {posts.map((post, index) => {
             console.log("post data:", post); // Log the post data here
-            return <UserPostContainer key={index} postData={post} />;
+            return <PostContainer key={index} postData={post} />;
           })}
           <div
             ref={loader}

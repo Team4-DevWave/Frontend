@@ -82,7 +82,7 @@ function UserComments() {
       <div id="profgrid-2">
         <div className="post-feed">
           {comments.map((comment, index) => (
-            <UserCommentContainer key={index} commentData={comment} />
+            <CommentContainer key={index} commentData={comment} />
           ))}
           {loading && (
             <div
