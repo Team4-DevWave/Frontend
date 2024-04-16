@@ -18,6 +18,7 @@ function PostContainer({ postData }) {
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
 
   const token = Cookies.get("token");
+  const username = localStorage.getItem("username");
 
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -215,41 +216,45 @@ function PostContainer({ postData }) {
   return (
     <div id="postcontainer" className="max-width">
       <div className="post-container">
+
       {isHidden ? (
                     <p className="deleted-post">Post hidden</p>
                 ) : (
-                  <>       <a
-                  className="post-link"
-                  href={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
-                  onClick={(event) => {
-                    if (event.target.tagName === "BUTTON") {
-                      event.preventDefault();
-                    }
-                  }}
-                >
-                  <article>
-                    <PostDesign
-                      className="post-content"
-                      data-testid="post"
-                      username={postData.username}
-                      userpic={postData2.userpic}
-                      community={postData.community}
-                      incommunity={postData2.incommunity}
-                      Date={new Date(postData.time).toLocaleString([], {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                      title={postData.title} // Pass the title from postData
-                      text={postData.content} // Pass the content from postData as text
-                      image={postData.image}
-                      Link={postData.Link}
-                      video={postData.video}
-                    />{" "}
-                  </article>
-                </a>
+                  <>        <a
+          className="post-link"
+          href={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
+          onClick={(event) => {
+            if (
+              event.target.tagName === "BUTTON" ||
+              window.location.pathname.includes("/comments/")
+            ) {
+              event.preventDefault();
+            }
+          }}
+        >
+          <article>
+            <PostDesign
+              className="post-content"
+              data-testid="post"
+              username={postData.username}
+              userpic={postData2.userpic}
+              community={postData.community}
+              incommunity={postData2.incommunity}
+              Date={new Date(postData.time).toLocaleString([], {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+              title={postData.title} // Pass the title from postData
+              text={postData.content} // Pass the content from postData as text
+              image={postData.image}
+              Link={postData.Link}
+              video={postData.video}
+            />{" "}
+          </article>
+        </a>
         
                 <div className="options-container">
                   <Button

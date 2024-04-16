@@ -109,22 +109,26 @@ function Upvoted() {
   };
 
   return (
-    <div className="post-feed">
-      {posts.map((post, index) => {
-        console.log("post data:", post); // Log the post data here
-        return <PostContainer key={index} postData={post} />;
-      })}
-      <div
-        ref={loader}
-        style={{
-          height: "50px",
-          margin: "20px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {!stop && <CircularProgress />}
+    <div className="home-grid">
+      <div id="grid-2">
+        <div className="post-feed">
+          {posts.map((post, index) => {
+            console.log("post data:", post); // Log the post data here
+            return <PostContainer key={index} postData={post} />;
+          })}
+          <div
+            ref={loader}
+            style={{
+              height: "50px",
+              margin: "20px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {!stop && <CircularProgress />}
+          </div>
+        </div>
       </div>
     </div>
   );
