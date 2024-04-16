@@ -10,66 +10,22 @@ function PostFeed() {
 
 
 
-<<<<<<< Updated upstream
 
 useEffect(() => {
   const token = Cookies.get("token");
 
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
 
-  console.log("Token1:", token);
+    console.log("Token1:", token);
 
-  axios
-    .get("http://localhost:8000/api/v1/users/me/hidden?page=1",config)
-    .then((response) => {
-      console.log("Posts data:", response.data.data.posts);
-      console.log("title=",response.data.data.posts[0].title);
-
-      const mappedData = response.data.data.posts
-        .map((item) => {
-          if (item.text_body) {
-            return {
-              id: item._id,
-              title: item.title,
-              content: item.text_body,
-              time: item.postedTime,
-              votes: item.votes,
-              numviews: item.numViews,
-              spoiler: item.spoiler,
-              nsfw: item.nsfw,
-              locked: item.locked,
-              approved: item.approved,
-              mentioned: item.mentioned,
-              username: item.userID.username,
-              commentsCount: item.commentsCount,
-              image: item.image,
-              ishide:true,
-              issaved:false,
-              video:item.video,
-            };
-          } else {
-            return null;
-          }
-        })
-        .filter(Boolean);
-      console.log("mappeddata->", mappedData);
-      setPosts(mappedData.reverse());
-    })
-    .catch((error) => console.error("Error:", error));
-}, []);
-
-  return (
-    <div className="post-feed">
-      {posts.map((post, index) => {
-        console.log("Post data:", post); // Log the post data here
-        return <UserPostContainer key={index} postData={post} />;
-      })}
-=======
     axios
       .get("http://localhost:8000/api/v1/users/me/hidden?page=1", config)
       .then((response) => {
+        console.log("Posts data:", response.data.data.posts);
+        console.log("title=", response.data.data.posts[0].title);
+
         const mappedData = response.data.data.posts
           .map((item) => {
             if (item.text_body) {
@@ -97,36 +53,22 @@ useEffect(() => {
             }
           })
           .filter(Boolean);
-
-        if (mappedData.length === 0) {
-          setNoPosts(true); // Set noPosts state to true if there are no posts
-        }
-
+        console.log("mappeddata->", mappedData);
         setPosts(mappedData.reverse());
       })
-      .catch((error) => {
-        console.error("Error:", error);
-        setNoPosts(true); // Set noPosts state to true if there's an error
-      });
+      .catch((error) => console.error("Error:", error));
   }, []);
 
   return (
     <div className="home-grid">
       <div id="grid-2">
         <div className="post-feed">
-          {/* Check if noPosts is true and render the appropriate message */}
-          {noPosts ? (
-            <h1 className="deleted-post">No hidden posts found</h1>
-          ) : (
-            // Render the posts
-            posts.map((post, index) => {
-              console.log("Post data:", post); // Log the post data here
-              return <UserPostContainer key={index} postData={post} />;
-            })
-          )}
+          {posts.map((post, index) => {
+            console.log("Post data:", post); // Log the post data here
+            return <UserPostContainer key={index} postData={post} />;
+          })}
         </div>
       </div>
->>>>>>> Stashed changes
     </div>
   );
 }
