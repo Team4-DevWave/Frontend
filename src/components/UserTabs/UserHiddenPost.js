@@ -72,6 +72,7 @@ function PostFeed() {
               return <UserPostContainer key={index} postData={post} />;
             })
           )}
+
         </div>
       </div>
     </div>

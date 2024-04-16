@@ -1,11 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'; // Import Link from React Router
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-const RightSidebar = ({ username = "Mahmoud", postKarma = 0, commentKarma = 0, cakeDay, goldReceived = 0, socialLinks = [], moderationTools = [] }) => {
+
+
+
+
+function RightSidebar ({  postKarma = 0, commentKarma = 0, cakeDay, goldReceived = 0, socialLinks = [], moderationTools = [] })  {
+
+
+  const [userInfo, setuserInfo] = useState();
+  const [userName, setuserName] = useState();
+
+  let bearerToken = Cookies.get('token');
+    const config = {
+        headers: { Authorization: `Bearer ${bearerToken}` },
+    };
+
+    useEffect(() => {
+      axios.get('http://localhost:8000/api/v1/users/me/current', config)
+        .then(response => {
+          setuserInfo(response.data.data.user);
+          console.log('userInfo:', userInfo.username);
+          setuserName(userInfo.username)
+          
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    }, []);
+
   return (
     <div className="right-sidebar">
       <div className="user-info">
-        <h3>{username}</h3>
+        <h3>{userName}</h3>
         <p>Post Karma: {postKarma}</p>
         <p>Comment Karma: {commentKarma}</p>
         <p>Cake Day: {cakeDay} April 14, 2024</p>
@@ -44,5 +76,7 @@ const RightSidebar = ({ username = "Mahmoud", postKarma = 0, commentKarma = 0, c
     </div>
   );
 };
+
+
 
 export default RightSidebar;

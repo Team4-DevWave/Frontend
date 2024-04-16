@@ -76,6 +76,7 @@ function PostFeed() {
               return <MyPostsCont key={index} postData={post} />;
             })
           )}
+
         </div>
       </div>
     </div>
