@@ -48,8 +48,6 @@ function UserProfileHeader() {
   );
 }
 
-UserProfileHeader.propTypes = {
-  userName: PropTypes.string.isRequired,
-};
+
 
 export default UserProfileHeader;

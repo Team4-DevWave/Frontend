@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 
 
 
-function RightSidebar ({ username1 = "Mahmoud", postKarma = 0, commentKarma = 0, cakeDay, goldReceived = 0, socialLinks = [], moderationTools = [] })  {
+function RightSidebar ({  postKarma = 0, commentKarma = 0, cakeDay, goldReceived = 0, socialLinks = [], moderationTools = [] })  {
 
 
   const [userInfo, setuserInfo] = useState();
@@ -76,5 +76,7 @@ function RightSidebar ({ username1 = "Mahmoud", postKarma = 0, commentKarma = 0,
     </div>
   );
 };
+
+
 
 export default RightSidebar;
