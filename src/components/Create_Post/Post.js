@@ -20,6 +20,12 @@ function CreatePost() {
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
     const [fileUploaded, setFileUploaded] = useState(false);
     const [postDone, setPostDone] = useState(false);
+    const[spoiler1, setSpoiler] = useState(false);
+    const[OC, setOc] = useState(false);
+    const[NFSW, setNFSW] = useState(false);
+    const[Flair, setFlair] = useState(false);
+
+
 
     const textAreaRef = useRef(null);
 
@@ -55,11 +61,14 @@ function CreatePost() {
             spoiler: false,
             locked: false,
             image:"",
-            video:""
+            video:"",
+            spoiler:spoiler1,
+            NFSW:NFSW,
           },
           config
         )
         .then((response) => {
+            console.log("sent spoiler=",spoiler1);
             setPostDone(true);
             setTitle('');
             setContent('');
@@ -67,6 +76,8 @@ function CreatePost() {
             setIsItalic(false);
             setIsstrikethrough(false);
             setIsInlinecode(false);
+            setSpoiler(false);
+            setNFSW(false);
           if (response.status === 201) {
             console.log("post is created");
 
@@ -115,6 +126,7 @@ function CreatePost() {
         setIsItalic(false);
         setIsstrikethrough(false);
         setIsInlinecode(false);
+        setSpoiler(false);
     };
 
     const handleEditDraft = (draft) => {
@@ -157,8 +169,19 @@ function CreatePost() {
         setIsBold(false);
         setIsItalic(false);
     };
-
-
+    const handleSpoiler = (event) => {
+        console.log("spoilerzft=",spoiler1);
+        setSpoiler((prevSpoiler) => !prevSpoiler); 
+    };
+    const handleOc = (event) => {
+        setOc((prevOC) => !prevOC); 
+    };
+    const handleNSFW = (event) => {
+        setNFSW((prevNSFW) => !prevNSFW); 
+    };
+    const handleFlair = (event) => {
+        setFlair((prevFlair) => !prevFlair); 
+    };
     return (
 
         <div className="create-post-container">
@@ -219,13 +242,16 @@ function CreatePost() {
                     <Button
                         variant="danger"
                         className="ptnn3"
-
+                        onClick={handleOc}
+                        style={{ background: OC ? 'green' : 'gray' }} 
                     >
                         <FiPlus /> OC
                     </Button>
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleSpoiler}
+                        style={{ background: spoiler1 ? 'green' : 'gray' }} 
 
                     >
                         <FiPlus /> Spoiler
@@ -233,7 +259,8 @@ function CreatePost() {
                     <Button
                         variant="danger"
                         className="ptnn3"
-
+                        onClick={handleNSFW}
+                        style={{ background: NFSW ? 'green' : 'gray' }} 
                     >
                         <FiPlus /> NSFW
                     </Button>
@@ -241,30 +268,15 @@ function CreatePost() {
                     <Button
                         variant="danger"
                         className="ptnn3"
-
+                        onClick={handleFlair}
+                        style={{ background: Flair ? 'green' : 'gray' }} 
                     >
                         <IoPricetagOutline /> Flair
                     </Button>
                 </div>
 
             </div>
-            {/* <div>
-                <button className='Draftbt' onClick={handleShowSavedDrafts}>Drafts</button>
-                {showSavedDrafts && (
-                    <div className="saved-drafts-popup">
-                        <h3>Saved Drafts</h3>
-                        <ul>
-                            {savedDrafts.map((draft, index) => (
-                                <li key={index}>
-                                    <div>Title: {draft.title}</div>
-                                    <div>Content: {draft.content}</div>
-                                    <button onClick={() => handleEditDraft(draft)}>Edit</button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-            </div> */}
+
 
 
 
