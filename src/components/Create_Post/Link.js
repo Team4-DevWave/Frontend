@@ -15,7 +15,10 @@ function Link() {
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
     const [fileUploaded, setFileUploaded] = useState(false);
     const [postDone, setPostDone] = useState(false);
-
+    const[spoiler1, setSpoiler] = useState(false);
+    const[OC, setOc] = useState(false);
+    const[NFSW, setNFSW] = useState(false);
+    const[Flair, setFlair] = useState(false);
     const textAreaRef = useRef(null);
     const token = Cookies.get("token");
 
@@ -47,8 +50,8 @@ function Link() {
             title: title,
             url: content,
             type: 'url',
-            nsfw: false,
-            spoiler: false,
+            nsfw: NFSW,
+            spoiler: spoiler1,
             locked: false,
             image:"",
             video:""
@@ -56,6 +59,10 @@ function Link() {
           config
         )
         .then((response) => {
+            setNFSW(false);
+            setSpoiler(false);
+            setFlair(false);
+            setOc(false);
             setPostDone(true);
             setTitle('');
             setContent('');
@@ -119,7 +126,19 @@ function Link() {
         setContent('');
 
     };
-
+    const handleSpoiler = (event) => {
+        console.log("spoilerzft=",spoiler1);
+        setSpoiler((prevSpoiler) => !prevSpoiler); 
+    };
+    const handleOc = (event) => {
+        setOc((prevOC) => !prevOC); 
+    };
+    const handleNSFW = (event) => {
+        setNFSW((prevNSFW) => !prevNSFW); 
+    };
+    const handleFlair = (event) => {
+        setFlair((prevFlair) => !prevFlair); 
+    };
     return (
 
         <div className="create-post-container">
@@ -165,6 +184,8 @@ function Link() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleOc}
+                        style={{ background: OC ? 'green' : '#c1cad3' }} 
 
                     >
                         <FiPlus /> OC
@@ -172,6 +193,8 @@ function Link() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleSpoiler}
+                        style={{ background: spoiler1 ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> Spoiler
@@ -179,6 +202,8 @@ function Link() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleNSFW}
+                        style={{ background: NFSW ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> NSFW
@@ -187,6 +212,8 @@ function Link() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleFlair}
+                        style={{ background: Flair ? 'green' : '#c1cad3' }} 
 
                     >
                         <IoPricetagOutline /> Flair

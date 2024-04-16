@@ -63,7 +63,7 @@ function CreatePost() {
             image:"",
             video:"",
             spoiler:spoiler1,
-            NFSW:NFSW,
+            nsfw:NFSW,
           },
           config
         )
@@ -239,11 +239,12 @@ function CreatePost() {
                 </form>
                 <div>
 
+
                     <Button
                         variant="danger"
                         className="ptnn3"
                         onClick={handleOc}
-                        style={{ background: OC ? 'green' : 'gray' }} 
+                        style={{ background: OC ? 'green' : '#c1cad3' }} 
                     >
                         <FiPlus /> OC
                     </Button>
@@ -251,7 +252,7 @@ function CreatePost() {
                         variant="danger"
                         className="ptnn3"
                         onClick={handleSpoiler}
-                        style={{ background: spoiler1 ? 'green' : 'gray' }} 
+                        style={{ background: spoiler1 ? 'green' : '#c1cad3' }} 
 
                     >
                         <FiPlus /> Spoiler
@@ -260,7 +261,7 @@ function CreatePost() {
                         variant="danger"
                         className="ptnn3"
                         onClick={handleNSFW}
-                        style={{ background: NFSW ? 'green' : 'gray' }} 
+                        style={{ background: NFSW ? 'green' : '#c1cad3' }} 
                     >
                         <FiPlus /> NSFW
                     </Button>
@@ -269,7 +270,7 @@ function CreatePost() {
                         variant="danger"
                         className="ptnn3"
                         onClick={handleFlair}
-                        style={{ background: Flair ? 'green' : 'gray' }} 
+                        style={{ background: Flair ? 'green' : '#c1cad3' }} 
                     >
                         <IoPricetagOutline /> Flair
                     </Button>
