@@ -81,7 +81,7 @@ function UserCommentContainer({ commentData }) {
   const handleUpvote = async () => {
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/comments/${commentData.id}/vote`,
+        `https://www.threadit.tech/api/v1/comments/${commentData.id}/vote`,
         {
           voteType: 1,
         },
@@ -105,7 +105,7 @@ function UserCommentContainer({ commentData }) {
   const handleDownvote = async () => {
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/comments/${commentData.id}/vote`,
+        `https://www.threadit.tech/api/v1/comments/${commentData.id}/vote`,
         {
           voteType: -1,
         },
@@ -133,7 +133,7 @@ function UserCommentContainer({ commentData }) {
 
     try {
       const response = await axios.delete(
-        `http://localhost:8000/api/v1/comments/${commentData.id}`,
+        `https://www.threadit.tech/api/v1/comments/${commentData.id}`,
         config
       );
       if (response.status === 200) {

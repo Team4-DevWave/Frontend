@@ -17,7 +17,7 @@ function SideBar() {
   const [communities, setCommunities] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/v1/r/all")
+      .get("https://www.threadit.tech/api/v1/r/all")
       .then((response) => setCommunities(response.data.data.subreddits))
       .catch((error) => console.error("Error:", error));
   }, []);

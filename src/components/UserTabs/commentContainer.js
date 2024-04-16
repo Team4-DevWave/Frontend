@@ -135,7 +135,7 @@ function CommentContainer({ commentData }) {
 
     try {
       const response = await axios.delete(
-        `http://localhost:8000/api/v1/comments/${commentData.id}`,
+        `https://www.threadit.tech/api/v1/comments/${commentData.id}`,
         config
       );
       if (response.status === 200) {
@@ -154,7 +154,7 @@ function CommentContainer({ commentData }) {
 
     axios
       .patch(
-        `http://localhost:8000/api/v1/comments/${commentData.id}/save`,
+        `https://www.threadit.tech/api/v1/comments/${commentData.id}/save`,
         null,
         config
       )
@@ -180,7 +180,7 @@ function CommentContainer({ commentData }) {
 
     axios
       .patch(
-        `http://localhost:8000/api/v1/comments/${commentData.id}/save`,
+        `https://www.threadit.tech/api/v1/comments/${commentData.id}/save`,
         null,
         config
       )

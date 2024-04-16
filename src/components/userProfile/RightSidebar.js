@@ -28,7 +28,7 @@ function RightSidebar ({  postKarma, commentKarma , cakeDay, goldReceived })  {
     };
 
     useEffect(() => {
-      axios.get('http://localhost:8000/api/v1/users/me/current', config)
+      axios.get('https://www.threadit.tech/api/v1/users/me/current', config)
         .then(response => {
           setuserInfo(response.data.data.user);
           console.log('userInfo:', userInfo.username);

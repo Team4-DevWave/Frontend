@@ -45,7 +45,7 @@ function Link() {
 
         axios
         .post(
-          `http://localhost:8000/api/v1/posts/submit/u/${username}`,
+          `https://www.threadit.tech/api/v1/posts/submit/u/${username}`,
           {
             title: title,
             url: content,
