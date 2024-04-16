@@ -119,9 +119,9 @@ function OverView() {
         <div className="post-feed">
           {overviewData.map((data, index) => (
             <React.Fragment key={index}>
-              {data.type === "post" && <UserPostContainer postData={data} />}
+              {data.type === "post" && <PostContainer postData={data} />}
               {data.type === "comment" && (
-                <UserCommentContainer commentData={data} />
+                <CommentContainer commentData={data} />
               )}
             </React.Fragment>
           ))}

@@ -14,7 +14,8 @@ function CommentContainer({ commentData }) {
     community: "ismail's Community",
     title: " ",
   });
-
+  const username = localStorage.getItem("username");
+  console.log("user", username);
   console.log("commentData", commentData.user);
 
   const [showOptions, setShowOptions] = useState(false);
@@ -126,6 +127,79 @@ function CommentContainer({ commentData }) {
     }
   };
 
+  const handleDelete = async () => {
+    const token = Cookies.get("token");
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/api/v1/comments/${commentData.id}`,
+        config
+      );
+      if (response.status === 200) {
+        console.log("Comment deleted successfully");
+        // Comment deleted successfully
+        // You can update your state here to remove the comment from the list
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
+  const handleSaved = () => {
+    console.log("id posstttttt=", commentData.id);
+    console.log("tokeeeen=", token);
+
+    axios
+      .patch(
+        `http://localhost:8000/api/v1/comments/${commentData.id}/save`,
+        null,
+        config
+      )
+      .then((response) => {
+        if (response.status === 201) {
+          console.log("Post Saved");
+
+          window.location.href = "/";
+        } else {
+          console.log("post is not Save");
+        }
+        console.log("responeeeeesssss------->", response);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("idd==", commentData.id);
+      });
+  };
+
+  const handleUnsaved = () => {
+    console.log("id posstttttt=", commentData.id);
+    console.log("tokeeeen=", token);
+
+    axios
+      .patch(
+        `http://localhost:8000/api/v1/comments/${commentData.id}/save`,
+        null,
+        config
+      )
+      .then((response) => {
+        if (response.status === 201) {
+          console.log("Post Saved");
+
+          window.location.href = "/";
+        } else {
+          console.log("post is not Save");
+        }
+        console.log("responeeeeesssss------->", response);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("idd==", commentData.id);
+      });
+  };
+
   return (
     <div className="comments-container">
       <PostDesign
@@ -157,16 +231,32 @@ function CommentContainer({ commentData }) {
         {showOptions && (
           <div className="options-list">
             <ul>
-              <li>Show fewer posts like this</li>
-              <li>Hide</li>
-              <li>Save</li>
-              <li>
-                <Report />
-              </li>
+              {commentData.user === username ? (
+                <>
+                  <li
+                    onClick={commentData.issaved ? handleUnsaved : handleSaved}
+                  >
+                    {commentData.issaved ? "Remove from saved" : "Save"}
+                  </li>
+                  <li onClick={handleDelete}>Delete</li>
+                </>
+              ) : (
+                <>
+                  <li
+                    onClick={commentData.issaved ? handleUnsaved : handleSaved}
+                  >
+                    {commentData.issaved ? "Remove from saved" : "Save"}
+                  </li>
+                  <li>
+                    <Report />
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         )}
       </div>
+
       <div className="comments-buttons">
         <span
           className={`reach ${
