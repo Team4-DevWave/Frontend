@@ -18,6 +18,7 @@ function PostContainer({ postData }) {
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
 
   const token = Cookies.get("token");
+  const username = localStorage.getItem("username");
 
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -216,7 +217,10 @@ function PostContainer({ postData }) {
           className="post-link"
           href={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
           onClick={(event) => {
-            if (event.target.tagName === "BUTTON") {
+            if (
+              event.target.tagName === "BUTTON" ||
+              window.location.pathname.includes("/comments/")
+            ) {
               event.preventDefault();
             }
           }}

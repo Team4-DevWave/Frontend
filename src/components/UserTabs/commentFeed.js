@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import CommentContainer from "./commentContainer";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
@@ -9,12 +9,23 @@ import CircularProgress from "@mui/material/CircularProgress";
 function CommentFeed(postID) {
   const [comments, setComments] = useState([]);
   const [page, setPage] = useState(1);
-  const [isLastPage, setIsLastPage] = useState(false);
   const [loading, setLoading] = useState(false);
   const { liveComments } = useContext(LiveCommentsContext);
+  const loader = useRef(null);
 
   useEffect(() => {
-    if (loading || isLastPage) {
+    const observer = new IntersectionObserver(handleObserver, {
+      threshold: 1,
+      rootMargin: "30px",
+    });
+    if (loader.current) {
+      observer.observe(loader.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (loading) {
       return;
     }
     setLoading(true);
@@ -49,28 +60,22 @@ function CommentFeed(postID) {
             }
           })
           .filter(Boolean);
-        console.log("page comments id:", comments[comments.length - 1]);
-        console.log("page comments mapped:", mappedData[mappedData.length - 1]);
-        if (
-          mappedData.length === 0 ||
-          (comments.length > 0 &&
-            JSON.stringify(comments[comments.length - 1]) ===
-              JSON.stringify(mappedData[mappedData.length - 1]))
-        ) {
-          setIsLastPage(true);
-          console.log("page last", page);
-        } else {
-          setComments((prevComments) => [...prevComments, ...mappedData]);
-          setPage((prevPage) => prevPage + 1);
-          console.log("page num", page);
-        }
+
+        setComments((prevComments) => [...prevComments, ...mappedData]);
         setLoading(false);
       })
       .catch((error) => {
         console.error("Error:", error);
         setLoading(false);
       });
-  }, [page, isLastPage, loading]);
+  }, [page]);
+
+  const handleObserver = (entities) => {
+    const target = entities[0];
+    if (target.isIntersecting && !loading) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
 
   return (
     <div className="post-feed">
@@ -79,9 +84,9 @@ function CommentFeed(postID) {
       ))}
 
       {/* Display the live comments */}
-      {liveComments.map((comment, index) => (
+      {/* {liveComments.map((comment, index) => (
         <CommentContainer key={index} commentData={comment} />
-      ))}
+      ))} */}
       {loading && (
         <div
           style={{
@@ -93,6 +98,7 @@ function CommentFeed(postID) {
           <CircularProgress />
         </div>
       )}
+      <div ref={loader} />
     </div>
   );
 }
