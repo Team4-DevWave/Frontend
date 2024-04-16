@@ -13,6 +13,7 @@ function UserProfileHeader() {
 
   const [userInfo, setuserInfo] = useState();
   const [userName, setuserName] = useState();
+  const username1 = localStorage.getItem("username");
 
   let bearerToken = Cookies.get('token');
     const config = {
@@ -38,10 +39,10 @@ function UserProfileHeader() {
       <Avatar src={process.env.PUBLIC_URL + "/images/erenyega.jpg"} alt={userName} sx={{ width: 100, height: 100, marginRight: '20px' }} />
       <div>
         <Typography variant="h5" gutterBottom>
-          {userName}
+          {username1}
         </Typography>
         <Typography variant="body1" color="textSecondary">
-          u/{userName}
+          u/{username1}
         </Typography>
       </div>
     </div>
