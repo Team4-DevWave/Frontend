@@ -13,7 +13,10 @@ function Img() {
     const [title, setTitle] = useState('');
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [captions, setCaptions] = useState([]);
-
+    const[spoiler1, setSpoiler] = useState(false);
+    const[OC, setOc] = useState(false);
+    const[NFSW, setNFSW] = useState(false);
+    const[Flair, setFlair] = useState(false);
     const token = Cookies.get("token");
 
     const config = {
@@ -48,8 +51,8 @@ function Img() {
             title: title,
             text_body:"",
             type: "image/video",
-            nsfw: false,
-            spoiler: false,
+            nsfw: NFSW,
+            spoiler: spoiler1,
             locked: false,
             image:imageURLs.toString(),
             video:""
@@ -57,6 +60,10 @@ function Img() {
           config
         )
         .then((response) => {
+            setFlair(false);
+            setNFSW(false);
+            setSpoiler(false);
+            setOc(false);
 
           if (response.status === 201) {
             console.log("post is created");
@@ -102,7 +109,19 @@ function Img() {
         setUploadedFiles([]);
         setCaptions([]);
     };
-
+    const handleSpoiler = (event) => {
+        console.log("spoilerzft=",spoiler1);
+        setSpoiler((prevSpoiler) => !prevSpoiler); 
+    };
+    const handleOc = (event) => {
+        setOc((prevOC) => !prevOC); 
+    };
+    const handleNSFW = (event) => {
+        setNFSW((prevNSFW) => !prevNSFW); 
+    };
+    const handleFlair = (event) => {
+        setFlair((prevFlair) => !prevFlair); 
+    };
     return (
         <div className="create-post-container">
             <div className="create-post-form-section">
@@ -166,6 +185,8 @@ function Img() {
                 <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleOc}
+                        style={{ background: OC ? 'green' : '#c1cad3' }} 
 
                     >
                         <FiPlus /> OC
@@ -173,6 +194,8 @@ function Img() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleSpoiler}
+                        style={{ background: spoiler1 ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> Spoiler
@@ -180,6 +203,8 @@ function Img() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleNSFW}
+                        style={{ background: NFSW ? 'green' : '#c1cad3' }} 
 
                     >
                         <FiPlus /> NSFW
@@ -188,6 +213,8 @@ function Img() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleFlair}
+                        style={{ background: Flair ? 'green' : '#c1cad3' }} 
 
                     >
                         <IoPricetagOutline /> Flair
