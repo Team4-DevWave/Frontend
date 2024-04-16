@@ -154,6 +154,7 @@ function ProfileNav({
             {activeTab === 2 && <UserComments />}
             {activeTab === 3 && <UserSavedPost/>}
             {activeTab === 4 && <UserHidden/>}
+
             {activeTab === 5 && <Upvoted />}
             {activeTab === 6 && JSON.stringify(downvotedData)}
           </Typography>

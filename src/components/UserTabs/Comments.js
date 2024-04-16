@@ -23,7 +23,6 @@ export const LiveCommentsProvider = ({ children }) => {
   const addLiveComment = (comment) => {
     setLiveComments([...liveComments, comment]);
   };
-
   return (
     <LiveCommentsContext.Provider value={{ liveComments, addLiveComment }}>
       {children}
@@ -91,14 +90,22 @@ function Comments() {
   }
   return (
     <LiveCommentsProvider>
-      <div style={{ marginTop: "67px" }}>
-        <Header />
-        <SideBar />
+      <div>
+        <div className="home-grid">
+          <div id="grid-0">
+            <Header />
+          </div>
+          <div id="grid-1">
+            <SideBar />
+          </div>
+          <div id="grid-2">
+            {post && <PostContainer postData={post} />}
+            <AddComment postID={id} />
+            <CommentFeed postID={id} />
+          </div>
+        </div>
         <div style={{ paddingBottom: "30px" }}></div>
         {/* Uncomment the following line if you have a PostContainer component */}
-        {post && <PostContainer postData={post} />}
-        <AddComment postID={id} />
-        <CommentFeed postID={id} />
       </div>
     </LiveCommentsProvider>
   );

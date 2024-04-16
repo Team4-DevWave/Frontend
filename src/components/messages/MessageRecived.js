@@ -7,7 +7,7 @@ import './Messages.css';
 
 function MessageRecived() {
     const [allMessages, setallMessages] = useState([]);
-
+    const [HideBlockButton, setHideBlockButton] = useState(false);
     const [page, setPage] = useState(1); // initial page
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -78,8 +78,15 @@ function MessageRecived() {
     function handleReport(id) {
         // Report the message with the given ID
     }
+    const handleBlock = () => {
+        setHideBlockButton(true);
+      };
+      const handleCancel = () => {
+        setHideBlockButton(false);
+      };
 
     async function handleBlockUser(usernameToBlock) {
+
         axios.post(`http://localhost:8000/api/v1/users/me/block/${usernameToBlock}`, {}, config)
             .then(response => {
                 console.log('User blocked:', response.data);
@@ -87,6 +94,8 @@ function MessageRecived() {
             .catch(error => {
                 console.error('Error blocking user:', error);
             });
+
+            setHideBlockButton(false);
     };
 
     async function handleMarkUnread (message1)  {
@@ -162,7 +171,16 @@ function MessageRecived() {
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
-                                <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
+                                {!HideBlockButton ? (
+                                <button onClick={handleBlock}>Block</button>
+                            ) : (
+                                
+                                    <div>
+                                        <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                                        <button className='yes_Button' onClick={() =>handleBlockUser(message.from.username)}>Yes</button>
+                                        <button onClick={handleCancel}>No</button>
+                                    </div>
+                                )}
                                 <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
                                 <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
                             </div>
@@ -179,7 +197,16 @@ function MessageRecived() {
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
-                                <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
+                                {!HideBlockButton ? (
+                                <button onClick={handleBlock}>Block</button>
+                            ) : (
+                                
+                                    <div>
+                                        <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                                        <button className='yes_Button' onClick={() =>handleBlockUser(message.from.username)}>Yes</button>
+                                        <button onClick={handleCancel}>No</button>
+                                    </div>
+                                )}
                                 <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
                                 <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
                             </div>
