@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { SlOptions } from "react-icons/sl";
 import "./PostDesign.css";
+import { BsExclamationDiamondFill } from "react-icons/bs";
+
+// URL for the blurred image
+const blurredImageUrl = "https://via.placeholder.com/150/000000/FFFFFF?text=Spoiler";
 
 const PostDesign = ({
   username,
@@ -16,10 +20,14 @@ const PostDesign = ({
   video,
   spoiler,
 }) => {
+  const [spoilerClicked, setSpoilerClicked] = useState(false);
+
   const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video);
-  console.log("isvaliddddddd:", isValidPost);
-  console.log("videoeeee:", video);
-  console.log("userrrrrrnasmeee=",username);
+
+  const handleSpoilerClick = () => {
+    setSpoilerClicked(true);
+  };
+
   return (
     <div>
       <div className="post-header">
@@ -34,18 +42,28 @@ const PostDesign = ({
       </div>
       {isValidPost ? (
         <>
+{spoiler && (
+  <>
+    <BsExclamationDiamondFill />
+    <strong > SPOILER </strong>
+  </>
+)}
           <h2 className="post-title">{title}</h2>
-          <div className="post-content">
-            {text && <p className="post-text">{text}</p>}
-            {image && <img src={image} alt="Post" className="post-image" />}
-            {video && (
-              <video controls className="post-video">
-                <source src={video} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              
-            )}
-          </div>
+          {spoiler && !spoilerClicked ? ( // Check if spoiler is true and not clicked
+            <div className="post-content" onClick={handleSpoilerClick}>
+              <img src={blurredImageUrl} alt="Spoiler" className="blur-image" />
+            </div>
+          ) : (
+            <div className="post-content">
+              {text && <p className="post-text">{text}</p>}
+              {image && <img src={image} alt="Post" className="post-image" />}
+              {video && (
+                <video controls className="post-video">
+                  <source src={video} type="video/mp4" />
+                </video>
+              )}
+            </div>
+          )}
         </>
       ) : (
         <p className="invalid-post">Invalid post data</p>

@@ -228,7 +228,7 @@ console.log("lockeddddd------->",postData.locked);
                                             className="post-content"
                                             data-testid="post"
                                             username={postData.username}
-                                            userpic={postData.userpic}
+                                            userpic={postData2.userpic}
                                             community={postData.community}
                                             incommunity={postData2.incommunity}
                                             Date={postData.Date}
