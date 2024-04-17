@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
-import Header from "../../components/Header";
+import Header from "../../layouts/Header";
 import userEvent from "@testing-library/user-event";
 
 describe("Header", () => {
@@ -75,5 +75,16 @@ describe("Header", () => {
     userEvent.click(img[0]);
     const subMenu = screen.getByTestId("menu");
     expect(subMenu).toBeVisible();
+  });
+
+  test("navigates to home page when home is clicked", () => {
+    render(
+      <Router>
+        <Header />
+      </Router>
+    );
+    const home = screen.getByAltText("threadit logo");
+    fireEvent.click(home);
+    expect(window.location.pathname).toBe("/");
   });
 });
