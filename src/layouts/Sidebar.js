@@ -28,7 +28,7 @@ function SideBar() {
         <div className="side-bar">
           <ul className="side-bar-content">
             <li>
-              <a href="/home" className="side-bar-link">
+              <a href="/home" className="side-bar-link" data-testid="home-nav">
                 <svg
                   rpl=""
                   fill="currentColor"

@@ -82,8 +82,10 @@ function PostContainer({ postData }) {
   };
 
   const [voteStatus, setVoteStatus] = useState(0); // 0 = no vote, 1 = upvoted, -1 = downvoted
-  const [upvoteCount, setUpVoteCount] = useState(postData.votes.upvotes);
-  const [downvoteCount, setDownVoteCount] = useState(postData.votes.downvotes);
+  const [upvoteCount, setUpVoteCount] = useState(postData?.votes?.upvotes || 0);
+  const [downvoteCount, setDownVoteCount] = useState(
+    postData?.votes?.downvotes || 0
+  );
   const [count, setCount] = useState(
     postData.votes.upvotes - postData.votes.downvotes
   );
@@ -324,7 +326,8 @@ function PostContainer({ postData }) {
                   image={postData.image}
                   Link={postData.Link}
                   video={postData.video}
-                />{" "}
+                  spoiler={postData.spoiler}
+                />
               </article>
             </a>
             <div className="options-container">
