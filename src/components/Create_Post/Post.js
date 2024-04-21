@@ -7,6 +7,7 @@ import './CreatePost.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
+import Cookies from "js-cookie";
 
 function CreatePost() {
     const [title, setTitle] = useState('');
@@ -19,9 +20,20 @@ function CreatePost() {
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
     const [fileUploaded, setFileUploaded] = useState(false);
     const [postDone, setPostDone] = useState(false);
+    const[spoiler1, setSpoiler] = useState(false);
+    const[OC, setOc] = useState(false);
+    const[NFSW, setNFSW] = useState(false);
+    const[Flair, setFlair] = useState(false);
+
+
 
     const textAreaRef = useRef(null);
 
+    const token = Cookies.get("token");
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
     // const handleFileChange = (e) => {
     //     if (e.target.files.length > 0) {
     //         setFileUploaded(true); // Enable the buttons when a file is uploaded
@@ -33,18 +45,30 @@ function CreatePost() {
     const username = localStorage.getItem('username');
     const handelpostclick = async (e) => {
         e.preventDefault();
-        const postdata = {
+
+
+    
+        console.log("usernammmeeee==",username);
+
+        axios
+        .post(
+          `http://localhost:8000/api/v1/posts/submit/u/${username}`,
+          {
             title: title,
-            content: content,
+            text_body: content,
             type: 'text',
-            NSFW: false,
+            nsfw: false,
             spoiler: false,
             locked: false,
-            // bold: isBold,
-            // italic: isItalic
-        };
-        try {
-            const response = await axios.post(`http://localhost:8000/api/v1/posts/submit/u/${username}`, { content: postdata });
+            image:"",
+            video:"",
+            spoiler:spoiler1,
+            nsfw:NFSW,
+          },
+          config
+        )
+        .then((response) => {
+            console.log("sent spoiler=",spoiler1);
             setPostDone(true);
             setTitle('');
             setContent('');
@@ -52,13 +76,21 @@ function CreatePost() {
             setIsItalic(false);
             setIsstrikethrough(false);
             setIsInlinecode(false);
+            setSpoiler(false);
+            setNFSW(false);
+          if (response.status === 201) {
+            console.log("post is created");
 
-        }
-        catch (error) {
-            console.error('Error submitting post:', error);
-
-
-        }
+          } else {
+            console.log("post is not created");
+          }
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("ssssssssssss");
+        });
+        alert("Post done");
 
     };
 
@@ -94,6 +126,7 @@ function CreatePost() {
         setIsItalic(false);
         setIsstrikethrough(false);
         setIsInlinecode(false);
+        setSpoiler(false);
     };
 
     const handleEditDraft = (draft) => {
@@ -136,8 +169,19 @@ function CreatePost() {
         setIsBold(false);
         setIsItalic(false);
     };
-
-
+    const handleSpoiler = (event) => {
+        console.log("spoilerzft=",spoiler1);
+        setSpoiler((prevSpoiler) => !prevSpoiler); 
+    };
+    const handleOc = (event) => {
+        setOc((prevOC) => !prevOC); 
+    };
+    const handleNSFW = (event) => {
+        setNFSW((prevNSFW) => !prevNSFW); 
+    };
+    const handleFlair = (event) => {
+        setFlair((prevFlair) => !prevFlair); 
+    };
     return (
 
         <div className="create-post-container">
@@ -188,23 +232,27 @@ function CreatePost() {
                     <div>
                         <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled ={!title}   className={!title ? 'disabled-button' : ''}>Save Draft</button>
                         <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''} >Post</button>
-                        {postDone && <p>Post done</p>}
+                        {postDone &&<script>alert("Post done");</script>}
 
                     </div>
 
                 </form>
                 <div>
 
+
                     <Button
                         variant="danger"
                         className="ptnn3"
-
+                        onClick={handleOc}
+                        style={{ background: OC ? 'green' : '#c1cad3' }} 
                     >
                         <FiPlus /> OC
                     </Button>
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleSpoiler}
+                        style={{ background: spoiler1 ? 'green' : '#c1cad3' }} 
 
                     >
                         <FiPlus /> Spoiler
@@ -212,7 +260,8 @@ function CreatePost() {
                     <Button
                         variant="danger"
                         className="ptnn3"
-
+                        onClick={handleNSFW}
+                        style={{ background: NFSW ? 'green' : '#c1cad3' }} 
                     >
                         <FiPlus /> NSFW
                     </Button>
@@ -220,30 +269,15 @@ function CreatePost() {
                     <Button
                         variant="danger"
                         className="ptnn3"
-
+                        onClick={handleFlair}
+                        style={{ background: Flair ? 'green' : '#c1cad3' }} 
                     >
                         <IoPricetagOutline /> Flair
                     </Button>
                 </div>
 
             </div>
-            {/* <div>
-                <button className='Draftbt' onClick={handleShowSavedDrafts}>Drafts</button>
-                {showSavedDrafts && (
-                    <div className="saved-drafts-popup">
-                        <h3>Saved Drafts</h3>
-                        <ul>
-                            {savedDrafts.map((draft, index) => (
-                                <li key={index}>
-                                    <div>Title: {draft.title}</div>
-                                    <div>Content: {draft.content}</div>
-                                    <button onClick={() => handleEditDraft(draft)}>Edit</button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-            </div> */}
+
 
 
 

@@ -6,13 +6,23 @@ import { AiOutlineDelete } from 'react-icons/ai';
 // import axios from 'axios';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
+import Cookies from "js-cookie";
+import axios from 'axios';
 
 function Img() {
     const [title, setTitle] = useState('');
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [captions, setCaptions] = useState([]);
+    const[spoiler1, setSpoiler] = useState(false);
+    const[OC, setOc] = useState(false);
+    const[NFSW, setNFSW] = useState(false);
+    const[Flair, setFlair] = useState(false);
+    const token = Cookies.get("token");
 
-
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    const username = localStorage.getItem('username');
 
     const handelpostclick = async (event) => {
         event.preventDefault();
@@ -26,18 +36,48 @@ function Img() {
                 caption: captions[index]
             }))
         };
-    // try {
-    //     const response = await axios.post('http://localhost:3001/posts', { content: postData });
+        const imageURLs = uploadedFiles.map((file) => URL.createObjectURL(file));
+        const formData = new FormData();
+        uploadedFiles.forEach((file, index) => {
+            formData.append(`file${index}`, file);
+        });
+        console.log("usernammmeeee==",username);
+        console.log("imageeee===",imageURLs);
 
-    // } catch (error) {
-        
-    // }
-        //console.log('Post Data:', postData);
-    
-        // Reset form fields after submission
-        setTitle('');
-        setUploadedFiles([]);
-        setCaptions([]);
+        axios
+        .post(
+          `http://localhost:8000/api/v1/posts/submit/u/${username}`,
+          {
+            title: title,
+            text_body:"",
+            type: "image/video",
+            nsfw: NFSW,
+            spoiler: spoiler1,
+            locked: false,
+            image:imageURLs.toString(),
+            video:""
+          },
+          config
+        )
+        .then((response) => {
+            setFlair(false);
+            setNFSW(false);
+            setSpoiler(false);
+            setOc(false);
+
+          if (response.status === 201) {
+            console.log("post is created");
+
+          } else {
+            console.log("post is not created");
+          }
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("ssssssssssss");
+        });
+        alert("Post done");
     };
     
     
@@ -69,7 +109,19 @@ function Img() {
         setUploadedFiles([]);
         setCaptions([]);
     };
-
+    const handleSpoiler = (event) => {
+        console.log("spoilerzft=",spoiler1);
+        setSpoiler((prevSpoiler) => !prevSpoiler); 
+    };
+    const handleOc = (event) => {
+        setOc((prevOC) => !prevOC); 
+    };
+    const handleNSFW = (event) => {
+        setNFSW((prevNSFW) => !prevNSFW); 
+    };
+    const handleFlair = (event) => {
+        setFlair((prevFlair) => !prevFlair); 
+    };
     return (
         <div className="create-post-container">
             <div className="create-post-form-section">
@@ -133,6 +185,8 @@ function Img() {
                 <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleOc}
+                        style={{ background: OC ? 'green' : '#c1cad3' }} 
 
                     >
                         <FiPlus /> OC
@@ -140,6 +194,8 @@ function Img() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleSpoiler}
+                        style={{ background: spoiler1 ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> Spoiler
@@ -147,6 +203,8 @@ function Img() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleNSFW}
+                        style={{ background: NFSW ? 'green' : '#c1cad3' }} 
 
                     >
                         <FiPlus /> NSFW
@@ -155,6 +213,8 @@ function Img() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleFlair}
+                        style={{ background: Flair ? 'green' : '#c1cad3' }} 
 
                     >
                         <IoPricetagOutline /> Flair

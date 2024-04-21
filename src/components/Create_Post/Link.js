@@ -3,9 +3,10 @@ import { FaBold } from "react-icons/fa";
 // import axios from 'axios';
 import './CreatePost.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
-
+import axios from 'axios';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
+import Cookies from "js-cookie";
 
 function Link() {
     const [title, setTitle] = useState('');
@@ -14,8 +15,17 @@ function Link() {
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
     const [fileUploaded, setFileUploaded] = useState(false);
     const [postDone, setPostDone] = useState(false);
-
+    const[spoiler1, setSpoiler] = useState(false);
+    const[OC, setOc] = useState(false);
+    const[NFSW, setNFSW] = useState(false);
+    const[Flair, setFlair] = useState(false);
     const textAreaRef = useRef(null);
+    const token = Cookies.get("token");
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    const username = localStorage.getItem('username');
 
     const handleFileChange = (e) => {
         if (e.target.files.length > 0) {
@@ -31,18 +41,45 @@ function Link() {
             title: title,
             content: content,
         };
-        // try {
-        //     const response = await axios.post('http://localhost:3001/posts', { content: postdata });
-        //     setPostDone(true);
-        //     setTitle('');
-        //     setContent('');
+        console.log("usernammmeeee==",username);
 
-        // }
-        // catch (error) {
-        //     console.error('Error submitting post:', error);
+        axios
+        .post(
+          `http://localhost:8000/api/v1/posts/submit/u/${username}`,
+          {
+            title: title,
+            url: content,
+            type: 'url',
+            nsfw: NFSW,
+            spoiler: spoiler1,
+            locked: false,
+            image:"",
+            video:""
+          },
+          config
+        )
+        .then((response) => {
+            setNFSW(false);
+            setSpoiler(false);
+            setFlair(false);
+            setOc(false);
+            setPostDone(true);
+            setTitle('');
+            setContent('');
 
+          if (response.status === 201) {
+            console.log("post is created");
 
-        // }
+          } else {
+            console.log("post is not created");
+          }
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("errorr");
+        });
+        alert("Post done");
 
     };
 
@@ -89,7 +126,19 @@ function Link() {
         setContent('');
 
     };
-
+    const handleSpoiler = (event) => {
+        console.log("spoilerzft=",spoiler1);
+        setSpoiler((prevSpoiler) => !prevSpoiler); 
+    };
+    const handleOc = (event) => {
+        setOc((prevOC) => !prevOC); 
+    };
+    const handleNSFW = (event) => {
+        setNFSW((prevNSFW) => !prevNSFW); 
+    };
+    const handleFlair = (event) => {
+        setFlair((prevFlair) => !prevFlair); 
+    };
     return (
 
         <div className="create-post-container">
@@ -135,6 +184,8 @@ function Link() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleOc}
+                        style={{ background: OC ? 'green' : '#c1cad3' }} 
 
                     >
                         <FiPlus /> OC
@@ -142,6 +193,8 @@ function Link() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleSpoiler}
+                        style={{ background: spoiler1 ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> Spoiler
@@ -149,6 +202,8 @@ function Link() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleNSFW}
+                        style={{ background: NFSW ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> NSFW
@@ -157,6 +212,8 @@ function Link() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleFlair}
+                        style={{ background: Flair ? 'green' : '#c1cad3' }} 
 
                     >
                         <IoPricetagOutline /> Flair

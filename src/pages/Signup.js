@@ -6,6 +6,10 @@ import { MdAlternateEmail } from "react-icons/md";
 import ReCAPTCHA from "react-google-recaptcha";
 import { preferenceOptions } from "../utils/preferences";
 import useCountry from "../hooks/useCountry";
+import useAvailableEmail from "../hooks/useAvailableEmail";
+import SelectGender from "../components/SelectGender";
+import SelectInterests from "../components/SelectInterests";
+import SelectUsername from "../components/SelectUsername";
 import {
   TextField,
   Button,
@@ -34,6 +38,8 @@ function Signup() {
     showConfirmPassword: false,
   });
 
+  const [stage, setStage] = React.useState(1);
+
   const [preferences, setPreferences] = React.useState([]);
 
   const [userState, setUserState] = React.useState({
@@ -53,6 +59,8 @@ function Signup() {
     touchedEmail: false,
     touchedConfirmPassword: false,
   });
+
+  const available = useAvailableEmail(userState.email);
 
   useEffect(() => {
     setUserState((prevState) => ({
@@ -78,18 +86,22 @@ function Signup() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    
     console.log(userState);
     axios
-      .post("http://localhost:8000/api/v1/users/signup", {
-        username: userState.username,
-        password: userState.password,
-        email: userState.email,
-        passwordConfirm: userState.confirmPassword,
-        country: country,
-        gender: userState.gender,
-        interests: preferences,
-      },config)
+      .post(
+        "http://localhost:8000/api/v1/users/signup",
+        {
+          username: userState.username,
+          password: userState.password,
+          email: userState.email,
+          passwordConfirm: userState.confirmPassword,
+          country: country,
+          gender: userState.gender,
+          interests: preferences,
+        },
+        config
+      )
       .then((response) => {
         if (response.status === 201) {
           console.log("User is created");
@@ -108,6 +120,14 @@ function Signup() {
         setUserState((prevState) => ({ ...prevState, attempted: true }));
       });
   };
+
+  useEffect(() => {
+    if(stage===5){
+      handleSubmit();
+    }
+  }, [stage]);
+
+
   const googleLogin = useGoogleLogin({
     clientId:
       "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
@@ -133,12 +153,13 @@ function Signup() {
   };
   return (
     <div className="wrapper">
-      <div className="background-div">
-        <form className="login-form" onSubmit={handleSubmit}>
+      {stage === 1 && (
+        <form className="login-form" >
           <h2>Signup</h2>
           <TextField
             data-testid="email"
             InputProps={{
+              style: { borderRadius: 25 },
               endAdornment: <MdAlternateEmail />,
             }}
             sx={{ width: "100%", marginBottom: "25px" }}
@@ -147,13 +168,17 @@ function Signup() {
             error={
               (!userState.email && userState.touchedEmail) ||
               (userState.touchedEmail && !userState.validEmail)
+              || (!available && userState.touchedEmail)
             }
             helperText={
               !userState.email && userState.touchedEmail
                 ? "Email is required"
                 : "" || (!userState.validEmail && userState.touchedEmail)
                   ? "Invalid Email"
-                  : ""
+                  : "" ||(!available && userState.touchedEmail)
+                    ? "Email is already taken"
+                    : ""
+
             }
             onChange={(e) => {
               setUserState((prevState) => ({
@@ -170,38 +195,9 @@ function Signup() {
           />
 
           <TextField
-            data-testid="username"
-            InputProps={{
-              endAdornment: <FaUserAstronaut />,
-            }}
-            sx={{ width: "100%", marginBottom: "25px" }}
-            label="Username"
-            type="text"
-            error={
-              (!userState.username && userState.touchedUser) ||
-              userState.attempted
-            }
-            helperText={
-              !userState.username && userState.touchedUser
-                ? "Username is required"
-                : "" || userState.attempted
-                  ? "Username already exists"
-                  : ""
-            }
-            onChange={(e) => {
-              setUserState((prevState) => ({
-                ...prevState,
-                username: e.target.value,
-              }));
-            }}
-            onBlur={() =>
-              setUserState((prevState) => ({ ...prevState, touchedUser: true }))
-            }
-          />
-
-          <TextField
             data-testid="password"
             InputProps={{
+              style: { borderRadius: 25 },
               endAdornment: (
                 <TbPasswordFingerprint
                   onClick={() =>
@@ -239,6 +235,7 @@ function Signup() {
           <TextField
             data-testid="confirm-password"
             InputProps={{
+              style: { borderRadius: 25 },
               endAdornment: (
                 <TbPasswordFingerprint
                   onClick={() => {
@@ -252,7 +249,7 @@ function Signup() {
             }}
             sx={{ width: "100%", marginBottom: "25px" }}
             label="Confirm Password"
-            type="password"
+            type= {showPass.showConfirmPassword ? "text" : "password"}
             error={
               (!userState.confirmPassword &&
                 userState.touchedConfirmPassword) ||
@@ -280,50 +277,6 @@ function Signup() {
               }))
             }
           />
-          <InputLabel required>Gender</InputLabel>
-          <RadioGroup
-            row
-            value={userState.gender}
-            onChange={handleGenderChange}
-          >
-            <FormControlLabel value="man" control={<Radio />} label="Male" />
-            <FormControlLabel
-              value="woman"
-              control={<Radio />}
-              label="Female"
-            />
-            <FormControlLabel
-              value="other"
-              control={<Radio />}
-              label="Prefer not to say"
-            />
-          </RadioGroup>
-          <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id="demo-multiple-chip-label">Intersests</InputLabel>
-            <Select
-              labelId="demo-multiple-chip-label"
-              id="demo-multiple-chip"
-              multiple
-              value={preferences}
-              onChange={handlePreferences}
-              input={
-                <OutlinedInput id="select-multiple-chip" label="Preferences" />
-              }
-              renderValue={(selected) => (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
-            >
-              {preferenceOptions.map((preference) => (
-                <MenuItem key={preference} value={preference}>
-                  {preference}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
 
           <div className="captcha">
             <ReCAPTCHA
@@ -336,10 +289,12 @@ function Signup() {
             />
           </div>
           <Button
+           onClick={ () => setStage(2) }
             data-testid="signup-btn"
             variant="contained"
             sx={{
               width: "100%",
+              borderRadius: "25px",
               marginTop: "10px",
               padding: "10px",
               backgroundColor: "#FF5700",
@@ -349,10 +304,10 @@ function Signup() {
             }}
             startIcon={<FiLogIn />}
             disabled={
-              !userState.validUser ||
+         
               !userState.validPassword ||
               !userState.validEmail ||
-              !userState.gender ||
+              !available ||
               !userState.validConfirmPassword ||
               !userState.captcha
             }
@@ -360,27 +315,18 @@ function Signup() {
           >
             Signup
           </Button>
-          <LoginSocialFacebook
-            appId="736104705323820"
-            onResolve={(response) => {}}
-            onReject={(response) => {}}
-          >
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
-              startIcon={<FaFacebook />}
-            >
-              Signup with Facebook
-            </Button>
-          </LoginSocialFacebook>
 
           <Button
             id="googlebtn"
             onClick={() => googleLogin()}
             variant="contained"
             color="primary"
-            sx={{ width: "100%", marginTop: "10px", padding: "10px" }}
+            sx={{
+              width: "100%",
+              marginTop: "10px",
+              padding: "10px",
+              borderRadius: "25px",
+            }}
             startIcon={<FaGoogle />}
           >
             {" "}
@@ -392,7 +338,33 @@ function Signup() {
             </p>
           </div>
         </form>
-      </div>
+      )}
+      {stage === 2 && (
+        <SelectUsername
+          stage={stage}
+          setStage={setStage}
+          username={userState.username}
+          setUsername={(username) =>
+            setUserState((prevState) => ({ ...prevState, username }))
+          }
+        />
+      )}
+      {stage === 3 && (
+        <SelectGender
+          stage={stage}
+          setStage={setStage}
+          gender={userState.gender}
+          setGender={(gender) =>
+            setUserState((prevState) => ({ ...prevState, gender }))
+          }
+        />
+      )}
+      {stage === 4 && <SelectInterests
+         stage={stage}
+         setStage={setStage}
+         preferences={preferences}
+         setPreferences={setPreferences}
+      />}
     </div>
   );
 }
@@ -424,6 +396,9 @@ Signup.propTypes = {
   validConfirmPassword: PropTypes.bool,
   /** Captcha must be solved to enable user creation */
   captcha: PropTypes.string,
+
+  /** User interests to be picked from a multi-category list */
+  interests: PropTypes.array,
 
   /** Handles form submission
    * username must not already exist in database

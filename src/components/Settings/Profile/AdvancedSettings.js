@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Switch, Button } from '@mui/material';
 import CustomSnackbar from '../../MUIEdited/CustomSnackbar'; // Import your CustomSnackbar component
-import { clearHistoryAPI } from '.././APIs/ProfileAPI.js'; // Import your API function
 
 function AdvancedSettings() {
   const [snackbarInfo, setSnackbarInfo] = useState({ isOpen: false, message: '', severity: 'success' });
@@ -9,18 +8,7 @@ function AdvancedSettings() {
   const handleSnackbarClose = () => setSnackbarInfo({ ...snackbarInfo, isOpen: false });
 
   const handleClearHistory = () => {
-    clearHistoryAPI()
-      .then(response => {
-        if (response.success) {
           setSnackbarInfo({ isOpen: true, message: 'History cleared successfully!', severity: 'success' });
-        } else {
-          setSnackbarInfo({ isOpen: true, message: response.message || 'Failed to clear history. Please try again later.', severity: 'error' });
-        }
-      })
-      .catch(error => {
-        console.error('Error clearing history:', error);
-        setSnackbarInfo({ isOpen: true, message: 'An error occurred while clearing history. Please try again later.', severity: 'error' });
-      });
   };
 
   return (

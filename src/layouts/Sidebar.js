@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import threaditLogo from "../images/threadditTransBG.png";
 import CreateCommunity from "../components/CreateCommunity";
-import { PropTypes } from 'prop-types';
-import routes  from "../utils/routes";
-import {useRoutes} from "react-router-dom";
+import { PropTypes } from "prop-types";
+import routes from "../utils/routes";
+import { useRoutes } from "react-router-dom";
+import axios from "axios";
 
 function SideBar() {
   const [recent, setRecent] = useState([]);
@@ -15,9 +16,10 @@ function SideBar() {
 
   const [communities, setCommunities] = useState([]);
   useEffect(() => {
-    fetch("https://www.reddit.com/r/redditdev.json")
-      .then((response) => response.json())
-      .then((communities) => setCommunities(communities));
+    axios
+      .get("http://localhost:8000/api/v1/r/all")
+      .then((response) => setCommunities(response.data.data.subreddits))
+      .catch((error) => console.error("Error:", error));
   }, []);
 
   return (
@@ -26,7 +28,7 @@ function SideBar() {
         <div className="side-bar">
           <ul className="side-bar-content">
             <li>
-              <a href="/home" className="side-bar-link">
+              <a href="/home" className="side-bar-link" data-testid="home-nav">
                 <svg
                   rpl=""
                   fill="currentColor"
@@ -108,20 +110,19 @@ function SideBar() {
                 <div className="sub-list">
                   <ul className="sub-list-items">
                     <li>
-                      <a href={routes["/ModQueue"]()} className="side-bar-link">
+                      <a href="#e" className="side-bar-link">
                         <svg
-                            rpl=""
-                            fill="currentColor"
-                            height="20"
-                            icon-name="mod-remove-outline"
-                            viewBox="0 0 20 20"
-                            width="20"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="side-bar-link-icon"
-                            role="svg"
+                          rpl=""
+                          fill="currentColor"
+                          height="20"
+                          icon-name="mod-remove-outline"
+                          viewBox="0 0 20 20"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="side-bar-link-icon"
+                          role="svg"
                         >
-                          <path
-                              d="m11.5 15.521-.158-.042C11.206 15.444 8 14.581 8 12.25V8.393l3.5-.914 3.5.914v3.857c0 2.331-3.206 3.194-3.342 3.229l-.158.042ZM9.25 9.357v2.893c0 1.147 1.713 1.8 2.249 1.972.536-.177 2.251-.83 2.251-1.972V9.357l-2.25-.586-2.25.586ZM17.375 19H5.625A1.627 1.627 0 0 1 4 17.375V5.625A1.627 1.627 0 0 1 5.625 4h11.75A1.627 1.627 0 0 1 19 5.625v11.75A1.627 1.627 0 0 1 17.375 19ZM5.625 5.25a.375.375 0 0 0-.375.375v11.75a.375.375 0 0 0 .375.375h11.75a.375.375 0 0 0 .375-.375V5.625a.375.375 0 0 0-.375-.375H5.625Zm-3 9.5a.375.375 0 0 1-.375-.375V2.624a.375.375 0 0 1 .375-.374h11.75a.375.375 0 0 1 .375.374H16A1.627 1.627 0 0 0 14.375 1H2.625A1.627 1.627 0 0 0 1 2.624v11.751A1.627 1.627 0 0 0 2.625 16v-1.25Z"></path>
+                          <path d="m11.5 15.521-.158-.042C11.206 15.444 8 14.581 8 12.25V8.393l3.5-.914 3.5.914v3.857c0 2.331-3.206 3.194-3.342 3.229l-.158.042ZM9.25 9.357v2.893c0 1.147 1.713 1.8 2.249 1.972.536-.177 2.251-.83 2.251-1.972V9.357l-2.25-.586-2.25.586ZM17.375 19H5.625A1.627 1.627 0 0 1 4 17.375V5.625A1.627 1.627 0 0 1 5.625 4h11.75A1.627 1.627 0 0 1 19 5.625v11.75A1.627 1.627 0 0 1 17.375 19ZM5.625 5.25a.375.375 0 0 0-.375.375v11.75a.375.375 0 0 0 .375.375h11.75a.375.375 0 0 0 .375-.375V5.625a.375.375 0 0 0-.375-.375H5.625Zm-3 9.5a.375.375 0 0 1-.375-.375V2.624a.375.375 0 0 1 .375-.374h11.75a.375.375 0 0 1 .375.374H16A1.627 1.627 0 0 0 14.375 1H2.625A1.627 1.627 0 0 0 1 2.624v11.751A1.627 1.627 0 0 0 2.625 16v-1.25Z"></path>
                         </svg>
                         <p>Mod Queue</p>
                       </a>
@@ -129,18 +130,17 @@ function SideBar() {
                     <li>
                       <a href="#e" className="side-bar-link">
                         <svg
-                            rpl=""
-                            fill="currentColor"
-                            height="20"
-                            icon-name="mod-remove-outline"
-                            viewBox="0 0 20 20"
-                            width="20"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="side-bar-link-icon"
-                            role="svg"
+                          rpl=""
+                          fill="currentColor"
+                          height="20"
+                          icon-name="mod-remove-outline"
+                          viewBox="0 0 20 20"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="side-bar-link-icon"
+                          role="svg"
                         >
-                          <path
-                              d="m11.5 15.521-.158-.042C11.206 15.444 8 14.581 8 12.25V8.393l3.5-.914 3.5.914v3.857c0 2.331-3.206 3.194-3.342 3.229l-.158.042ZM9.25 9.357v2.893c0 1.147 1.713 1.8 2.249 1.972.536-.177 2.251-.83 2.251-1.972V9.357l-2.25-.586-2.25.586ZM17.375 19H5.625A1.627 1.627 0 0 1 4 17.375V5.625A1.627 1.627 0 0 1 5.625 4h11.75A1.627 1.627 0 0 1 19 5.625v11.75A1.627 1.627 0 0 1 17.375 19ZM5.625 5.25a.375.375 0 0 0-.375.375v11.75a.375.375 0 0 0 .375.375h11.75a.375.375 0 0 0 .375-.375V5.625a.375.375 0 0 0-.375-.375H5.625Zm-3 9.5a.375.375 0 0 1-.375-.375V2.624a.375.375 0 0 1 .375-.374h11.75a.375.375 0 0 1 .375.374H16A1.627 1.627 0 0 0 14.375 1H2.625A1.627 1.627 0 0 0 1 2.624v11.751A1.627 1.627 0 0 0 2.625 16v-1.25Z"></path>
+                          <path d="m11.5 15.521-.158-.042C11.206 15.444 8 14.581 8 12.25V8.393l3.5-.914 3.5.914v3.857c0 2.331-3.206 3.194-3.342 3.229l-.158.042ZM9.25 9.357v2.893c0 1.147 1.713 1.8 2.249 1.972.536-.177 2.251-.83 2.251-1.972V9.357l-2.25-.586-2.25.586ZM17.375 19H5.625A1.627 1.627 0 0 1 4 17.375V5.625A1.627 1.627 0 0 1 5.625 4h11.75A1.627 1.627 0 0 1 19 5.625v11.75A1.627 1.627 0 0 1 17.375 19ZM5.625 5.25a.375.375 0 0 0-.375.375v11.75a.375.375 0 0 0 .375.375h11.75a.375.375 0 0 0 .375-.375V5.625a.375.375 0 0 0-.375-.375H5.625Zm-3 9.5a.375.375 0 0 1-.375-.375V2.624a.375.375 0 0 1 .375-.374h11.75a.375.375 0 0 1 .375.374H16A1.627 1.627 0 0 0 14.375 1H2.625A1.627 1.627 0 0 0 1 2.624v11.751A1.627 1.627 0 0 0 2.625 16v-1.25Z"></path>
                         </svg>
                         <p>t/Mod</p>
                       </a>
@@ -150,7 +150,6 @@ function SideBar() {
               </details>
             </li>
 
-
             <li>
               <details open>
                 <summary className="sub-list-title" data-testid="summary">
@@ -158,13 +157,13 @@ function SideBar() {
                     <div tabIndex={-1}>
                       RECENT
                       <svg
-                          rpl=""
-                          fill="currentColor"
-                          height="20"
-                          icon-name="caret-down-outline"
-                          viewBox="0 0 20 20"
-                          width="20"
-                          xmlns="http://www.w3.org/2000/svg"
+                        rpl=""
+                        fill="currentColor"
+                        height="20"
+                        icon-name="caret-down-outline"
+                        viewBox="0 0 20 20"
+                        width="20"
+                        xmlns="http://www.w3.org/2000/svg"
                         className="summary-arrow"
                         role="svg"
                       >
@@ -187,7 +186,7 @@ function SideBar() {
                     </li>
                     {Array.isArray(recent) &&
                       recent.map((item) => (
-                        <li key={item.id}>
+                        <li key={item._id}>
                           <a href={item.url} className="side-bar-link">
                             <img>{/* Your img here */}</img>
                             <p>{item.name}</p>
@@ -247,9 +246,9 @@ function SideBar() {
                     {Array.isArray(communities) &&
                       communities.map((item) => (
                         <li key={item.id}>
-                          <a href={item.url} className="side-bar-link">
+                          <a href="#item.url" className="side-bar-link">
                             <img>{/* Your img here */}</img>
-                            <p>{item.name}</p>
+                            <p>t/{item.name}</p>
                           </a>
                         </li>
                       ))}
@@ -523,34 +522,32 @@ function SideBar() {
   );
 }
 
-
 SideBar.propTypes = {
-     /**  direct to home page*/
-    Home: PropTypes.string,
-    /**  direct to popular items*/
-    Popular: PropTypes.string,
-    /**  get recent visited communities*/
-    RECENT: PropTypes.string,
-    /**  create community*/
-    RECENT: PropTypes.string,
-    /**  show my enrolled communities*/
-    COMMUNITIES: PropTypes.string,
-    /**  state Threddit policy*/
-    AboutTHreddit: PropTypes.string,
-    /**  state Advertise*/
-    Advertise: PropTypes.string,
-    /**  state Help*/
-    Help: PropTypes.string,
-    /**  state Blog*/
-    Blog: PropTypes.string,
-    /**  state Careers*/
-    Careers: PropTypes.string,
-    /**  state Press*/
-    Press: PropTypes.string,
+  /**  direct to home page*/
+  Home: PropTypes.string,
+  /**  direct to popular items*/
+  Popular: PropTypes.string,
+  /**  get recent visited communities*/
+  RECENT: PropTypes.string,
+  /**  create community*/
+  RECENT: PropTypes.string,
+  /**  show my enrolled communities*/
+  COMMUNITIES: PropTypes.string,
+  /**  state Threddit policy*/
+  AboutTHreddit: PropTypes.string,
+  /**  state Advertise*/
+  Advertise: PropTypes.string,
+  /**  state Help*/
+  Help: PropTypes.string,
+  /**  state Blog*/
+  Blog: PropTypes.string,
+  /**  state Careers*/
+  Careers: PropTypes.string,
+  /**  state Press*/
+  Press: PropTypes.string,
 
-     /**  state content policy*/
-     Contentpolicy: PropTypes.string,
-  };
-  
-  
+  /**  state content policy*/
+  Contentpolicy: PropTypes.string,
+};
+
 export default SideBar;

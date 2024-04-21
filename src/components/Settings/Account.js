@@ -5,35 +5,31 @@ import ButtonDelete from '../MUIEdited/ButtonDelete';
 import CustomSelect from '../MUIEdited/CustomSelect';
 import CustomSnackbar from '../MUIEdited/CustomSnackbar';
 import LanguageSelectionDialog from '../MUIEdited/LanguageSelectionDialog';
-import { changeEmailAPI, changePreferenceAPI } from './APIs/AccountAPI';
 
 function Account() {
-  const [email, setEmail] = useState("example@gmail.com");
-  const [newEmail, setNewEmail] = useState("");
-  const [snackbarInfo, setSnackbarInfo] = useState({ isOpen: false, message: "", severity: "success" });
-  const [openEmailDialog, setOpenEmailDialog] = useState(false);
-  const [open, setOpen] = useState(false);
+const [email, setEmail] = useState(localStorage.getItem('email') || "example@gmail.com");
+const [newEmail, setNewEmail] = useState("");
+const [gender, setGender] = useState(localStorage.getItem('gender') || "Man");
+const [language, setLanguage] = useState(localStorage.getItem('language') || "English (US)");
+const [locationBasedOnIP, setLocationBasedOnIP] = useState(localStorage.getItem('Location Based On IP') || "Use approximate location (based on IP)");
+const [snackbarInfo, setSnackbarInfo] = useState({ isOpen: false, message: "", severity: "success" });
+const [openEmailDialog, setOpenEmailDialog] = useState(false);
+const [open, setOpen] = useState(false);
 
+
+
+  
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleSnackbarClose = () => setSnackbarInfo({ ...snackbarInfo, isOpen: false });
 
-  const handleEmailChange = async () => {
+  const handleEmailChange = () => {
     const isValidEmail = validateEmail(newEmail);
     if (isValidEmail) {
-      try {
-        const response = await changeEmailAPI(newEmail);
-        if (response.success) {
-          setEmail(newEmail);
-          setSnackbarInfo({ isOpen: true, message: "Email changed successfully!", severity: "success" });
-        } else {
-          setSnackbarInfo({ isOpen: true, message: "Failed to change email. Please try again later.", severity: "error" });
-        }
-      } catch (error) {
-        console.error("Error changing email:", error);
-        setSnackbarInfo({ isOpen: true, message: "An error occurred while changing email. Please try again later.", severity: "error" });
-      }
+      setEmail(newEmail);
+      localStorage.setItem('email', newEmail);
+      setSnackbarInfo({ isOpen: true, message: "Email changed successfully!", severity: "success" });
       setOpenEmailDialog(false); // Close the dialog
     } else {
       setSnackbarInfo({ isOpen: true, message: "Invalid email address!", severity: "error" });
@@ -43,19 +39,33 @@ function Account() {
   const handleOpenEmailDialog = () => setOpenEmailDialog(true);
   const handleCloseEmailDialog = () => setOpenEmailDialog(false);
 
-  const handleChange = async (prop, value) => {
-    try {
-      const response = await changePreferenceAPI(prop, value);
-      if (response.success) {
-        setSnackbarInfo({ isOpen: true, message: `${prop.charAt(0).toUpperCase() + prop.slice(1)} changed successfully!`, severity: "success" });
-      } else {
-        setSnackbarInfo({ isOpen: true, message: `Failed to change ${prop}. Please try again later.`, severity: "error" });
-      }
-    } catch (error) {
-      console.error(`Error changing ${prop}:`, error);
-      setSnackbarInfo({ isOpen: true, message: `An error occurred while changing ${prop}. Please try again later.`, severity: "error" });
-    }
-  };
+const handleChange = (prop, value) => {
+  // Update state
+  setSnackbarInfo({ isOpen: true, message: `${prop.charAt(0).toUpperCase() + prop.slice(1)} changed successfully!`, severity: "success" });
+
+  // Save data to local storage
+  switch(prop) {
+    case 'email':
+      localStorage.setItem('email', value);
+      setEmail(value);
+      break;
+    case 'gender':
+      localStorage.setItem('gender', value);
+      setGender(value);
+      break;
+    case 'language':
+      localStorage.setItem('language', value);
+      setLanguage(value);
+      break;
+    case 'Location Based On IP':
+      localStorage.setItem('Location Based On IP', value);
+      setLocationBasedOnIP(value);
+      break;
+
+      default:
+      break;
+  }
+};
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -65,7 +75,7 @@ function Account() {
       <div className='settingsData'>
         <div className='titleData'>
           <h2 className="titleDataItem">ACCOUNT PREFERENCES</h2>
-          <div class="horizontalLine horizontalLine-2"></div>
+          <div className="horizontalLine horizontalLine-2"></div>
         </div>
         <div className="settingsItem">
           <div>
@@ -79,7 +89,7 @@ function Account() {
             color="var(--color-blue)"
             value="Change"
             onClick={handleOpenEmailDialog} 
-            />
+          />
           {/* Dialog for changing email */}
           <Dialog open={openEmailDialog} onClose={handleCloseEmailDialog}>
             <DialogTitle>Change Email Address</DialogTitle>
@@ -106,16 +116,15 @@ function Account() {
             <h2 className="titleBody-2">Gender</h2>
             <p className="settingsParagraph">This information may be used to improve your recommendations and ads.</p>
           </div>
-          <label htmlFor="gender">Gender</label>
 
-          <CustomSelect defaultValue="Man" values={['Man', 'Woman']} mr='none' ml='auto' onSelection={(value) => handleChange('gender', value)} />
+          <CustomSelect defaultValue={gender}  values={['Man', 'Woman']} mr='none' ml='auto' onSelection={(value) => handleChange('gender', value)} />
         </div>
         <div className="settingsItem">
           <div>
             <h2 className="titleBody-2">Display language <span className="beta">(beta)</span></h2>
             <p className="settingsParagraph">Select the language you'd like to experience the Reddit interface in. Note that this won't change the language of user-generated content and that this feature is still in development so translations and UI are still under review.</p>
           </div>
-          <CustomSelect defaultValue="English (US)" values={['English (US)', 'Arabic', 'German', 'French', 'Italian', 'Indian']} mr='none' ml='auto' onSelection={(value) => handleChange('language', value)} />
+          <CustomSelect defaultValue={language} values={['English (US)', 'Arabic', 'German', 'French', 'Italian', 'Indian']} mr='none' ml='auto' onSelection={(value) => handleChange('language', value)} />
         </div>
         <div className="settingsItem">
           <div>
@@ -123,18 +132,18 @@ function Account() {
             <p className="settingsParagraph">Add languages you’d like to see posts, community recommendations, and other content in</p>
           </div>
           <ButtonEdited color="var(--color-blue)" value="Change" onClick={handleOpen} />
-          <LanguageSelectionDialog open={open} onClose={handleClose} onSave={() => handleChange('languages')} />
+          <LanguageSelectionDialog open={open} onClose={handleClose}  onSave={() => handleChange('languages')} />
         </div>
         <div>
           <h2 className="titleBody-2">Location customization</h2>
           <p className="settingsParagraph">Specify a location to customize your recommendations and feed. Reddit does not track your precise geolocation data. <span className="link"><a target="_blank" href='https://support.reddithelp.com/hc/en-us/articles/360062429491-Managing-your-Location-Customization-setting' rel="noreferrer">Learn more</a></span></p>
         </div>
         <div>
-          <CustomSelect defaultValue="Use approximate location (based on IP)" values={['Use approximate location (based on IP)', 'No location specified', 'Afghanistan', 'Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'Palestine', 'Egypt', 'Angola', 'Albania']} mr='auto' ml='none' onSelection={(value) => handleChange('location', value)} />
+          <CustomSelect defaultValue={locationBasedOnIP} values={['Use approximate location (based on IP)', 'No location specified', 'Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'Palestine', 'Egypt', 'Angola']} mr='auto' ml='none' onSelection={(value) => handleChange('Location Based On IP', value)} />
         </div>
         <div className='titleData'>
           <h2 className="titleDataItem">DELETE ACCOUNT</h2>
-          <div class="horizontalLine horizontalLine-2"></div>
+          <div className="horizontalLine horizontalLine-2"></div>
         </div>
         <ButtonDelete/>
       </div>

@@ -1,0 +1,134 @@
+.addcomment-box{
+    width: 720px;
+    min-height: 50px;
+    padding: 10px;
+    border: 1px solid #ffff;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    outline:none;
+    overflow: hidden;
+}
+
+.addcomment-container{
+    position: relative;
+    left: 10%;
+    width: 733px;
+    min-height: 50px;
+    height: auto;
+    padding: 7px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    visibility: hidden;
+    font-size: 15px;
+}
+
+.fake-addcomment{
+    position: relative;
+    left: 10%;
+    width: 733px;
+    height: 50px;
+    padding: 10px 10px 10px 10px;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    cursor: text;
+}
+
+.add-comment-p{
+    color: rgb(40, 48, 58);
+    font-size: 15px;
+    padding: 3px;
+}
+
+.addcomment-container.open-textarea{
+    opacity: 100%;
+    visibility: visible;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .fake-addcomment.open-textarea{
+    visibility: hidden;
+  }
+
+  .cancel-btn{
+    position: relative;
+    left: 80%;
+    top: -5px;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 20px;
+    margin-right: 5px;
+    cursor: pointer;
+    color: black;
+    background-color: rgb(228, 228, 228);
+  }
+
+  .cancel-btn:hover{
+    background-color: rgb(216, 215, 215);
+  }
+
+  .comment-btn{
+    position: relative;
+    left: 80%;
+    top: -5px;
+    padding: 5px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 20px;
+    cursor: pointer;
+    color: white;
+    background-color: #43494d;
+  }
+
+  .comment-btn:hover{
+    background-color: #3b4044;
+  }
+
+  .text-formatting{
+    position: relative;
+    right: 20%;
+    padding: 5px 12px;
+    font-weight: 700;
+  }
+  
+  .text-formatting:hover{
+    background-color: #bebebe;
+    border-radius: 50%;
+  }
+
+  .text-formatting.open-format-options{
+    background-color: #bebebe;
+    border-radius: 50%;
+  }
+
+  .text-formatting-options{
+    position: relative;
+    left:0%;
+
+  }
+
+  .text-formatting-button{
+    padding: 5px 9px;
+    margin-right: 5px;
+  }
+  .text-formatting-button:hover{
+    background-color: #bebebe;
+    border-radius: 50%;
+  }
+  .text-formatting-button.bold{
+    background-color: #bebebe;
+    border-radius: 50%;
+  }
+  .text-formatting-button.italic{
+    background-color: #bebebe;
+    border-radius: 50%;
+  }
+  .text-formatting-button.strikethrough{
+    background-color: #bebebe;
+    border-radius: 50%;
+  }
+  .text-formatting-button.code{
+    background-color: #bebebe;
+    border-radius: 50%;
+  }
