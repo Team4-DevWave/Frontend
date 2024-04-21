@@ -1,15 +1,22 @@
 .post-container{
-  width: 730px;
+  max-width: 730px;
+  min-width: 400px;
   height: auto;
   position: relative;
-  left: 34%;
+  left: 100px;
   text-decoration: none;
 }
 
+#postcontainer{
+  max-width: 730px;
+  min-width: 400px;
+}
+
 #postcontainer hr{
-  width: 730px;
+  max-width: 730px;
+  min-width: 400px;
   position: relative;
-  left: 34%;
+  left: 100px;
   margin: 8px;
 }
 
@@ -22,7 +29,7 @@
 word-wrap: break-word;
 padding-left: 15px;
 padding-right: 15px;
-max-height: 600px;
+max-height: 100%;
 overflow: hidden;
 text-overflow: ellipsis;
 }
@@ -30,9 +37,11 @@ text-overflow: ellipsis;
 .post-link{
   text-decoration: none;
   word-wrap: break-word;
+  width: 100%;
   max-width: 730px;
-  max-height: 600px;
+  max-height: 100%;
   text-overflow: ellipsis;
+  object-fit: contain;
 }
 
 .post-buttons{
@@ -195,7 +204,7 @@ text-overflow: ellipsis;
 .share-menu-wrap{
   position: absolute;
   top: 96%;
-  left: 22%;
+  left: 28%;
   width: 190px;
   opacity: 0%;
   visibility: hidden;
@@ -241,6 +250,10 @@ text-overflow: ellipsis;
   margin-right: -10px;
   margin-top: 1px;
   margin-left: 20px;
+}
+
+.crosspost{
+  margin-left:35px;
 }
 
 .share-menu-link:hover{
@@ -297,4 +310,79 @@ text-overflow: ellipsis;
 
 .options-list ul li:hover {
   background-color: #f0f0f0;
+}
+
+@media (max-width: 1350px) {
+  .post-container {
+    left: 100px;
+  }
+  .post-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .post-buttons {
+    padding-left: 0;
+  }
+  #postcontainer hr{
+    width: 730px;
+    position: relative;
+    left: 90px;
+    margin: 8px;
+  }
+  
+}
+
+@media (max-width: 980px) {
+  .post-container {
+    left: 100px;
+    max-width: 600px;
+  }
+  .post-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .post-buttons {
+    padding-left: 0;
+  }
+  #postcontainer hr{
+    width: 600px;
+    position: relative;
+    left: 90px;
+    margin: 8px;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .post-container {
+    left: 20px;
+    max-width: 450px;
+  }
+  .post-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .post-buttons {
+    padding-left: 0;
+  }
+  #postcontainer hr{
+    width: 456px;
+    position: relative;
+    left: 90px;
+    margin: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-container {
+    left: 100px;
+    max-width: 350px;
+  }
+  .post-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .post-buttons {
+    padding-left: 0;
+  }
 }

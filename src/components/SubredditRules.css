@@ -1,0 +1,63 @@
+.subreddit-rules{
+    background-color: rgba(222, 222, 222, 0.701);
+    padding: 10px;
+    max-height: 100vh; /* Set a fixed height for the div */
+  overflow-y: auto; 
+  margin-right: 20px;
+  border-radius: 25px 0px 0px 25px;
+  transform: translateY(-100px);
+  
+}
+
+.subreddit-rules.sticky{
+    position: fixed;
+    top: 170px;
+
+}
+
+.subreddit-ruleset li{
+    list-style-type: decimal;
+    padding: 10px;
+    border-bottom: 1px solid #c9c7c7;
+    
+}
+
+.subreddit-rules h3{
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 15px 0px 10px 0px;
+}
+
+.mod-avatar{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.subreddit-mods li{
+padding: 10px;
+}
+
+.subreddit-description{
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 15px 0px 10px 0px;
+}
+
+::-webkit-scrollbar {
+    width: 5px; /* Width of the scrollbar */
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar handle */
+    border-radius: 5px; /* Radius of the scrollbar handle */
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar handle on hover */
+  }
+

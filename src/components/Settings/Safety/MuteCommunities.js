@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Box, Avatar, Button } from '@mui/material';
-import { fetchMutedCommunities } from '../APIs/SafetyAPI.js'; // Import your API function
 
 function MuteCommunities({ setSnackbarInfo }) {
   const [mutedCommunities, setMutedCommunities] = useState([]);
@@ -9,7 +8,6 @@ function MuteCommunities({ setSnackbarInfo }) {
 
   useEffect(() => {
     setIsAddCommunityButtonDisabled(communityName.trim() === '');
-    fetchMutedCommunities(setSnackbarInfo).then(data => setMutedCommunities(data));
   }, [communityName, setSnackbarInfo]);
 
   const handleAddCommunity = () => {

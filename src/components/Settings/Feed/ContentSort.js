@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CustomSelect from '../../MUIEdited/CustomSelect';
+import CustomSelect from '../../MUIEdited/CustomSelect2';
 import CustomSelectFeed from '../../MUIEdited/CustomSelectFeed';
 import CustomSnackbar from '../../MUIEdited/CustomSnackbar';
 

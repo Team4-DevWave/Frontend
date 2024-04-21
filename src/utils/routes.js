@@ -9,6 +9,23 @@ import ResetCredentials from "../pages/ResetCredentials";
 import CreatePost from "../components/Create_Post/Nav";
 import Profile from "../pages/Profile.js";
 import Subreddit from "../pages/Subreddit";
+import SelectGender from "../components/SelectGender.js";
+import SelectInterests from "../components/SelectInterests.js";
+import SelectUsername from "../components/SelectUsername.js";
+import Comments from "../components/UserTabs/Comments.js";
+import UserSavedPost from "../components/UserTabs/UserSavedPost.js";
+import UserPost from "../components/UserTabs/UserPost.js";
+import UserHiddenPost from "../components/UserTabs/UserHiddenPost.js";
+import UserComments from "../components/UserTabs/UserComments.js";
+import OverView from "../components/UserTabs/Overview.js";
+import Upvoted from "../components/UserTabs/Upvoted.js";
+import Downvoted from "../components/UserTabs/Downvoted.js";
+import { useParams } from "react-router-dom";
+
+function CommentsRoute() {
+  const { id, title } = useParams();
+  return <Comments postID={id} postTitle={title} />;
+}
 
 const routes = {
   "/": () => <Home />,
@@ -22,6 +39,21 @@ const routes = {
   "/Notification": () => <Notification />,
   "/CreatePost": () => <CreatePost />,
   "/profile": () => <Profile />,
- "/r/:subreddit":() => <Subreddit name = "Persona3" description = "h" rules = "h" members="h" />,
+  "/r/:subreddit": () => (
+    <Subreddit name="Persona3" description="h" rules="h" members="h" />
+  ),
+  "/comments/:id/:title": CommentsRoute,
+
+  //**These are test routes and will be removed upon integration */
+  "/selectgender": () => <SelectGender />,
+  "/selectinterests": () => <SelectInterests />,
+  "/selectusername": () => <SelectUsername />,
+  "/usersavedpost": () => <UserSavedPost />,
+  "/userpost": () => <UserPost />,
+  "/userhiddenpost": () => <UserHiddenPost />,
+  "/usercomments": () => <UserComments />,
+  "/overview": () => <OverView />,
+  "/upvoted": () => <Upvoted />,
+  "/downvoted": () => <Downvoted />,
 };
 export default routes;

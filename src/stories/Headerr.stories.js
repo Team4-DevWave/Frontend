@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Header from '../components/Header';
+import Header from '../layouts/Header';
 import exp from 'constants';
 export default {
   title: "Header",
