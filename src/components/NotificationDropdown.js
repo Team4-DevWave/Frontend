@@ -35,7 +35,9 @@ function NotificationDropDown() {
       <IconButton
         aria-controls="simple-menu"
         aria-haspopup="true"
+        color="inherit"
         onClick={handleClick}
+       
       >
         <NotificationsIcon />
       </IconButton>
