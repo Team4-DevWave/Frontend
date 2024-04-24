@@ -6,7 +6,7 @@ import routes from "../utils/routes";
 import { useRoutes } from "react-router-dom";
 import axios from "axios";
 
-function SideBar() {
+function GuestSideBar() {
   const [recent, setRecent] = useState([]);
   useEffect(() => {
     fetch("https://www.reddit.com/r/redditdev.json")
@@ -28,7 +28,7 @@ function SideBar() {
         <div className="side-bar">
           <ul className="side-bar-content">
             <li>
-              <a href="/home" className="side-bar-link" data-testid="home-nav">
+              <a href="/home" className="side-bar-link">
                 <svg
                   rpl=""
                   fill="currentColor"
@@ -522,32 +522,5 @@ function SideBar() {
   );
 }
 
-SideBar.propTypes = {
-  /**  direct to home page*/
-  Home: PropTypes.string,
-  /**  direct to popular items*/
-  Popular: PropTypes.string,
-  /**  get recent visited communities*/
-  RECENT: PropTypes.string,
-  /**  create community*/
-  RECENT: PropTypes.string,
-  /**  show my enrolled communities*/
-  COMMUNITIES: PropTypes.string,
-  /**  state Threddit policy*/
-  AboutTHreddit: PropTypes.string,
-  /**  state Advertise*/
-  Advertise: PropTypes.string,
-  /**  state Help*/
-  Help: PropTypes.string,
-  /**  state Blog*/
-  Blog: PropTypes.string,
-  /**  state Careers*/
-  Careers: PropTypes.string,
-  /**  state Press*/
-  Press: PropTypes.string,
 
-  /**  state content policy*/
-  Contentpolicy: PropTypes.string,
-};
-
-export default SideBar;
+export default GuestSideBar;
