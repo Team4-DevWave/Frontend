@@ -22,6 +22,7 @@ import Upvoted from "../components/UserTabs/Upvoted.js";
 import Downvoted from "../components/UserTabs/Downvoted.js";
 import { useParams } from "react-router-dom";
 import SearchPage from "../pages/SearchPage";
+import Chat from "../pages/chat/ChatPage.js";
 
 function CommentsRoute() {
   const { id, title } = useParams();
@@ -57,5 +58,6 @@ const routes = {
   "/overview": () => <OverView />,
   "/upvoted": () => <Upvoted />,
   "/downvoted": () => <Downvoted />,
+  "/chat": () => <Chat />,
 };
 export default routes;
