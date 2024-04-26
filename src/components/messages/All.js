@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import PropTypes from "prop-types";
+
 import './Messages.css';
 import { Link } from 'react-router-dom';
+
+import { useNavigate } from 'react-router-dom';
+
 
 function All() {
 
@@ -13,6 +18,7 @@ function All() {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const limit = 10;
+    const navigate = useNavigate();
 
     let bearerToken = Cookies.get('token');
     const config = {
@@ -119,11 +125,11 @@ function All() {
     };
 
 
-    async function handleFullComment(message1) {
-        <Link
-        className="comment-link"
-        to={`/comments/${message1.post}/${message1.title.toLowerCase().replace(/ /g, "-")}`}
-      />
+    const handleFullComment = (message) => {
+        // setShowLink(true);
+        const postTitle = message.subject.split(': ')[1];
+        navigate(`/comments/${message.post}/${postTitle}`);
+
     };
 
 
@@ -183,7 +189,7 @@ function All() {
                             <h4>Message: {message.message}</h4>
                             <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
                             <div className="button-container-in-messageRecived">
-                                {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full comment</button>}
+                                {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full context</button>}
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
                                 {!HideBlockButton ? (
@@ -241,4 +247,20 @@ function All() {
 }
 
 export default All;
+
+//JSDocs comments for Storybook
+
+All.propTypes = {
+
+  /** Handles Deletion of the selected message */
+  Delete: PropTypes.func,
+  /** Handles direct to the post */
+  handleFullComment: PropTypes.func,
+    /** Handles the block user of the selected message */
+    handleBlockUser: PropTypes.func,
+    /** Handles the MarkUnread of the selected message and when clicked flip to allow user to mark as read if want */
+    handleMarkUnread: PropTypes.func,
+
+};
+
 
