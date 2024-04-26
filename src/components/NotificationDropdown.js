@@ -20,7 +20,7 @@ function NotificationDropDown() {
         headers: { Authorization: `Bearer ${bearerToken}` },
     };
     useEffect(() => {
-        axios.get('http://localhost:8000/api/v1/notifications' , config)
+        axios.get('https://www.threadit.tech/api/v1/notifications' , config)
             .then(response => {
                 setNotifications(response.data.data.notifications);
                 setNotificationCount(response.data.data.notifications.length);

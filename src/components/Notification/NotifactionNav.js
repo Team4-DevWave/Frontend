@@ -21,7 +21,7 @@ function NotificationNav() {
         const config = {
             headers: { Authorization: `Bearer ${bearerToken}` },
         };
-        axios.get("http://localhost:8000/api/v1/notifications",config) // Replace with your server URL
+        axios.get("https://www.threadit.tech/api/v1/notifications",config) // Replace with your server URL
 
             .then(response => {
                 // Update the notification count with the number of unread notifications

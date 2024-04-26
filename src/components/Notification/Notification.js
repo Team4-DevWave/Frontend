@@ -83,7 +83,7 @@ const Notification = ({setNotificationCount}) => {
                 console.error('Error:', error);
             });
 
-        axios.patch(`http://localhost:8000/api/v1/notifications/read/${notificationId}`)
+        axios.patch(`https://www.threadit.tech/api/v1/notifications/read/${notificationId}`)
             .then(response => {
                 if (response.data.status == "success") {
                     // Mark the notification as read in the state
