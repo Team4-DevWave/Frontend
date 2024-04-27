@@ -29,7 +29,7 @@ function NotificationDropDown() {
                 console.error('Error:', error);
             });
     }, []);
-
+    
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -42,7 +42,9 @@ function NotificationDropDown() {
       <IconButton
         aria-controls="simple-menu"
         aria-haspopup="true"
+        color="inherit"
         onClick={handleClick}
+       
       >
         <NotificationsIcon />
       </IconButton>

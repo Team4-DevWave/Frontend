@@ -23,6 +23,9 @@ import ListItemText from "@mui/material/ListItemText";
 import SideBar from "./Sidebar";
 import Cookies from "js-cookie";
 import "./Header.css";
+
+
+import ChatIcon from "@mui/icons-material/Chat";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -226,7 +229,18 @@ export default function Header() {
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+              <p>Messages</p>
+
+{/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
+<IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="error">
+            <ChatIcon />
+          </Badge>
+        </IconButton>
+              <p>chat</p>
+
+{/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
+
       </MenuItem>
       <MenuItem>
         <IconButton
