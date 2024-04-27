@@ -13,7 +13,7 @@ import friendRequestImage from "../../images/friendRequest.png";
 import newPostImage from "../../images/newPost.png";
 import reportImage from "../../images/report.png";
 
-const Notification = ({setNotificationCount}) => {
+const OldNotification = ({setNotificationCount}) => {
     const [data, setData] = useState([]); // State variable to store received data
     const [unreadCount, setUnreadCount] = useState(0); // State variable to store count of unread notifications
 
@@ -76,14 +76,14 @@ const Notification = ({setNotificationCount}) => {
                         newData[index].status = "flase";
                         return newData;
                     });
-
+                    setNotificationCount((prevCount) => prevCount - 1);
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
 
-        axios.patch(`http://localhost:8000/api/v1/notifications/read/${notificationId}` ,{}, config)
+        axios.patch(`http://localhost:8000/api/v1/notifications/read/${notificationId}`)
             .then(response => {
                 if (response.data.status == "success") {
                     // Mark the notification as read in the state
@@ -92,17 +92,10 @@ const Notification = ({setNotificationCount}) => {
                         newData[index].status = "true";
                         return newData;
                     });
+                    setNotificationCount((prevCount) => prevCount - 1);
                 }
             })
             .catch((error) => {
-                console.error('Error:', error);
-            });
-        axios.get('http://localhost:8000/api/v1/notifications', config)
-            .then(response => {
-                setData(response.data.data.notifications);
-                setNotificationCount(response.data.data.notifications.length);
-            })
-            .catch(error => {
                 console.error('Error:', error);
             });
     };
@@ -112,8 +105,8 @@ const Notification = ({setNotificationCount}) => {
         <div>
             {/* Display the received data */}
             {data.map((notification, index) => (
-                !notification.read &&(
-                    <div key={index} className={`notification`}  onClick={() => markAsRead(index)}>
+                notification.read &&(
+                    <div key={index} className={`notification`}>
                         <img
                             src={getImage(notification.type)}
                             alt={notification.type}
@@ -121,13 +114,10 @@ const Notification = ({setNotificationCount}) => {
                         />
                         <div>
                             {/*json { "status": "", [ "timestamp": "", "username": "", "subreddit": "", "type": "", "body": "" ] }*/}
-
+                            {/*<h3 id={"datarecieved"}>Data received from server:</h3>*/}
                             <h3>{notification.content}</h3>
                             <p>{notification.threadData}</p>
-                            <p> {
-                                // Create a new Date object with the timestamp
-                                new Date(notification.createdAt).toISOString().slice(0,16).replace("T", " ")
-                            }</p>
+                            <p>{notification.createdAt}</p>
 
                         </div>
                     </div>
@@ -137,9 +127,9 @@ const Notification = ({setNotificationCount}) => {
     );
 };
 
-export default Notification;
+export default OldNotification;
 
-Notification.propTypes = {
+OldNotification.propTypes = {
     /**
      * The type of notification
      */
