@@ -24,7 +24,7 @@ function PostFeed() {
       .then((response) => {
         const mappedData = response.data.data.posts
           .map((item) => {
-            if (item.text_body) {
+            if (item._id) {
               return {
                 id: item._id,
                 title: item.title,
@@ -35,11 +35,13 @@ function PostFeed() {
                 spoiler: item.spoiler,
                 nsfw: item.nsfw,
                 locked: item.locked,
+                type:item.type,
                 approved: item.approved,
                 mentioned: item.mentioned,
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
+                Link:item.url
               };
             } else {
               return null;

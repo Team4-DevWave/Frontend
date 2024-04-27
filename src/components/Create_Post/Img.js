@@ -28,33 +28,40 @@ function Img() {
         event.preventDefault();
         
         // Create an object to hold the post data
-        const postData = {
-            title: title,
-            files: uploadedFiles.map((file, index) => ({
-                type: file.type.startsWith('image/') ? 'image' : 'video',
-                url: URL.createObjectURL(file),
-                caption: captions[index]
-            }))
-        };
-        const imageURLs = uploadedFiles.map((file) => URL.createObjectURL(file));
-        const formData = new FormData();
-        uploadedFiles.forEach((file, index) => {
-            formData.append(`file${index}`, file);
+          const filePromises = uploadedFiles.map(file => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
         });
-        console.log("usernammmeeee==",username);
-        console.log("imageeee===",imageURLs);
 
+        Promise.all(filePromises)
+            .then(base64Strings => {
+                // Create an object to hold the post data
+                const postData = {
+                    title: title,
+                    files: uploadedFiles.map((file, index) => ({
+                        type: file.type.startsWith('image/') ? 'image' : 'video',
+                        url: base64Strings[index], // Use Base64 string here
+                        caption: captions[index]
+                    }))
+                };
+                console.log("usernammmeeee==", username);
+                console.log("imageeee===", base64Strings);
+                console.log("titleeeee=",postData.title);
         axios
         .post(
           `http://localhost:8000/api/v1/posts/submit/u/${username}`,
           {
-            title: title,
+            title: postData.title,
             text_body:"",
             type: "image/video",
             nsfw: NFSW,
             spoiler: spoiler1,
             locked: false,
-            image:imageURLs.toString(),
+            image:base64Strings,
             video:""
           },
           config
@@ -77,6 +84,11 @@ function Img() {
           console.log(error);
           console.log("ssssssssssss");
         });
+    })
+    .catch(error => {
+        console.error("Error converting file to Base64:", error);
+    });
+
         alert("Post done");
     };
     
