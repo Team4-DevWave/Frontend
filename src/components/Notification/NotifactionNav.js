@@ -3,6 +3,7 @@ import { Tabs, Tab, Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from 'axios'; // Import axios
 import Notification from "./Notification";
+import OldNotification from "./oldnotifications";
 import Cookies from "js-cookie";
 
 function NotificationNav() {
@@ -70,6 +71,17 @@ function NotificationNav() {
                         "&:hover": { color: "var(--color-black)" },
                     }}
                 />
+                <Tab
+                    label="Old Notifications"
+                    sx={{
+                        textTransform: "none",
+                        fontWeight: "bold",
+                        fontSize: "var(--font-medium)",
+                        "&:hover": { color: "var(--color-black)" },
+                    }}
+                />
+
+
                 <Link
                     to="/messages"
                     style={{ textDecoration: "none", color: "inherit" }}
@@ -87,7 +99,9 @@ function NotificationNav() {
             </Tabs>
             <div class="horizontalLine"></div>
 
-            {activeNavItem === 0 && <Notification setNotificationCount={setNotificationCount} />}
+            {activeNavItem === 0 && <Notification  />}
+            {activeNavItem === 1 && <OldNotification />}
+
         </>
     );
 }
