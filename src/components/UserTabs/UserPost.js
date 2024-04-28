@@ -41,7 +41,8 @@ function PostFeed() {
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
-                Link:item.url
+                Link:item.url,
+                video:item.video
               };
             } else {
               return null;
