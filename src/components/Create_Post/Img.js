@@ -28,33 +28,42 @@ function Img() {
         event.preventDefault();
         
         // Create an object to hold the post data
+        const base64Strings = await Promise.all(uploadedFiles.map(file => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const base64String = reader.result.split(',')[1]; // Extract the Base64 part
+                    console.log("Base64 Encoded:", base64String); // Print the Base64 string to console
+                    resolve(base64String);
+                };
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }));
+
+        // Create an object to hold the post data
         const postData = {
             title: title,
             files: uploadedFiles.map((file, index) => ({
                 type: file.type.startsWith('image/') ? 'image' : 'video',
-                url: URL.createObjectURL(file),
+                url: base64Strings[index], // Use Base64 string here
                 caption: captions[index]
             }))
         };
-        const imageURLs = uploadedFiles.map((file) => URL.createObjectURL(file));
-        const formData = new FormData();
-        uploadedFiles.forEach((file, index) => {
-            formData.append(`file${index}`, file);
-        });
+        console.log("imageeee============================", base64Strings);
         console.log("usernammmeeee==",username);
-        console.log("imageeee===",imageURLs);
 
         axios
         .post(
           `http://localhost:8000/api/v1/posts/submit/u/${username}`,
           {
-            title: title,
+            title: postData.title,
             text_body:"",
             type: "image/video",
             nsfw: NFSW,
             spoiler: spoiler1,
             locked: false,
-            image:imageURLs.toString(),
+            image:base64Strings,
             video:""
           },
           config
@@ -77,6 +86,10 @@ function Img() {
           console.log(error);
           console.log("ssssssssssss");
         });
+
+
+
+        
         alert("Post done");
     };
     
