@@ -23,6 +23,9 @@ const PostDesign = ({
   const [spoilerClicked, setSpoilerClicked] = useState(false);
 
   const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video);
+console.log("isvaliddd postt y3mm===",isValidPost);
+console.log("title postt y3mm===",video);
+
 
   const handleSpoilerClick = () => {
     setSpoilerClicked(true);
