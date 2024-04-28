@@ -50,7 +50,7 @@ function Img() {
                 caption: captions[index]
             }))
         };
-        console.log("imageeee===", base64Strings);
+        console.log("imageeee============================", base64Strings);
         console.log("usernammmeeee==",username);
 
         axios
