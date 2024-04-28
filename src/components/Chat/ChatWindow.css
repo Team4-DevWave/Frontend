@@ -9,6 +9,8 @@
   bottom: 30px; /* Position it 20px from the bottom edge of the screen */
   border: 1px solid black;
   border-radius: 20px;
+  background-color: white; /* Or any non-transparent color */
+  opacity: 1;
 }
 .header {
   margin-left: auto;
@@ -21,6 +23,20 @@
   font-size: 20px; 
   margin: 10px;
   right: 550px;
+}
+.displayChatRooms
+{
+  margin: 10px 0; /* Adjust as needed */
+  padding: 10px 0; /* Adjust as needed */
+  margin-left: 10px;
+  color: black;
+  font-size: 20px; 
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Add this line */
+
+}
+.displayChatRooms:hover {
+  background-color: #f0f0f0; /* Change to your preferred color */
+  transform: scale(1.05); /* Slightly enlarge the chat room on hover */
 }
 .header-icons
 {
@@ -38,16 +54,72 @@
   flex: 0.6;
   overflow-y: auto;
 }
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black ; /* Adjust as needed */
+  line-height: 1.5; /* Adjust as needed */
 
-.messages {
-  flex: 1;
-  overflow-y: auto;
+  height: 50px;
+
+}
+.chat-header
+{
+  
+}
+.settings-button
+{
+  
+}
+.upperClose
+{
+
+  
 }
 
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.username{
+  font-weight: bold;
+  color: black;
+  font-size: 15px;
+
+}
+.username-time {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8em;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.message-text {  
+  color: black;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+.message-text:hover {
+  background-color: #e0e0e0;
+}
+
+
+.message-time {
+  position: relative;
+}
 .form-container {
+  position: fixed;
+  bottom: 28px;
+  width: 100%;
   display: flex;
   width: 350px;
-  margin-top: 410px;
   margin-left:10px;
 }
 .input-container {
@@ -80,9 +152,3 @@
   flex-wrap: nowrap;
 }
 
-.upperClose
-{
-  position: absolute;
-  left: 315px;
-  top: 1px;
-}
