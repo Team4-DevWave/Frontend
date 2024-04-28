@@ -28,29 +28,31 @@ function Img() {
         event.preventDefault();
         
         // Create an object to hold the post data
-          const filePromises = uploadedFiles.map(file => {
+        const base64Strings = await Promise.all(uploadedFiles.map(file => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
+                reader.onload = () => {
+                    const base64String = reader.result.split(',')[1]; // Extract the Base64 part
+                    console.log("Base64 Encoded:", base64String); // Print the Base64 string to console
+                    resolve(base64String);
+                };
                 reader.onerror = error => reject(error);
                 reader.readAsDataURL(file);
             });
-        });
+        }));
 
-        Promise.all(filePromises)
-            .then(base64Strings => {
-                // Create an object to hold the post data
-                const postData = {
-                    title: title,
-                    files: uploadedFiles.map((file, index) => ({
-                        type: file.type.startsWith('image/') ? 'image' : 'video',
-                        url: base64Strings[index], // Use Base64 string here
-                        caption: captions[index]
-                    }))
-                };
-                console.log("usernammmeeee==", username);
-                console.log("imageeee===", base64Strings);
-                console.log("titleeeee=",postData.title);
+        // Create an object to hold the post data
+        const postData = {
+            title: title,
+            files: uploadedFiles.map((file, index) => ({
+                type: file.type.startsWith('image/') ? 'image' : 'video',
+                url: base64Strings[index], // Use Base64 string here
+                caption: captions[index]
+            }))
+        };
+        console.log("imageeee===", base64Strings);
+        console.log("usernammmeeee==",username);
+
         axios
         .post(
           `http://localhost:8000/api/v1/posts/submit/u/${username}`,
@@ -84,11 +86,10 @@ function Img() {
           console.log(error);
           console.log("ssssssssssss");
         });
-    })
-    .catch(error => {
-        console.error("Error converting file to Base64:", error);
-    });
 
+
+
+        
         alert("Post done");
     };
     
