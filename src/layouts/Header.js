@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -57,6 +57,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
@@ -87,6 +88,32 @@ const SearchResults = styled("div")(({ theme }) => ({
 }));
 
 export default function Header() {
+  const [notificationsCount, setNotificationsCount] = useState(0);
+  const fetchNotificationCount = () => {
+    const bearerToken = Cookies.get('token');
+    const config = {
+      headers: { Authorization: `Bearer ${bearerToken}` },
+    };
+    axios.get('http://localhost:8000/api/v1/notifications' , config)
+        .then(response => {
+          const unreadNotifications = response.data.data.notifications.filter(notification => !notification.read);
+          setNotificationsCount(unreadNotifications.length);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+  };
+  useEffect(() => {
+    fetchNotificationCount();
+    const interval = setInterval(() => {
+      fetchNotificationCount();
+    }, 5000); // Fetches every 5 seconds
+
+    // Clear interval on component unmount
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
   const [showChat, setShowChat] = useState(false);
 
   const [isSearchActive, setIsSearchActive] = React.useState(false);
@@ -256,7 +283,7 @@ export default function Header() {
         <p>Messages</p>
       </MenuItem>
       <MenuItem>
-        <Badge badgeContent={17} color="error">
+        <Badge badgeContent={notificationsCount} color="error">
           <NotificationsIcon />
         </Badge>
 
@@ -583,7 +610,7 @@ export default function Header() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={1} color="error">
+              <Badge badgeContent={notificationsCount} color="error">
                 <NotificationDropdown />
               </Badge>
             </IconButton>
