@@ -237,6 +237,7 @@ console.log("lockeddddd------->",postData.locked);
                                             image={postData.image}
                                             Link={postData.Link}
                                             spoiler={postData.spoiler}
+                                            video={postData.video}
                                         />{" "}
                                     </article>
                                 </a>

@@ -63,8 +63,8 @@ function Img() {
             nsfw: NFSW,
             spoiler: spoiler1,
             locked: false,
-            image:base64Strings,
-            video:""
+            image:postData.files.find(file => file.type === 'image')?.url || "",
+            video:postData.files.find(file => file.type === 'video')?.url || ""
           },
           config
         )
