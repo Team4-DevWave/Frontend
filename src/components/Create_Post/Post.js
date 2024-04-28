@@ -15,16 +15,16 @@ function CreatePost() {
     const [isBold, setIsBold] = useState(false);
     const [isItalic, setIsItalic] = useState(false);
     const [isstrikethrough, setIsstrikethrough] = useState(false);
-    const [isInlinecode, setIsInlinecode] = useState(false);
+
     const [savedDrafts, setSavedDrafts] = useState([]);
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
-    const [fileUploaded, setFileUploaded] = useState(false);
     const [postDone, setPostDone] = useState(false);
     const[spoiler1, setSpoiler] = useState(false);
     const[OC, setOc] = useState(false);
     const[NFSW, setNFSW] = useState(false);
     const[Flair, setFlair] = useState(false);
 
+   var community = localStorage.getItem("communitynamechoosed");
 
 
     const textAreaRef = useRef(null);
@@ -49,6 +49,8 @@ function CreatePost() {
 
     
         console.log("usernammmeeee==",username);
+        console.log("community in post file==",community);
+
 
         axios
         .post(
@@ -57,8 +59,6 @@ function CreatePost() {
             title: title,
             text_body: content,
             type: 'text',
-            nsfw: false,
-            spoiler: false,
             locked: false,
             image:"",
             video:"",
@@ -69,13 +69,13 @@ function CreatePost() {
         )
         .then((response) => {
             console.log("sent spoiler=",spoiler1);
+            console.log("sent spoiler=",spoiler1);
             setPostDone(true);
             setTitle('');
             setContent('');
             setIsBold(false);
             setIsItalic(false);
             setIsstrikethrough(false);
-            setIsInlinecode(false);
             setSpoiler(false);
             setNFSW(false);
           if (response.status === 201) {
@@ -104,9 +104,7 @@ function CreatePost() {
     const handlestrikeClick = () => {
         setIsstrikethrough(!isstrikethrough);
     };
-    const handleinlinecode = () => {
-        setIsInlinecode(!isInlinecode);
-    };
+
 
     const handleContentChange = (e) => {
         setContent(e.target.value);
@@ -125,7 +123,6 @@ function CreatePost() {
         setIsBold(false);
         setIsItalic(false);
         setIsstrikethrough(false);
-        setIsInlinecode(false);
         setSpoiler(false);
     };
 
@@ -156,7 +153,7 @@ function CreatePost() {
             //            textAreaRef.current.style.textDecoration = isstrikethrough ? 'linethrough' : 'normal';
 
         }
-    }, [isBold, isItalic, isstrikethrough, isInlinecode]); // Include isItalic in the dependency array
+    }, [isBold, isItalic, isstrikethrough]); // Include isItalic in the dependency array
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -231,7 +228,7 @@ function CreatePost() {
 
                     <div>
                         <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled ={!title}   className={!title ? 'disabled-button' : ''}>Save Draft</button>
-                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''} >Post</button>
+                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title  || community===""}   className={!title ||community==="" ? 'disabled-button' : ''} >Post</button>
                         {postDone &&<script>alert("Post done");</script>}
 
                     </div>
