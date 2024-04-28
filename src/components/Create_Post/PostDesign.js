@@ -56,6 +56,7 @@ const PostDesign = ({
           ) : (
             <div className="post-content">
               {text && <p className="post-text">{text}</p>}
+              {Link && <p className="post-text">{Link}</p>}
               {image && <img src={image} alt="Post" className="post-image" />}
               {video && (
                 <video controls className="post-video">

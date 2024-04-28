@@ -1,4 +1,5 @@
 import * as React from "react";
+import  { useState } from 'react';
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -23,9 +24,9 @@ import ListItemText from "@mui/material/ListItemText";
 import SideBar from "./Sidebar";
 import Cookies from "js-cookie";
 import "./Header.css";
+import ChatIcon from '@mui/icons-material/Chat';
+import Chat from "../components/Chat/ChatWindow.js";
 
-
-import ChatIcon from "@mui/icons-material/Chat";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -67,6 +68,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
+  const [showChat, setShowChat] = useState(false);
   const matches = useMediaQuery("(max-width:1350px)");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -224,22 +226,24 @@ export default function Header() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
+        {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
+        <IconButton size="large" aria-label="show 4 new chats" color="inherit" onClick={() => setShowChat(true)}>
+          <Badge badgeContent={1000} color="error">
+            <ChatIcon />
+          </Badge>
+        </IconButton>
+        <p>chat</p>
+        {showChat && <Chat />}
+
+        {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
           </Badge>
         </IconButton>
-              <p>Messages</p>
+        <p>Messages</p>
 
-{/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
-<IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <ChatIcon />
-          </Badge>
-        </IconButton>
-              <p>chat</p>
 
-{/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
 
       </MenuItem>
       <MenuItem>
@@ -335,6 +339,18 @@ export default function Header() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+
+            {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
+            <IconButton size="large" aria-label="show 4 new chats" color="inherit" onClick={() => setShowChat(true)}>
+
+              <Badge badgeContent={1000} color="error">
+                <ChatIcon />
+              </Badge>
+            </IconButton>
+
+            {showChat && <Chat />}
+
+            {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
             <IconButton
               size="large"
               aria-label="show 4 new mails"
@@ -344,6 +360,7 @@ export default function Header() {
                 <MailIcon />
               </Badge>
             </IconButton>
+
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -353,6 +370,8 @@ export default function Header() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+
+
             <IconButton
               size="large"
               edge="end"
