@@ -30,6 +30,7 @@
     "jest-mock-axios": "^4.7.3",
     "js-cookie": "^3.0.5",
     "json-server": "^1.0.0-alpha.23",
+    "marked": "^12.0.2",
     "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
