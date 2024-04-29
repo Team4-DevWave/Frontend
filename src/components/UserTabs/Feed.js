@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import PostContainer from "../PostContainer";
 import PropTypes from "prop-types";
@@ -37,7 +38,7 @@ function Feed() {
       .then((response) => {
         const mappedData = response.data.data.posts
           .map((item) => {
-            if (item.text_body) {
+            if (item) {
               return {
                 id: item._id,
                 title: item.title,
@@ -57,6 +58,7 @@ function Feed() {
                 subredditID: item.subredditID,
                 ishide: item.hidden,
                 issaved: item.saved,
+                userVote: item.userVote,
               };
             } else {
               return null;

@@ -11,7 +11,7 @@ function CustomSelectFeed({ setSelectedOption, defaultValue, values, onSelection
 
   return (
     <Select
-      value={defaultValue}
+      defaultValue={defaultValue}
       onChange={handleChange}
       sx={{
         color: "var(--color-blue)",

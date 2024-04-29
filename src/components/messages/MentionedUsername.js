@@ -3,6 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import './Messages.css';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -17,6 +18,8 @@ function MentionedUsername() {
     const [showReplyTextArea, setshowReplyTextArea] = useState(false);
     const [replyText, setReplyText] = useState('');
     const [HideBlockButton, setHideBlockButton] = useState(false);
+    const [showLink, setShowLink] = useState(false);
+    const navigate = useNavigate();
 
     const [page, setPage] = useState(1); // initial page
     const [loading, setLoading] = useState(false);
@@ -73,6 +76,14 @@ function MentionedUsername() {
 
     ////////////////////////
 
+    const handleFullComment = (message) => {
+        // setShowLink(true);
+        const postTitle = message.subject.split(': ')[1];
+        navigate(`/comments/${message.post}/${postTitle}`);
+
+    };
+
+
     async function handlePermalink(id) {
         try {
             const response = await axios.patch(`http://localhost:3002/send/${id}`, {
@@ -103,10 +114,10 @@ function MentionedUsername() {
 
     const handleBlock = () => {
         setHideBlockButton(true);
-      };
-      const handleCancel = () => {
+    };
+    const handleCancel = () => {
         setHideBlockButton(false);
-      };
+    };
 
     async function handleBlockUser(usernameToBlock) {
 
@@ -118,7 +129,7 @@ function MentionedUsername() {
                 console.error('Error blocking user:', error);
             });
 
-            setHideBlockButton(false);
+        setHideBlockButton(false);
     };
 
     const handleReplyChange = (event) => {
@@ -181,12 +192,24 @@ function MentionedUsername() {
             });
     };
 
-    async function handleFullComment(message1) {
-        <Link
-        className="comment-link"
-        to={`/comments/${message1.post}/${message1.title.toLowerCase().replace(/ /g, "-")}`}
-      />
-    };
+    // async function handleFullComment(message1) {
+
+    //     const postTitle = message1.subject.split(': ')[1];
+    //     console.log('postTitle:', postTitle);
+    //     console.log('message1:', message1.post);
+    //     return (
+    //         //     <Link
+    //         //     className="comment-link"
+    //         //     to={`/comments/${message1.post}/${postTitle.toLowerCase().replace(/ /g, "-")}`}
+    //         //   />
+    //         <Link
+    //             className="comment-link"
+    //             to={`/comments/${message1.post}/${encodedPostTitle}`}
+    //         >
+    //             Go to Post
+    //         </Link>
+    //     );
+    // };
 
 
 
@@ -200,10 +223,10 @@ function MentionedUsername() {
                     return (
                         <div ref={lastMessageElementRef} className="message-container" key={message._id} >
                             <h2>From: {message.from.username}</h2>
-                            <h4> {message.to.username+"     "+ message.message}</h4>
-                            <h5>Time: {message.createdAt}</h5>
+                            <h4> {message.to.username + "     " + message.message}</h4>
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>  
                             <div className="button-container-in-messageRecived">
-                                <button onClick={() => handleFullComment(message)}>Full comment</button>
+                                <button onClick={() => handleFullComment(message)}>Full context</button>
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
                                 <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
@@ -225,10 +248,18 @@ function MentionedUsername() {
                     return (
                         <div className="message-container" key={message._id}>
                             <h2>From: {message.from.username}</h2>
-                            <h4> {message.to.username+"     "+ message.message}</h4>
-                            <h5>Time: {message.createdAt}</h5>
+                            <h4> {message.to.username + "     " + message.message}</h4>
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>  
                             <div className="button-container-in-messageRecived">
-                                <button onClick={() => handleFullComment(message)}>Full comment</button>
+                                <button onClick={() => handleFullComment(message)}>Full context</button>
+                                {/* {showLink && (
+                                    <Link
+                                        className="comment-link"
+                                        to={`/comments/${message.post}/${message.subject.split(': ')[1]}`}
+                                    >
+                                        Go to Post
+                                    </Link>
+                                )} */}
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
                                 <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>

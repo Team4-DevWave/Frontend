@@ -1,7 +1,7 @@
 .right-sidebar {
   width: 300px; /* Adjust width as needed */
   background-color: #f0f0f0;
-  padding: 20px;
+  padding: 40px 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 100px 80px 0 0;
@@ -123,7 +123,10 @@
   }
 }
 .profileNavTabs {
-  @media screen and (max-width: 1000px) {
+  @media screen and (min-width: 768px) {
+    margin-left: 12rem;
+  }
+  @media screen and (max-width: 768px) {
     max-width: 100%;
   }
 }

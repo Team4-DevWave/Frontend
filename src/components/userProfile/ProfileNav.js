@@ -148,22 +148,15 @@ function ProfileNav({
       </Tabs>
 
       <div>
-        {!tabData ? (
           <Typography component="div" sx={{ p: 3 }}>
             {activeTab === 0 && <OverView />}
             {activeTab === 1 && <UserPost />}
             {activeTab === 2 && <UserComments />}
             {activeTab === 3 && <UserSavedPost />}
             {activeTab === 4 && <UserHidden />}
-
             {activeTab === 5 && <Upvoted />}
             {activeTab === 6 && <Downvoted />}
           </Typography>
-        ) : (
-          <Typography component="div" sx={{ p: 3 }}>
-            Loading...
-          </Typography>
-        )}
       </div>
     </div>
   );

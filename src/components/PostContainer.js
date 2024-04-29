@@ -9,6 +9,7 @@ import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Report from "./Report";
+import Delete from "./Delete";
 // import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
 function PostContainer({ postData }) {
@@ -16,9 +17,12 @@ function PostContainer({ postData }) {
   const buttonRef = useRef(null);
   const location = useLocation();
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const token = Cookies.get("token");
   const username = localStorage.getItem("username");
+  const mentionedUsernames = postData.mentioned.map((obj) => obj.username);
+  console.log("mention", mentionedUsernames);
 
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -81,12 +85,26 @@ function PostContainer({ postData }) {
     //image: "https://via.placeholder.com/400",
   };
 
-  const [voteStatus, setVoteStatus] = useState(0); // 0 = no vote, 1 = upvoted, -1 = downvoted
-  const [upvoteCount, setUpVoteCount] = useState(postData.votes.upvotes);
-  const [downvoteCount, setDownVoteCount] = useState(postData.votes.downvotes);
+  const [voteStatus, setVoteStatus] = useState(postData.userVote); // 0 = no vote, 1 = upvoted, -1 = downvoted
+  const [upvoteCount, setUpVoteCount] = useState(postData?.votes?.upvotes || 0);
+  const [downvoteCount, setDownVoteCount] = useState(
+    postData?.votes?.downvotes || 0
+  );
+  const [upvoted, setUpvoted] = useState(false);
+  const [downvoted, setDownvoted] = useState(false);
   const [count, setCount] = useState(
     postData.votes.upvotes - postData.votes.downvotes
   );
+
+  useEffect(() => {
+    if (postData.userVote === "downvoted") {
+      setVoteStatus(-1);
+    } else if (postData.userVote === "upvoted") {
+      setVoteStatus(1);
+    } else {
+      setVoteStatus(0);
+    }
+  }, [postData.userVote]);
 
   const handleUpvote = async () => {
     try {
@@ -107,6 +125,7 @@ function PostContainer({ postData }) {
         Number(response.data.data.upvotes) -
           Number(response.data.data.downvotes)
       );
+      setVoteStatus((prevVoteStatus) => (prevVoteStatus === 1 ? 0 : 1));
     } catch (error) {
       console.error(error);
     }
@@ -131,8 +150,34 @@ function PostContainer({ postData }) {
         Number(response.data.data.upvotes) -
           Number(response.data.data.downvotes)
       );
+      console.log("Downvoted 1", downvoted);
+
+      setVoteStatus((prevVoteStatus) => (prevVoteStatus === -1 ? 0 : -1));
+
+      console.log("voteStatus", voteStatus);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleDelete = async () => {
+    const token = Cookies.get("token");
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/api/v1/posts/${postData.id}/delete`,
+        config
+      );
+      if (response.status === 204) {
+        console.log("Post deleted successfully");
+        setIsDeleted(true); // Set isDeleted to true
+        console.log("delete", isDeleted);
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
     }
   };
 
@@ -213,49 +258,124 @@ function PostContainer({ postData }) {
       postData.ishide = true;
     }
   };
+  const handelUnsaved = () => {
+    console.log("id posstttttt=", postData.id);
+    console.log("tokeeeen=", token);
+
+    axios
+      .patch(
+        `http://localhost:8000/api/v1/posts/${postData.id}/save`,
+        null,
+        config
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("post deleted");
+
+          //window.location.href = "/UserSavedPost";
+        } else {
+          console.log("post is not delete");
+        }
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("idd==", postData.id);
+      });
+  };
+  const handleUnHidePost = () => {
+    // Send API request to hide the post with postId using Axios
+    console.log("idddddddd:", postData.id);
+    if (postData.ishide === true) {
+      console.log("ishide===", postData.ishide);
+      postData.ishide = false;
+      axios
+        .delete(
+          `http://localhost:8000/api/v1/posts/${postData.id}/unhide`,
+
+          config
+        )
+        .then((response) => {
+          if (response.status === 201) {
+            console.log("Doneeee");
+
+            window.location.href = "/";
+          } else {
+            console.log("faliedddddddddddddd");
+          }
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("falissssss");
+        });
+    } else {
+      console.log("ishide===", postData.ishide);
+
+      axios
+        .patch(
+          `http://localhost:8000/api/v1/posts/${postData.id}/hide`,
+          null,
+          config
+        )
+        .then((response) => {
+          // Handle response
+          console.log("Post hidden successfully");
+        })
+        .catch((error) => {
+          // Handle error
+          console.error("Error hiding post:", error);
+        });
+      postData.ishide = true;
+    }
+  };
   return (
     <div id="postcontainer" className="max-width">
-      <div className="post-container">
-
-      {isHidden ? (
-                    <p className="deleted-post">Post hidden</p>
-                ) : (
-                  <>        <a
-          className="post-link"
-          href={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
-          onClick={(event) => {
-            if (
-              event.target.tagName === "BUTTON" ||
-              window.location.pathname.includes("/comments/")
-            ) {
-              event.preventDefault();
-            }
-          }}
-        >
-          <article>
-            <PostDesign
-              className="post-content"
-              data-testid="post"
-              username={postData.username}
-              userpic={postData2.userpic}
-              community={postData.community}
-              incommunity={postData2.incommunity}
-              Date={new Date(postData.time).toLocaleString([], {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-              title={postData.title} // Pass the title from postData
-              text={postData.content} // Pass the content from postData as text
-              image={postData.image}
-              Link={postData.Link}
-              video={postData.video}
-            />{" "}
-          </article>
-        </a>
-        
+      {!isDeleted && (
+        <>
+          <div className="post-container">
+            {isHidden ? (
+              <p className="deleted-post">Post hidden</p>
+            ) : (
+              <>
+                {" "}
+                <a
+                  className="post-link"
+                  href={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
+                  onClick={(event) => {
+                    if (
+                      event.target.tagName === "BUTTON" ||
+                      window.location.pathname.includes("/comments/")
+                    ) {
+                      event.preventDefault();
+                    }
+                  }}
+                >
+                  <article>
+                    <PostDesign
+                      className="post-content"
+                      data-testid="post"
+                      username={postData.username}
+                      userpic={postData2.userpic}
+                      community={postData.community}
+                      incommunity={postData2.incommunity}
+                      Date={new Date(postData.time).toLocaleString([], {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                      title={postData.title} // Pass the title from postData
+                      text={postData.content} // Pass the content from postData as text
+                      image={postData.image}
+                      Link={postData.Link}
+                      video={postData.video}
+                      spoiler={postData.spoiler}
+                      mentioned={mentionedUsernames}
+                    />
+                  </article>
+                </a>
                 <div className="options-container">
                   <Button
                     variant="danger"
@@ -264,27 +384,62 @@ function PostContainer({ postData }) {
                   >
                     <SlOptions />
                   </Button>
-        
                   {showOptions && (
                     <div className="options-list">
                       <ul>
-                        <li>Show fewer posts like this</li>
-                        <li onClick={handleHidePost}>
-                          {postData.ishide ? "Un Hide" : "Hide"}
-                        </li>
-                        <li onClick={handelsavedpost}>
-                          {postData.issaved ? "Un Save" : "Saved"}
-                        </li>
-                        <li>
-                          <p>
-                            <Report />
-                          </p>
-                        </li>
+                        {postData.username === username ? (
+                          <>
+                            <li
+                              onClick={
+                                postData.issaved
+                                  ? handelUnsaved
+                                  : handelsavedpost
+                              }
+                            >
+                              {postData.issaved ? "Remove from saved" : "Save"}
+                            </li>
+                            <li
+                              onClick={
+                                postData.ishide
+                                  ? handleUnHidePost
+                                  : handleHidePost
+                              }
+                            >
+                              {postData.ishide ? "Un Hide" : "Hide"}
+                            </li>
+                            <li>
+                              <Delete onDelete={handleDelete} />
+                            </li>
+                          </>
+                        ) : (
+                          <>
+                            <li
+                              onClick={
+                                postData.issaved
+                                  ? handelUnsaved
+                                  : handelsavedpost
+                              }
+                            >
+                              {postData.issaved ? "Remove from saved" : "Save"}
+                            </li>
+                            <li
+                              onClick={
+                                postData.ishide
+                                  ? handleUnHidePost
+                                  : handleHidePost
+                              }
+                            >
+                              {postData.ishide ? "Un Hide" : "Hide"}
+                            </li>
+                            <li>
+                              <Report />
+                            </li>
+                          </>
+                        )}
                       </ul>
                     </div>
                   )}
                 </div>
-        
                 <div className="post-buttons">
                   <span
                     className={`reach ${
@@ -329,9 +484,9 @@ function PostContainer({ postData }) {
                           </svg>
                         </span>
                       </button>
-        
+
                       <span data-testid="upvote-count">{count}</span>
-        
+
                       <button
                         className={`downvote ${
                           voteStatus === 1
@@ -367,7 +522,7 @@ function PostContainer({ postData }) {
                       </button>
                     </span>
                   </span>
-        
+
                   <span className="comments">
                     {isHomePage ? (
                       <Link
@@ -418,7 +573,7 @@ function PostContainer({ postData }) {
                       </a>
                     )}
                   </span>
-        
+
                   <span className="share">
                     <button
                       className="share-button"
@@ -444,7 +599,11 @@ function PostContainer({ postData }) {
                       <span>Share</span>
                     </button>
                   </span>
-                  <div className="share-menu-wrap" ref={shareMenu} data-testid="menu">
+                  <div
+                    className="share-menu-wrap"
+                    ref={shareMenu}
+                    data-testid="menu"
+                  >
                     <div className="share-menu">
                       <button className="share-menu-link" onClick={copyLink}>
                         <svg
@@ -463,7 +622,7 @@ function PostContainer({ postData }) {
                         </svg>
                         <p>Copy Link</p>
                       </button>
-        
+
                       <a
                         className="share-menu-link"
                         href={`/submit?source_id=t3_${postData.id}`}
@@ -489,11 +648,13 @@ function PostContainer({ postData }) {
                   <Alert variant="success" className="alert">
                     Link copied to clipboard
                   </Alert>
-                )}</>
-              )}
- 
-      </div>
-      <hr />
+                )}
+              </>
+            )}
+          </div>
+          <hr />
+        </>
+      )}
     </div>
   );
 }

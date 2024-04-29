@@ -94,3 +94,21 @@ export default function SubredditRules(props) {
         </div>
     );
     }
+
+    SubredditRules.propTypes = {
+        /** Modifies CSS class where the sidebar becomes sticky after scrolling 80px */
+        isSticky: PropTypes.bool,
+        /** Array of rules for the subreddit */
+        rules: PropTypes.array,
+        /** Description of the subreddit */
+        description: PropTypes.string,
+        /** Number of members in the subreddit */
+        members: PropTypes.number,
+        /** Number of members currently online */
+        online: PropTypes.number,
+        /** Rank of the subreddit by size */
+        rank: PropTypes.string,
+        /** Array of moderators */
+        moderators: PropTypes.array,
+
+    };

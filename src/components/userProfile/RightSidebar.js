@@ -1,21 +1,27 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import { Button } from '@mui/material';
+import SocialLinks from '../Settings/Profile/SocialLinks';
 import { Link } from 'react-router-dom'; // Import Link from React Router
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
 
 
+const getTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
-
-function RightSidebar ({  postKarma = 0, commentKarma = 0, cakeDay, goldReceived = 0, socialLinks = [], moderationTools = [] })  {
+function RightSidebar ({  postKarma, commentKarma , cakeDay, goldReceived })  {
 
 
   const [userInfo, setuserInfo] = useState();
   const [userName, setuserName] = useState();
 
+  cakeDay = getTodayDate();
   let bearerToken = Cookies.get('token');
     const config = {
         headers: { Authorization: `Bearer ${bearerToken}` },
@@ -40,7 +46,7 @@ function RightSidebar ({  postKarma = 0, commentKarma = 0, cakeDay, goldReceived
         <h3>{userName}</h3>
         <p>Post Karma: {postKarma}</p>
         <p>Comment Karma: {commentKarma}</p>
-        <p>Cake Day: {cakeDay} April 14, 2024</p>
+        <p>Cake Day: {cakeDay}</p>
         <p>Gold Received: {goldReceived}</p>
       </div>
       <hr />
@@ -52,26 +58,29 @@ function RightSidebar ({  postKarma = 0, commentKarma = 0, cakeDay, goldReceived
       <hr />
       <div className="moderation">
         <h3>Moderation</h3>
-        <ul>
-          {moderationTools.map((tool, index) => (
-            <li key={index}>{tool}</li>
-          ))}
-        </ul>
-      </div>
+        <Link to="https://www.reddit.com/user/Ok_Operation_7782/about/edit/moderation/" >
+          <Button
+          sx={{
+            color: 'var(--color-black)',
+            background: 'var(--color-light-gray)',
+            fontWeight: 'bold',
+            fontSize: 'var(--font-very-small)',
+            textTransform: 'none',
+            padding: '10px 15px',
+            borderRadius: '10rem',
+            border: '0',
+            ml: 'auto',
+          }}
+          >
+          Mod Settings
+          </Button>
+        </Link>
+
+     </div>
       <hr />
       <div className="links">
         <h3>Links</h3>
-        {socialLinks.map((link, index) => (
-          <a key={index} href={link.url} target="_blank" rel="noopener noreferrer">
-            {link.text}
-          </a>
-        ))}
-      </div>
-      <hr />
-      <div className="community">
-        <h3>Join the Community</h3>
-        <p>Subscribe to get the latest updates and news</p>
-        <button className="subscribe-button">Subscribe</button>
+        <SocialLinks/>
       </div>
     </div>
   );
