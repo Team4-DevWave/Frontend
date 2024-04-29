@@ -37,7 +37,7 @@ function Feed() {
       .then((response) => {
         const mappedData = response.data.data.posts
           .map((item) => {
-            if (item.text_body) {
+            if (item) {
               return {
                 id: item._id,
                 title: item.title,
@@ -57,6 +57,7 @@ function Feed() {
                 subredditID: item.subredditID,
                 ishide: false,
                 issaved: false,
+                userVote: item.userVote,
               };
             } else {
               return null;
