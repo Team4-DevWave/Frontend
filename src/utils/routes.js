@@ -23,6 +23,7 @@ import Downvoted from "../components/UserTabs/Downvoted.js";
 import { useParams } from "react-router-dom";
 import SearchPage from "../pages/SearchPage";
 import Chat from "../pages/chat/ChatPage.js";
+import ModQueue from "../pages/ModQueue/ModQueue";
 
 function CommentsRoute() {
   const { id, title } = useParams();
@@ -44,6 +45,7 @@ const routes = {
   "/r/:subredditName": () => (
     <Subreddit name="Persona3" description="h" rules="h" members="h" />
   ),
+  "/modqueue": () => <ModQueue />,
   "/comments/:id/:title": CommentsRoute,
   "search/:query": () => <SearchPage />,
 

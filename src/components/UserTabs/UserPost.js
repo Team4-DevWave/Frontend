@@ -42,7 +42,8 @@ function PostFeed() {
                 commentsCount: item.commentsCount,
                 image: item.image,
                 Link:item.url,
-                video:item.video
+                video:item.video,
+                community:item.community
               };
             } else {
               return null;

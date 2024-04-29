@@ -9,6 +9,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import { Alert, AlertTitle } from "@mui/material";
+import axios from "axios";
 
 export default function ReasonRadio(props) {
   const [radioValue, setRadioValue] = useState("");
@@ -21,6 +22,22 @@ export default function ReasonRadio(props) {
     e.preventDefault();
     props.setReasons(radioValue);
     props.handleCloseModal();
+    axios
+      .get("http://localhost:8000/api/v1/report", {
+        params: {
+          reportedID: "",
+          type: "",
+          additional_info: "",
+          rule_reason: "",
+          userID: "",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
