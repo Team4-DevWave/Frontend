@@ -41,7 +41,7 @@ const routes = {
   "/Notification": () => <Notification />,
   "/CreatePost": () => <CreatePost />,
   "/profile": () => <Profile />,
-  "/r/:subreddit": () => (
+  "/r/:subredditName": () => (
     <Subreddit name="Persona3" description="h" rules="h" members="h" />
   ),
   "/comments/:id/:title": CommentsRoute,

@@ -1,16 +1,18 @@
 import React, { useState, useRef } from "react";
 import "./SortOptions.css";
-import PropTypes from 'prop-types';
-
+import PropTypes from "prop-types";
+import CircularProgress from "@mui/material/CircularProgress";
 /**
-  * 
+ *
  */
 /**
  * Sortoptions component is a dropdown menu that allows users to sort posts by different criteria.
  */
-function SortOptions() {
-  const [currentSortOption, setCurrentSortOption] = useState("Best");
+function SortOptions({ onSortOptionChange }) {
+  const [currentSortOption, setCurrentSortOption] = useState("best");
   const sortOptions = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const loader = useRef(null);
 
   const toggleMenu = () => {
     if (sortOptions.current) {
@@ -19,7 +21,10 @@ function SortOptions() {
   };
 
   const handleSortOptionClick = (sortOption) => {
+    setIsLoading(true);
     setCurrentSortOption(sortOption);
+    onSortOptionChange(sortOption);
+    setIsLoading(false);
   };
 
   return (
@@ -43,35 +48,35 @@ function SortOptions() {
             <a
               href="#e"
               className="sort-option-link"
-              onClick={() => handleSortOptionClick("Best")}
+              onClick={() => handleSortOptionClick("best")}
             >
               <p>Best</p>
             </a>
             <a
               href="#e"
               className="sort-option-link"
-              onClick={() => handleSortOptionClick("Hot")}
+              onClick={() => handleSortOptionClick("hot")}
             >
               <p>Hot</p>
             </a>
             <a
               href="#e"
               className="sort-option-link"
-              onClick={() => handleSortOptionClick("New")}
+              onClick={() => handleSortOptionClick("new")}
             >
               <p>New</p>
             </a>
             <a
               href="#e"
               className="sort-option-link"
-              onClick={() => handleSortOptionClick("Top")}
+              onClick={() => handleSortOptionClick("top")}
             >
               <p>Top</p>
             </a>
             <a
               href="#e"
               className="sort-option-link"
-              onClick={() => handleSortOptionClick("Rising")}
+              onClick={() => handleSortOptionClick("rising")}
             >
               <p>Rising</p>
             </a>
@@ -79,19 +84,30 @@ function SortOptions() {
         </div>
       </button>
       <hr />
+
+      {isLoading && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
+      <div ref={loader} />
     </div>
   );
 }
 
 export default SortOptions;
 
-
 SortOptions.propTypes = {
-
-  Best: ' to get only Best content',
-  Hot: 'to get only Hot content',
-  New: 'to get only New content',
-  Top: 'to get onlyTop content',
-  Rising: 'to get only Rising content',
+  Best: " to get only Best content",
+  Hot: "to get only Hot content",
+  New: "to get only New content",
+  Top: "to get onlyTop content",
+  Rising: "to get only Rising content",
   handleSortOptionClick: () => {},
-  };
+};
