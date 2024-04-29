@@ -5,10 +5,10 @@ import { PropTypes } from 'prop-types';
 import sidebar from "../../layouts/Sidebar";
 import Edited from './Edited';
 import Removed from './Removed';
-import Reported from './Reported';
+import ModerationRoles from './ModerationRoles';
 import Unmoderated from './Unmoderated';
 
-function MessagesNav() {
+function ModNav() {
     const [activeNavItem, setActiveNavItem] = useState(0);
 
     const handleTabChange = (event, newValue) => {
@@ -31,7 +31,7 @@ function MessagesNav() {
             >
                 <Tab label="Edited" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Removed" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-                <Tab label="Reported" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
+                <Tab label="ModerationRoles" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Unmoderated" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
             </Tabs>
 
@@ -40,21 +40,22 @@ function MessagesNav() {
 
             {activeNavItem === 0 && <Edited />}
             {activeNavItem === 1 && <Removed />}
-            {activeNavItem === 2 && <Reported />}
+            {activeNavItem === 2 && <ModerationRoles />}
             {activeNavItem === 3 && <Unmoderated />}
         </>
     );
 
 }
 
+export default ModNav;
 
-
-MessagesNav.propTypes = {
-    SendAPrivateMessageTab: PropTypes.string.isRequired,
-    InboxTab: PropTypes.string.isRequired,
-    SentTab: PropTypes.string.isRequired,
+ModNav.propTypes = {
+    Edited: PropTypes.func,
+    Removed: PropTypes.func,
+    Reported: PropTypes.func,
+    Unmoderated: PropTypes.func,
 };
 
 
 
-export default MessagesNav;
+

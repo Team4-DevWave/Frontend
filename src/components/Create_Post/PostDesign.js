@@ -25,8 +25,11 @@ const PostDesign = ({
 }) => {
   const [spoilerClicked, setSpoilerClicked] = useState(false);
 
-  const isValidPost =
-    (title && text) || (title && image) || (title && Link) || (title && video);
+
+const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video);
+console.log("isvaliddd postt y3mm===",isValidPost);
+console.log("title postt y3mm===",video);
+
 
   const handleSpoilerClick = () => {
     setSpoilerClicked(true);
@@ -88,6 +91,7 @@ const PostDesign = ({
                   }}
                 />
               )}
+              {Link && <p className="post-text">{Link}</p>}
               {image && <img src={image} alt="Post" className="post-image" />}
               {video && (
                 <video controls className="post-video">

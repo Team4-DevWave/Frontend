@@ -1,0 +1,120 @@
+{
+  "removed": [
+    {
+      "type": "post",
+      "data": {
+        "post": {
+          "_id": "aa0c",
+          "votes": {
+            "upvotes": 1,
+            "downvotes": 0
+          },
+          "title": "sjkna",
+          "content": "klasfn",
+          "bold": false,
+          "italic": false
+        },
+        "id": "aa0c"
+      },
+      "user": {
+        "id": "a0c",
+        "name": "joe"
+      },
+      "date": "2013-01-01T00:00:00Z",
+      "subredditId": "2",
+      "reason": "spam",
+      "id": "aa0c",
+      "removedstatus": false,
+      "spamstatus": true,
+      "removedby": "admin",
+      "status": "disapproved"
+    },
+    {
+      "type": "post",
+      "data": {
+        "post": {
+          "_id": "aa0c",
+          "votes": {
+            "upvotes": 1,
+            "downvotes": 0
+          },
+          "title": "hello",
+          "content": "fax",
+          "bold": false,
+          "italic": false
+        },
+        "id": "aa0c"
+      },
+      "user": {
+        "id": "a0c",
+        "name": "joe"
+      },
+      "date": "2013-01-01T00:00:00Z",
+      "subredditId": "1",
+      "reason": "spam",
+      "id": "aa0c",
+      "removedstatus": true,
+      "spamstatus": true,
+      "removedby": "admin",
+      "status": "approved"
+    },
+    {
+      "type": "post",
+      "data": {
+        "post": {
+          "_id": "aa0c",
+          "votes": {
+            "upvotes": 1,
+            "downvotes": 0
+          },
+          "title": "sjkna",
+          "content": "klasfn",
+          "bold": false,
+          "italic": false
+        },
+        "id": "aa0c"
+      },
+      "user": {
+        "id": "a0c",
+        "name": "joe"
+      },
+      "date": "2013-01-01T00:00:00Z",
+      "subredditId": "1",
+      "reason": "spam",
+      "id": "aa0c",
+      "removedstatus": false,
+      "spamstatus": false,
+      "removedby": "admin",
+      "status": "approved"
+    },
+    {
+      "type": "comment",
+      "data": {
+        "comment": {
+          "_id": "aa0c",
+          "votes": {
+            "upvotes": 1,
+            "downvotes": 0
+          },
+          "title": "sjkna",
+          "content": "klasfn",
+          "bold": false,
+          "italic": false
+        },
+        "id": "aa0c"
+      },
+      "user": {
+        "id": "a0c",
+        "name": "joe"
+      },
+      "date": "2013-01-01T00:00:00Z",
+      "subredditId": "1",
+      "reason": "spam",
+      "id": "aa0c",
+      "removedstatus": false,
+      "spamstatus": false,
+      "removedby": "admin",
+      "status": "approved"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ function ChatPage() {
     <div className="navbar-padding">
       <Header />
       <div className="header">
-        <Chat messages={[]} onClose={() => console.log('Chat closed')} />
+        {/* <Chat messages={[]} onClose={() => console.log('Chat closed')} /> */}
       </div>
     </div>
   );
