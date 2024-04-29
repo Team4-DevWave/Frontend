@@ -62,8 +62,11 @@ function OverView() {
                 username: post.userID.username,
                 commentsCount: post.commentsCount,
                 image: post.image,
+                video: post.video,
+                subredditID: post.subredditID,
                 ishide: false,
                 issaved: false,
+                userVote: post.userVote,
                 type: "post",
               };
             } else {
@@ -114,8 +117,8 @@ function OverView() {
   };
 
   return (
-    <div className="profile-grid">
-      <div id="profgrid-2">
+    <div>
+      <div>
         <div className="post-feed">
           {overviewData.map((data, index) => (
             <React.Fragment key={index}>

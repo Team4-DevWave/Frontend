@@ -7,6 +7,7 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function Delete(props) {
   const [open, setOpen] = React.useState(false);
@@ -28,7 +29,9 @@ function Delete(props) {
   return (
     <div>
       <div onClick={handleClickOpen}>
-        <span className="create">Delete</span>
+        <span className="create">
+          <DeleteIcon sx={{ marginRight: "7px", marginBottom: "3px" }} /> Delete
+        </span>
       </div>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Confirm Delete</DialogTitle>

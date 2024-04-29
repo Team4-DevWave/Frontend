@@ -35,21 +35,21 @@ function PostFeed() {
                 spoiler: item.spoiler,
                 nsfw: item.nsfw,
                 locked: item.locked,
-                type:item.type,
+                type: item.type,
                 approved: item.approved,
                 mentioned: item.mentioned,
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
-                Link:item.url,
-                video:item.video
+                Link: item.url,
+                video: item.video,
               };
             } else {
               return null;
             }
           })
           .filter(Boolean);
-        
+
         // Set the length of mappedData
         setMappedDataLength(mappedData.length);
 
@@ -66,22 +66,17 @@ function PostFeed() {
   }, []);
 
   return (
-    <div className="home-grid">
-      <div id="grid-2">
-        <div className="post-feed">
-          {/* Check if noPosts is true and render the appropriate message */}
-          {noPosts ? (
-            <h1 className="deleted-post">u/{username} hasn't posted yet</h1>
-          ) : (
-            // Render the posts
-            posts.map((post, index) => {
-              console.log("Post data:", post); // Log the post data here
-              return <MyPostsCont key={index} postData={post} />;
-            })
-          )}
-
-        </div>
-      </div>
+    <div className="post-feed">
+      {/* Check if noPosts is true and render the appropriate message */}
+      {noPosts ? (
+        <h1 className="deleted-post">u/{username} hasn't posted yet</h1>
+      ) : (
+        // Render the posts
+        posts.map((post, index) => {
+          console.log("Post data:", post); // Log the post data here
+          return <MyPostsCont key={index} postData={post} />;
+        })
+      )}
     </div>
   );
 }
