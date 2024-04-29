@@ -56,8 +56,8 @@ function Feed() {
                 image: item.image,
                 video: item.video,
                 subredditID: item.subredditID,
-                ishide: false,
-                issaved: false,
+                ishide: item.hidden,
+                issaved: item.saved,
                 userVote: item.userVote,
               };
             } else {
