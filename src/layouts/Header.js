@@ -28,7 +28,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import TagIcon from "@mui/icons-material/Tag";
 import Chat from "../components/Chat/ChatWindow.js";
-import NotificationDropDown from "../components/NotificationDropdown";
+import NotificationDropdown from "../components/NotificationDropdown";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
