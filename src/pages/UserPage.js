@@ -1,228 +1,110 @@
 import React, { useState, useEffect } from "react";
-import {
-  Avatar,
-  Button,
-  Dialog,
-  RadioGroup,
-  InputLabel,
-  FormControlLabel,
-  Radio,
-} from "@mui/material";
 import Header from "../layouts/Header";
-import {
-  Tabs,
-  Tab,
-  Badge,
-  Toolbar,
-  TextField,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { useMediaQuery } from "@mui/material";
-import Posts from "../components/UserTabs/Posts";
-import { GiBullyMinion } from "react-icons/gi";
-import { MdFmdBad } from "react-icons/md";
-import { MdOutlineQuestionAnswer } from "react-icons/md";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import CustomSnackbar from "../components/MUIEdited/CustomSnackbar";
+import Sidebar from "../layouts/Sidebar";
+import { Pagination, Tab, Tabs, Typography, Avatar } from "@mui/material";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import LoadingScreen from "../components/LoadingScreen";
+import OtherUserOverview from "../layouts/OtherUserTabs/OtherUserOverview";
+import OtherUserPosts from "../layouts/OtherUserTabs/OtherUserPosts";
+import OtherUserComments from "../layouts/OtherUserTabs/OtherUserComments";
+import UserStats from "../layouts/UserStats";
 
 function UserPage() {
-  const user = "me";
-  const avatar = "https://www.w3schools.com/howto/img_avatar.png";
-  const comments = ["comment1", "comment2", "comment3"];
-  const posts = [
-    { title: "title1", content: "content1" },
-    { title: "title2", content: "content2" },
-    { title: "title3", content: "content3" },
-  ];
-
-  const [activeNavItem, setActiveNavItem] = useState(0);
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [follow, setFollow] = useState(false);
-  const [blocked, setBlocked] = useState(false);
-  const [radioValue, setRadioValue] = useState("");
-  const [followText, setFollowText] = useState("Follow+");
-  const [blockedText, setBlockedText] = useState("Block");
-  const [reason, setReason] = useState("");
-  const [offense, setOffense] = useState("");
-  const [snack, openSnack] = useState(false);
-  // const [customState, setCustomState] = useState({open: false, message: "", severity: "info"});
-  // setCustomState({...customState, });
-  const handleClose = () => {
-    setOpen(false);
+  const [value, setValue] = React.useState(0);
+  const { username } = useParams();
+  const [userData, setUserData] = useState({});
+  const [userFound, setUserFound] = useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
-  const handleTabChange = (event, newValue) => {
-    setActiveNavItem(newValue);
-  };
-
-  const handleRadioChange = (event) => {
-    setRadioValue(event.target.value);
-    setOffense(event.target.value);
-  };
   useEffect(() => {
-    if (!follow) {
-      setFollowText("Unfollow-");
-    } else {
-      setFollowText("Follow+");
-    }
-    if (!blocked) {
-      setBlockedText("Unblock");
-    } else {
-      setBlockedText("Block");
-    }
-  }, [follow, blocked]);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/v1/users/${username}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.data.user);
+        setUserData(res.data.data.user);
+        setUserFound(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setUserFound(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <>
-      <Header />
-      <div className="SettingsHeader navbar-padding2">
-        <Avatar src={avatar} alt="user" sx={{ width: 100, height: 100 }} />
-        <h2>{user}</h2>
-        <Toolbar>
-          <Button
-            onClick={() => setFollow(!follow)}
-            sx={{ margin: 2, borderRadius: 2 }}
-            variant="contained"
-            color="primary"
-          >
-            {followText}
-          </Button>
-          <Button
-            onClick={() => setBlocked(!blocked)}
-            sx={{ margin: 2, borderRadius: 2 }}
-            variant="contained"
-            color="primary"
-          >
-            {blockedText} user
-          </Button>
-          <Button
-            onClick={() => setOpen(true)}
-            sx={{ margin: 2, borderRadius: 2 }}
-            variant="contained"
-            color="primary"
-          >
-            Report User
-          </Button>
-          <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Report User</DialogTitle>
-            <DialogContent sx={{ width: 300 }}>
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Reason for Reporting (optional)"
-                fullWidth
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-              />
-              <RadioGroup value={radioValue} onChange={handleRadioChange}>
-                <InputLabel sx={{ margin: 2 }}>Type of offense</InputLabel>
-
-                <FormControlLabel
-                  value="Sexual Harassment"
-                  control={<Radio />}
-                  label={
-                    <>
-                      <MdFmdBad />
-                      Sexual Harassment
-                    </>
-                  }
-                />
-
-                <FormControlLabel
-                  value="Bullying"
-                  control={<Radio />}
-                  label={
-                    <>
-                      <GiBullyMinion />
-                      Bullying
-                    </>
-                  }
-                />
-
-                <FormControlLabel
-                  value="Inappropriate Avatar"
-                  control={<Radio />}
-                  label={
-                    <>
-                      <MdOutlineQuestionAnswer /> Inappropriate Avatar
-                    </>
-                  }
-                />
-              </RadioGroup>
-            </DialogContent>
-
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button
-                onClick={() => {
-                  openSnack(true);
-                  handleClose();
-                }}
-                disabled={!offense}
-                variant="contained"
-                color="error"
-              >
-                Report <WarningAmberIcon />
-              </Button>
-            </DialogActions>
-          </Dialog>
-          <CustomSnackbar
-            isOpen={snack}
-            onClose={() => openSnack(false)}
-            message="Moderators will review your report"
-            severity="warning"
-          />
-        </Toolbar>
-        <Tabs
-          className="settingsNavTabs"
-          value={activeNavItem}
-          onChange={handleTabChange}
-          variant={isMobile ? "scrollable" : "standard"}
-          indicatorColor="primary"
-          textColor="primary"
-          left
+      <div class="home-grid">
+        <div id="grid-0">
+          <Header />
+        </div>
+        <div id="grid-1">
+          <Sidebar />
+        </div>
+        <div
+          id="grid-2"
+          style={{
+            backgroundColor: "#fcfcfc",
+            borderRadius: "50px",
+          
+          }}
         >
-          <Tab
-            label="Overview"
-            sx={{
-              textTransform: "none",
-              fontWeight: "bold",
-              fontSize: "var(--font-small)",
-              "&:hover": { color: "var(--color-black)" },
-            }}
-          />
-          <Tab
-            label="Posts"
-            sx={{
-              textTransform: "none",
-              fontWeight: "bold",
-              fontSize: "var(--font-small)",
-              "&:hover": { color: "var(--color-black)" },
-            }}
-          />
-          <Tab
-            label="Comments"
-            sx={{
-              textTransform: "none",
-              fontWeight: "bold",
-              fontSize: "var(--font-small)",
-              "&:hover": { color: "var(--color-black)" },
-            }}
-          />
-        </Tabs>
-        <div class="horizontalLine"></div>
+          <div className="user-profile-data" style={{padding: "20px"}}>
+            <Avatar
+              alt={username}
+              sx={{
+                width: "100px",
+                height: "100px",
 
-        {activeNavItem === 0 && <Posts posts={posts} />}
-        {activeNavItem === 1 && <Posts posts={posts} />}
-        {activeNavItem === 2 && <Posts posts={posts} />}
+                marginBottom: "10px",
+              }}
+              src={
+                userData.profilePicture || "https://i.redd.it/ym0nsl4yrgq71.jpg"
+              }
+            />
+            <Typography variant="h4" style={{ fontWeight: "bold" }}>
+              u/{username}
+            </Typography>
+          </div>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="auto"
+            aria-label="scrollable auto tabs example"
+          >
+            <Tab label="Overview" />
+            <Tab label="Posts" />
+            <Tab label="Comments" />
+          </Tabs>
+          <hr />
+          {value === 0 ? (
+            <OtherUserOverview />
+          ) : value === 1 ? (
+            <OtherUserPosts />
+          ) : (
+           <OtherUserComments/>
+          )}
+        </div>
+        <div id="grid-3" >
+          <UserStats username={username} />
+        </div>
       </div>
     </>
   );
