@@ -1,6 +1,6 @@
 // ChatWindow.js
 import './ChatWindow.css'; // Import the CSS file for styling
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
@@ -24,12 +24,13 @@ import ListItemText from '@mui/material/ListItemText';
 import { Card, CardContent, Avatar } from '@mui/material';
 
 import { Typography, Grid, Container } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
 
-function ChatWindow() {
-
+function ChatWindow(props) {
+  console.log("propsssssssssssssss", props);
   const ChatWindow = styled(Card)({
     display: 'block',
     position: 'fixed',
@@ -40,17 +41,25 @@ function ChatWindow() {
     backgroundColor: '#f0f0f0',
     borderRadius: 20,
   });
+  const handleClick = (event) => {
+    event.stopPropagation();
+    // Rest of your click handler code
+  };
   const [chatMessages, setchatMessages] = useState([]);
   const [chatRommsIsFetched, setchatRommsIsFetched] = useState(false);
   const username = localStorage.getItem("username");
   const [chatRoomsMembers, setchatRoomsMembers] = useState([]);
   const [chatroomName, setchatroomName] = useState([username, "hussein"]);
   const [newMessage, setNewMessage] = useState('');
-  const [socket, setSocket] = useState(null);
+  const inputRef = useRef();
+  const textareaRef = useRef();
+
+
   const [ws, setWs] = useState(null);
-  const [newChatRoomName, setnewChatRoomName] = useState();
+  const [newChatRoomName, setnewChatRoomName] = useState('a');
   const [newChatRoomMembers, setnewChatRoomMembers] = useState([]);
   const [FollowedUsers, setFollowedUsers] = useState([]);
+  const messagesEndRef = useRef(null);
 
   const [showNewChatRoomCreation, setShowNewChatRoomCreation] = useState(false);
   // <Avatar src={message.sender.profilePicture} />
@@ -62,6 +71,9 @@ function ChatWindow() {
     headers: { Authorization: `Bearer ${bearerToken}` },
 
   };
+
+
+
 
   const handleGetFollowedUsers = async () => {
     axios.get('http://localhost:8000/api/v1/users/me/current', config)
@@ -122,29 +134,36 @@ function ChatWindow() {
       console.error('Failed to fetch chatrooms:', error);
     }
   };
-  const newSocket = socketIOClient('http://localhost:3005');
+
+  // Client-side code
+  const io = require('socket.io-client');
+  const socket = io('http://localhost:3005');
+  socket.on('connect', () => {
+    console.log('Connected to server');
+  });
+
+
 
   useEffect(() => {
-    console.log("i am the king1" + chatRommsIsFetched);
+    
     if (!chatRommsIsFetched) {
       console.log("i am the king2");
       fetchChatrooms();
     }
 
-    newSocket.on('connect', () => {
-      console.log('ismail Socket connected:', newSocket.connected); // Log the status of the socket connection
-    });
-     newSocket.on('message recieved', (newMessage) => {
-      console.log('New message received:', newMessage);
-    });
-  
-    setSocket(newSocket);
-  
-    return () => newSocket.disconnect(
-      console.log('Socket disconnected:', newSocket.disconnected) // Log the status of the socket connection
-    );
+    console.log("i am the king1" + chatRommsIsFetched);
 
-  }, []);
+    // Listen for 'message received' event
+    socket.on('message recieved', (msg) => {
+      console.log('message received:', msg);
+      setchatMessages((prevMessages) => [...prevMessages, msg]);
+    });
+      console.log("checiknggggggggggggggggggggggg",chatMessages);
+    return () => {
+      socket.off('message received');
+    };
+
+  }, [chatMessages,socket]);
 
 
 
@@ -179,39 +198,18 @@ function ChatWindow() {
   };
 
 
-  const sendMessage = (event) => {
-    event.preventDefault();
-    console.log("want to sendddddddddddddddddddddddddddddddddddddddddd");
-    // if (selectedChatroom && selectedChatroom.chatroomMembers) {
-    //   console.log('Selected chatroom:', selectedChatroom);
-    //   console.log("sender name"+username)
-    //   const Sender = selectedChatroom.chatroomMembers.find(member => member.username === username);
-    //   console.log('Socket connected1234:', socket && socket.connected); // Log the status of the socket connection
+  function ChatRoomList() {
+    // State and logic for chat room list
 
-    //   if (socket && socket.connected) {
-    //     socket.emit('new message', { chatID: selectedChatroom._id, message: newMessage, sender: Sender }); // Emit a 'new message' event
-    //     setNewMessage(''); // Clear the message input after sending
-    //   }
-    // }
-    // else {
-    //   console.error('Chatroom or chatroomMembers is not defined');
-    // }
-    if (socket) {
-      const Sender = selectedChatroom.chatroomMembers.find(member => member.username === username);
-      console.log('Socket connected:', socket && socket.connected); // Log the status of the socket connection
-      socket.emit('new message', { chatID: selectedChatroom._id, message: newMessage, sender: Sender }); // Emit a 'new message' event
-
-    }
-  };
+    useEffect(() => {
+      console.log('ChatRoomList rendered');
+    }, []);
 
 
-  return (
-    // <div className="chat-window">
-
-    <ChatWindow className="chat-window" >
-      <Grid container className='gridOfchatwindow' >
-        <Grid className="chat-section-first"  >
-          <div className="header">
+    return (
+      <Grid className="chat-section-first">
+        <Grid  >
+          <div className="headerdisplayChatRooms">
             <h1 className="chat-headerone">Chats</h1>
             <div className="header-icons">
               <IconButton color="primary" onClick={(event) => { handleCreateNewChatRoomIcon(event); handleGetFollowedUsers(); }}>
@@ -222,57 +220,85 @@ function ChatWindow() {
                 <ArrowDropDownIcon />
               </IconButton>
             </div>
-            {chatRooms.map((chatRoom) => (
-              <div className="displayChatRooms" key={chatRoom.id} onClick={() => loadChat(chatRoom)}>
-                {chatRoom.chatroomName}
-              </div>
-            ))}
           </div>
-
-
+        <Grid className="displayAllChatRooms">
+          {chatRooms.map((chatRoom) => (
+            <div className="displayChatRooms" key={chatRoom.id} onClick={() => loadChat(chatRoom)}>
+              {chatRoom.chatroomName}
+            </div>
+          ))}
+        </Grid>
 
         </Grid>
-        <Grid className="chat-section-second ">
-          <div className="header-container">
-            <h1 className="chat-header">{selectedChatroom ? selectedChatroom.chatroomName : 'Chat Room'}</h1>
-            <div className="headerTabs">
-              <IconButton className="settings-button" color="primary">
-                <SettingsIcon />
-              </IconButton>
+      </Grid>
+    );
+  }
 
-              <IconButton className="dropdown-button" color="primary">
-                <ArrowDropDownIcon />
-              </IconButton>
 
-              <IconButton className="upperClose" color="primary">
-                <CloseIcon />
-              </IconButton>
-            </div>
+  function ChatSection(props) {
+    console.log('Close button clickedssssssssssssssssss')
+    console.log('Cmodyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+
+    // State and logic for selected chat room
+    useEffect(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+      }
+    }, [newChatRoomName]);
+
+    return (
+      <Grid className="chat-section-second ">
+        <div className="header-container">
+          <h1 className="chat-header">{selectedChatroom ? selectedChatroom.chatroomName : 'Chat Room'}</h1>
+          <div className="headerTabs">
+            <IconButton className="settings-button" color="primary">
+              <SettingsIcon />
+            </IconButton>
+
+            <IconButton className="dropdown-button" color="primary">
+              <ArrowDropDownIcon />
+            </IconButton>
+
+            <IconButton className="upperClose" color="primary" onClick={props.onClose ? props.onClose : () => { console.log('Close button clicked') }}>
+              <CloseIcon />
+            </IconButton>
           </div>
-
-
-
-
-          <div className="messages">
-            {showNewChatRoomCreation ? (
+        </div>
+        <div className="messages">
+          {showNewChatRoomCreation ? (
+            <div>
               <div>
-                <div>
-                  <div style={{ marginBottom: '16px' }}>
-                    <TextField label="Chat Room Name" value={newChatRoomName} onChange={handleNameChange} />
-                  </div>
-                  {FollowedUsers.map((user, index) => (
-                    <div key={index}>
-                      <Checkbox onChange={() => handleFriendsChange(user.username)} />
-                      <label>{user.username}</label>
-                    </div>
-                  ))}
-                  <Button variant="contained" color="primary" onClick={handleCreateNewChatRoom}>Create</Button>
+                <div style={{ marginBottom: '16px' }}>
+
+                  <textarea
+                    textarea
+                    ref={textareaRef}
+
+                    className="ChatRoomName"
+                    value={newChatRoomName}
+                    onChange={(e) => {
+                      setnewChatRoomName(e.target.value);
+                    }}
+                  />
                 </div>
+                {FollowedUsers.map((user, index) => (
+                  <div key={index}>
+                    <Checkbox
+                      checked={newChatRoomMembers.includes(user.username)}
+                      onChange={() => handleFriendsChange(user.username)}
+                    />
+                    <label>{user.username}</label>
+                  </div>
+                ))}
+                <Button variant="contained" color="primary" onClick={handleCreateNewChatRoom}>Create</Button>
               </div>
-            ) :
-              (
-                <Grid container>
-                  <Grid>
+            </div>
+          ) :
+            (
+              <Grid container>
+                <Grid item xs={12}>
+                  <Box sx={{ overflow: 'auto', maxHeight: 400 }}>
+
                     {chatMessages.map((message, index, arr) => (
                       <div key={index} className="message-container">
                         {(index === 0 || message.sender._id !== arr[index - 1].sender._id) &&
@@ -287,49 +313,94 @@ function ChatWindow() {
                         <Typography variant="body1" className="message-text">{message.message}</Typography>
                       </div>
                     ))}
-                  </Grid>
-                  <Grid>
-                  </Grid>
+                    <div ref={messagesEndRef} />
+                  </Box>
                 </Grid>
-              )
+                <Grid item xs={12}>
+                </Grid>
+              </Grid>
+            )
 
-            }
-          </div>
-
-          <div className="form-container">
-            <IconButton color="primary">
-              <CameraAltIcon />
-            </IconButton>
-            <form className="chat-form" onSubmit={sendMessage}>
-              <div className="input-container">
+          }
+        </div>
+        <div className="message-input-form-Chat">
+          <MessageInputForm />
+        </div>
+      </Grid>
 
 
+    );
+  }
 
-                <input
-                  type="text" className="chat-input"
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
+  function MessageInputForm() {
+    // State and logic for message input form
+    useEffect(() => {
+      inputRef.current.focus();
 
-                />
-                <div className="icons-container">
-                  <IconButton color="primary">
-                    <EmojiEmotionsIcon />
-                  </IconButton>
-                  <IconButton color="primary">
-                    <GifIcon />
-                  </IconButton>
-                </div>
-              </div>
+      console.log('MessageInputForm rendered');
+    }, []);
+    return (
+      <div className="form-container">
+        <IconButton color="primary">
+          <CameraAltIcon />
+        </IconButton>
+        <form className="chat-form" onSubmit={sendMessage}>
+          <div className="input-container">
 
-              <IconButton type="submit" color="primary" onClick={sendMessage}>
-                <SendIcon />
+            <textarea
+              textarea
+              ref={inputRef}
+              className="chat-input"
+              value={newMessage}
+              onChange={(e) => {
+                setNewMessage(e.target.value);
+              }}
+            />
+            <div className="icons-container">
+              <IconButton color="primary">
+                <EmojiEmotionsIcon />
               </IconButton>
-            </form>
+              <IconButton color="primary">
+                <GifIcon />
+              </IconButton>
+            </div>
           </div>
-        </Grid>
+
+          <IconButton type="submit" color="primary" onClick={sendMessage}>
+            <SendIcon />
+          </IconButton>
+        </form>
+      </div>
+    );
+  }
+
+
+
+  const sendMessage = async(event) => {
+    event.preventDefault();
+    console.log("want to sendddddddddddddddddddddddddddddddddddddddddd");
+    if (socket) {
+      const Sender = selectedChatroom.chatroomMembers.find(member => member.username === username);
+      console.log('dont playyyyyyyyyyyyyyyyyyy'); // Log the status of the socket connection
+      console.log('Socket connected:', socket && socket.connected); // Log the status of the socket connection
+      console.log('message senttttttttttttttttt:', newMessage);
+      await socket.emit('join room', selectedChatroom._id);
+      await socket.emit('new message', { chatID: selectedChatroom._id, message: newMessage, sender: Sender }); // Emit a 'new message' event
+    }
+  };
+
+
+  return (
+
+    <ChatWindow className="chat-window" onClick={handleClick} >
+      <Grid container className='gridOfchatwindow' >
+        <ChatRoomList />
+        <ChatSection {...props} />
       </Grid>
     </ChatWindow>
   );
 }
+
+
 
 export default ChatWindow;

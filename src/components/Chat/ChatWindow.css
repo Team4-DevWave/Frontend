@@ -1,6 +1,7 @@
 /* ChatWindow.css */
 .chat-window {
   display: flex;
+  
   flex-direction: row;
   height: 500px;
   width: 610px; /* Set a width for the chat window */
@@ -12,9 +13,17 @@
   background-color: white; /* Or any non-transparent color */
   opacity: 1;
 }
-.header {
+.gridOfchatwindow
+{
+  height: 100%;
+}
+.headerdisplayChatRooms {
+  position: relative;
+  top: 1px;
   margin-left: auto;
-
+  justify-content: space-between; /* This will put maximum space between .header-icons and h1 */
+  display: flex;
+  resize: none; /* Disable manual resize */
 }
 
 
@@ -22,7 +31,10 @@
   color: black;
   font-size: 20px; 
   margin: 10px;
-  right: 550px;
+}
+.displayAllChatRooms {
+  overflow-y: auto;
+  max-height: 475px; /* Adjust this value as needed */
 }
 .displayChatRooms
 {
@@ -35,7 +47,9 @@
   transition: background-color 0.3s ease, transform 0.3s ease; /* Add this line */
   cursor: pointer;
   border-radius: 10px;
+  overflow-y: auto;
 
+  
 }
 .displayChatRooms:hover {
   background-color: red; /* Change to your preferred color */
@@ -46,9 +60,7 @@
 }
 .header-icons
 {
-
-  position: absolute;
-  right: 550px;
+  position: relative;
   display: flex;
 }
 .chat-section-first {
@@ -59,6 +71,7 @@
 .chat-section-second {
   flex: 0.6;
   overflow-y: auto;
+  
 }
 .header-container {
   display: flex;
@@ -124,26 +137,35 @@
 }
 .form-container {
   position: fixed;
-  bottom: 28px;
-  width: 100%;
+  bottom: 10px;
+  height: 80px;
   display: flex;
-  width: 350px;
+  width: 460px;
   margin-left:10px;
 }
 .input-container {
   position: relative;
   display: flex;
   align-items: center;
-  width: 260px; /* Adjust this value as needed */
-  height: 30px; /* Adjust this value as needed */
+  width: 450px; /* Adjust this value as needed */
+  height: 80px; /* Adjust this value as needed */
   padding: 10px;
   border: none;
   border-radius: 80px;
   background-color: rgb(168, 167, 167);
+
+  resize: none; /* Disable manual resize */
+  min-height: 10px; /* Minimum height */
+  max-height: 100px; /* Maximum height */
+  word-wrap: break-word; /* Break words to prevent horizontal overflow */
+  white-space: pre-wrap;
 }
 
 .chat-input {
-  flex-grow: 1;
+  width: 310px; /* Adjust this value as needed */
+  font-size: 16px;
+  font-family: 'Times New Roman', Times, serif;
+  font-style: bold;
   border: none;
   background: transparent;
   outline: none;
