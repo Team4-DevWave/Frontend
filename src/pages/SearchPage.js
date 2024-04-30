@@ -19,6 +19,7 @@ import FoundPosts from "../layouts/SearchResultsTabs/FoundPosts";
 import FoundComments from "../layouts/SearchResultsTabs/FoundComments";
 import FoundMedia from "../layouts/SearchResultsTabs/FoundMedia";
 
+
 export default function SearchPage() {
   const { query } = useParams();
   const [results, setResults] = useState([]);
@@ -67,7 +68,7 @@ export default function SearchPage() {
       <div id="grid-1">
         {Cookies.get("token") ? <SideBar /> : <GuestSideBar />}
       </div>
-      <div id="grid-2">
+      <div id="grid-2" style={{borderRadius:"50px",backgroundColor:"#fcfcfc"}}>
         <Typography variant="h5" gutterBottom>
           Search Results for "{query}"
         </Typography>
