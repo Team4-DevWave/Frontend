@@ -15,15 +15,16 @@ function Link() {
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
     const [fileUploaded, setFileUploaded] = useState(false);
     const [postDone, setPostDone] = useState(false);
-    const[spoiler1, setSpoiler] = useState(false);
-    const[OC, setOc] = useState(false);
-    const[NFSW, setNFSW] = useState(false);
-    const[Flair, setFlair] = useState(false);
+    const [spoiler1, setSpoiler] = useState(false);
+    const [OC, setOc] = useState(false);
+    const [NFSW, setNFSW] = useState(false);
+    const [Flair, setFlair] = useState(false);
     const textAreaRef = useRef(null);
     const token = Cookies.get("token");
+    var community = localStorage.getItem("communitynamechoosed");
 
     const config = {
-      headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
     };
     const username = localStorage.getItem('username');
 
@@ -41,44 +42,84 @@ function Link() {
             title: title,
             content: content,
         };
-        console.log("usernammmeeee==",username);
+        console.log("usernammmeeee==", username);
+        if (community === "username") {
+            axios
+                .post(
+                    `http://localhost:8000/api/v1/posts/submit/u/${username}`,
+                    {
+                        title: title,
+                        url: content,
+                        type: 'url',
+                        nsfw: NFSW,
+                        spoiler: spoiler1,
+                        locked: false,
+                        image: "",
+                        video: ""
+                    },
+                    config
+                )
+                .then((response) => {
+                    setNFSW(false);
+                    setSpoiler(false);
+                    setFlair(false);
+                    setOc(false);
+                    setPostDone(true);
+                    setTitle('');
+                    setContent('');
 
-        axios
-        .post(
-          `http://localhost:8000/api/v1/posts/submit/u/${username}`,
-          {
-            title: title,
-            url: content,
-            type: 'url',
-            nsfw: NFSW,
-            spoiler: spoiler1,
-            locked: false,
-            image:"",
-            video:""
-          },
-          config
-        )
-        .then((response) => {
-            setNFSW(false);
-            setSpoiler(false);
-            setFlair(false);
-            setOc(false);
-            setPostDone(true);
-            setTitle('');
-            setContent('');
+                    if (response.status === 201) {
+                        console.log("post is created");
 
-          if (response.status === 201) {
-            console.log("post is created");
+                    } else {
+                        console.log("post is not created");
+                    }
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    console.log("errorr");
+                });
+        }
+        else {
+            axios
+                .post(
+                    `http://localhost:8000/api/v1/posts/submit/r/${community}`,
+                    {
+                        title: title,
+                        url: content,
+                        type: 'url',
+                        nsfw: NFSW,
+                        spoiler: spoiler1,
+                        locked: false,
+                        image: "",
+                        video: ""
+                    },
+                    config
+                )
+                .then((response) => {
+                    setNFSW(false);
+                    setSpoiler(false);
+                    setFlair(false);
+                    setOc(false);
+                    setPostDone(true);
+                    setTitle('');
+                    setContent('');
 
-          } else {
-            console.log("post is not created");
-          }
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log("errorr");
-        });
+                    if (response.status === 201) {
+                        console.log("post is created");
+
+                    } else {
+                        console.log("post is not created");
+                    }
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    console.log("errorr");
+                });
+        }
+
         alert("Post done");
 
     };
@@ -87,7 +128,7 @@ function Link() {
     const handleContentChange = (e) => {
         const inputValue = e.target.value;
         const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
-    
+
         if (urlRegex.test(inputValue) || inputValue === '') {
             setContent(inputValue);
         }
@@ -127,17 +168,17 @@ function Link() {
 
     };
     const handleSpoiler = (event) => {
-        console.log("spoilerzft=",spoiler1);
-        setSpoiler((prevSpoiler) => !prevSpoiler); 
+        console.log("spoilerzft=", spoiler1);
+        setSpoiler((prevSpoiler) => !prevSpoiler);
     };
     const handleOc = (event) => {
-        setOc((prevOC) => !prevOC); 
+        setOc((prevOC) => !prevOC);
     };
     const handleNSFW = (event) => {
-        setNFSW((prevNSFW) => !prevNSFW); 
+        setNFSW((prevNSFW) => !prevNSFW);
     };
     const handleFlair = (event) => {
-        setFlair((prevFlair) => !prevFlair); 
+        setFlair((prevFlair) => !prevFlair);
     };
     return (
 
@@ -174,8 +215,8 @@ function Link() {
 
 
                     <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" data-testid="savedraft" disabled={!title}   className={!title ? 'disabled-button' : ''}>Save Draft</button>
-                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''}>Post</button>
+                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" data-testid="savedraft" disabled={!title || community==="" || !content} className={!title || community==="" || !content ? 'disabled-button' : ''}>Save Draft</button>
+                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title || community==="" || !content} className={!title || community==="" || !content ? 'disabled-button' : ''}>Post</button>
                         {postDone && <p>Post done</p>}
 
                     </div>
@@ -185,7 +226,7 @@ function Link() {
                         variant="danger"
                         className="ptnn3"
                         onClick={handleOc}
-                        style={{ background: OC ? 'green' : '#c1cad3' }} 
+                        style={{ background: OC ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> OC
@@ -213,7 +254,7 @@ function Link() {
                         variant="danger"
                         className="ptnn3"
                         onClick={handleFlair}
-                        style={{ background: Flair ? 'green' : '#c1cad3' }} 
+                        style={{ background: Flair ? 'green' : '#c1cad3' }}
 
                     >
                         <IoPricetagOutline /> Flair
@@ -221,7 +262,7 @@ function Link() {
                 </div>
 
             </div>
-            <div>
+            {/* <div>
                 <button className='Draftbt' onClick={handleShowSavedDrafts}>Drafts</button>
                 {showSavedDrafts && (
                     <div className="saved-drafts-popup">
@@ -237,7 +278,7 @@ function Link() {
                         </ul>
                     </div>
                 )}
-            </div>
+            </div> */}
 
 
 

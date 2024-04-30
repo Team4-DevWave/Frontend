@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import { List, ListItem } from "@mui/material";
+
 import {
   ListItemAvatar,
   Avatar,
@@ -29,49 +30,35 @@ export default function FoundUsers(props) {
     );
   } else {
     return (
-      // <List>
-      // {userData.map((user) => (
-      //     <ListItem key={user.id}>
-      //          <img
-      //           src={process.env.PUBLIC_URL + "/images/erenyega.jpg"}
-      //           alt="profile pic"
-      //           className="rounded-circle"
-      //           width="30px"
-      //           style={{ marginRight: "10px" }}
-      //         />
-      //         <h4 style={{marginRight: "20px"}}>{user.username}</h4>
-      //         <Link
-      //         style={{ textDecoration: "none" }}
-      //         to={`/profile/${user.id}`}>View Profile</Link>
-      //     </ListItem>
-      // ))}
-      // </List>
+   
       <List>
         {userData.map((user) => (
           <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
           >
+             <Link to={`/user/${user.username}`} style={{textDecoration:"none"}}>
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
-                <Avatar alt={user.username} src={user.profile_picture} />
+                <Avatar alt={user.username} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRivmMwmXmBhlRVSu_qAMz_0UjdC8V2OES0GQGJ5L9rCQ&s" />
               </ListItemAvatar>
               <ListItemText
                 primary={"u/"+user.username}
                 secondary={
                   <React.Fragment>
                     <Typography
-                      sx={{ display: "inline" }}
+                      sx={{ display: "block" }}
                       component="span"
                       variant="body2"
                       color="text.primary"
                     >
-                      Ali Connors
+                    Karma: {user.karma.posts + user.karma.comments}
                     </Typography>
-                    {" — I'll be in your neighborhood doing errands this…"}
+                   {user.country}
                   </React.Fragment>
                 }
               />
             </ListItem>
+            </Link>
             <Divider variant="inset" component="li" />
           </List>
         ))}

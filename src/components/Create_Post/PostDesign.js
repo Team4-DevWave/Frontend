@@ -29,6 +29,7 @@ const PostDesign = ({
 const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video);
 console.log("isvaliddd postt y3mm===",isValidPost);
 console.log("title postt y3mm===",video);
+console.log("ahhhhhhhhhhhh postt y3mm===",community);
 
 
   const handleSpoilerClick = () => {
@@ -83,6 +84,7 @@ console.log("title postt y3mm===",video);
             </div>
           ) : (
             <div className="post-content">
+              {Link && <a href={Link} className="post-link" style={{ color: 'blue' }}>{Link}</a>}
               {text && (
                 <p
                   className="post-text"
@@ -91,7 +93,6 @@ console.log("title postt y3mm===",video);
                   }}
                 />
               )}
-              {Link && <p className="post-text">{Link}</p>}
               {image && <img src={image} alt="Post" className="post-image" />}
               {video && (
                 <video controls className="post-video">

@@ -73,7 +73,7 @@ const Notification = ({setNotificationCount}) => {
                     // Mark the notification as read in the state
                     setData((oldData) => {
                         const newData = [...oldData];
-                        newData[index].status = "flase";
+                        newData[index].status = "false";
                         return newData;
                     });
 
