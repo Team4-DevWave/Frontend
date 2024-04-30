@@ -43,6 +43,8 @@ function PostFeed() {
                 image: item.image,
                 Link: item.url,
                 video: item.video,
+                Link:item.url,
+                video:item.video
               };
             } else {
               return null;
