@@ -43,7 +43,9 @@ function PostFeed() {
                 image: item.image,
                 Link:item.url,
                 video:item.video,
-                community:item.community
+                community:item.community,
+                issaved:item.saved,
+                ishide:item.hidden
               };
             } else {
               return null;

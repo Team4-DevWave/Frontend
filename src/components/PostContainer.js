@@ -476,15 +476,7 @@ function PostContainer({ postData }) {
                           <ul>
                             {postData.username === username ? (
                               <>
-                                <li
-                                  onClick={
-                                    postData.issaved
-                                      ? handelUnsaved
-                                      : handelsavedpost
-                                  }
-                                >
-                                  {postData.issaved ? "Remove from saved" : "Save"}
-                                </li>
+
                                 <li
                                   onClick={
                                     postData.ishide
@@ -497,6 +489,8 @@ function PostContainer({ postData }) {
                                 <li>
                                   <Delete onDelete={handleDelete} />
                                 </li>
+                                <li onClick={handelUnsaved}>{postData.issaved ? "Remove from Save" : "Save"}</li>
+
                                 <li onClick={handleLock}>{postData.locked ? "Un Locked" : "Locked"}</li>
                                 <li onClick={handleSpoiler}>{postData.spoiler ? "Remove Spoiler tag" : "Add Spoiler tag"}</li>
                                 <li onClick={handleNSFW}>{postData.nsfw ? "Remove NSFW tag" : "Add NSFW tag"}</li>
