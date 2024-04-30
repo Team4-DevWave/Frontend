@@ -77,7 +77,7 @@ function PostFeed() {
             // Render the posts
             posts.map((post, index) => {
               console.log("Post data:", post); // Log the post data here
-              return <MyPostsCont key={index} postData={post} />;
+              return <PostContainer key={index} postData={post} />;
             })
           )}
 
