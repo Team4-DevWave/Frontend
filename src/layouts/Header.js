@@ -23,14 +23,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import SideBar from "./Sidebar";
 import Cookies from "js-cookie";
-import NotificationDropdown from "../components/NotificationDropdown";
 import "./Header.css";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import TagIcon from "@mui/icons-material/Tag";
 import GestureIcon from "@mui/icons-material/Gesture";
 import Chat from "../components/Chat/ChatWindow.js";
-
+import NotificationDropDown from "../components/NotificationDropdown";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -278,7 +277,7 @@ export default function Header() {
 
 
 
-            <Badge badgeContent={1} color="error">
+            <Badge  color="error">
               <svg
 
                 rpl=""
@@ -555,7 +554,7 @@ export default function Header() {
 
 
 
-              <Badge badgeContent={1} color="error">
+              <Badge color="error">
                 <svg
 
                   rpl=""
@@ -583,8 +582,8 @@ export default function Header() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={1} color="error">
-                <NotificationDropdown />
+              <Badge  color="error">
+                <NotificationDropDown />
               </Badge>
             </IconButton>
             <IconButton
