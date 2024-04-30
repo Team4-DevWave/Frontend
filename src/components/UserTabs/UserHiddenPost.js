@@ -59,22 +59,17 @@ function PostFeed() {
   }, []);
 
   return (
-    <div className="home-grid">
-      <div id="grid-2">
-        <div className="post-feed">
-          {/* Check if noPosts is true and render the appropriate message */}
-          {noPosts ? (
-            <h1 className="deleted-post">No hidden posts found</h1>
-          ) : (
-            // Render the posts
-            posts.map((post, index) => {
-              console.log("Post data:", post); // Log the post data here
-              return <UserPostContainer key={index} postData={post} />;
-            })
-          )}
-
-        </div>
-      </div>
+    <div className="post-feed">
+      {/* Check if noPosts is true and render the appropriate message */}
+      {noPosts ? (
+        <h1 className="deleted-post">No hidden posts found</h1>
+      ) : (
+        // Render the posts
+        posts.map((post, index) => {
+          console.log("Post data:", post); // Log the post data here
+          return <UserPostContainer key={index} postData={post} />;
+        })
+      )}
     </div>
   );
 }
