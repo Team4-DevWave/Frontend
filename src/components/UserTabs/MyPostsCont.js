@@ -157,7 +157,7 @@ function PostContainer({ postData }) {
         axios
             .delete(
                 `http://localhost:8000/api/v1/posts/${postData.id}/delete`,
-              
+
                 config
             )
             .then((response) => {
@@ -179,7 +179,7 @@ function PostContainer({ postData }) {
     const handleLock = () => {
         console.log("id===", postData.id);
         console.log("tokenn===", token);
-console.log("lockeddddd------->",postData.locked);
+        console.log("lockeddddd------->", postData.locked);
         axios
             .patch(
                 `http://localhost:8000/api/v1/posts/${postData.id}/lock`,
@@ -230,13 +230,18 @@ console.log("lockeddddd------->",postData.locked);
                                             username={postData.username}
                                             userpic={postData2.userpic}
                                             community={postData.community}
-                                            incommunity={postData2.incommunity}
-                                            Date={postData.Date}
+                                            incommunity={true}
+                                            Date={new Date(postData.time).toLocaleString([], {
+                                                day: "2-digit",
+                                                month: "2-digit",
+                                                year: "numeric",
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                            })}
                                             title={postData.title} // Pass the title from postData
                                             text={postData.content} // Pass the content from postData as text
                                             image={postData.image}
                                             Link={postData.Link}
-                                            spoiler={postData.spoiler}
                                             video={postData.video}
                                         />{" "}
                                     </article>
@@ -260,9 +265,9 @@ console.log("lockeddddd------->",postData.locked);
                                                 <li>Add spoiler tag</li>
                                                 <li>Add NSFW tag</li>
                                                 <li onClick={handleLock}>{postData.locked ? "Un Locked" : "Locked"}</li>
-                                                
+
                                             </ul>
-                                            
+
                                         </div>
                                     )}
                                 </div>

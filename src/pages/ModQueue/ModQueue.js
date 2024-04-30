@@ -2,7 +2,7 @@
 import React from 'react';
 import Header from '../../layouts/Header';
 import SideBar from "../../layouts/Sidebar";
-import ModqueueNavBar from '../../components/Modqueue/ModqueueNavBar';
+import ModNav from '../../components/Modqueue/ModqueueNavBar';
 import {Meta} from '@storybook/react';
 
 function ModQueue() {
@@ -10,14 +10,12 @@ function ModQueue() {
         <div className="navbar-padding">
             <Header />
 <div className="header"></div>
-<SideBar />
-<div className="sidebar"></div>
 
 
             <div className="header">
 
                 <h1 className="title">Modqueue</h1>
-                <ModqueueNavBar />
+                <ModNav/>
             </div>
         </div>
 

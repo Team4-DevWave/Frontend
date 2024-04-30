@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -27,7 +27,6 @@ import "./Header.css";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import TagIcon from "@mui/icons-material/Tag";
-import GestureIcon from "@mui/icons-material/Gesture";
 import Chat from "../components/Chat/ChatWindow.js";
 import NotificationDropDown from "../components/NotificationDropdown";
 
@@ -55,6 +54,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
 }));
+
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
@@ -85,7 +85,40 @@ const SearchResults = styled("div")(({ theme }) => ({
   display: "inline-block", // Allow the width to adjust to content
 }));
 
+const handleKeyPress = (event) => {
+  if (event.key === "Enter") {
+    
+    window.location.href = `/search/${event.target.value}`;
+  }
+};
+
 export default function Header() {
+  const [notificationsCount, setNotificationsCount] = useState(0);
+  const fetchNotificationCount = () => {
+    const bearerToken = Cookies.get('token');
+    const config = {
+      headers: { Authorization: `Bearer ${bearerToken}` },
+    };
+    axios.get('http://localhost:8000/api/v1/notifications' , config)
+        .then(response => {
+          const unreadNotifications = response.data.data.notifications.filter(notification => !notification.read);
+          setNotificationsCount(unreadNotifications.length);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+  };
+  useEffect(() => {
+    fetchNotificationCount();
+    const interval = setInterval(() => {
+      fetchNotificationCount();
+    }, 5000); // Fetches every 5 seconds
+
+    // Clear interval on component unmount
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
   const [showChat, setShowChat] = useState(false);
 
   const [isSearchActive, setIsSearchActive] = React.useState(false);
@@ -255,7 +288,7 @@ export default function Header() {
         <p>Messages</p>
       </MenuItem>
       <MenuItem>
-        <Badge badgeContent={17} color="error">
+        <Badge badgeContent={notificationsCount} color="error">
           <NotificationsIcon />
         </Badge>
 
@@ -340,9 +373,11 @@ export default function Header() {
       //remove hashtag from search
       search.replace("#", "");
       axios
-        .get(`http://localhost:8001/api/v1/search/${search}`)
+        .get(`http://localhost:8000/api/v1/homepage/search?q=${search}&sort=Top&page=1`)
         .then((response) => {
-          setResults(response.data);
+          setResults(response.data.data.subreddits.slice(0,4));
+          
+
           console.log(results);
         })
         .catch((error) => {
@@ -408,6 +443,7 @@ export default function Header() {
                 setIsSearchActive(false);
               }, 200); // 200ms delay
             }}
+            onKeyDown={(e) => handleKeyPress(e)}
             style={{
               backgroundColor: "#d3d3d3",
               borderRadius: "20px",
@@ -428,16 +464,21 @@ export default function Header() {
           </Search>
           {isSearchActive && search && (
             <SearchResults>
+              <Typography variant="h6" style={{ padding: "10px" }}>
+                Communities
+              </Typography>
               <List>
-                {results.users &&
-                  results.users.map((user) => (
+                
+                {results && results.length > 0 &&
+                  results.map((community,i) => (
                     <ListItem
+                    key={i}
                       style={{
                         left: 0,
                       }}
                     >
                       <a
-                        href={`/profile/${user.username}`}
+                        href={`/r/${community.name}`}
                         style={{
                           textDecoration: "none",
                           color: "black",
@@ -445,86 +486,17 @@ export default function Header() {
                           alignItems: "center",
                         }}
                       >
-                        <img
-                          src={process.env.PUBLIC_URL + "/images/erenyega.jpg"}
-                          alt="profile pic"
-                          className="rounded-circle"
-                          width="30px"
-                          style={{ marginRight: "10px" }}
+                        <img src={community.srLooks.icon} alt="icon" width="35px" height="35px"
+                        style={{marginRight: "10px", borderRadius: "50px"}}
                         />
-
-                        <p>u/{user.username}</p>
-                      </a>
-                    </ListItem>
-                  ))}
-                {results.communities &&
-                  results.communities.map((community) => (
-                    <ListItem
-                      style={{
-                        left: 0,
-                      }}
-                    >
-                      <a
-                        href={`/r/${community.id}`}
-                        style={{
-                          textDecoration: "none",
-                          color: "black",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <GestureIcon
-                          sx={{
-                            marginRight: "10px",
-                            color: "orange",
-                          }}
-                        />
+                        
 
                         <p>t/{community.name}</p>
                       </a>
                     </ListItem>
                   ))}
 
-                {results.hashtags &&
-                  results.hashtags.map((hashtag) => (
-                    <ListItem
-                      style={{
-                        left: 0,
-                      }}
-                    >
-                      <a
-                        href={`/hashtag/${hashtag.name}`}
-                        style={{
-                          textDecoration: "none",
-                          color: "black",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <TagIcon
-                          sx={{ marginRight: "10px", color: "orange" }}
-                        />
-                        <p>{hashtag.name}</p>
-                      </a>
-                    </ListItem>
-                  ))}
-                {results.posts &&
-                  results.posts.map((post) => (
-                    <ListItem
-                      style={{
-                        left: 0,
-                      }}
-                      onClick={() => navigate(`/post/${post.id}`)}
-                    >
-                      <a
-                        href={`/post/${post.id}`}
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        <p>{post.auhtor}</p>
-                        <p>{post.content}</p>
-                      </a>
-                    </ListItem>
-                  ))}
+                
                 <ListItem
                   style={{
                     left: 0,
@@ -582,8 +554,8 @@ export default function Header() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge  color="error">
-                <NotificationDropDown />
+              <Badge badgeContent={notificationsCount} color="error">
+                <NotificationDropdown />
               </Badge>
             </IconButton>
             <IconButton

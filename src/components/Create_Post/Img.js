@@ -18,6 +18,7 @@ function Img() {
     const[NFSW, setNFSW] = useState(false);
     const[Flair, setFlair] = useState(false);
     const token = Cookies.get("token");
+    var community = localStorage.getItem("communitynamechoosed");
 
     const config = {
       headers: { Authorization: `Bearer ${token}` },
@@ -50,42 +51,85 @@ function Img() {
                 caption: captions[index]
             }))
         };
-        console.log("imageeee============================", base64Strings);
+        console.log("imageeee/videooo=", base64Strings);
         console.log("usernammmeeee==",username);
 
-        axios
-        .post(
-          `http://localhost:8000/api/v1/posts/submit/u/${username}`,
-          {
-            title: postData.title,
-            text_body:"",
-            type: "image/video",
-            nsfw: NFSW,
-            spoiler: spoiler1,
-            locked: false,
-            image:postData.files.find(file => file.type === 'image')?.url || "",
-            video:postData.files.find(file => file.type === 'video')?.url || ""
-          },
-          config
-        )
-        .then((response) => {
-            setFlair(false);
-            setNFSW(false);
-            setSpoiler(false);
-            setOc(false);
+if(community==="username")
+{
+    console.log("community in image/video file11==", community);
 
-          if (response.status === 201) {
-            console.log("post is created");
+    axios
+    .post(
+      `http://localhost:8000/api/v1/posts/submit/u/${username}`,
+      {
+        title: postData.title,
+        text_body:"",
+        type: "image/video",
+        nsfw: NFSW,
+        spoiler: spoiler1,
+        locked: false,
+        image:postData.files.find(file => file.type === 'image')?.url || "",
+        video:postData.files.find(file => file.type === 'video')?.url || ""
+      },
+      config
+    )
+    .then((response) => {
+        setFlair(false);
+        setNFSW(false);
+        setSpoiler(false);
+        setOc(false);
 
-          } else {
-            console.log("post is not created");
-          }
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log("ssssssssssss");
-        });
+      if (response.status === 201) {
+        console.log("post is created");
+
+      } else {
+        console.log("post is not created");
+      }
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log("ssssssssssss");
+    });
+}
+else{
+    console.log("community in image/video file22==", community);
+
+    axios
+    .post(
+      `http://localhost:8000/api/v1/posts/submit/r/${community}`,
+      {
+        title: postData.title,
+        text_body:"",
+        type: "image/video",
+        nsfw: NFSW,
+        spoiler: spoiler1,
+        locked: false,
+        image:postData.files.find(file => file.type === 'image')?.url || "",
+        video:postData.files.find(file => file.type === 'video')?.url || ""
+      },
+      config
+    )
+    .then((response) => {
+        setFlair(false);
+        setNFSW(false);
+        setSpoiler(false);
+        setOc(false);
+
+      if (response.status === 201) {
+        console.log("post is created");
+
+      } else {
+        console.log("post is not created");
+      }
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log("ssssssssssss");
+    });
+}
+ 
 
 
 
@@ -190,7 +234,7 @@ function Img() {
                         accept="image/*, video/*"
                         multiple
                     />
-                    <button type="submit" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''}>
+                    <button type="submit" onClick={handelpostclick} data-testid="post" disabled={!title || community===""}   className={!title || community==="" ? 'disabled-button' : ''}>
                         Post
                     </button>
                 </form>

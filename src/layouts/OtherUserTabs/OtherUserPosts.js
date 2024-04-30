@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import PostContainer from "../PostContainer";
+
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
-import UserPostContainer from "./UserPostContainer";
-import MyPostsCont from "./MyPostsCont";
 
-function PostFeed() {
+import MyPostsCont from "../../components/UserTabs/MyPostsCont";
+import { useParams } from "react-router-dom";
+
+function OtherUserPosts() {
   const [posts, setPosts] = useState([]);
   const [noPosts, setNoPosts] = useState(false); // State to track if there are no posts
   const [mappedDataLength, setMappedDataLength] = useState(0); // State to store the length of mappedData
-  const username = localStorage.getItem("username");
+  const {username} = useParams();
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -35,23 +36,22 @@ function PostFeed() {
                 spoiler: item.spoiler,
                 nsfw: item.nsfw,
                 locked: item.locked,
-                type: item.type,
+                type:item.type,
                 approved: item.approved,
                 mentioned: item.mentioned,
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
-                Link: item.url,
-                video: item.video,
                 Link:item.url,
-                video:item.video
+                video:item.video,
+                community:item.community
               };
             } else {
               return null;
             }
           })
           .filter(Boolean);
-
+        
         // Set the length of mappedData
         setMappedDataLength(mappedData.length);
 
@@ -68,23 +68,24 @@ function PostFeed() {
   }, []);
 
   return (
-    <div className="post-feed">
-      {/* Check if noPosts is true and render the appropriate message */}
-      {noPosts ? (
-        <h1 className="deleted-post">u/{username} hasn't posted yet</h1>
-      ) : (
-        // Render the posts
-        posts.map((post, index) => {
-          console.log("Post data:", post); // Log the post data here
-          return <MyPostsCont key={index} postData={post} />;
-        })
-      )}
+    <div>
+          {noPosts ? (
+            <h1 className="deleted-post">u/{username} hasn't posted yet</h1>
+          ) : (
+            // Render the posts
+            posts.map((post, index) => {
+              console.log("Post data:", post); // Log the post data here
+              return <MyPostsCont key={index} postData={post} />;
+            })
+          )}
+
+      
     </div>
   );
 }
 
-export default PostFeed;
+export default OtherUserPosts;
 
-PostFeed.propTypes = {
+OtherUserPosts.propTypes = {
   postData: PropTypes.array,
 };
