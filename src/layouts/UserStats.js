@@ -72,7 +72,7 @@ export default function UserStats(props) {
     };
 
     axios
-      .get(`http://localhost:8000/api/v1/users/${username}/about`, config)
+      .get(`https://www.threadit.tech/api/v1/users/${username}/about`, config)
       .then((response) => {
         setStats(response.data.data);
       })

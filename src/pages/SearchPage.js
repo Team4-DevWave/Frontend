@@ -40,7 +40,7 @@ export default function SearchPage() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:8000/api/v1/homepage/search?q=${query}&sort=Top&page=${page}`
+        `https://www.threadit.tech/api/v1/homepage/search?q=${query}&sort=Top&page=${page}`
       )
       .then((res) => {
         setResults(res.data.data);

@@ -22,7 +22,7 @@ const OldNotification = ({setNotificationCount}) => {
         const config = {
             headers: { Authorization: `Bearer ${bearerToken}` },
         };
-        axios.get('http://localhost:8000/api/v1/notifications', config)
+        axios.get('https://www.threadit.tech/api/v1/notifications', config)
             .then(response => {
                 setData(response.data.data.notifications);
                 setNotificationCount(response.data.data.notifications.length);
@@ -67,7 +67,7 @@ const OldNotification = ({setNotificationCount}) => {
             headers: { Authorization: `Bearer ${bearerToken}` },
         };
 
-        axios.patch(`http://localhost:8000/api/v1/notifications/hide/${notificationId}`, {}, config)
+        axios.patch(`https://www.threadit.tech/api/v1/notifications/hide/${notificationId}`, {}, config)
             .then(response => {
                 if (response.data.status == "success") {
                     // Mark the notification as read in the state
@@ -83,7 +83,7 @@ const OldNotification = ({setNotificationCount}) => {
                 console.error('Error:', error);
             });
 
-        axios.patch(`http://localhost:8000/api/v1/notifications/read/${notificationId}`)
+        axios.patch(`https://www.threadit.tech/api/v1/notifications/read/${notificationId}`)
             .then(response => {
                 if (response.data.status == "success") {
                     // Mark the notification as read in the state

@@ -176,7 +176,7 @@ function PostContainer({ postData }) {
 
     try {
       const response = await axios.delete(
-        `http://localhost:8000/api/v1/posts/${postData.id}/delete`,
+        `https://www.threadit.tech/api/v1/posts/${postData.id}/delete`,
         config
       );
       if (response.status === 204) {
@@ -197,7 +197,7 @@ function PostContainer({ postData }) {
 
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/posts/${postData.id}/edit`,
+        `https://www.threadit.tech/api/v1/posts/${postData.id}/edit`,
         { text_body: editedContent },
         config
       );

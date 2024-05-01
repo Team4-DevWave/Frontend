@@ -99,7 +99,7 @@ export default function Header() {
     const config = {
       headers: { Authorization: `Bearer ${bearerToken}` },
     };
-    axios.get('http://localhost:8000/api/v1/notifications', config)
+    axios.get('https://www.threadit.tech/api/v1/notifications', config)
       .then(response => {
         const unreadNotifications = response.data.data.notifications.filter(notification => !notification.read);
         setNotificationsCount(unreadNotifications.length);
@@ -382,7 +382,7 @@ export default function Header() {
       //remove hashtag from search
       search.replace("#", "");
       axios
-        .get(`http://localhost:8000/api/v1/homepage/search?q=${search}&sort=Top&page=1`)
+        .get(`https://www.threadit.tech/api/v1/homepage/search?q=${search}&sort=Top&page=1`)
         .then((response) => {
           setResults(response.data.data.subreddits.slice(0, 4));
 

@@ -21,7 +21,7 @@ function OtherUserPosts() {
     };
 
     axios
-      .get(`http://localhost:8000/api/v1/users/${username}/posts`, config)
+      .get(`https://www.threadit.tech/api/v1/users/${username}/posts`, config)
       .then((response) => {
         const mappedData = response.data.data.posts
           .map((item) => {

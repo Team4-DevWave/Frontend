@@ -97,7 +97,7 @@ const Notification = ({setNotificationCount}) => {
             .catch((error) => {
                 console.error('Error:', error);
             });
-        axios.get('http://localhost:8000/api/v1/notifications', config)
+        axios.get('https://www.threadit.tech/api/v1/notifications', config)
             .then(response => {
                 setData(response.data.data.notifications);
                 setNotificationCount(response.data.data.notifications.length);

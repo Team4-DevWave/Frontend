@@ -26,7 +26,7 @@ export default function Subreddit(props) {
   useEffect(() => {
     console.log("Subreddit name:", subredditName);
     axios
-      .get(`http://localhost:8000/api/v1/r/user_subreddits`, {
+      .get(`https://www.threadit.tech/api/v1/r/user_subreddits`, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
@@ -80,7 +80,7 @@ export default function Subreddit(props) {
       setJoinStatus("Joined");
       axios
         .post(
-          `http://localhost:8000/api/v1/r/${subredditName}/subscribe`,
+          `https://www.threadit.tech/api/v1/r/${subredditName}/subscribe`,
           {
             status: "join",
           },
@@ -100,7 +100,7 @@ export default function Subreddit(props) {
       setJoinStatus("Join");
       axios
         .delete(
-          `http://localhost:8000/api/v1/r/${subredditName}/unsubscribe`,
+          `https://www.threadit.tech/api/v1/r/${subredditName}/unsubscribe`,
 
           {
             headers: {
@@ -139,7 +139,7 @@ export default function Subreddit(props) {
     console.log("Sort option changed:", sortOption);
     axios
       .get(
-        `http://localhost:8000/api/v1/r/${subredditName}/posts/${sortOption}`,
+        `https://www.threadit.tech/api/v1/r/${subredditName}/posts/${sortOption}`,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,

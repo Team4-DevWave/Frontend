@@ -28,7 +28,7 @@ function UserPage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/v1/users/${username}`, {
+      .get(`https://www.threadit.tech/api/v1/users/${username}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

@@ -34,7 +34,7 @@ function Nav() {
     localStorage.setItem("communitynamechoosed", selectedCommunity);
 
     console.log("selectedCommunity===========",selectedCommunity);
-    axios.get("http://localhost:8000/api/v1/r/user_subreddits", config)
+    axios.get("https://www.threadit.tech/api/v1/r/user_subreddits", config)
       .then((response) => {
         console.log("Response:", response.data);
         // Extract the names of communities from the response

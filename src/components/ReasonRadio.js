@@ -23,7 +23,7 @@ export default function ReasonRadio(props) {
     props.setReasons(radioValue);
     props.handleCloseModal();
     axios
-      .get("http://localhost:8000/api/v1/report", {
+      .get("https://www.threadit.tech/api/v1/report", {
         params: {
           reportedID: "",
           type: "",

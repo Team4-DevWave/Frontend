@@ -76,7 +76,7 @@ function ChatWindow(props) {
 
 
   const handleGetFollowedUsers = async () => {
-    axios.get('http://localhost:8000/api/v1/users/me/current', config)
+    axios.get('https://www.threadit.tech/api/v1/users/me/current', config)
       .then(response => {
         const users = response.data.data.user.followedUsers;
         setFollowedUsers(users);
@@ -109,7 +109,7 @@ function ChatWindow(props) {
   const loadChat = async (chatroom) => {
     try {
 
-      const response = await axios.get(`http://localhost:8000/api/v1/chatrooms/${chatroom._id}/messages/`, config);
+      const response = await axios.get(`https://www.threadit.tech/api/v1/chatrooms/${chatroom._id}/messages/`, config);
       setchatMessages(response.data.data.chatMessages);
       setShowNewChatRoomCreation(false);
       setSelectedChatroom(chatroom);
@@ -123,7 +123,7 @@ function ChatWindow(props) {
     try {
       console.log("trting to fetc h toomss ");
       setchatRommsIsFetched(true);
-      const response = await axios.get('http://localhost:8000/api/v1/chatrooms/', config);
+      const response = await axios.get('https://www.threadit.tech/api/v1/chatrooms/', config);
       //  console.log(response); // Log the entire response
       console.log("i am the king " + response.data.data.chatrooms);
 
@@ -137,7 +137,7 @@ function ChatWindow(props) {
 
   // Client-side code
   const io = require('socket.io-client');
-  const socket = io('http://localhost:3005');
+  const socket = io('https://www.threadit.tech'); 
   socket.on('connect', () => {
     console.log('Connected to server');
   });
@@ -175,7 +175,7 @@ function ChatWindow(props) {
     console.log("ismaillllll: ", newChatRoomMembers);
     axios
       .post(
-        'http://localhost:8000/api/v1/chatrooms/',
+        'https://www.threadit.tech/api/v1/chatrooms/',
         {
           chatroomName: newChatRoomName,
           chatroomMembers: newChatRoomMembers,

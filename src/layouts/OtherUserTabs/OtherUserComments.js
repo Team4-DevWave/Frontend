@@ -36,7 +36,7 @@ function OtherUserComments() {
 
     axios
       .get(
-        `http://localhost:8000/api/v1/users/${username}/comments?page=${page}`,
+        `https://www.threadit.tech/api/v1/users/${username}/comments?page=${page}`,
         config
       )
       .then((response) => {

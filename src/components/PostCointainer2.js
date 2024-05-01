@@ -93,7 +93,7 @@ function PostContainer2({ postData }) {
     const handleUpvote = async () => {
         try {
             const response = await axios.patch(
-                `http://localhost:8000/api/v1/posts/${postData.id}/vote`,
+                `https://www.threadit.tech/api/v1/posts/${postData.id}/vote`,
                 {
                     voteType: 1,
                 },
@@ -117,7 +117,7 @@ function PostContainer2({ postData }) {
     const handleDownvote = async () => {
         try {
             const response = await axios.patch(
-                `http://localhost:8000/api/v1/posts/${postData.id}/vote`,
+                `https://www.threadit.tech/api/v1/posts/${postData.id}/vote`,
                 {
                     voteType: -1,
                 },
@@ -147,7 +147,7 @@ function PostContainer2({ postData }) {
 
         axios
             .patch(
-                `http://localhost:8000/api/v1/posts/${postData.id}/save`,
+                `https://www.threadit.tech/api/v1/posts/${postData.id}/save`,
                 null,
                 config
             )
@@ -177,7 +177,7 @@ function PostContainer2({ postData }) {
             postData.ishide = false;
             axios
                 .delete(
-                    `http://localhost:8000/api/v1/posts/${postData.id}/unhide`,
+                    `https://www.threadit.tech/api/v1/posts/${postData.id}/unhide`,
 
                     config
                 )
@@ -200,7 +200,7 @@ function PostContainer2({ postData }) {
 
             axios
                 .patch(
-                    `http://localhost:8000/api/v1/posts/${postData.id}/hide`,
+                    `https://www.threadit.tech/api/v1/posts/${postData.id}/hide`,
                     null,
                     config
                 )
@@ -221,7 +221,7 @@ function PostContainer2({ postData }) {
 
         axios
             .patch(
-                `http://localhost:8000/api/v1/posts/${postData.id}/save`,
+                `https://www.threadit.tech/api/v1/posts/${postData.id}/save`,
                 null,
                 config
             )
@@ -248,7 +248,7 @@ function PostContainer2({ postData }) {
             postData.ishide = false;
             axios
                 .delete(
-                    `http://localhost:8000/api/v1/posts/${postData.id}/unhide`,
+                    `https://www.threadit.tech/api/v1/posts/${postData.id}/unhide`,
 
                     config
                 )
@@ -271,7 +271,7 @@ function PostContainer2({ postData }) {
 
             axios
                 .patch(
-                    `http://localhost:8000/api/v1/posts/${postData.id}/hide`,
+                    `https://www.threadit.tech/api/v1/posts/${postData.id}/hide`,
                     null,
                     config
                 )
