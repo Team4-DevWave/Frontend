@@ -53,7 +53,7 @@ function Comments() {
         console.log("Posts data:", response.data.data.post);
 
         const item = response.data.data.post;
-        if (item.text_body) {
+        if (item) {
           const mappedData = {
             id: item._id,
             title: item.title,
@@ -69,6 +69,11 @@ function Comments() {
             username: item.userID.username,
             commentsCount: item.commentsCount,
             image: item.image,
+            video: item.video,
+            subredditID: item.subredditID,
+            ishide: false,
+            issaved: false,
+            userVote: item.userVote,
           };
           console.log("mappeddata", mappedData.content);
           setPost(mappedData);

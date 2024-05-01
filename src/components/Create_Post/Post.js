@@ -15,16 +15,16 @@ function CreatePost() {
     const [isBold, setIsBold] = useState(false);
     const [isItalic, setIsItalic] = useState(false);
     const [isstrikethrough, setIsstrikethrough] = useState(false);
-    const [isInlinecode, setIsInlinecode] = useState(false);
+
     const [savedDrafts, setSavedDrafts] = useState([]);
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
-    const [fileUploaded, setFileUploaded] = useState(false);
     const [postDone, setPostDone] = useState(false);
-    const[spoiler1, setSpoiler] = useState(false);
-    const[OC, setOc] = useState(false);
-    const[NFSW, setNFSW] = useState(false);
-    const[Flair, setFlair] = useState(false);
+    const [spoiler1, setSpoiler] = useState(false);
+    const [OC, setOc] = useState(false);
+    const [NFSW, setNFSW] = useState(false);
+    const [Flair, setFlair] = useState(false);
 
+    var community = localStorage.getItem("communitynamechoosed");
 
 
     const textAreaRef = useRef(null);
@@ -32,7 +32,7 @@ function CreatePost() {
     const token = Cookies.get("token");
 
     const config = {
-      headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
     };
     // const handleFileChange = (e) => {
     //     if (e.target.files.length > 0) {
@@ -47,49 +47,89 @@ function CreatePost() {
         e.preventDefault();
 
 
+
+        console.log("usernammmeeee==", username);
+        console.log("community in post file==", community);
+
+        if (community === "username") {
+            axios
+                .post(
+                    `https://www.threadit.tech/api/v1/posts/submit/u/${username}`,
+                    {
+                        title: title,
+                        text_body: content,
+                        type: 'text',
+                        locked: false,
+                        image: "",
+                        video: "",
+                        spoiler: spoiler1,
+                        nsfw: NFSW,
+                    },
+                    config
+                )
+                .then((response) => {
+                    console.log("sent spoiler=", spoiler1);
+                    setPostDone(true);
+                    setTitle('');
+                    setContent('');
+                    setIsBold(false);
+                    setIsItalic(false);
+                    setIsstrikethrough(false);
+                    setSpoiler(false);
+                    setNFSW(false);
+                    if (response.status === 201) {
+                        console.log("post is created");
+
+                    } else {
+                        console.log("post is not created");
+                    }
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    console.log("ssssssssssss");
+                });
+        }
+        else{
+            axios
+            .post(
+              `https://www.threadit.tech/api/v1/posts/submit/r/${community}`,
+              {
+                title: title,
+                text_body: content,
+                type: 'text',
+                locked: false,
+                image:"",
+                video:"",
+                spoiler:spoiler1,
+                nsfw:NFSW,
+              },
+              config
+            )
+            .then((response) => {
+                console.log("sent spoiler=",spoiler1);
+                setPostDone(true);
+                setTitle('');
+                setContent('');
+                setIsBold(false);
+                setIsItalic(false);
+                setIsstrikethrough(false);
+                setSpoiler(false);
+                setNFSW(false);
+              if (response.status === 201) {
+                console.log("post is created");
     
-        console.log("usernammmeeee==",username);
+              } else {
+                console.log("post is not created");
+              }
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+              console.log("ssssssssssss");
+            });
+        }
 
-        axios
-        .post(
-          `https://www.threadit.tech/api/v1/posts/submit/u/${username}`,
-          {
-            title: title,
-            text_body: content,
-            type: 'text',
-            nsfw: false,
-            spoiler: false,
-            locked: false,
-            image:"",
-            video:"",
-            spoiler:spoiler1,
-            nsfw:NFSW,
-          },
-          config
-        )
-        .then((response) => {
-            console.log("sent spoiler=",spoiler1);
-            setPostDone(true);
-            setTitle('');
-            setContent('');
-            setIsBold(false);
-            setIsItalic(false);
-            setIsstrikethrough(false);
-            setIsInlinecode(false);
-            setSpoiler(false);
-            setNFSW(false);
-          if (response.status === 201) {
-            console.log("post is created");
-
-          } else {
-            console.log("post is not created");
-          }
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log("ssssssssssss");
-        });
         alert("Post done");
 
     };
@@ -104,9 +144,7 @@ function CreatePost() {
     const handlestrikeClick = () => {
         setIsstrikethrough(!isstrikethrough);
     };
-    const handleinlinecode = () => {
-        setIsInlinecode(!isInlinecode);
-    };
+
 
     const handleContentChange = (e) => {
         setContent(e.target.value);
@@ -125,7 +163,6 @@ function CreatePost() {
         setIsBold(false);
         setIsItalic(false);
         setIsstrikethrough(false);
-        setIsInlinecode(false);
         setSpoiler(false);
     };
 
@@ -144,7 +181,7 @@ function CreatePost() {
         document.getElementById('savedefaultbtn').disabled = areButtonsDisabled;
         document.getElementById('postbtn1').disabled = areButtonsDisabled;
     }, [title]);
-    
+
     useEffect(() => {
         if (textAreaRef.current) {
             textAreaRef.current.style.fontWeight = isBold ? 'bold' : 'normal';
@@ -156,7 +193,7 @@ function CreatePost() {
             //            textAreaRef.current.style.textDecoration = isstrikethrough ? 'linethrough' : 'normal';
 
         }
-    }, [isBold, isItalic, isstrikethrough, isInlinecode]); // Include isItalic in the dependency array
+    }, [isBold, isItalic, isstrikethrough]); // Include isItalic in the dependency array
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -170,17 +207,17 @@ function CreatePost() {
         setIsItalic(false);
     };
     const handleSpoiler = (event) => {
-        console.log("spoilerzft=",spoiler1);
-        setSpoiler((prevSpoiler) => !prevSpoiler); 
+        console.log("spoilerzft=", spoiler1);
+        setSpoiler((prevSpoiler) => !prevSpoiler);
     };
     const handleOc = (event) => {
-        setOc((prevOC) => !prevOC); 
+        setOc((prevOC) => !prevOC);
     };
     const handleNSFW = (event) => {
-        setNFSW((prevNSFW) => !prevNSFW); 
+        setNFSW((prevNSFW) => !prevNSFW);
     };
     const handleFlair = (event) => {
-        setFlair((prevFlair) => !prevFlair); 
+        setFlair((prevFlair) => !prevFlair);
     };
     return (
 
@@ -223,16 +260,16 @@ function CreatePost() {
                         onChange={handleContentChange}
                         placeholder="Text"
                         data-testid="text"
-                        
+
                     ></textarea>
 
 
 
 
                     <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled ={!title}   className={!title ? 'disabled-button' : ''}>Save Draft</button>
-                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''} >Post</button>
-                        {postDone &&<script>alert("Post done");</script>}
+                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''}>Save Draft</button>
+                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''} >Post</button>
+                        {postDone && <script>alert("Post done");</script>}
 
                     </div>
 
@@ -244,7 +281,7 @@ function CreatePost() {
                         variant="danger"
                         className="ptnn3"
                         onClick={handleOc}
-                        style={{ background: OC ? 'green' : '#c1cad3' }} 
+                        style={{ background: OC ? 'green' : '#c1cad3' }}
                     >
                         <FiPlus /> OC
                     </Button>
@@ -252,7 +289,7 @@ function CreatePost() {
                         variant="danger"
                         className="ptnn3"
                         onClick={handleSpoiler}
-                        style={{ background: spoiler1 ? 'green' : '#c1cad3' }} 
+                        style={{ background: spoiler1 ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> Spoiler
@@ -261,7 +298,7 @@ function CreatePost() {
                         variant="danger"
                         className="ptnn3"
                         onClick={handleNSFW}
-                        style={{ background: NFSW ? 'green' : '#c1cad3' }} 
+                        style={{ background: NFSW ? 'green' : '#c1cad3' }}
                     >
                         <FiPlus /> NSFW
                     </Button>
@@ -270,7 +307,7 @@ function CreatePost() {
                         variant="danger"
                         className="ptnn3"
                         onClick={handleFlair}
-                        style={{ background: Flair ? 'green' : '#c1cad3' }} 
+                        style={{ background: Flair ? 'green' : '#c1cad3' }}
                     >
                         <IoPricetagOutline /> Flair
                     </Button>

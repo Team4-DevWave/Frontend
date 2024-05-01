@@ -78,26 +78,22 @@ function UserComments() {
   };
 
   return (
-    <div className="profile-grid">
-      <div id="profgrid-2">
-        <div className="post-feed">
-          {comments.map((comment, index) => (
-            <CommentContainer key={index} commentData={comment} />
-          ))}
-          {loading && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "20px",
-              }}
-            >
-              <CircularProgress />
-            </div>
-          )}
-          <div ref={loader} />
+    <div className="post-feed">
+      {comments.map((comment, index) => (
+        <CommentContainer key={index} commentData={comment} />
+      ))}
+      {loading && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <CircularProgress />
         </div>
-      </div>
+      )}
+      <div ref={loader} />
     </div>
   );
 }

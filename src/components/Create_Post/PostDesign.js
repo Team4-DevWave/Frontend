@@ -3,9 +3,11 @@ import { Button } from "react-bootstrap";
 import { SlOptions } from "react-icons/sl";
 import "./PostDesign.css";
 import { BsExclamationDiamondFill } from "react-icons/bs";
+import { marked } from "marked";
 
 // URL for the blurred image
-const blurredImageUrl = "https://via.placeholder.com/150/000000/FFFFFF?text=Spoiler";
+const blurredImageUrl =
+  "https://via.placeholder.com/150/000000/FFFFFF?text=Spoiler";
 
 const PostDesign = ({
   username,
@@ -19,14 +21,41 @@ const PostDesign = ({
   Link,
   video,
   spoiler,
+  mentioned,
 }) => {
   const [spoilerClicked, setSpoilerClicked] = useState(false);
 
-  const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video);
+
+const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video);
+console.log("isvaliddd postt y3mm===",isValidPost);
+console.log("title postt y3mm===",video);
+console.log("ahhhhhhhhhhhh postt y3mm===",community);
+
 
   const handleSpoilerClick = () => {
     setSpoilerClicked(true);
   };
+
+  function colorUsernames(text, mentioned) {
+    // This regular expression matches u/username
+    const regex = /(u\/\w+)/g;
+    console.log("mention", mentioned);
+    // Replace all instances of u/username with an anchor tag with the "username" class
+    return text.replace(regex, (match) => {
+      // Remove the 'u/' from the start of the match to get the username
+      const username = match.slice(2);
+
+      // Check if the username is in the mentioned list
+      if (mentioned && mentioned.includes(username)) {
+        // If it is, replace it with an anchor tag
+
+        return `<a href="/user/${username}" class="username-mention">${match}</a>`;
+      } else {
+        // If it's not, return the match as is
+        return match;
+      }
+    });
+  }
 
   return (
     <div>
@@ -42,12 +71,12 @@ const PostDesign = ({
       </div>
       {isValidPost ? (
         <>
-{spoiler && (
-  <>
-    <BsExclamationDiamondFill />
-    <strong > SPOILER </strong>
-  </>
-)}
+          {spoiler && (
+            <>
+              <BsExclamationDiamondFill />
+              <strong> SPOILER </strong>
+            </>
+          )}
           <h2 className="post-title">{title}</h2>
           {spoiler && !spoilerClicked ? ( // Check if spoiler is true and not clicked
             <div className="post-content" onClick={handleSpoilerClick}>
@@ -55,7 +84,15 @@ const PostDesign = ({
             </div>
           ) : (
             <div className="post-content">
-              {text && <p className="post-text">{text}</p>}
+              {Link && <a href={Link} className="post-link" style={{ color: 'blue' }}>{Link}</a>}
+              {text && (
+                <p
+                  className="post-text"
+                  dangerouslySetInnerHTML={{
+                    __html: marked(colorUsernames(text, mentioned)),
+                  }}
+                />
+              )}
               {image && <img src={image} alt="Post" className="post-image" />}
               {video && (
                 <video controls className="post-video">

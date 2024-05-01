@@ -5,7 +5,7 @@ import SideBar from "../layouts/Sidebar";
 import RightSidebar from "../components/userProfile/RightSidebar";
 import ProfileNav from "../components/userProfile/ProfileNav";
 import UserProfileHeader from "../components/userProfile/UserProfileHeader";
-import axios from 'axios';
+import axios from "axios";
 function Profile() {
   const [userData, setUserData] = useState({
     username: "Mahmoud",
@@ -26,32 +26,43 @@ function Profile() {
     const fetchData = async () => {
       try {
         // Fetch user data
-        const userResponse = await axios.get('https://www.threadit.tech/api/v1/users/me/current');
+        const userResponse = await axios.get(
+          "https://www.threadit.tech/api/v1/users/me/current"
+        );
         const user = userResponse.data.data;
 
         // Fetch user overview
-        const overviewResponse = await axios.get(`https://www.threadit.tech/api/v1/users/${user.username}/overview?page=1`);
+        const overviewResponse = await axios.get(
+          `https://www.threadit.tech/api/v1/users/${user.username}/overview?page=1`
+        );
         const overviewData = overviewResponse.data.data;
 
         // Fetch user comments
-        const commentsResponse = await axios.get(`https://www.threadit.tech/api/v1/users/${user.username}/comments`);
+        const commentsResponse = await axios.get(
+          `https://www.threadit.tech/api/v1/users/${user.username}/comments`
+        );
         const comments = commentsResponse.data.data.comments;
 
         // Fetch user upvotes
-        const upvotesResponse = await axios.get('https://www.threadit.tech/api/v1/users/me/upvoted?page=1');
+        const upvotesResponse = await axios.get(
+          "https://www.threadit.tech/api/v1/users/me/upvoted?page=1"
+        );
         const upvotedComments = upvotesResponse.data.data.comments;
 
         // Fetch user downvotes
-        const downvotesResponse = await axios.get('https://www.threadit.tech/api/v1/users/me/downvoted?page=1');
+        const downvotesResponse = await axios.get(
+          "https://www.threadit.tech/api/v1/users/me/downvoted?page=1"
+        );
         const downvotedComments = downvotesResponse.data.data.comments;
 
         // Fetch user hidden posts
-        const hiddenResponse = await axios.get('https://www.threadit.tech/api/v1/users/me/hidden?page=1');
+        const hiddenResponse = await axios.get(
+          "https://www.threadit.tech/api/v1/users/me/hidden?page=1"
+        );
         const hiddenPosts = hiddenResponse.data.data.posts;
-        
-  
-          const today = new Date();
-          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+        const today = new Date();
+        const options = { year: "numeric", month: "long", day: "numeric" };
 
         // Update state with fetched data
         setUserData({
@@ -69,28 +80,26 @@ function Profile() {
           hiddenPosts,
         });
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     };
     fetchData();
   }, []);
 
-
   return (
-    <div className="navbar-padding ">
+    <div className="navbar-padding">
       <Header />
-      <div className="header"></div>
-      <div className="sidebar">
-      <SideBar />
+      <div className="sidebar" id="profgrid-1">
+        <SideBar />
       </div>
 
       <div class="profileCSS">
         <div class="userProfileHeader">
-          <UserProfileHeader/>
+          <UserProfileHeader />
         </div>
       </div>
-        <div class="profileNav ">
-          <ProfileNav
+      <div class="profileNav">
+        <ProfileNav
           overviewData={userData.overviewData}
           postsData={userData.postsData}
           commentsData={userData.commentsData}
@@ -98,8 +107,8 @@ function Profile() {
           hiddenData={userData.hiddenData}
           upvotedData={userData.upvotedData}
           downvotedData={userData.downvotedData}
-          />
-          </div>
+        />
+      </div>
       <div className="rightSidebar">
         <RightSidebar
           username={userData.username}

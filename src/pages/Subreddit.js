@@ -17,8 +17,37 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import Cookies from "js-cookie";
 import LoadingScreen from "../components/LoadingScreen";
 import SubredditRules from "../components/SubredditRules";
+import { useParams } from "react-router-dom";
 
 export default function Subreddit(props) {
+  const { subredditName } = useParams();
+  const [sortOption, setSortOption] = React.useState("best");
+  const [validSubreddit, setValidSubreddit] = React.useState(false);
+  useEffect(() => {
+    console.log("Subreddit name:", subredditName);
+    axios
+      .get(`http://localhost:8000/api/v1/r/user_subreddits`, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      })
+      .then((response) => {
+        console.log("User subreddits:", response.data.data.userSubreddits);
+        const userSubreddits = response.data.data.userSubreddits;
+        console.log(
+          userSubreddits.some((subreddit) => subreddit.name === subredditName)
+        );
+        if (
+          userSubreddits.some((subreddit) => subreddit.name === subredditName)
+        ) {
+          setJoinStatus("Joined");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
+  const [subredditData, setSubredditData] = React.useState({});
   const [posts, setPosts] = React.useState([]);
 
   const [notificationFrequency, setNotificationFrequency] = React.useState("");
@@ -49,24 +78,81 @@ export default function Subreddit(props) {
   const handleJoin = () => {
     if (joinStatus === "Join") {
       setJoinStatus("Joined");
+      axios
+        .post(
+          `http://localhost:8000/api/v1/r/${subredditName}/subscribe`,
+          {
+            status: "join",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Join response:", response);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     } else {
       setJoinStatus("Join");
+      axios
+        .delete(
+          `http://localhost:8000/api/v1/r/${subredditName}/unsubscribe`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Unsubscribe response:", response);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   };
 
   useEffect(() => {
     axios
-      .get(`https://www.threadit.tech/api/v1/posts`, {
+      .get(`https://www.threadit.tech/api/v1/r/${subredditName}`, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
       })
       .then((response) => {
-        console.log("Posts data:", response.data.data.posts);
+        console.log("Subreddit data:", response.data.data.subreddit);
+        setSubredditData(response.data.data.subreddit);
+        setValidSubreddit(true);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setValidSubreddit(false);
+      });
+  }, []);
 
-        const mappedData = response.data.data.posts
+  useEffect(() => {
+    console.log("Sort option changed:", sortOption);
+    axios
+      .get(
+        `http://localhost:8000/api/v1/r/${subredditName}/posts/${sortOption}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("Posts:", response.data.data.posts);
+        const fetchedPosts = response.data.data.posts;
+
+        const filteredPostData = fetchedPosts
           .map((item) => {
-            if (item.text_body) {
+            if (item) {
               return {
                 id: item._id,
                 title: item.title,
@@ -79,9 +165,12 @@ export default function Subreddit(props) {
                 locked: item.locked,
                 approved: item.approved,
                 mentioned: item.mentioned,
-                username: item.userID.username,
+                username:
+                  item.userID.username || item.userID.parentPost.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
+                video: item.video,
+                subredditID: item.subredditID,
                 ishide: false,
                 issaved: false,
               };
@@ -90,11 +179,13 @@ export default function Subreddit(props) {
             }
           })
           .filter(Boolean);
-        console.log("mappeddata", mappedData.content);
-        setPosts(mappedData.reverse());
+
+        setPosts(filteredPostData);
       })
-      .catch((error) => console.error("Error:", error));
-  }, []);
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [sortOption]);
 
   const [loading, setLoading] = React.useState(true);
 
@@ -127,16 +218,11 @@ export default function Subreddit(props) {
   if (loading) {
     return <LoadingScreen />;
   }
+  if (!validSubreddit) {
+    return <div>Subreddit not found</div>;
+  }
 
   return (
-    // <div style={{ marginTop: "80px" }}>
-    //   <Header />
-    //   <SideBar />
-
-    //   <Rules name="t/Persona3" rules="" />
-
-    //   </div>
-    // </div>
     <div>
       <Menu
         anchorEl={anchorEl}
@@ -145,7 +231,7 @@ export default function Subreddit(props) {
         onClose={handleCloseMore}
       >
         <MenuItem onClick={handleCloseMore}>Add to favorites</MenuItem>
-        <MenuItem onClick={handleCloseMore}>Mute t/{props.name}</MenuItem>
+        <MenuItem onClick={handleCloseMore}>Mute t/{subredditName}</MenuItem>
       </Menu>
 
       <Menu
@@ -175,7 +261,7 @@ export default function Subreddit(props) {
           <SideBar />
         </div>
         <div id="item-2">
-          <SortOptions />
+          <SortOptions onSortOptionChange={setSortOption} />
           <div className="post-feed">
             {posts.map((post, index) => {
               return <PostContainer key={index} postData={post} />;
@@ -192,10 +278,10 @@ export default function Subreddit(props) {
             <div className="internal-banner-strip">
               <img
                 className="subreddit-image"
-                src="https://store-images.s-microsoft.com/image/apps.1955.14321970625114405.1d07d0b2-cd93-4202-aa4c-3a3b8640c4e3.3585937a-a7b5-45f4-902c-6026a8beca90?mode=scale&q=90&h=1080&w=1920&background=%23FFFFFF"
+                src={subredditData.srLooks.icon}
               />
               <div className="subreddit-strip">
-                <h1 className="subreddit-title">t/{props.name}</h1>
+                <h1 className="subreddit-title">t/{subredditData.name}</h1>
                 <div className="subreddit-features">
                   <a
                     className="nav-link subreddit-create-post post-in-subreddit"
@@ -221,17 +307,22 @@ export default function Subreddit(props) {
                   <button className="more-subreddit" onClick={handleMore}>
                     <MoreHorizIcon />
                   </button>
-                  <button className="bell-icon" onClick={handleNotifFrequency}>
-                    <svg
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      data-testid="NotificationsIcon"
+                  {joinStatus === "Joined" && (
+                    <button
+                      className="bell-icon"
+                      onClick={handleNotifFrequency}
                     >
-                      <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2m6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1z"></path>
-                    </svg>
-                  </button>
+                      <svg
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                        focusable="false"
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                        data-testid="NotificationsIcon"
+                      >
+                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2m6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1z"></path>
+                      </svg>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -265,6 +356,4 @@ Subreddit.propTypes = {
   joinStatus: PropTypes.bool,
   /** Subreddit notification frequency */
   notificationFrequency: PropTypes.string,
-  
-
 };

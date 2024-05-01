@@ -4,12 +4,35 @@ import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import IconButton from "@mui/material/IconButton";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const loader = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => {
+    if (window.scrollY > 700) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
@@ -37,12 +60,14 @@ function Feed() {
       .then((response) => {
         const mappedData = response.data.data.posts
           .map((item) => {
-            if (item.text_body) {
+            if (item) {
               return {
                 id: item._id,
                 title: item.title,
                 content: item.text_body,
-                time: item.postedTime,
+                time: item.lastEditedTime
+                  ? item.lastEditedTime
+                  : item.postedTime,
                 votes: item.votes,
                 numviews: item.numViews,
                 spoiler: item.spoiler,
@@ -55,8 +80,9 @@ function Feed() {
                 image: item.image,
                 video: item.video,
                 subredditID: item.subredditID,
-                ishide: false,
-                issaved: false,
+                ishide: item.hidden,
+                issaved: item.saved,
+                userVote: item.userVote,
               };
             } else {
               return null;
@@ -97,6 +123,21 @@ function Feed() {
         </div>
       )}
       <div ref={loader} />
+
+      {isVisible && (
+        <IconButton
+          aria-label="fingerprint"
+          color="error"
+          onClick={scrollToTop}
+          style={{
+            position: "fixed", // Position fixed
+            bottom: "20px",
+            right: "20px",
+          }}
+        >
+          <KeyboardDoubleArrowUpIcon />
+        </IconButton>
+      )}
     </div>
   );
 }

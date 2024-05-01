@@ -73,17 +73,17 @@ const Notification = ({setNotificationCount}) => {
                     // Mark the notification as read in the state
                     setData((oldData) => {
                         const newData = [...oldData];
-                        newData[index].status = "flase";
+                        newData[index].status = "false";
                         return newData;
                     });
-                    setNotificationCount((prevCount) => prevCount - 1);
+
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
 
-        axios.patch(`https://www.threadit.tech/api/v1/notifications/read/${notificationId}`)
+        axios.patch(`https://www.threadit.tech/api/v1/notifications/read/${notificationId}` ,{}, config)
             .then(response => {
                 if (response.data.status == "success") {
                     // Mark the notification as read in the state
@@ -92,10 +92,17 @@ const Notification = ({setNotificationCount}) => {
                         newData[index].status = "true";
                         return newData;
                     });
-                    setNotificationCount((prevCount) => prevCount - 1);
                 }
             })
             .catch((error) => {
+                console.error('Error:', error);
+            });
+        axios.get('http://localhost:8000/api/v1/notifications', config)
+            .then(response => {
+                setData(response.data.data.notifications);
+                setNotificationCount(response.data.data.notifications.length);
+            })
+            .catch(error => {
                 console.error('Error:', error);
             });
     };
@@ -114,10 +121,13 @@ const Notification = ({setNotificationCount}) => {
                         />
                         <div>
                             {/*json { "status": "", [ "timestamp": "", "username": "", "subreddit": "", "type": "", "body": "" ] }*/}
-                            <h3 id={"datarecieved"}>Data received from server:</h3>
-                            <p>{notification.content}</p>
+
+                            <h3>{notification.content}</h3>
                             <p>{notification.threadData}</p>
-                            <p>{notification.createdAt}</p>
+                            <p> {
+                                // Create a new Date object with the timestamp
+                                new Date(notification.createdAt).toISOString().slice(0,16).replace("T", " ")
+                            }</p>
 
                         </div>
                     </div>

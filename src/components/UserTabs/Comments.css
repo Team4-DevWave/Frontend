@@ -18,8 +18,9 @@
     padding: 7px;
     border-radius: 20px;
     border: 1px solid #ccc;
-    visibility: hidden;
+    visibility: visible;
     font-size: 15px;
+    margin-bottom: 5px;
 }
 
 .fake-addcomment{
@@ -33,22 +34,25 @@
     cursor: text;
 }
 
+.username-mention{
+  color: white;
+  background-color: #ffc1aa;
+  padding: 1px 4px;
+  border-radius: 25px;
+  text-decoration: none;
+}
+
+.username-mention:hover{
+  color: white;
+  background-color: #FF4500;
+  cursor: pointer;
+}
+
 .add-comment-p{
     color: rgb(40, 48, 58);
     font-size: 15px;
     padding: 3px;
 }
-
-.addcomment-container.open-textarea{
-    opacity: 100%;
-    visibility: visible;
-    cursor: pointer;
-    z-index: 1;
-  }
-
-  .fake-addcomment.open-textarea{
-    visibility: hidden;
-  }
 
   .cancel-btn{
     position: relative;
