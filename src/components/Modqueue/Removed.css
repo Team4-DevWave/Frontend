@@ -22,7 +22,7 @@
 /* Responsive design for smaller screens */
 @media (max-width: 600px) {
     .select {
-        margin-left: 100px;
+        margin-left: 0px;
     }
 }
 
@@ -34,9 +34,10 @@
 }
 
 .unmoderated {
+    justify-content: center;
     border: 1px solid #ccc;
     padding: 10px;
-    margin: 10px 0;
+    margin-left: 10px ;
     background-color: #fff; /* White background */
     color: #000;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -47,4 +48,14 @@
 .unmoderated:hover {
     transform: scale(1.02); /* Slightly enlarge the notification on hover */
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}
+.unmoderated .card{
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #fff; /* White background */
+    color: #000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Rounded corners */
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover effect */
 }
