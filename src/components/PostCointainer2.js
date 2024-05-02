@@ -12,6 +12,7 @@ import Report from "./Report";
 // import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
 function PostContainer2({ postData }) {
+    console.log(postData);
     const shareMenu = useRef(null);
     const buttonRef = useRef(null);
     const location = useLocation();
@@ -82,209 +83,37 @@ function PostContainer2({ postData }) {
     };
 
     const [voteStatus, setVoteStatus] = useState(0); // 0 = no vote, 1 = upvoted, -1 = downvoted
-    const [upvoteCount, setUpVoteCount] = useState(postData?.votes?.upvotes || 0);
-    const [downvoteCount, setDownVoteCount] = useState(
-        postData?.votes?.downvotes || 0
-    );
-    const [count, setCount] = useState(
-        (postData.votes?.upvotes||0) - (postData.votes?.downvotes||0)
-    );
+   // const [upvoteCount, setUpVoteCount] = useState(postData?.votes?.upvotes || 0);
+   //  const [downvoteCount, setDownVoteCount] = useState(
+   //      postData?.votes?.downvotes || 0
+   //  );
+   //  const [count, setCount] = useState(
+   //      (postData.votes?.upvotes||0) - (postData.votes?.downvotes||0)
+   //  );
 
     const handleUpvote = async () => {
-        try {
-            const response = await axios.patch(
-                `http://localhost:8000/api/v1/posts/${postData.id}/vote`,
-                {
-                    voteType: 1,
-                },
-                config
-            );
-            console.log("Upvotes:", response.data.data.upvotes);
-            console.log("Downvotes:", response.data.data.downvotes);
-            console.log("UPPP:", response.data);
-            // Assuming the response contains the updated upvote and downvote counts
-            setUpVoteCount(Number(response.data.data.upvotes));
-            setDownVoteCount(Number(response.data.data.downvotes));
-            setCount(
-                Number(response.data.data.upvotes) -
-                Number(response.data.data.downvotes)
-            );
-        } catch (error) {
-            console.error(error);
-        }
+
     };
 
     const handleDownvote = async () => {
-        try {
-            const response = await axios.patch(
-                `http://localhost:8000/api/v1/posts/${postData.id}/vote`,
-                {
-                    voteType: -1,
-                },
-                config
-            );
-            console.log("Upvotes:", response.data.newUpvoteCount);
-            console.log("Downvotes:", response.data.newDownvoteCount);
-            console.log(response.data);
-            // Assuming the response contains the updated upvote and downvote counts
-            setUpVoteCount(Number(response.data.data.upvotes));
-            setDownVoteCount(Number(response.data.data.downvotes));
-            setCount(
-                Number(response.data.data.upvotes) -
-                Number(response.data.data.downvotes)
-            );
-        } catch (error) {
-            console.error(error);
-        }
+
     };
-
-    if (!postData) {
-        return <div>Loading...</div>; // or some loading spinner
-    }
+    //
+    // if (!postData) {
+    //     return <div>Loading...</div>; // or some loading spinner
+    // }
     const handelsavedpost = () => {
-        console.log("id posstttttt=", postData.id);
-        console.log("tokeeeen=", token);
 
-        axios
-            .patch(
-                `http://localhost:8000/api/v1/posts/${postData.id}/save`,
-                null,
-                config
-            )
-            .then((response) => {
-                if (response.status === 201) {
-                    console.log("Post Saved");
-
-                    window.location.href = "/";
-                } else {
-                    console.log("post is not Save");
-                }
-                console.log("responeeeeesssss------->", response);
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log("idd==", postData.id);
-            });
     };
 
     const handleHidePost = () => {
-        // Send API request to hide the post with postId using Axios
-        setIsHidden(!isHidden);
 
-        console.log("idddddddd:", postData.id);
-        if (postData.ishide === true) {
-            console.log("ishide===", postData.ishide);
-            postData.ishide = false;
-            axios
-                .delete(
-                    `http://localhost:8000/api/v1/posts/${postData.id}/unhide`,
-
-                    config
-                )
-                .then((response) => {
-                    if (response.status === 201) {
-                        console.log("Doneeee");
-
-                        window.location.href = "/";
-                    } else {
-                        console.log("faliedddddddddddddd");
-                    }
-                    console.log(response);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    console.log("falissssss");
-                });
-        } else {
-            console.log("ishide===", postData.ishide);
-
-            axios
-                .patch(
-                    `http://localhost:8000/api/v1/posts/${postData.id}/hide`,
-                    null,
-                    config
-                )
-                .then((response) => {
-                    // Handle response
-                    console.log("Post hidden successfully");
-                })
-                .catch((error) => {
-                    // Handle error
-                    console.error("Error hiding post:", error);
-                });
-            postData.ishide = true;
-        }
     };
     const handelUnsaved = () => {
-        console.log("id posstttttt=", postData.id);
-        console.log("tokeeeen=", token);
 
-        axios
-            .patch(
-                `http://localhost:8000/api/v1/posts/${postData.id}/save`,
-                null,
-                config
-            )
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log("post deleted");
-
-                    //window.location.href = "/UserSavedPost";
-                } else {
-                    console.log("post is not delete");
-                }
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log("idd==", postData.id);
-            });
     };
     const handleUnHidePost = () => {
-        // Send API request to hide the post with postId using Axios
-        console.log("idddddddd:", postData.id);
-        if (postData.ishide === true) {
-            console.log("ishide===", postData.ishide);
-            postData.ishide = false;
-            axios
-                .delete(
-                    `http://localhost:8000/api/v1/posts/${postData.id}/unhide`,
 
-                    config
-                )
-                .then((response) => {
-                    if (response.status === 201) {
-                        console.log("Doneeee");
-
-                        window.location.href = "/";
-                    } else {
-                        console.log("faliedddddddddddddd");
-                    }
-                    console.log(response);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    console.log("falissssss");
-                });
-        } else {
-            console.log("ishide===", postData.ishide);
-
-            axios
-                .patch(
-                    `http://localhost:8000/api/v1/posts/${postData.id}/hide`,
-                    null,
-                    config
-                )
-                .then((response) => {
-                    // Handle response
-                    console.log("Post hidden successfully");
-                })
-                .catch((error) => {
-                    // Handle error
-                    console.error("Error hiding post:", error);
-                });
-            postData.ishide = true;
-        }
     };
     return (
         <div id="postcontainer" className="max-width">
@@ -296,7 +125,7 @@ function PostContainer2({ postData }) {
                         {" "}
                         <a
                             className="post-link"
-                            href={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
+                            // href={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
                             onClick={(event) => {
                                 if (
                                     event.target.tagName === "BUTTON" ||
@@ -429,7 +258,7 @@ function PostContainer2({ postData }) {
                     </span>
                   </button>
 
-                  <span data-testid="upvote-count">{count}</span>
+                  {/*<span data-testid="upvote-count">{count}</span>*/}
 
                   <button
                       className={`downvote ${

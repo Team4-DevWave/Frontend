@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Select, MenuItem, Button, Grid, Typography, Box } from '@mui/material';
+import { Select, MenuItem, Button, Grid, Typography, Box, useTheme } from '@mui/material';
 import axios from 'axios';
+import { responsiveFontSizes, ThemeProvider } from '@mui/material/styles';
+
+
 
 function ModerationRoles() {
     const [subreddits, setSubreddits] = useState([]);
     const [selectedSubreddit, setSelectedSubreddit] = useState('');
     const [username, setNames] = useState([]);
     const [selectedUser, setSelectedUser] = useState('');
-
+    let theme = useTheme();
+    theme = responsiveFontSizes(theme);
     useEffect(() => {
         axios.get('http://localhost:4000/api/subreddits')
             .then(response => {
@@ -35,52 +39,75 @@ function ModerationRoles() {
     };
 
     return (
-        <Box p={2}>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Typography variant="h4">Selected Subreddit: {selectedSubreddit ? selectedSubreddit.name : 'None'}</Typography>
+        <ThemeProvider theme={theme}>
+            <Box p={2}>
+                <Grid container spacing={3}>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Typography variant="h4">Selected Subreddit: {selectedSubreddit ? selectedSubreddit.name : 'None'}</Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Typography variant="h6">Select your Subreddit please</Typography>
+                        <Select
+                            value={selectedSubreddit ? selectedSubreddit.id : ''}
+                            onChange={(event) => {
+                                const subredditId = event.target.value;
+                                const selectedSubreddit = subreddits.find(subreddit => subreddit.id === subredditId);
+                                setSelectedSubreddit(selectedSubreddit);
+                            }}
+                            title={selectedSubreddit ? selectedSubreddit.name : 'None'}
+                        >
+                            {subreddits.map((subreddit) => (
+                                <MenuItem key={subreddit.id} value={subreddit.id}>
+                                    {subreddit.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Typography variant="h6">Select a user to invite for moderation</Typography>
+                        <Select
+                            value={selectedUser}
+                            onChange={(event) => {
+                                setSelectedUser(event.target.value);
+                            }}
+                        >
+                            {username.map((user) => (
+                                <MenuItem key={user.username} value={user.username}>
+                                    {user.username}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Typography variant="h6">Actions</Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Typography variant="h6"></Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Typography variant="h6"></Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Typography variant="h6">Ban/Unban user</Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Button variant="contained" color="primary" onClick={handleInvite}>Ban/Unban user</Button>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Typography variant="h6"></Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Typography variant="h6">Invite for moderation</Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Button variant="contained" color="primary" onClick={handleInvite}>Invite for moderation</Button>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Button variant="contained" color="secondary" onClick={handleLeave}>Leave moderator role</Button>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="h6">Select your Subreddit please</Typography>
-                    <Select
-                        value={selectedSubreddit ? selectedSubreddit.id : ''}
-                        onChange={(event) => {
-                            const subredditId = event.target.value;
-                            const selectedSubreddit = subreddits.find(subreddit => subreddit.id === subredditId);
-                            setSelectedSubreddit(selectedSubreddit);
-                        }}
-                        title={selectedSubreddit ? selectedSubreddit.name : 'None'}
-                    >
-                        {subreddits.map((subreddit) => (
-                            <MenuItem key={subreddit.id} value={subreddit.id}>
-                                {subreddit.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="h6">Select a user to invite for moderation</Typography>
-                    <Select
-                        value={selectedUser}
-                        onChange={(event) => {
-                            setSelectedUser(event.target.value);
-                        }}
-                    >
-                        {username.map((user) => (
-                            <MenuItem key={user.username} value={user.username}>
-                                {user.username}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </Grid>
-                <Grid item xs={12}>
-                    <Button variant="contained" color="primary" onClick={handleInvite}>Invite for moderation</Button>
-                </Grid>
-                <Grid item xs={12}>
-                    <Button variant="contained" color="secondary" onClick={handleLeave}>Leave moderator role</Button>
-                </Grid>
-            </Grid>
-        </Box>
+            </Box>
+        </ThemeProvider>
     );
 }
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -23,14 +23,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import SideBar from "./Sidebar";
 import Cookies from "js-cookie";
-import NotificationDropdown from "../components/NotificationDropdown";
 import "./Header.css";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import TagIcon from "@mui/icons-material/Tag";
-import GestureIcon from "@mui/icons-material/Gesture";
 import Chat from "../components/Chat/ChatWindow.js";
-
+import NotificationDropdown from "../components/NotificationDropdown";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -87,6 +85,13 @@ const SearchResults = styled("div")(({ theme }) => ({
   display: "inline-block", // Allow the width to adjust to content
 }));
 
+const handleKeyPress = (event) => {
+  if (event.key === "Enter") {
+
+    window.location.href = `/search/${event.target.value}`;
+  }
+};
+
 export default function Header() {
   const [notificationsCount, setNotificationsCount] = useState(0);
   const fetchNotificationCount = () => {
@@ -94,16 +99,19 @@ export default function Header() {
     const config = {
       headers: { Authorization: `Bearer ${bearerToken}` },
     };
-    axios.get('http://localhost:8000/api/v1/notifications' , config)
-        .then(response => {
-          const unreadNotifications = response.data.data.notifications.filter(notification => !notification.read);
-          setNotificationsCount(unreadNotifications.length);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+    axios.get('http://localhost:8000/api/v1/notifications', config)
+      .then(response => {
+        const unreadNotifications = response.data.data.notifications.filter(notification => !notification.read);
+        setNotificationsCount(unreadNotifications.length);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   };
+  const [showChat, setShowChat] = useState(false);
+
   useEffect(() => {
+    console.log("showChatttttttttttttttttttttttttttttttttttttt", showChat);
     fetchNotificationCount();
     const interval = setInterval(() => {
       fetchNotificationCount();
@@ -114,7 +122,7 @@ export default function Header() {
       clearInterval(interval);
     };
   }, []);
-  const [showChat, setShowChat] = useState(false);
+  const [isChatWindowOpen, setIsChatWindowOpen] = useState(false);
 
   const [isSearchActive, setIsSearchActive] = React.useState(false);
   const [search, setSearch] = React.useState("");
@@ -125,6 +133,12 @@ export default function Header() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const closeChatWindow = () => {
+    console.log("closing chat window");
+    setShowChat(false);
+  };
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -288,48 +302,48 @@ export default function Header() {
         </Badge>
 
         <p>Notifications</p>
-        
+
 
 
 
       </MenuItem>
 
       <MenuItem>
-          {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
+        {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
 
-          <IconButton onClick={() => { setShowChat(true) }}
-            size="large"
-            aria-label="show 4 new mails"
-            color="inherit"
-          >
-
-
-
-            <Badge badgeContent={1} color="error">
-              <svg
-
-                rpl=""
-                fill="currentColor"
-                height="20"
-                icon-name="chat-outline"
-                viewBox="0 0 20 20"
-                width="20"
-                xmlns="http://www.w3.org/2000/svg"
-                role="svg"
-              >
-                <path d="M11.61 19.872a10.013 10.013 0 0 0 6.51-4.035A9.999 9.999 0 0 0 12.275.264c-1.28-.3-2.606-.345-3.903-.132a10.05 10.05 0 0 0-8.25 8.311 9.877 9.877 0 0 0 1.202 6.491l-1.24 4.078a.727.727 0 0 0 .178.721.72.72 0 0 0 .72.19l4.17-1.193A9.87 9.87 0 0 0 9.998 20c.54 0 1.079-.043 1.612-.128ZM1.558 18.458l1.118-3.69-.145-.24A8.647 8.647 0 0 1 1.36 8.634a8.778 8.778 0 0 1 7.21-7.27 8.765 8.765 0 0 1 8.916 3.995 8.748 8.748 0 0 1-2.849 12.09 8.763 8.763 0 0 1-3.22 1.188 8.68 8.68 0 0 1-5.862-1.118l-.232-.138-3.764 1.076ZM6.006 9a1.001 1.001 0 0 0-.708 1.707A1 1 0 1 0 6.006 9Zm4.002 0a1.001 1.001 0 0 0-.195 1.981 1 1 0 1 0 .195-1.98Zm4.003 0a1.001 1.001 0 1 0 0 2.003 1.001 1.001 0 0 0 0-2.003Z"></path>
-              </svg>
-            </Badge>
-
-            {showChat && <Chat />}
-            
-            <p>Chat</p>
+        <IconButton onClick={() => { setShowChat(true) }}
+          size="large"
+          aria-label="show 4 new mails"
+          color="inherit"
+        >
 
 
-          </IconButton>
 
-          {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
-        </MenuItem>
+          <Badge color="error">
+            <svg
+
+              rpl=""
+              fill="currentColor"
+              height="20"
+              icon-name="chat-outline"
+              viewBox="0 0 20 20"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
+              role="svg"
+            >
+              <path d="M11.61 19.872a10.013 10.013 0 0 0 6.51-4.035A9.999 9.999 0 0 0 12.275.264c-1.28-.3-2.606-.345-3.903-.132a10.05 10.05 0 0 0-8.25 8.311 9.877 9.877 0 0 0 1.202 6.491l-1.24 4.078a.727.727 0 0 0 .178.721.72.72 0 0 0 .72.19l4.17-1.193A9.87 9.87 0 0 0 9.998 20c.54 0 1.079-.043 1.612-.128ZM1.558 18.458l1.118-3.69-.145-.24A8.647 8.647 0 0 1 1.36 8.634a8.778 8.778 0 0 1 7.21-7.27 8.765 8.765 0 0 1 8.916 3.995 8.748 8.748 0 0 1-2.849 12.09 8.763 8.763 0 0 1-3.22 1.188 8.68 8.68 0 0 1-5.862-1.118l-.232-.138-3.764 1.076ZM6.006 9a1.001 1.001 0 0 0-.708 1.707A1 1 0 1 0 6.006 9Zm4.002 0a1.001 1.001 0 0 0-.195 1.981 1 1 0 1 0 .195-1.98Zm4.003 0a1.001 1.001 0 1 0 0 2.003 1.001 1.001 0 0 0 0-2.003Z"></path>
+            </svg>
+          </Badge>
+
+          {showChat && <Chat onClose={closeChatWindow} />}
+
+          <p>Chat</p>
+
+
+        </IconButton>
+
+        {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
+      </MenuItem>
 
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -368,9 +382,11 @@ export default function Header() {
       //remove hashtag from search
       search.replace("#", "");
       axios
-        .get(`http://localhost:8001/api/v1/search/${search}`)
+        .get(`http://localhost:8000/api/v1/homepage/search?q=${search}&sort=Top&page=1`)
         .then((response) => {
-          setResults(response.data);
+          setResults(response.data.data.subreddits.slice(0, 4));
+
+
           console.log(results);
         })
         .catch((error) => {
@@ -436,6 +452,7 @@ export default function Header() {
                 setIsSearchActive(false);
               }, 200); // 200ms delay
             }}
+            onKeyDown={(e) => handleKeyPress(e)}
             style={{
               backgroundColor: "#d3d3d3",
               borderRadius: "20px",
@@ -456,16 +473,21 @@ export default function Header() {
           </Search>
           {isSearchActive && search && (
             <SearchResults>
+              <Typography variant="h6" style={{ padding: "10px" }}>
+                Communities
+              </Typography>
               <List>
-                {results.users &&
-                  results.users.map((user) => (
+
+                {results && results.length > 0 &&
+                  results.map((community, i) => (
                     <ListItem
+                      key={i}
                       style={{
                         left: 0,
                       }}
                     >
                       <a
-                        href={`/profile/${user.username}`}
+                        href={`/r/${community.name}`}
                         style={{
                           textDecoration: "none",
                           color: "black",
@@ -473,86 +495,17 @@ export default function Header() {
                           alignItems: "center",
                         }}
                       >
-                        <img
-                          src={process.env.PUBLIC_URL + "/images/erenyega.jpg"}
-                          alt="profile pic"
-                          className="rounded-circle"
-                          width="30px"
-                          style={{ marginRight: "10px" }}
+                        <img src={community.srLooks.icon} alt="icon" width="35px" height="35px"
+                          style={{ marginRight: "10px", borderRadius: "50px" }}
                         />
 
-                        <p>u/{user.username}</p>
-                      </a>
-                    </ListItem>
-                  ))}
-                {results.communities &&
-                  results.communities.map((community) => (
-                    <ListItem
-                      style={{
-                        left: 0,
-                      }}
-                    >
-                      <a
-                        href={`/r/${community.id}`}
-                        style={{
-                          textDecoration: "none",
-                          color: "black",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <GestureIcon
-                          sx={{
-                            marginRight: "10px",
-                            color: "orange",
-                          }}
-                        />
 
                         <p>t/{community.name}</p>
                       </a>
                     </ListItem>
                   ))}
 
-                {results.hashtags &&
-                  results.hashtags.map((hashtag) => (
-                    <ListItem
-                      style={{
-                        left: 0,
-                      }}
-                    >
-                      <a
-                        href={`/hashtag/${hashtag.name}`}
-                        style={{
-                          textDecoration: "none",
-                          color: "black",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <TagIcon
-                          sx={{ marginRight: "10px", color: "orange" }}
-                        />
-                        <p>{hashtag.name}</p>
-                      </a>
-                    </ListItem>
-                  ))}
-                {results.posts &&
-                  results.posts.map((post) => (
-                    <ListItem
-                      style={{
-                        left: 0,
-                      }}
-                      onClick={() => navigate(`/post/${post.id}`)}
-                    >
-                      <a
-                        href={`/post/${post.id}`}
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        <p>{post.auhtor}</p>
-                        <p>{post.content}</p>
-                      </a>
-                    </ListItem>
-                  ))}
+
                 <ListItem
                   style={{
                     left: 0,
@@ -574,15 +527,15 @@ export default function Header() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
 
-            <IconButton onClick={() => { setShowChat(true) }}
+            <IconButton onClick={() => {
+              console.log('IconButtonnnnnnnnnnnnnnnnnnnnnnnnnnn clicked');
+              setShowChat(true);
+            }}
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
             >
-
-
-
-              <Badge badgeContent={1} color="error">
+              <Badge color="error">
                 <svg
 
                   rpl=""
@@ -598,7 +551,7 @@ export default function Header() {
                 </svg>
               </Badge>
 
-              {showChat && <Chat />}
+              {showChat && <Chat onClose={closeChatWindow} />}
 
 
             </IconButton>

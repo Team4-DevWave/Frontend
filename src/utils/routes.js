@@ -37,15 +37,15 @@ const routes = {
   "/signup": () => <Signup />,
   "/settings": () => <Settings />,
   "/messages": () => <Message />,
-  "/user": () => <UserPage />,
+  "/user/:username": () => <UserPage />,
   "/reset": () => <ResetCredentials />,
   "/Notification": () => <Notification />,
   "/CreatePost": () => <CreatePost />,
   "/profile": () => <Profile />,
-    "/modqueue": () => <ModQueue />,
-  "/r/:subreddit": () => (
+  "/r/:subredditName": () => (
     <Subreddit name="Persona3" description="h" rules="h" members="h" />
   ),
+  "/modqueue": () => <ModQueue />,
   "/comments/:id/:title": CommentsRoute,
   "search/:query": () => <SearchPage />,
 

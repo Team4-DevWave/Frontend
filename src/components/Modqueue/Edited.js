@@ -70,12 +70,7 @@ function Edited() {
                 .map((post)=>  (
                 <Card key={post.id} className={'unmoderated'}>
                     <CardContent>
-                        <h2>
-                            {post.data.post.title}
-                        </h2>
-                        <p>
-                            {post.data.post.content}
-                        </p>
+                        <PostContainer2 postData={post.data.post} />
                         <p>
                             by username  {post.user.name}
                         </p>
@@ -113,12 +108,7 @@ function Edited() {
             ).map((post)=>  (
                 <Card key={post.id} className={'unmoderated'}>
                     <CardContent>
-                        <h2>
-                            {post.data.comment.content}
-                        </h2>
-                        <p>
-                            {post.data.comment.content}
-                        </p>
+                        <PostContainer2 postData={post.data.comment} />
                         <p>
                             by username  {post.user.name}
                         </p>

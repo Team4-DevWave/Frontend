@@ -24,6 +24,9 @@ nav{
 .navbar-padding{
   padding-top: 60px;
 }
+.navbar-paddingmod{
+  padding-top: 30px;
+}
 
 .navbar-padding2{
   padding-top: 80px;
@@ -193,13 +196,13 @@ Header .create {
   width: 5px; /* Show scrollbar when hovering */
 }
 .side-bar::-webkit-scrollbar-thumb {
-  background: grey; 
-  border-radius: 5px; 
+  background: grey;
+  border-radius: 5px;
   height: 30px;
 }
 
 .side-bar::-webkit-scrollbar-track {
-  background: transparent; 
+  background: transparent;
 }
 
 .side-bar-content{
