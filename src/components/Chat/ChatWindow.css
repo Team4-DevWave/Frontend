@@ -51,6 +51,7 @@
 
   
 }
+
 .displayChatRooms:hover {
   background-color: red; /* Change to your preferred color */
   transform: scale(1.05); /* Slightly enlarge the chat room on hover */
