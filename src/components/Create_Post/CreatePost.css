@@ -163,7 +163,7 @@
 }
 .title
 {
-    margin-top: 30px;
+    margin-top: 70px;
     margin-left: 200px;
 }
 .Draftbt
@@ -209,23 +209,12 @@ margin-right: 100px;
     border: none;
     border-radius: 80px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 8px;
     margin-left: 10px;
+    margin-bottom: 20px;
 
 }
-.ptnn4
-{
-    width: 10%;
-    padding: 5px;
-    background-color: #c1cad3;
-    color: #fff;
-    border: none;
-    border-radius: 80px;
-    cursor: pointer;
-    margin-left: 10px;
 
-
-}
 #deleteicon1
 {
   width: 5%;
@@ -255,3 +244,48 @@ margin-right: 100px;
     cursor: not-allowed; 
   }
   
+  .option-container {
+    display: flex;
+    align-items: center;
+    margin-top: 5px; /* Adjust spacing between each option */
+}
+
+#delete-option-button {
+    background: none;
+    border: none;
+    color: #007bff; /* Button text color */
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px; /* Adjust the distance between the input field and the delete button */
+}
+
+#add-option-button {
+    background: none;
+    border: none;
+    color: #007bff; /* Button text color */
+    font-size: 16px;
+    cursor: pointer;
+    float: left; /* Position the button on the left */
+    margin-bottom: 10px; /* Add margin below the button */
+}
+
+#add-option-button:hover {
+    background-color: #d2d2d2; /* Darker green on hover */
+}
+
+#delete-option-button {
+    background: none;
+    border: none;
+    width: 8%;
+    padding: 10px;
+    color: #007bff; /* Button text color */
+    font-size: 20px;
+    cursor: pointer;
+    margin-bottom: 25px;
+    margin-left: auto; /* Push the button to the right */
+}
+
+#delete-option-button:hover {
+
+    background-color: #d2d2d2; /* Darker green on hover */
+}
