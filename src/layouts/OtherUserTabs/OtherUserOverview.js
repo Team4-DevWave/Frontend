@@ -1,17 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
-import CommentContainer from "./commentContainer";
+import CommentContainer from "../../components/UserTabs/commentContainer";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
-import PostContainer from "../PostContainer";
-import "./overview.css";
-import UserPostContainer from "./UserPostContainer";
-import UserCommentContainer from "./UserCommentContainer";
+import PostContainer from "../../components/PostContainer";
+import "../../components/UserTabs/overview.css";
+import { useParams } from "react-router-dom";
 
-function OverView() {
+function OtherUserOverview() {
   const [overviewData, setOverviewData] = useState([]);
-  const username = localStorage.getItem("username");
+  const { username } = useParams();
   const [page, setPage] = useState(1);
   const loader = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -62,11 +61,8 @@ function OverView() {
                 username: post.userID.username,
                 commentsCount: post.commentsCount,
                 image: post.image,
-                video: post.video,
-                subredditID: post.subredditID,
                 ishide: false,
                 issaved: false,
-                userVote: post.userVote,
                 type: "post",
               };
             } else {
@@ -118,36 +114,30 @@ function OverView() {
 
   return (
     <div>
-      <div>
-        <div className="post-feed">
-          {overviewData.map((data, index) => (
-            <React.Fragment key={index}>
-              {data.type === "post" && <PostContainer postData={data} />}
-              {data.type === "comment" && (
-                <CommentContainer commentData={data} />
-              )}
-            </React.Fragment>
-          ))}
-          <div
-            ref={loader}
-            style={{
-              height: "50px",
-              margin: "20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {loading && <CircularProgress />}
-          </div>
-        </div>
+      {overviewData.map((data, index) => (
+        <React.Fragment key={index}>
+          {data.type === "post" && <PostContainer postData={data} />}
+          {data.type === "comment" && <CommentContainer commentData={data} />}
+        </React.Fragment>
+      ))}
+      <div
+        ref={loader}
+        style={{
+          height: "50px",
+          margin: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {loading && <CircularProgress />}
       </div>
     </div>
   );
 }
 
-export default OverView;
+export default OtherUserOverview;
 
-OverView.propTypes = {
+OtherUserOverview.propTypes = {
   postData: PropTypes.array,
 };

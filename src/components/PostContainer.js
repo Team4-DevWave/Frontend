@@ -10,14 +10,22 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Report from "./Report";
 import Delete from "./Delete";
-// import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import Edit from "./Edit";
+
 
 function PostContainer({ postData }) {
+  console.log("Is post saved:", postData.issaved);
   const shareMenu = useRef(null);
   const buttonRef = useRef(null);
   const location = useLocation();
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
   const [isDeleted, setIsDeleted] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
+  const [edited, setEdited] = useState(null);
 
   const token = Cookies.get("token");
   const username = localStorage.getItem("username");
@@ -181,6 +189,30 @@ function PostContainer({ postData }) {
     }
   };
 
+  const handleEdit = async (editedContent) => {
+    const token = Cookies.get("token");
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/posts/${postData.id}/edit`,
+        { text_body: editedContent },
+        config
+      );
+      if (response.status === 200) {
+        console.log("Post editted successfully");
+        setIsEdited(true); // Set isDeleted to true
+        console.log("Edit", isEdited);
+        const mappedData = response.data.data.post;
+        setEdited(mappedData);
+      }
+    } catch (error) {
+      console.error("Error Editing post:", error);
+    }
+  };
+
   if (!postData) {
     return <div>Loading...</div>; // or some loading spinner
   }
@@ -338,37 +370,59 @@ function PostContainer({ postData }) {
               <p className="deleted-post">Post hidden</p>
             ) : (
               <>
-                {isDeleted ? (
-                  <p className="deleted-post">Post deleted</p>
-                ) : (
-                  <>
-                    {" "}
-                    <a
-                      className="post-link"
-                      href={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
-                      onClick={(event) => {
-                        if (
-                          event.target.tagName === "BUTTON" ||
-                          window.location.pathname.includes("/comments/")
-                        ) {
-                          event.preventDefault();
-                        }
-                      }}
-                    >
-                      <article>
-                        <PostDesign
-                          className="post-content"
-                          data-testid="post"
-                          username={postData.username}
-                          userpic={postData2.userpic}
-                          community={postData.community}
-                          incommunity={postData2.incommunity}
-                          Date={new Date(postData.time).toLocaleString([], {
+                {" "}
+                <a
+                  className="post-link"
+                  href={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
+                  onClick={(event) => {
+                    if (
+                      event.target.tagName === "BUTTON" ||
+                      window.location.pathname.includes("/comments/")
+                    ) {
+                      event.preventDefault();
+                    }
+                  }}
+                >
+                  <article>
+                    {!isEdited ? (
+                      <PostDesign
+                        className="post-content"
+                        data-testid="post"
+                        username={postData.username}
+                        userpic={postData2.userpic}
+                        community={postData.community}
+                        incommunity={postData2.incommunity}
+                        Date={new Date(postData.time).toLocaleString([], {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                        title={postData.title} // Pass the title from postData
+                        text={postData.content} // Pass the content from postData as text
+                        image={postData.image}
+                        Link={postData.Link}
+                        video={postData.video}
+                        spoiler={postData.spoiler}
+                        mentioned={mentionedUsernames}
+                      />
+                    ) : (
+                      <PostDesign
+                        className="post-content"
+                        data-testid="post"
+                        username={edited.userID.username}
+                        userpic={postData2.userpic}
+                        community={edited.subredditID}
+                        Date={new Date(edited.lastEditedTime).toLocaleString(
+                          [],
+                          {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric",
                             hour: "2-digit",
                             minute: "2-digit",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
                           })}
                           title={postData.title} // Pass the title from postData
@@ -444,6 +498,9 @@ function PostContainer({ postData }) {
                         </div>
                       )}
 =======
+=======
+
+>>>>>>> a3b265b32013b677bdbfae6dc6d30b11fd7b9d2a
                           }
                         )}
                         title={edited.title} // Pass the title from edited
@@ -557,7 +614,10 @@ function PostContainer({ postData }) {
                           </>
                         )}
                       </ul>
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> a3b265b32013b677bdbfae6dc6d30b11fd7b9d2a
                     </div>
                   )}
                 </div>

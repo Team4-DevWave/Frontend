@@ -50,19 +50,9 @@ function Downvoted() {
       )
       .then((response) => {
         console.log("Posts data:", response.data.data.posts);
-        const postPromises = response.data.data.posts
-          .filter(Boolean)
-          .map((item) =>
-            axios.get(`http://localhost:8000/api/v1/posts/${item}`, config)
-          );
-
-        return Promise.all(postPromises);
-      })
-      .then((responses) => {
-        console.log("Responses:", responses);
-        const mappedData = responses
-          .map((response) => {
-            const item = response.data.data.post;
+        console.log("Responses:", response);
+        const mappedData = response.data.data.posts
+          .map((item) => {
             console.log("items:", item.text_body);
             if (item) {
               return {
@@ -80,8 +70,11 @@ function Downvoted() {
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
+                video: item.video,
+                subredditID: item.subredditID,
                 ishide: false,
                 issaved: false,
+                userVote: item.userVote,
               };
             } else {
               return null;
@@ -115,26 +108,22 @@ function Downvoted() {
   };
 
   return (
-    <div className="profile-grid">
-      <div id="profgrid-2">
-        <div className="post-feed">
-          {posts.map((post, index) => {
-            console.log("post data:", post); // Log the post data here
-            return <PostContainer key={index} postData={post} />;
-          })}
-          <div
-            ref={loader}
-            style={{
-              height: "50px",
-              margin: "20px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {!stop && <CircularProgress />}
-          </div>
-        </div>
+    <div className="post-feed">
+      {posts.map((post, index) => {
+        console.log("post data:", post); // Log the post data here
+        return <PostContainer key={index} postData={post} />;
+      })}
+      <div
+        ref={loader}
+        style={{
+          height: "50px",
+          margin: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {!stop && <CircularProgress />}
       </div>
     </div>
   );

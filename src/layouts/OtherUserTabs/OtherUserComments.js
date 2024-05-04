@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import CommentContainer from "./commentContainer";
+import CommentContainer from "../../components/UserTabs/commentContainer";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
-import UserCommentContainer from "./UserCommentContainer";
+import { useParams } from "react-router-dom";
 
-function UserComments() {
+function OtherUserComments() {
   const [comments, setComments] = useState([]);
-  const username = localStorage.getItem("username");
+ const {username} = useParams();
   const [page, setPage] = useState(1);
   const loader = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -78,28 +78,32 @@ function UserComments() {
   };
 
   return (
-    <div className="post-feed">
-      {comments.map((comment, index) => (
-        <CommentContainer key={index} commentData={comment} />
-      ))}
-      {loading && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
-        >
-          <CircularProgress />
+    <div className="profile-grid">
+      <div id="profgrid-2">
+        <div className="post-feed">
+          {comments.map((comment, index) => (
+            <CommentContainer key={index} commentData={comment} />
+          ))}
+          {loading && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "20px",
+              }}
+            >
+              <CircularProgress />
+            </div>
+          )}
+          <div ref={loader} />
         </div>
-      )}
-      <div ref={loader} />
+      </div>
     </div>
   );
 }
 
-export default UserComments;
+export default OtherUserComments;
 
-UserComments.propTypes = {
+OtherUserComments.propTypes = {
   postData: PropTypes.array,
 };
