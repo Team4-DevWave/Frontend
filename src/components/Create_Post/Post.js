@@ -2,14 +2,23 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
 import { FaBold } from "react-icons/fa";
+import { Chip, Button, IconButton, Box, Paper } from "@mui/material";
 
 import './CreatePost.css'; // Import your CSS file for styling
-import { Button } from 'react-bootstrap';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 import Cookies from "js-cookie";
+import FormatBoldIcon from "@mui/icons-material/FormatBold";
+import FormatItalicIcon from "@mui/icons-material/FormatItalic";
+import StrikethroughSIcon from "@mui/icons-material/StrikethroughS";
+import CodeIcon from "@mui/icons-material/Code";
+import { marked } from "marked";
 
 function CreatePost() {
+    const textareaRef = useRef(null);
+    const codeBG = useRef(null);
+    const [isInlinecode, setIsInlinecode] = useState(false);
+
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [isBold, setIsBold] = useState(false);
@@ -27,7 +36,6 @@ function CreatePost() {
     var community = localStorage.getItem("communitynamechoosed");
 
 
-    const textAreaRef = useRef(null);
 
     const token = Cookies.get("token");
 
@@ -134,16 +142,16 @@ function CreatePost() {
 
     };
 
-    const handleBoldClick = () => {
-        setIsBold(!isBold);
-    };
+    // const handleBoldClick = () => {
+    //     setIsBold(!isBold);
+    // };
 
-    const handleItalicClick = () => {
-        setIsItalic(!isItalic);
-    };
-    const handlestrikeClick = () => {
-        setIsstrikethrough(!isstrikethrough);
-    };
+    // const handleItalicClick = () => {
+    //     setIsItalic(!isItalic);
+    // };
+    // const handlestrikeClick = () => {
+    //     setIsstrikethrough(!isstrikethrough);
+    // };
 
 
     const handleContentChange = (e) => {
@@ -174,7 +182,113 @@ function CreatePost() {
     const handleShowSavedDrafts = () => {
         setShowSavedDrafts(true);
     };
-
+    ///////////////////////////////////////////////////////////////////
+    const handleBoldClick = () => {
+        const start = textareaRef.current.selectionStart;
+        const end = textareaRef.current.selectionEnd;
+        const value = textareaRef.current.value;
+    
+        let newValue;
+        if (start === end) {
+          // No text is selected, insert a default bold string
+          newValue =
+            value.substring(0, start) + "**bold text**" + value.substring(start);
+        } else {
+          // Text is selected, wrap it with **
+          newValue =
+            value.substring(0, start) +
+            "**" +
+            value.substring(start, end) +
+            "**" +
+            value.substring(end);
+        }
+    
+        setContent(newValue);
+        textareaRef.current.selectionStart = start + 2;
+        textareaRef.current.selectionEnd = end + 2;
+      };
+    
+      const handleItalicClick = () => {
+        const start = textareaRef.current.selectionStart;
+        const end = textareaRef.current.selectionEnd;
+        const value = textareaRef.current.value;
+    
+        let newValue;
+        if (start === end) {
+          // No text is selected, insert a default italic string
+          newValue =
+            value.substring(0, start) + "*italic text*" + value.substring(start);
+        } else {
+          // Text is selected, wrap it with *
+          newValue =
+            value.substring(0, start) +
+            "*" +
+            value.substring(start, end) +
+            "*" +
+            value.substring(end);
+        }
+    
+        setContent(newValue);
+        textareaRef.current.selectionStart = start + 1;
+        textareaRef.current.selectionEnd = end + 1;
+      };
+    
+      const handleStrikeClick = () => {
+        const start = textareaRef.current.selectionStart;
+        const end = textareaRef.current.selectionEnd;
+        const value = textareaRef.current.value;
+    
+        let newValue;
+        if (start === end) {
+          // No text is selected, insert a default strikethrough string
+          newValue =
+            value.substring(0, start) +
+            "~~strikethrough text~~" +
+            value.substring(start);
+        } else {
+          // Text is selected, wrap it with ~~
+          newValue =
+            value.substring(0, start) +
+            "~~" +
+            value.substring(start, end) +
+            "~~" +
+            value.substring(end);
+        }
+    
+        setContent(newValue);
+        textareaRef.current.selectionStart = start + 2;
+        textareaRef.current.selectionEnd = end + 2;
+      };
+    
+      const handleCodeClick = () => {
+        setIsInlinecode(!isInlinecode);
+    
+        // Get the current selection
+        const start = textareaRef.current.selectionStart;
+        const end = textareaRef.current.selectionEnd;
+    
+        // Get the current value of the textarea
+        const value = textareaRef.current.value;
+    
+        // Create the new value by wrapping the selected text with backticks
+        const newValue =
+          value.substring(0, start) +
+          "`" +
+          value.substring(start, end) +
+          "`" +
+          value.substring(end);
+    
+        // Update the value of the textarea
+        setContent(newValue);
+    
+        // Update the selection to be after the inserted backticks
+        textareaRef.current.selectionStart = start + 1;
+        textareaRef.current.selectionEnd = end + 1;
+        if (codeBG.current) {
+          codeBG.current.classList.toggle("code");
+        }
+      };
+///////////////////////////////////////////////////////////////////////////////////
     useEffect(() => {
         // Enable/disable buttons based on whether title is empty
         const areButtonsDisabled = title.trim() === '';
@@ -183,11 +297,11 @@ function CreatePost() {
     }, [title]);
 
     useEffect(() => {
-        if (textAreaRef.current) {
-            textAreaRef.current.style.fontWeight = isBold ? 'bold' : 'normal';
-            textAreaRef.current.style.fontStyle = isItalic ? 'italic' : 'normal';
+        if (textareaRef.current) {
+            textareaRef.current.style.fontWeight = isBold ? 'bold' : 'normal';
+            textareaRef.current.style.fontStyle = isItalic ? 'italic' : 'normal';
             if (isstrikethrough) {
-                textAreaRef.current.style.textDecoration = 'linethrough';
+                textareaRef.current.style.textDecoration = 'linethrough';
             }
 
             //            textAreaRef.current.style.textDecoration = isstrikethrough ? 'linethrough' : 'normal';
@@ -237,23 +351,42 @@ function CreatePost() {
                         required
                     />
                     <label htmlFor="content"></label>
+                    
                     <div className="toolbar1">
-                        <Button
-                            variant="danger"
-                            className={isBold ? 'active' : ''}
-                            onClick={handleBoldClick}
-                            data-testid="Bold"
-                        >
-                            <FaBold />
-                        </Button>
-                        <button type="button" onClick={handleItalicClick} className={isItalic ? 'active' : ''}>I</button>
-                        <button type="button" onClick={handlestrikeClick} className={isstrikethrough ? 'active' : ''}>S</button>
-                        <button type="button" onClick={handlestrikeClick} className={isstrikethrough ? 'active' : ''}>code</button>
+                    <IconButton
+                aria-label="fingerprint"
+                color="error"
+                onClick={handleBoldClick}
+              >
+                <FormatBoldIcon />
+              </IconButton>
 
+              <IconButton
+                aria-label="fingerprint"
+                color="error"
+                onClick={handleItalicClick}
+              >
+                <FormatItalicIcon />
+              </IconButton>
 
+              <IconButton
+                aria-label="fingerprint"
+                color="error"
+                onClick={handleStrikeClick}
+              >
+                <StrikethroughSIcon />
+              </IconButton>
+
+              <IconButton
+                aria-label="fingerprint"
+                color="error"
+                onClick={handleCodeClick}
+              >
+                <CodeIcon />
+              </IconButton>
                     </div>
                     <textarea
-                        ref={textAreaRef}
+                        ref={textareaRef}
                         id="content"
                         name="content"
                         value={content}

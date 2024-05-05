@@ -31,9 +31,7 @@ const PostDesign = ({
 
 
   const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video) || (title && Poll);
-  console.log("isvaliddd postt y3mm===", isValidPost);
-  console.log("title postt y3mm===", video);
-  console.log("ahhhhhhhhhhhh postt y3mm===", community);
+
 
 
   const handleSpoilerClick = () => {
