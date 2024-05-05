@@ -30,9 +30,9 @@ function CommentsRoute() {
   return <Comments postID={id} postTitle={title} />;
 }
 
-const routes = {
-  "/": () => <Home />,
-  "/home": () => <Home />,
+const routes =  {
+  "/": ({toggleTheme}) => <Home toggleTheme={toggleTheme} />,
+  "/home": ({toggleTheme}) => <Home toggleTheme={toggleTheme}/>,
   "/login": () => <Login />,
   "/signup": () => <Signup />,
   "/settings": () => <Settings />,

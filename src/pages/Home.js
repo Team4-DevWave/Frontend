@@ -11,9 +11,10 @@ import GuestSideBar from "../layouts/GuestSidebar";
 
 import Overlay from "../components/overlay/Overlay.js";
 
-function Home() {
+function Home({toggleTheme}) {
   const [loading, setLoading] = React.useState(true);
   const [showOverlay, setShowOverlay] = useState(false);
+  
 
   const toggleOverlay = () => {
     setShowOverlay(!showOverlay);
@@ -25,6 +26,13 @@ function Home() {
     }, 2000);
   }, []);
 
+  useEffect(() => {
+    document.title = "Home";
+  
+  }, []);
+
+
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -32,13 +40,13 @@ function Home() {
   return (
 
     <div className="home-grid">
-      <button onClick={toggleOverlay}>Toggle Chat</button>
+      <button onClick={toggleOverlay}>Toggle Chat </button>
       {showOverlay && <Overlay />}
 
 
       <div id="grid-0">
 
-        {Cookies.get("token") ? <Header /> : <GuestHeader />}
+        {Cookies.get("token") ? <Header toggleTheme = {toggleTheme}/> : <GuestHeader />}
       </div>
       <div id="grid-1">
         {Cookies.get("token") ? <SideBar /> : <GuestSideBar />}

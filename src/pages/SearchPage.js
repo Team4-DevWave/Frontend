@@ -68,7 +68,7 @@ export default function SearchPage() {
       <div id="grid-1">
         {Cookies.get("token") ? <SideBar /> : <GuestSideBar />}
       </div>
-      <div id="grid-2" style={{borderRadius:"50px",backgroundColor:"#fcfcfc"}}>
+      <div id="grid-2" style={{borderRadius:"50px"}}>
         <Typography variant="h5" gutterBottom>
           Search Results for "{query}"
         </Typography>
