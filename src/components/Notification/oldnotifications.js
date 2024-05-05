@@ -4,7 +4,7 @@ import "../../pages/Notification/notification.css"; // Import the CSS file
 import {Meta} from '@storybook/react';
 import propTypes from 'prop-types';
 import Cookies from 'js-cookie';
-
+import {useNavigate} from 'react-router-dom';
 // Import the images
 import commentImage from "../../images/comment.png";
 import messageImage from "../../images/message.png";
@@ -14,6 +14,7 @@ import newPostImage from "../../images/newPost.png";
 import reportImage from "../../images/report.png";
 
 const OldNotification = ({setNotificationCount}) => {
+    const navigate = useNavigate();
     const [data, setData] = useState([]); // State variable to store received data
     const [unreadCount, setUnreadCount] = useState(0); // State variable to store count of unread notifications
 
@@ -53,6 +54,8 @@ const OldNotification = ({setNotificationCount}) => {
                 return friendRequestImage;
             case "mention":
                 return commentImage;
+            case "post":
+                return newPostImage;
 
 
             default:
@@ -76,14 +79,14 @@ const OldNotification = ({setNotificationCount}) => {
                         newData[index].status = "false";
                         return newData;
                     });
-                    setNotificationCount((prevCount) => prevCount - 1);
+
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
 
-        axios.patch(`http://localhost:8000/api/v1/notifications/read/${notificationId}`)
+        axios.patch(`http://localhost:8000/api/v1/notifications/read/${notificationId}` ,{}, config)
             .then(response => {
                 if (response.data.status == "success") {
                     // Mark the notification as read in the state
@@ -92,13 +95,52 @@ const OldNotification = ({setNotificationCount}) => {
                         newData[index].status = "true";
                         return newData;
                     });
-                    setNotificationCount((prevCount) => prevCount - 1);
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
+        axios.get('http://localhost:8000/api/v1/notifications', config)
+            .then(response => {
+                setData(response.data.data.notifications);
+                setNotificationCount(response.data.data.notifications.length);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     };
+
+    const handleNotificationClick = (notification) => {
+        markAsRead(data.indexOf(notification));
+
+// Redirect to the appropriate page based on the notification type
+        switch (notification.type) {
+            case "comment":
+
+                navigate(`/comments/${notification.contentID.id}/${notification.contentID.title}`);
+                break;
+
+            case  "mention":
+
+                navigate(`/comments/${notification.contentID.id}/${notification.contentID.title}`);
+
+                break;
+
+            case "message":
+                navigate(`/messages/`);
+                break;
+            case"post":
+                navigate(`/comments/${notification.contentID.id}/${notification.contentID.title}`);
+                break;
+
+            case "friendRequest":
+                break;
+
+            case "follow":
+                break;
+
+        }
+    }
 
     return (
         //check
@@ -106,7 +148,7 @@ const OldNotification = ({setNotificationCount}) => {
             {/* Display the received data */}
             {data.map((notification, index) => (
                 notification.read &&(
-                    <div key={index} className={`notification`}>
+                    <div key={index} className={`notification`}  onClick={() => handleNotificationClick(notification)}>
                         <img
                             src={getImage(notification.type)}
                             alt={notification.type}
@@ -114,10 +156,89 @@ const OldNotification = ({setNotificationCount}) => {
                         />
                         <div>
                             {/*json { "status": "", [ "timestamp": "", "username": "", "subreddit": "", "type": "", "body": "" ] }*/}
-                            {/*<h3 id={"datarecieved"}>Data received from server:</h3>*/}
-                            <h3>{notification.content}</h3>
-                            <p>{notification.threadData}</p>
-                            <p>{notification.createdAt}</p>
+                            {(() => {
+                                switch (notification.type) {
+                                    case 'comment':
+                                        return (
+                                            <>
+                                                <h3>Comment Notification</h3>
+                                                <p>{notification.content}</p>
+                                                <p>{notification.contentID.title}</p>
+                                            </>
+                                        );
+                                    case 'message':
+                                        return (
+                                            <>
+                                                <h3>Message Notification</h3>
+                                                <p>{notification.content}</p>
+                                            </>
+                                        );
+                                    case 'chat':
+                                        return (
+                                            <>
+                                                <h3>Chat Notification</h3>
+                                                <p>{notification.content}</p>
+                                            </>
+                                        );
+                                    case 'friendRequest':
+                                        return (
+                                            <>
+                                                <h3>Friend Request Notification</h3>
+                                                <p>{notification.content}</p>
+                                            </>
+                                        );
+                                    case 'newPost':
+                                        return (
+                                            <>
+                                                <h3>New Post Notification</h3>
+                                                <p>{notification.content}</p>
+                                            </>
+                                        );
+                                    case 'report':
+                                        return (
+                                            <>
+                                                <h3>Report Notification</h3>
+                                                <p>{notification.content}</p>
+                                            </>
+                                        );
+                                    case 'upvote':
+                                        return (
+                                            <>
+                                                <h3>Upvote Notification</h3>
+                                                <p>{notification.content}</p>
+                                            </>
+                                        );
+                                    case 'follow':
+                                        return (
+                                            <>
+                                                <h3>Follow Notification</h3>
+                                                <p>{notification.content}</p>
+                                            </>
+                                        );
+                                    case 'mention':
+                                        return (
+                                            <>
+                                                <h3>Comment Notification</h3>
+                                                <p>{notification.content}</p>
+                                                <p>{notification.contentID.title}</p>
+                                            </>
+                                        );
+                                    case 'post':
+                                        return (
+                                            <>
+                                                <h3>Post Notification</h3>
+                                                <p>{notification.content}</p>
+                                                <p>{notification.contentID.title}</p>
+                                            </>
+                                        );
+                                    default:
+                                        return null;
+                                }
+                            })()}
+                            <p> {
+                                // Create a new Date object with the timestamp
+                                new Date(notification.createdAt).toISOString().slice(0,16).replace("T", " ")
+                            }</p>
 
                         </div>
                     </div>

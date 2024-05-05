@@ -5,6 +5,8 @@ import Edited from './Edited';
 import Removed from './Removed';
 import ModerationRoles from './ModerationRoles';
 import Unmoderated from './Unmoderated';
+import CommunityRules from './CommunityRules';
+import CommunitySettings from "./CommunitySettings";
 
 function ModNav() {
     const [activeNavItem, setActiveNavItem] = useState(0);
@@ -33,6 +35,8 @@ function ModNav() {
                 <Tab label="Removed" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="ModerationRoles" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Unmoderated" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
+                <Tab label="Community Rules" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
+                <Tab label="Community Settings" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
             </Tabs>
 
             <div class="horizontalLine"></div>
@@ -41,6 +45,8 @@ function ModNav() {
             {activeNavItem === 1 && <Removed />}
             {activeNavItem === 2 && <ModerationRoles />}
             {activeNavItem === 3 && <Unmoderated />}
+            {activeNavItem === 4 && <CommunityRules />}
+            {activeNavItem === 5 && <CommunitySettings />}
         </Box>
     );
 }
@@ -52,4 +58,5 @@ ModNav.propTypes = {
     Removed: PropTypes.func,
     Reported: PropTypes.func,
     Unmoderated: PropTypes.func,
+    CommunityRules: PropTypes.func,
 };
