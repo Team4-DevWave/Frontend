@@ -4,6 +4,7 @@ import { TextField, Button } from "@mui/material";
 import { MdAlternateEmail } from "react-icons/md";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import CustomSnackbar from "../components/MUIEdited/CustomSnackbar";
+import PropTypes from "prop-types";
 
 function ResetCredentials() {
   const [resetCode, setResetCode] = useState("");
@@ -115,3 +116,13 @@ function ResetCredentials() {
   );
 }
 export default ResetCredentials;
+
+
+ResetCredentials.propTypes = {
+  /** The reset code sent to the user's email */
+  resetCode: PropTypes.string,
+  /** The new password */
+  newPassword: PropTypes.string,
+  /** The new password confirmation */
+  confirmNewPassword: PropTypes.string,
+};

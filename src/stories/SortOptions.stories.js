@@ -34,5 +34,8 @@ export default {
 };
 
 export const SortOptions1 = (args) => (
-  <SortOptions {...args} />
+  <div style={{height:"50vh"}}>
+     <SortOptions {...args} />
+  </div>
+ 
 );

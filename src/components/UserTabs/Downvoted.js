@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import CommentContainer from "./commentContainer";
+import PostContainer from "../PostContainer";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import UserPostContainer from "./UserPostContainer";
 
 function Downvoted() {
   const [posts, setPosts] = useState([]);
@@ -48,30 +49,32 @@ function Downvoted() {
         config
       )
       .then((response) => {
-        console.log("Posts data:", response.data.data.comments);
-        const postPromises = response.data.data.comments.map((item) =>
-          axios.get(`http://localhost:8000/api/v1/comments/${item}`, config)
-        );
-
-        return Promise.all(postPromises);
-      })
-      .then((responses) => {
-        const mappedData = responses
-          .map((response) => {
-            const item = response.data.data.comment;
-            console.log("item", responses);
-            if (item.content) {
+        console.log("Posts data:", response.data.data.posts);
+        console.log("Responses:", response);
+        const mappedData = response.data.data.posts
+          .map((item) => {
+            console.log("items:", item.text_body);
+            if (item) {
               return {
                 id: item._id,
-                user: item.user.username,
-                content: item.content,
-                time: item.createdAt,
-                post: item.post,
-                hidden: item.hidden,
+                title: item.title,
+                content: item.text_body,
+                time: item.postedTime,
                 votes: item.votes,
-                saved: item.saved,
-                collapsed: item.collapsed,
+                numviews: item.numViews,
+                spoiler: item.spoiler,
+                nsfw: item.nsfw,
+                locked: item.locked,
+                approved: item.approved,
                 mentioned: item.mentioned,
+                username: item.userID.username,
+                commentsCount: item.commentsCount,
+                image: item.image,
+                video: item.video,
+                subredditID: item.subredditID,
+                ishide: false,
+                issaved: false,
+                userVote: item.userVote,
               };
             } else {
               return null;
@@ -79,13 +82,18 @@ function Downvoted() {
           })
           .filter(Boolean);
 
-        if (JSON.stringify(mappedData) === JSON.stringify(lastData.current)) {
+        const lastDataIds = lastData.current
+          ? lastData.current.map((post) => post._id)
+          : [];
+        const mappedDataIds = mappedData.map((post) => post._id);
+
+        if (JSON.stringify(lastDataIds) === JSON.stringify(mappedDataIds)) {
           setStop(true);
           return;
         }
 
         console.log("mappeddata", mappedData.content);
-        setPosts((prevComments) => [...prevComments, ...mappedData]);
+        setPosts((prevPosts) => [...prevPosts, ...mappedData]);
         lastData.current = mappedData;
       })
       .catch((error) => console.error("Error:", error));
@@ -103,7 +111,7 @@ function Downvoted() {
     <div className="post-feed">
       {posts.map((post, index) => {
         console.log("post data:", post); // Log the post data here
-        return <CommentContainer key={index} commentData={post} />;
+        return <PostContainer key={index} postData={post} />;
       })}
       <div
         ref={loader}

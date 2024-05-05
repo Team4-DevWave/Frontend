@@ -2,26 +2,45 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
 import { FaBold } from "react-icons/fa";
-import PropTypes from 'prop-types';
+
 import './CreatePost.css'; // Import your CSS file for styling
-import { Button } from 'react-bootstrap';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
+import Cookies from "js-cookie";
+import FormatBoldIcon from "@mui/icons-material/FormatBold";
+import FormatItalicIcon from "@mui/icons-material/FormatItalic";
+import StrikethroughSIcon from "@mui/icons-material/StrikethroughS";
+import CodeIcon from "@mui/icons-material/Code";
+import { marked } from "marked";
 
 function CreatePost() {
+    const textareaRef = useRef(null);
+    const codeBG = useRef(null);
+    const [isInlinecode, setIsInlinecode] = useState(false);
+
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [isBold, setIsBold] = useState(false);
     const [isItalic, setIsItalic] = useState(false);
     const [isstrikethrough, setIsstrikethrough] = useState(false);
-    const [isInlinecode, setIsInlinecode] = useState(false);
+
     const [savedDrafts, setSavedDrafts] = useState([]);
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
-    const [fileUploaded, setFileUploaded] = useState(false);
     const [postDone, setPostDone] = useState(false);
+    const [spoiler1, setSpoiler] = useState(false);
+    const [OC, setOc] = useState(false);
+    const [NFSW, setNFSW] = useState(false);
+    const [Flair, setFlair] = useState(false);
 
-    const textAreaRef = useRef(null);
+    var community = localStorage.getItem("communitynamechoosed");
 
+
+
+    const token = Cookies.get("token");
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` },
+    };
     // const handleFileChange = (e) => {
     //     if (e.target.files.length > 0) {
     //         setFileUploaded(true); // Enable the buttons when a file is uploaded
@@ -33,48 +52,106 @@ function CreatePost() {
     const username = localStorage.getItem('username');
     const handelpostclick = async (e) => {
         e.preventDefault();
-        const postdata = {
-            title: title,
-            content: content,
-            type: 'text',
-            NSFW: false,
-            spoiler: false,
-            locked: false,
-            // bold: isBold,
-            // italic: isItalic
-        };
-        try {
-            const response = await axios.post(`http://localhost:8000/api/v1/posts/submit/u/${username}`, { content: postdata });
-            setPostDone(true);
-            setTitle('');
-            setContent('');
-            setIsBold(false);
-            setIsItalic(false);
-            setIsstrikethrough(false);
-            setIsInlinecode(false);
 
+
+
+        console.log("usernammmeeee==", username);
+        console.log("community in post file==", community);
+
+        if (community === "username") {
+            axios
+                .post(
+                    `http://localhost:8000/api/v1/posts/submit/u/${username}`,
+                    {
+                        title: title,
+                        text_body: content,
+                        type: 'text',
+                        locked: false,
+                        image: "",
+                        video: "",
+                        spoiler: spoiler1,
+                        nsfw: NFSW,
+                    },
+                    config
+                )
+                .then((response) => {
+                    console.log("sent spoiler=", spoiler1);
+                    setPostDone(true);
+                    setTitle('');
+                    setContent('');
+                    setIsBold(false);
+                    setIsItalic(false);
+                    setIsstrikethrough(false);
+                    setSpoiler(false);
+                    setNFSW(false);
+                    if (response.status === 201) {
+                        console.log("post is created");
+
+                    } else {
+                        console.log("post is not created");
+                    }
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    console.log("ssssssssssss");
+                });
         }
-        catch (error) {
-            console.error('Error submitting post:', error);
-
-
+        else{
+            axios
+            .post(
+              `http://localhost:8000/api/v1/posts/submit/r/${community}`,
+              {
+                title: title,
+                text_body: content,
+                type: 'text',
+                locked: false,
+                image:"",
+                video:"",
+                spoiler:spoiler1,
+                nsfw:NFSW,
+              },
+              config
+            )
+            .then((response) => {
+                console.log("sent spoiler=",spoiler1);
+                setPostDone(true);
+                setTitle('');
+                setContent('');
+                setIsBold(false);
+                setIsItalic(false);
+                setIsstrikethrough(false);
+                setSpoiler(false);
+                setNFSW(false);
+              if (response.status === 201) {
+                console.log("post is created");
+    
+              } else {
+                console.log("post is not created");
+              }
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+              console.log("ssssssssssss");
+            });
         }
 
+        alert("Post done");
+
     };
 
-    const handleBoldClick = () => {
-        setIsBold(!isBold);
-    };
+    // const handleBoldClick = () => {
+    //     setIsBold(!isBold);
+    // };
 
-    const handleItalicClick = () => {
-        setIsItalic(!isItalic);
-    };
-    const handlestrikeClick = () => {
-        setIsstrikethrough(!isstrikethrough);
-    };
-    const handleinlinecode = () => {
-        setIsInlinecode(!isInlinecode);
-    };
+    // const handleItalicClick = () => {
+    //     setIsItalic(!isItalic);
+    // };
+    // const handlestrikeClick = () => {
+    //     setIsstrikethrough(!isstrikethrough);
+    // };
+
 
     const handleContentChange = (e) => {
         setContent(e.target.value);
@@ -93,7 +170,7 @@ function CreatePost() {
         setIsBold(false);
         setIsItalic(false);
         setIsstrikethrough(false);
-        setIsInlinecode(false);
+        setSpoiler(false);
     };
 
     const handleEditDraft = (draft) => {
@@ -104,26 +181,132 @@ function CreatePost() {
     const handleShowSavedDrafts = () => {
         setShowSavedDrafts(true);
     };
-
+    ///////////////////////////////////////////////////////////////////
+    const handleBoldClick = () => {
+        const start = textareaRef.current.selectionStart;
+        const end = textareaRef.current.selectionEnd;
+        const value = textareaRef.current.value;
+    
+        let newValue;
+        if (start === end) {
+          // No text is selected, insert a default bold string
+          newValue =
+            value.substring(0, start) + "**bold text**" + value.substring(start);
+        } else {
+          // Text is selected, wrap it with **
+          newValue =
+            value.substring(0, start) +
+            "**" +
+            value.substring(start, end) +
+            "**" +
+            value.substring(end);
+        }
+    
+        setContent(newValue);
+        textareaRef.current.selectionStart = start + 2;
+        textareaRef.current.selectionEnd = end + 2;
+      };
+    
+      const handleItalicClick = () => {
+        const start = textareaRef.current.selectionStart;
+        const end = textareaRef.current.selectionEnd;
+        const value = textareaRef.current.value;
+    
+        let newValue;
+        if (start === end) {
+          // No text is selected, insert a default italic string
+          newValue =
+            value.substring(0, start) + "*italic text*" + value.substring(start);
+        } else {
+          // Text is selected, wrap it with *
+          newValue =
+            value.substring(0, start) +
+            "*" +
+            value.substring(start, end) +
+            "*" +
+            value.substring(end);
+        }
+    
+        setContent(newValue);
+        textareaRef.current.selectionStart = start + 1;
+        textareaRef.current.selectionEnd = end + 1;
+      };
+    
+      const handleStrikeClick = () => {
+        const start = textareaRef.current.selectionStart;
+        const end = textareaRef.current.selectionEnd;
+        const value = textareaRef.current.value;
+    
+        let newValue;
+        if (start === end) {
+          // No text is selected, insert a default strikethrough string
+          newValue =
+            value.substring(0, start) +
+            "~~strikethrough text~~" +
+            value.substring(start);
+        } else {
+          // Text is selected, wrap it with ~~
+          newValue =
+            value.substring(0, start) +
+            "~~" +
+            value.substring(start, end) +
+            "~~" +
+            value.substring(end);
+        }
+    
+        setContent(newValue);
+        textareaRef.current.selectionStart = start + 2;
+        textareaRef.current.selectionEnd = end + 2;
+      };
+    
+      const handleCodeClick = () => {
+        setIsInlinecode(!isInlinecode);
+    
+        // Get the current selection
+        const start = textareaRef.current.selectionStart;
+        const end = textareaRef.current.selectionEnd;
+    
+        // Get the current value of the textarea
+        const value = textareaRef.current.value;
+    
+        // Create the new value by wrapping the selected text with backticks
+        const newValue =
+          value.substring(0, start) +
+          "`" +
+          value.substring(start, end) +
+          "`" +
+          value.substring(end);
+    
+        // Update the value of the textarea
+        setContent(newValue);
+    
+        // Update the selection to be after the inserted backticks
+        textareaRef.current.selectionStart = start + 1;
+        textareaRef.current.selectionEnd = end + 1;
+        if (codeBG.current) {
+          codeBG.current.classList.toggle("code");
+        }
+      };
+///////////////////////////////////////////////////////////////////////////////////
     useEffect(() => {
         // Enable/disable buttons based on whether title is empty
         const areButtonsDisabled = title.trim() === '';
         document.getElementById('savedefaultbtn').disabled = areButtonsDisabled;
         document.getElementById('postbtn1').disabled = areButtonsDisabled;
     }, [title]);
-    
+
     useEffect(() => {
-        if (textAreaRef.current) {
-            textAreaRef.current.style.fontWeight = isBold ? 'bold' : 'normal';
-            textAreaRef.current.style.fontStyle = isItalic ? 'italic' : 'normal';
+        if (textareaRef.current) {
+            textareaRef.current.style.fontWeight = isBold ? 'bold' : 'normal';
+            textareaRef.current.style.fontStyle = isItalic ? 'italic' : 'normal';
             if (isstrikethrough) {
-                textAreaRef.current.style.textDecoration = 'linethrough';
+                textareaRef.current.style.textDecoration = 'linethrough';
             }
 
             //            textAreaRef.current.style.textDecoration = isstrikethrough ? 'linethrough' : 'normal';
 
         }
-    }, [isBold, isItalic, isstrikethrough, isInlinecode]); // Include isItalic in the dependency array
+    }, [isBold, isItalic, isstrikethrough]); // Include isItalic in the dependency array
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -136,8 +319,19 @@ function CreatePost() {
         setIsBold(false);
         setIsItalic(false);
     };
-
-
+    const handleSpoiler = (event) => {
+        console.log("spoilerzft=", spoiler1);
+        setSpoiler((prevSpoiler) => !prevSpoiler);
+    };
+    const handleOc = (event) => {
+        setOc((prevOC) => !prevOC);
+    };
+    const handleNSFW = (event) => {
+        setNFSW((prevNSFW) => !prevNSFW);
+    };
+    const handleFlair = (event) => {
+        setFlair((prevFlair) => !prevFlair);
+    };
     return (
 
         <div className="create-post-container">
@@ -156,55 +350,78 @@ function CreatePost() {
                         required
                     />
                     <label htmlFor="content"></label>
+                    
                     <div className="toolbar1">
-                        <Button
-                            variant="danger"
-                            className={isBold ? 'active' : ''}
-                            onClick={handleBoldClick}
-                            data-testid="Bold"
-                        >
-                            <FaBold />
-                        </Button>
-                        <button type="button" onClick={handleItalicClick} className={isItalic ? 'active' : ''}>I</button>
-                        <button type="button" onClick={handlestrikeClick} className={isstrikethrough ? 'active' : ''}>S</button>
-                        <button type="button" onClick={handlestrikeClick} className={isstrikethrough ? 'active' : ''}>code</button>
+                    <IconButton
+                aria-label="fingerprint"
+                color="error"
+                onClick={handleBoldClick}
+              >
+                <FormatBoldIcon />
+              </IconButton>
 
+              <IconButton
+                aria-label="fingerprint"
+                color="error"
+                onClick={handleItalicClick}
+              >
+                <FormatItalicIcon />
+              </IconButton>
 
+              <IconButton
+                aria-label="fingerprint"
+                color="error"
+                onClick={handleStrikeClick}
+              >
+                <StrikethroughSIcon />
+              </IconButton>
+
+              <IconButton
+                aria-label="fingerprint"
+                color="error"
+                onClick={handleCodeClick}
+              >
+                <CodeIcon />
+              </IconButton>
                     </div>
                     <textarea
-                        ref={textAreaRef}
+                        ref={textareaRef}
                         id="content"
                         name="content"
                         value={content}
                         onChange={handleContentChange}
                         placeholder="Text"
                         data-testid="text"
-                        
+
                     ></textarea>
 
 
 
 
                     <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled ={!title}   className={!title ? 'disabled-button' : ''}>Save Draft</button>
-                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''} >Post</button>
-                        {postDone && <p>Post done</p>}
+                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''}>Save Draft</button>
+                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''} >Post</button>
+                        {postDone && <script>alert("Post done");</script>}
 
                     </div>
 
                 </form>
                 <div>
 
+
                     <Button
                         variant="danger"
                         className="ptnn3"
-
+                        onClick={handleOc}
+                        style={{ background: OC ? 'green' : '#c1cad3' }}
                     >
                         <FiPlus /> OC
                     </Button>
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleSpoiler}
+                        style={{ background: spoiler1 ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> Spoiler
@@ -212,7 +429,8 @@ function CreatePost() {
                     <Button
                         variant="danger"
                         className="ptnn3"
-
+                        onClick={handleNSFW}
+                        style={{ background: NFSW ? 'green' : '#c1cad3' }}
                     >
                         <FiPlus /> NSFW
                     </Button>
@@ -220,30 +438,15 @@ function CreatePost() {
                     <Button
                         variant="danger"
                         className="ptnn3"
-
+                        onClick={handleFlair}
+                        style={{ background: Flair ? 'green' : '#c1cad3' }}
                     >
                         <IoPricetagOutline /> Flair
                     </Button>
                 </div>
 
             </div>
-            {/* <div>
-                <button className='Draftbt' onClick={handleShowSavedDrafts}>Drafts</button>
-                {showSavedDrafts && (
-                    <div className="saved-drafts-popup">
-                        <h3>Saved Drafts</h3>
-                        <ul>
-                            {savedDrafts.map((draft, index) => (
-                                <li key={index}>
-                                    <div>Title: {draft.title}</div>
-                                    <div>Content: {draft.content}</div>
-                                    <button onClick={() => handleEditDraft(draft)}>Edit</button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-            </div> */}
+
 
 
 

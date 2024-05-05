@@ -107,8 +107,7 @@ function Signup() {
           console.log("User is created");
           const token = response.data.token;
           axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          localStorage.setItem("username", response.data.username);
-          window.location.href = "/";
+          window.location.href = "/login";
         } else {
           console.log("User is not created");
           setUserState((prevState) => ({ ...prevState, attempted: true }));
@@ -396,6 +395,9 @@ Signup.propTypes = {
   validConfirmPassword: PropTypes.bool,
   /** Captcha must be solved to enable user creation */
   captcha: PropTypes.string,
+
+  /** User interests to be picked from a multi-category list */
+  interests: PropTypes.array,
 
   /** Handles form submission
    * username must not already exist in database

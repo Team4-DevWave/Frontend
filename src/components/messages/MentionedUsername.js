@@ -1,146 +1,10 @@
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import './Messages.css';
-// let currentId = 1;
-// function MentionedUsername() {
-//     const [mentions, setMentions] = useState([]);
-
-//     const [showConfirmation, setShowConfirmation] = useState(null);
-
-
-//     const mention1 = {
-//         id: currentId.toString(),
-//         userName: 'essam',
-//         postTitle: 'video game',
-//         mentionText: 'Hello, I mentioned you in my post',
-//         read: false
-//     };
-
-//     useEffect(() => {
-//         const fetchMentions = async () => {
-//             try {
-//                 const response = await axios.get('http://localhost:3002/mention');
-//                 setMentions(response.data);
-//             } catch (error) {
-//                 console.error('Failed to fetch mentions:', error);
-//             }
-//         };
-
-//         fetchMentions();
-
-//         const intervalId = setInterval(fetchMentions, 30000);
-
-//         return () => clearInterval(intervalId);
-//     }, []);
-
-
-//     const handleClick = async (sendMention) => {
-//         try {
-//             const response = await axios.post('http://localhost:3002/mention', sendMention);
-//             console.log('currentId', currentId.current);
-//             currentId++;
-//             mention1.userName+=1;
-//             if (response.status === 200) {
-
-//                 console.log('currentId', currentId);
-//                 console.log('Mention sent successfully');
-//             }
-//         } catch (error) {
-//             console.error('Failed to send mention22:', error);
-//         }
-//     };
-
-//     const handleFullComments = (mention) => {
-//         console.log('Full comments for:', mention);
-//         // Add your code to handle full comments here
-//     };
-//     const handleContext = (mention) => {
-//         console.log('Full comments for:', mention);
-//         // Add your code to handle full comments here
-//     };
-//     const handleReport = (mention) => {
-//         console.log('Full comments for:', mention);
-//         // Add your code to handle full comments here
-//     };
-//     const handleBlockUser = async (mention) => {
-//         console.log('mentionid :', mention.id);
-//         if (showConfirmation === mention.id) {
-//             try {
-//                 await axios.put(`http://localhost:3002/users/${mention.userName}`);
-//                 console.log(`User ${mention.userName} has been blocked.`);
-//                 setShowConfirmation(null);
-//             } catch (error) {
-//                 console.error('Failed to block user:', error);
-//             }
-//         } else {
-//             setShowConfirmation(mention.id);
-//         }
-//     };
-
-//     const handleMarkUnread = async (mention) => {
-//         console.log('Full comments for:', mention.id);
-//         try {
-//             await axios.patch(`http://localhost:3002/users/${mention.userName}`, { blocked: true });
-//         } catch (error) {
-//             console.error('Error marking mention as unread:', error);
-//         }
-//     };
-
-//     const handleReply = (mention) => {
-//     };
-
-
-//     return (
-//         <div>
-
-
-//             {mentions.map((mention, index) => (
-//                 <div className="message-container" key={index}>
-//                     {mention && (
-//                         <>
-//                             <p>{mention.userName} mentioned you in a post titled "{mention.postTitle}"</p>
-//                             <div className="button-container-in-messageRecived">
-
-//                                 <button onClick={() => handleContext(mention)}>Context</button>
-//                                 <button onClick={() => handleFullComments(mention)}>Full comments</button>
-//                                 <button onClick={() => handleReport(mention)}>Report</button>
-//                                 <button onClick={() => handleBlockUser(mention)}>Block User</button>
-//                                 <button onClick={() => handleMarkUnread(mention)}>Mark Unread</button>
-//                                 <button onClick={() => handleReply(mention)}>Reply</button>
-//                                 {showConfirmation === mention.id ? (
-//                                     <div>
-//                                         <>Do you want to block this user?</>
-//                                         <button className="confirmation-button" onClick={() => handleBlockUser(mention)}>Yes</button>
-//                                         <button onClick={() => setShowConfirmation(false)}>No</button>
-//                                     </div>
-//                                 ) : (
-//                                     <button onClick={() => handleBlockUser(mention)}>Block User</button>
-//                                 )}
-
-//                             </div>
-//                         </>
-
-//                     )}
-
-//                 </div>
-
-//             ))}
-//             <button onClick={() => handleClick(mention1)}>Click me</button>
-
-//         </div>
-//     );
-// }
-
-
-// export default MentionedUsername;
-
-
-
-
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './Messages.css';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function MentionedUsername() {
@@ -153,6 +17,9 @@ function MentionedUsername() {
     const [allMessages, setallMessages] = useState([]);
     const [showReplyTextArea, setshowReplyTextArea] = useState(false);
     const [replyText, setReplyText] = useState('');
+    const [HideBlockButton, setHideBlockButton] = useState(false);
+    const [showLink, setShowLink] = useState(false);
+    const navigate = useNavigate();
 
     const [page, setPage] = useState(1); // initial page
     const [loading, setLoading] = useState(false);
@@ -209,6 +76,14 @@ function MentionedUsername() {
 
     ////////////////////////
 
+    const handleFullComment = (message) => {
+        // setShowLink(true);
+        const postTitle = message.subject.split(': ')[1];
+        navigate(`/comments/${message.post}/${postTitle}`);
+
+    };
+
+
     async function handlePermalink(id) {
         try {
             const response = await axios.patch(`http://localhost:3002/send/${id}`, {
@@ -237,7 +112,15 @@ function MentionedUsername() {
         // Report the message with the given ID
     }
 
+    const handleBlock = () => {
+        setHideBlockButton(true);
+    };
+    const handleCancel = () => {
+        setHideBlockButton(false);
+    };
+
     async function handleBlockUser(usernameToBlock) {
+
         axios.post(`http://localhost:8000/api/v1/users/me/block/${usernameToBlock}`, {}, config)
             .then(response => {
                 console.log('User blocked:', response.data);
@@ -245,6 +128,8 @@ function MentionedUsername() {
             .catch(error => {
                 console.error('Error blocking user:', error);
             });
+
+        setHideBlockButton(false);
     };
 
     const handleReplyChange = (event) => {
@@ -307,6 +192,25 @@ function MentionedUsername() {
             });
     };
 
+    // async function handleFullComment(message1) {
+
+    //     const postTitle = message1.subject.split(': ')[1];
+    //     console.log('postTitle:', postTitle);
+    //     console.log('message1:', message1.post);
+    //     return (
+    //         //     <Link
+    //         //     className="comment-link"
+    //         //     to={`/comments/${message1.post}/${postTitle.toLowerCase().replace(/ /g, "-")}`}
+    //         //   />
+    //         <Link
+    //             className="comment-link"
+    //             to={`/comments/${message1.post}/${encodedPostTitle}`}
+    //         >
+    //             Go to Post
+    //         </Link>
+    //     );
+    // };
+
 
 
     ////////////////////////
@@ -319,9 +223,10 @@ function MentionedUsername() {
                     return (
                         <div ref={lastMessageElementRef} className="message-container" key={message._id} >
                             <h2>From: {message.from.username}</h2>
-                            <h4> {message.to.username+"     "+ message.message}</h4>
-                            <h5>Time: {message.createdAt}</h5>
+                            <h4> {message.to.username + "     " + message.message}</h4>
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>  
                             <div className="button-container-in-messageRecived">
+                                <button onClick={() => handleFullComment(message)}>Full context</button>
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
                                 <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
@@ -343,9 +248,18 @@ function MentionedUsername() {
                     return (
                         <div className="message-container" key={message._id}>
                             <h2>From: {message.from.username}</h2>
-                            <h4> {message.to.username+"     "+ message.message}</h4>
-                            <h5>Time: {message.createdAt}</h5>
+                            <h4> {message.to.username + "     " + message.message}</h4>
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>  
                             <div className="button-container-in-messageRecived">
+                                <button onClick={() => handleFullComment(message)}>Full context</button>
+                                {/* {showLink && (
+                                    <Link
+                                        className="comment-link"
+                                        to={`/comments/${message.post}/${message.subject.split(': ')[1]}`}
+                                    >
+                                        Go to Post
+                                    </Link>
+                                )} */}
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
                                 <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>

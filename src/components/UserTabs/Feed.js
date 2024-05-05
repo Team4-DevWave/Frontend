@@ -4,54 +4,70 @@ import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import IconButton from "@mui/material/IconButton";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const loader = useRef(null);
-  const [stop, setStop] = useState(false);
-  const [lastData, setLastData] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => {
+    if (window.scrollY > 700) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
-    if (stop) {
-      return;
-    }
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
-      root: null,
-      rootMargin: "20px",
-      threshold: 1.0,
+      threshold: 1,
+      rootMargin: "30px",
     });
     if (loader.current) {
       observer.observe(loader.current);
     }
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    if (stop) {
+    if (loading) {
       return;
     }
+    setLoading(true);
     const token = Cookies.get("token");
-
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    console.log("Token:", token);
-    console.log(`Fetching page ${page}...`);
-
     axios
       .get(`http://localhost:8000/api/v1/posts?page=${page}`, config)
       .then((response) => {
-        console.log("Posts data:", response.data.data.posts);
-
         const mappedData = response.data.data.posts
           .map((item) => {
-            if (item.text_body) {
+            if (item) {
               return {
                 id: item._id,
                 title: item.title,
                 content: item.text_body,
-                time: item.postedTime,
+                time: item.lastEditedTime
+                  ? item.lastEditedTime
+                  : item.postedTime,
                 votes: item.votes,
                 numviews: item.numViews,
                 spoiler: item.spoiler,
@@ -62,8 +78,13 @@ function Feed() {
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
-                ishide: false,
-                issaved: false,
+                video: item.video,
+                subredditID: item.subredditID,
+                ishide: item.hidden,
+                issaved: item.saved,
+                userVote: item.userVote,
+                Link: item.url,
+
               };
             } else {
               return null;
@@ -71,44 +92,54 @@ function Feed() {
           })
           .filter(Boolean);
 
-        if (JSON.stringify(mappedData) === JSON.stringify(lastData)) {
-          setStop(true);
-          return;
-        }
-
-        console.log("mappeddata", mappedData.content);
         setPosts((prevPosts) => [...prevPosts, ...mappedData]);
-        setLastData(mappedData);
+        setLoading(false);
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Error:", error);
+        setLoading(false);
+      });
   }, [page]);
 
   const handleObserver = (entities) => {
     const target = entities[0];
-    if (target.isIntersecting) {
-      console.log("Bottom reached, loading more posts...");
+    if (target.isIntersecting && !loading) {
       setPage((prevPage) => prevPage + 1);
     }
   };
 
   return (
     <div className="post-feed">
-      {posts.map((post, index) => {
-        console.log("post data:", post); // Log the post data here
-        return <PostContainer key={index} postData={post} />;
-      })}
-      <div
-        ref={loader}
-        style={{
-          height: "50px",
-          margin: "20px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {!stop && <CircularProgress />}
-      </div>
+      {posts.map((post, index) => (
+        <PostContainer key={index} postData={post} />
+      ))}
+      {loading && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
+      <div ref={loader} />
+
+      {isVisible && (
+        <IconButton
+          aria-label="fingerprint"
+          color="error"
+          onClick={scrollToTop}
+          style={{
+            position: "fixed", // Position fixed
+            bottom: "20px",
+            right: "20px",
+          }}
+        >
+          <KeyboardDoubleArrowUpIcon />
+        </IconButton>
+      )}
     </div>
   );
 }

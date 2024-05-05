@@ -1,0 +1,31 @@
+{
+  "subredditsusers": [
+    {
+      "subbredditid": "1",
+      "users": [
+        {"username": "user1"},
+        {"username": "user2"},
+        {"username": "user3"},
+        {"username": "user4"}
+      ]
+    },
+    {
+      "subbredditid": "2",
+      "users": [
+        {"username": "user1"},
+        {"username": "user2"},
+        {"username": "user3"},
+        {"username": "user4"}
+      ]
+    },
+    {
+      "subbredditid": "3",
+      "users": [
+        {"username": "user1"},
+        {"username": "user2"},
+        {"username": "user3"},
+        {"username": "user4"}
+      ]
+    }
+  ]
+}

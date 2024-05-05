@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import PropTypes from "prop-types";
+
 import './Messages.css';
+import { Link } from 'react-router-dom';
+
+import { useNavigate } from 'react-router-dom';
 
 
 function All() {
 
-
-
-
-
-
     const [allMessages, setallMessages] = useState([]);
+    const [HideBlockButton, setHideBlockButton] = useState(false);
 
     const [page, setPage] = useState(1); // initial page
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-
     const limit = 10;
+    const navigate = useNavigate();
 
     let bearerToken = Cookies.get('token');
     const config = {
@@ -53,6 +54,7 @@ function All() {
                 console.error('Error fetching data:', error);
             });
     }, [page]);
+    
     const observer = useRef();
     const lastMessageElementRef = useCallback(node => {
         if (loading) return;
@@ -68,17 +70,6 @@ function All() {
 
     ////////////////////////
 
-    async function handlePermalink(id) {
-        try {
-            const response = await axios.patch(`http://localhost:3002/send/${id}`, {
-                read: false
-            });
-
-
-        } catch (error) {
-            console.error('Failed to mark message as unread:', error);
-        }
-    }
 
 
     async function handleDelete(id) {
@@ -96,16 +87,32 @@ function All() {
         // Report the message with the given ID
     }
 
-    function handleBlockUser(user) {
-        // Block the user with the given name
-    }
+    const handleBlock = () => {
+        setHideBlockButton(true);
+      };
+      const handleCancel = () => {
+        setHideBlockButton(false);
+      };
 
-    async function handleMarkUnread (message1)  {
+    async function handleBlockUser(usernameToBlock) {
+
+        axios.post(`http://localhost:8000/api/v1/users/me/block/${usernameToBlock}`, {}, config)
+            .then(response => {
+                console.log('User blocked:', response.data);
+            })
+            .catch(error => {
+                console.error('Error blocking user:', error);
+            });
+
+            setHideBlockButton(false);
+    };
+    
+    async function handleMarkUnread(message1) {
         axios.patch(`http://localhost:8000/api/v1/messages/${message1._id}/markread`, { read: !message1.read }, config)
             .then(response => {
                 setallMessages(allMessages.map(message =>
-                    message._id === message1._id ? { ...message, read: true } : message
-                    
+                    message._id === message1._id ? { ...message, read: !message1.read } : message
+
                 ));
                 console.log('Message updated:', response.data);
 
@@ -114,8 +121,19 @@ function All() {
                 console.error('Error updating message:', error);
 
             }
-        );
+            );
     };
+
+
+    const handleFullComment = (message) => {
+        // setShowLink(true);
+        const postTitle = message.subject.split(': ')[1];
+        navigate(`/comments/${message.post}/${postTitle}`);
+
+    };
+
+
+    
     const handleReplyClick = (id) => {
         // setReplyingTo(id);
     };
@@ -167,15 +185,24 @@ function All() {
                         <div ref={lastMessageElementRef} className="message-container" key={message._id}>
                             <h2>From: {message.from.username}</h2>
                             <h3>To: {message.to.username}</h3>
-                            <h3>Subject: {message.subject}</h3>
+                            {!message.subject.includes('username mention') && <h3>Subject: {message.subject}</h3>}   
                             <h4>Message: {message.message}</h4>
-                            <h5>Time: {message.createdAt}</h5>
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
                             <div className="button-container-in-messageRecived">
-                                <button onClick={() => handlePermalink(message._id)}>Permalink</button>
+                                {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full context</button>}
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
-                                <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
-                                <button onClick={() => handleMarkUnread(message)}>Mark Unread</button>
+                                {!HideBlockButton ? (
+                                <button onClick={handleBlock}>Block</button>
+                            ) : (
+                                
+                                    <div>
+                                        <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                                        <button className='yes_Button' onClick={() =>handleBlockUser(message.from.username)}>Yes</button>
+                                        <button onClick={handleCancel}>No</button>
+                                    </div>
+                                )}
+                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
                                 <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
                             </div>
                         </div>
@@ -185,16 +212,27 @@ function All() {
                         <div className="message-container" key={message._id}>
                             <h2>From: {message.from.username}</h2>
                             <h3>To: {message.to.username}</h3>
-                            <h3>Subject: {message.subject}</h3>
+                            {!message.subject.includes('username mention') && <h3>Subject: {message.subject}</h3>}                         
                             <h4>Message: {message.message}</h4>
-                            <h5>Time: {message.createdAt}</h5>
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
                             <div className="button-container-in-messageRecived">
-                                <button onClick={() => handlePermalink(message._id)}>Permalink</button>
+                                {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full comment</button>}
+
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
-                                <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
-                                <button onClick={() => handleMarkUnread(message._id)}>Mark Unread</button>
+                                {!HideBlockButton ? (
+                                <button onClick={handleBlock}>Block</button>
+                            ) : (
+                                
+                                    <div>
+                                        <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                                        <button className='yes_Button' onClick={() =>handleBlockUser(message.from.username)}>Yes</button>
+                                        <button onClick={handleCancel}>No</button>
+                                    </div>
+                                )}
+                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
                                 <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
+
                             </div>
                         </div>
                     )
@@ -209,4 +247,20 @@ function All() {
 }
 
 export default All;
+
+//JSDocs comments for Storybook
+
+All.propTypes = {
+
+  /** Handles Deletion of the selected message */
+  Delete: PropTypes.func,
+  /** Handles direct to the post */
+  handleFullComment: PropTypes.func,
+    /** Handles the block user of the selected message */
+    handleBlockUser: PropTypes.func,
+    /** Handles the MarkUnread of the selected message and when clicked flip to allow user to mark as read if want */
+    handleMarkUnread: PropTypes.func,
+
+};
+
 

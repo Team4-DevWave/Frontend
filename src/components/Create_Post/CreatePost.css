@@ -98,46 +98,54 @@
 }
 
 
+/* Dropdown container */
 .dropdown-container {
     position: relative;
     margin-top: 20px;
     margin-left: 200px;
   }
   
+  /* Dropdown select */
   .dropdown-select {
-    padding: 8px;
-    border: 1px solid #ccc;
+    padding: 10px;
+    border: 1px solid #4CAF50; /* Green border */
     border-radius: 4px;
-    background-color: #fff;
+    background-color: #f8f8f8; /* Light gray background */
     font-size: 16px;
     cursor: pointer;
+    color: #333; /* Text color */
   }
   
+  /* Dropdown option */
   .dropdown-option {
     padding: 8px 12px;
     cursor: pointer;
   }
   
+  /* Hover effect for options */
   .dropdown-option:hover {
-    background-color: #f0f0f0;
+    background-color: #e0e0e0; /* Lighter gray background on hover */
   }
   
+  /* Dropdown content */
   .dropdown-content {
     display: none;
     position: absolute;
-    top: 100%;
+    top: calc(100% + 5px);
     left: 0;
     z-index: 1;
     min-width: 150px;
-    border: 1px solid #ccc;
+    border: 1px solid #4CAF50; /* Green border */
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
   
+  /* Show dropdown content */
   .dropdown-content.show {
     display: block;
   }
+  
   .toolbar1 button {
     font-size: 14px; /* Adjust font size as needed */
     padding: 1px 5px; /* Adjust padding as needed */
@@ -155,7 +163,7 @@
 }
 .title
 {
-    margin-top: 30px;
+    margin-top: 70px;
     margin-left: 200px;
 }
 .Draftbt
@@ -201,23 +209,12 @@ margin-right: 100px;
     border: none;
     border-radius: 80px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 8px;
     margin-left: 10px;
+    margin-bottom: 20px;
 
 }
-.ptnn4
-{
-    width: 10%;
-    padding: 5px;
-    background-color: #c1cad3;
-    color: #fff;
-    border: none;
-    border-radius: 80px;
-    cursor: pointer;
-    margin-left: 10px;
 
-
-}
 #deleteicon1
 {
   width: 5%;
@@ -247,3 +244,48 @@ margin-right: 100px;
     cursor: not-allowed; 
   }
   
+  .option-container {
+    display: flex;
+    align-items: center;
+    margin-top: 5px; /* Adjust spacing between each option */
+}
+
+#delete-option-button {
+    background: none;
+    border: none;
+    color: #007bff; /* Button text color */
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px; /* Adjust the distance between the input field and the delete button */
+}
+
+#add-option-button {
+    background: none;
+    border: none;
+    color: #007bff; /* Button text color */
+    font-size: 16px;
+    cursor: pointer;
+    float: left; /* Position the button on the left */
+    margin-bottom: 10px; /* Add margin below the button */
+}
+
+#add-option-button:hover {
+    background-color: #d2d2d2; /* Darker green on hover */
+}
+
+#delete-option-button {
+    background: none;
+    border: none;
+    width: 8%;
+    padding: 10px;
+    color: #007bff; /* Button text color */
+    font-size: 20px;
+    cursor: pointer;
+    margin-bottom: 25px;
+    margin-left: auto; /* Push the button to the right */
+}
+
+#delete-option-button:hover {
+
+    background-color: #d2d2d2; /* Darker green on hover */
+}

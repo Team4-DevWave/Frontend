@@ -6,38 +6,133 @@ import { AiOutlineDelete } from 'react-icons/ai';
 // import axios from 'axios';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
-import PropTypes from 'prop-types';
+
 function Img() {
     const [title, setTitle] = useState('');
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [captions, setCaptions] = useState([]);
+    const[spoiler1, setSpoiler] = useState(false);
+    const[OC, setOc] = useState(false);
+    const[NFSW, setNFSW] = useState(false);
+    const[Flair, setFlair] = useState(false);
+    const token = Cookies.get("token");
+    var community = localStorage.getItem("communitynamechoosed");
 
-
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    const username = localStorage.getItem('username');
 
     const handelpostclick = async (event) => {
         event.preventDefault();
         
         // Create an object to hold the post data
+        const base64Strings = await Promise.all(uploadedFiles.map(file => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const base64String = reader.result.split(',')[1]; // Extract the Base64 part
+                    console.log("Base64 Encoded:", base64String); // Print the Base64 string to console
+                    resolve(base64String);
+                };
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }));
+
+        // Create an object to hold the post data
         const postData = {
             title: title,
             files: uploadedFiles.map((file, index) => ({
                 type: file.type.startsWith('image/') ? 'image' : 'video',
-                url: URL.createObjectURL(file),
+                url: base64Strings[index], // Use Base64 string here
                 caption: captions[index]
             }))
         };
-    // try {
-    //     const response = await axios.post('http://localhost:3001/posts', { content: postData });
+        console.log("imageeee/videooo=", base64Strings);
+        console.log("usernammmeeee==",username);
 
-    // } catch (error) {
+if(community==="username")
+{
+    console.log("community in image/video file11==", community);
+
+    axios
+    .post(
+      `http://localhost:8000/api/v1/posts/submit/u/${username}`,
+      {
+        title: postData.title,
+        text_body:"",
+        type: "image/video",
+        nsfw: NFSW,
+        spoiler: spoiler1,
+        locked: false,
+        image:postData.files.find(file => file.type === 'image')?.url || "",
+        video:postData.files.find(file => file.type === 'video')?.url || ""
+      },
+      config
+    )
+    .then((response) => {
+        setFlair(false);
+        setNFSW(false);
+        setSpoiler(false);
+        setOc(false);
+
+      if (response.status === 201) {
+        console.log("post is created");
+
+      } else {
+        console.log("post is not created");
+      }
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log("ssssssssssss");
+    });
+}
+else{
+    console.log("community in image/video file22==", community);
+
+    axios
+    .post(
+      `http://localhost:8000/api/v1/posts/submit/r/${community}`,
+      {
+        title: postData.title,
+        text_body:"",
+        type: "image/video",
+        nsfw: NFSW,
+        spoiler: spoiler1,
+        locked: false,
+        image:postData.files.find(file => file.type === 'image')?.url || "",
+        video:postData.files.find(file => file.type === 'video')?.url || ""
+      },
+      config
+    )
+    .then((response) => {
+        setFlair(false);
+        setNFSW(false);
+        setSpoiler(false);
+        setOc(false);
+
+      if (response.status === 201) {
+        console.log("post is created");
+
+      } else {
+        console.log("post is not created");
+      }
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log("ssssssssssss");
+    });
+}
+ 
+
+
+
         
-    // }
-        //console.log('Post Data:', postData);
-    
-        // Reset form fields after submission
-        setTitle('');
-        setUploadedFiles([]);
-        setCaptions([]);
+        alert("Post done");
     };
     
     
@@ -69,7 +164,19 @@ function Img() {
         setUploadedFiles([]);
         setCaptions([]);
     };
-
+    const handleSpoiler = (event) => {
+        console.log("spoilerzft=",spoiler1);
+        setSpoiler((prevSpoiler) => !prevSpoiler); 
+    };
+    const handleOc = (event) => {
+        setOc((prevOC) => !prevOC); 
+    };
+    const handleNSFW = (event) => {
+        setNFSW((prevNSFW) => !prevNSFW); 
+    };
+    const handleFlair = (event) => {
+        setFlair((prevFlair) => !prevFlair); 
+    };
     return (
         <div className="create-post-container">
             <div className="create-post-form-section">
@@ -125,7 +232,7 @@ function Img() {
                         accept="image/*, video/*"
                         multiple
                     />
-                    <button type="submit" onClick={handelpostclick} data-testid="post" disabled={!title}   className={!title ? 'disabled-button' : ''}>
+                    <button type="submit" onClick={handelpostclick} data-testid="post" disabled={!title || community===""}   className={!title || community==="" ? 'disabled-button' : ''}>
                         Post
                     </button>
                 </form>
@@ -133,6 +240,8 @@ function Img() {
                 <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleOc}
+                        style={{ background: OC ? 'green' : '#c1cad3' }} 
 
                     >
                         <FiPlus /> OC
@@ -140,6 +249,8 @@ function Img() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleSpoiler}
+                        style={{ background: spoiler1 ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> Spoiler
@@ -147,6 +258,8 @@ function Img() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleNSFW}
+                        style={{ background: NFSW ? 'green' : '#c1cad3' }} 
 
                     >
                         <FiPlus /> NSFW
@@ -155,6 +268,8 @@ function Img() {
                     <Button
                         variant="danger"
                         className="ptnn3"
+                        onClick={handleFlair}
+                        style={{ background: Flair ? 'green' : '#c1cad3' }} 
 
                     >
                         <IoPricetagOutline /> Flair

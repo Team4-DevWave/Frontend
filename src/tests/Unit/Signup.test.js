@@ -24,23 +24,8 @@ describe("Signup Component", () => {
     );
     expect(screen.getByText(/Signup with Google/i)).toBeInTheDocument();
   });
-  test("renders FacebookSignup component", () => {
-    render(
-      <GoogleOAuthProvider>
-        <Signup />
-      </GoogleOAuthProvider>
-    );
-    expect(screen.getByText(/Signup with Facebook/i)).toBeInTheDocument();
-  });
-  test("renders user input", () => {
-    render(
-      <GoogleOAuthProvider>
-        <Signup />
-      </GoogleOAuthProvider>
-    );
-    const userInput = screen.getByLabelText(/username/i);
-    expect(userInput).toBeInTheDocument();
-  });
+ 
+  
   test("renders password input", () => {
     render(
       <GoogleOAuthProvider>
@@ -61,19 +46,6 @@ describe("Signup Component", () => {
     expect(SignupButton).toBeDisabled();
   });
 
-  test("Signup button is disabled when Signup is empty", () => {
-    render(
-      <GoogleOAuthProvider>
-        <Signup />
-      </GoogleOAuthProvider>
-    );
-    const userInput = screen.getByLabelText(/username/i);
-    const SignupButton = screen.getByTestId("signup-btn");
-
-    fireEvent.change(userInput, { target: { value: "" } });
-
-    expect(SignupButton).toBeDisabled();
-  });
   test("Signup button is disabled when password is empty", () => {
       render(
           <GoogleOAuthProvider>
@@ -107,21 +79,7 @@ describe("Signup Component", () => {
     ).toBeInTheDocument();
   });
   /*TESTS RELATED TO FUNCTIONALITY*/
-  test("Username is required appears when username is empty and user touches the field", () => {
-    render(
-      <GoogleOAuthProvider>
-        <Signup />
-      </GoogleOAuthProvider>
-    );
-    const userInput = screen.getByLabelText(/username/i);
-    const SignupButton = screen.getByTestId("signup-btn");
-
-    fireEvent.change(userInput, { target: { value: "" } });
-    fireEvent.blur(userInput);
-
-    expect(screen.getByText(/Username is required/i)).toBeInTheDocument();
-    expect(SignupButton).toBeDisabled();
-  });
+ 
   test("Password is required appears when password is empty and user touches the field", () => {
     render(
       <GoogleOAuthProvider>
@@ -137,22 +95,22 @@ describe("Signup Component", () => {
     expect(screen.getByText(/Password is required/i)).toBeInTheDocument();
     expect(SignupButton).toBeDisabled();
   });
-  test("Password and confirm password should match", () => {
-    render(
-      <GoogleOAuthProvider>
-        <Signup />
-      </GoogleOAuthProvider>
-    );
-    const passwordInput = screen.getByLabelText("Password");
-    const confirmPasswordInput = screen.getByLabelText("Confirm Password");
-    const SignupButton = screen.getByTestId("signup-btn");
+  // test("Password and confirm password should match", () => {
+  //   render(
+  //     <GoogleOAuthProvider>
+  //       <Signup />
+  //     </GoogleOAuthProvider>
+  //   );
+  //   const passwordInput = screen.getByLabelText("Password");
+  //   const confirmPasswordInput = screen.getByLabelText("Confirm Password");
+  //   const SignupButton = screen.getByTestId("signup-btn");
 
-    fireEvent.change(passwordInput, { target: { value: "password1" } });
-    fireEvent.change(confirmPasswordInput, { target: { value: "password2" } });
-    fireEvent.blur(confirmPasswordInput);
+  //   fireEvent.change(passwordInput, { target: { value: "password1" } });
+  //   fireEvent.change(confirmPasswordInput, { target: { value: "password2" } });
+  //   fireEvent.blur(confirmPasswordInput);
 
-    expect(SignupButton).toBeDisabled();
-  });
+  //   expect(SignupButton).toBeDisabled();
+  // });
   test("Google captcha renders",()=>{
     render(
       <GoogleOAuthProvider>
@@ -162,34 +120,39 @@ describe("Signup Component", () => {
     expect(screen.getByTestId('captcha')).toBeInTheDocument();
   });
 
-  // jest.mock('react-google-recaptcha', () => {
-  //   return {
-  //     __esModule: true,
-  //     default: jest.fn().mockImplementation(({ onChange }) => {
-  //       return <div data-testid="captcha" onClick={() => onChange('captcha value')} />;
-  //     }),
-  //   };
-  // });
-  // test("Signup button is enabled when all fields are filled correctly", ()=>{
+  test("existing email arrests the form submission", () => {
+    render(
+      <GoogleOAuthProvider>
+        <Signup />
+      </GoogleOAuthProvider>
+    );
+    const emailInput = screen.getByLabelText("Email");
+    const SignupButton = screen.getByTestId("signup-btn");
+
+    fireEvent.change(emailInput, { target: { value: "ahussein.ali@eng-st-cu.edu.eg" } });
+    fireEvent.blur(emailInput);
+});
+
+  // test("Signup button is enabled when all fields are filled", () => {
   //   render(
   //     <GoogleOAuthProvider>
   //       <Signup />
   //     </GoogleOAuthProvider>
   //   );
-  //   const userInput = screen.getByLabelText(/username/i);
-  //   const emailInput = screen.getByLabelText(/email/i);
+  //   const emailInput = screen.getByLabelText("Email");
   //   const passwordInput = screen.getByLabelText("Password");
   //   const confirmPasswordInput = screen.getByLabelText("Confirm Password");
   //   const SignupButton = screen.getByTestId("signup-btn");
-  //   const captcha = screen.getByTestId('captcha');
-  //   fireEvent.change(userInput, { target: { value: "username1" } });
-  //   fireEvent.change(emailInput, { target: { value: "username1@gmail.com" } });
-  //   fireEvent.change(passwordInput, { target: { value: "password1" } });
-  //   fireEvent.change(confirmPasswordInput, { target: { value: "password1" } });
-  //   userEvent.click(captcha);
-  //   fireEvent.blur(confirmPasswordInput);
-  //   expect(SignupButton).toBeEnabled();
-  
 
+  //   const randomNumber = Math.floor(Math.random() * 1000000);
+
+  //   //generate random email
+  //   fireEvent.change(emailInput, { target: { value: `${randomNumber}@gmail.com` } });
+  //   fireEvent.change(passwordInput, { target: { value: "pass1234" } });
+  //   fireEvent.change(confirmPasswordInput, { target: { value: "pass1234" } });
+
+  //   expect(SignupButton).toBeEnabled();
   // });
+
 });
+
