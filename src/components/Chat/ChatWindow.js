@@ -1,7 +1,6 @@
 // ChatWindow.js
 import './ChatWindow.css'; // Import the CSS file for styling
 import React, { useState, useEffect, useRef } from "react";
-import io from "socket.io-client";
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 
@@ -15,7 +14,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import SettingsIcon from '@mui/icons-material/Settings';
-import socketIOClient from "socket.io-client";
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import { toast } from 'react-toastify';
@@ -28,9 +26,13 @@ import { Box } from '@mui/material';
 
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
+import { use } from 'marked';
+
+import io from "socket.io-client";
+
+
 
 function ChatWindow(props) {
-  console.log("propsssssssssssssss", props);
   const ChatWindow = styled(Card)({
     display: 'block',
     position: 'fixed',
@@ -54,24 +56,33 @@ function ChatWindow(props) {
   const inputRef = useRef();
   const textareaRef = useRef();
 
+  // const socket = io.connect("http://localhost:3002");
+  const [message, setMessage] = useState("");
+  const [messageReceived, setMessageReceived] = useState("");
 
-  const [ws, setWs] = useState(null);
-  const [newChatRoomName, setnewChatRoomName] = useState('a');
+
+  const [newChatRoomName, setnewChatRoomName] = useState('');
   const [newChatRoomMembers, setnewChatRoomMembers] = useState([]);
   const [FollowedUsers, setFollowedUsers] = useState([]);
   const messagesEndRef = useRef(null);
-
   const [showNewChatRoomCreation, setShowNewChatRoomCreation] = useState(false);
-  // <Avatar src={message.sender.profilePicture} />
+  //  <Avatar src={message.sender.profilePicture} />
 
   const [chatRooms, setChatRooms] = useState([]);
-  const [selectedChatroom, setSelectedChatroom] = useState(null);
+  const [selectedChatroom, setselectedChatroom] = useState(null);
+
+  const [init, setinit] = useState(false);
+  const socketRef = useRef(null);
+
   let bearerToken = Cookies.get('token');
   const config = {
     headers: { Authorization: `Bearer ${bearerToken}` },
 
   };
 
+
+
+  console.log('ChatWindow renderedddddddddddddddd');
 
 
 
@@ -108,11 +119,15 @@ function ChatWindow(props) {
 
   const loadChat = async (chatroom) => {
     try {
-
+      console.log("i am rendered whic is not goooddddd");
       const response = await axios.get(`http://localhost:8000/api/v1/chatrooms/${chatroom._id}/messages/`, config);
       setchatMessages(response.data.data.chatMessages);
       setShowNewChatRoomCreation(false);
-      setSelectedChatroom(chatroom);
+      setselectedChatroom(chatroom);
+      if (socketRef.current) {
+        socketRef.current.emit("join rooms");
+      }
+
     } catch (error) {
       console.error('Failed to load chat:', error);
     }
@@ -135,35 +150,19 @@ function ChatWindow(props) {
     }
   };
 
-  // Client-side code
-  const io = require('socket.io-client');
-  const socket = io('http://localhost:3005');
-  socket.on('connect', () => {
-    console.log('Connected to server');
-  });
+
+
 
 
 
   useEffect(() => {
-    
     if (!chatRommsIsFetched) {
-      console.log("i am the king2");
       fetchChatrooms();
     }
+  }, []);
 
-    console.log("i am the king1" + chatRommsIsFetched);
 
-    // Listen for 'message received' event
-    socket.on('message recieved', (msg) => {
-      console.log('message received:', msg);
-      setchatMessages((prevMessages) => [...prevMessages, msg]);
-    });
-      console.log("checiknggggggggggggggggggggggg",chatMessages);
-    return () => {
-      socket.off('message received');
-    };
 
-  }, [chatMessages,socket]);
 
 
 
@@ -221,28 +220,68 @@ function ChatWindow(props) {
               </IconButton>
             </div>
           </div>
-        <Grid className="displayAllChatRooms">
-          {chatRooms.map((chatRoom) => (
-            <div className="displayChatRooms" key={chatRoom.id} onClick={() => loadChat(chatRoom)}>
-              {chatRoom.chatroomName}
-            </div>
-          ))}
-        </Grid>
+          <Grid className="displayAllChatRooms">
+            {chatRooms.map((chatRoom) => (
+              <div className="displayChatRooms" key={chatRoom.id} onClick={() => loadChat(chatRoom)}>
+                {chatRoom.chatroomName}
+              </div>
+            ))}
+          </Grid>
 
         </Grid>
       </Grid>
     );
   }
 
+  const handleclose = () => {
+    {
+      socketRef.current.off("message received");
+      socketRef.current.off("new message");
+      socketRef.current.off("connect")
+      socketRef.current.off("login");
+    }
+  }
 
   function ChatSection(props) {
-    console.log('Close button clickedssssssssssssssssss')
-    console.log('Cmodyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+
+    useEffect(() => {
+      if (!init) {
+        console.log("hello initttttttttttttttttttttttttttttttttt ");
+        setinit(true);
+        const socket = io('http://localhost:3002/', { query: { token: bearerToken } });
+        socketRef.current = socket;
+        socketRef.current.on("connect", () => {
+          console.log("Connected to the serverrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+          //selectedChatroom._id
+          socketRef.current.emit("login", bearerToken);
+          socketRef.current.emit('join rooms');
+  
+          // socket.on("receive_message", (data) => {
+          //   setchatMessages(prevMessages => [...prevMessages, data]);
+          //   console.log("message receiveddddddddddd: ", data.message);
+  
+          // });
+          socketRef.current.on("message received", (data) => {
+            setchatMessages(prevMessages => [...prevMessages, data]);
+            console.log("message receiveddddddddddd: ", data.content);
+  
+          });
+  
+        });
+      }
+
+      
+      return () => {
+
+      };
+    }, [init]);
+
 
     // State and logic for selected chat room
     useEffect(() => {
       if (textareaRef.current) {
         textareaRef.current.focus();
+        console.log('ChatSection ay 7aagaaaaaaaaaaaaaaaaaaa');
       }
     }, [newChatRoomName]);
 
@@ -259,7 +298,7 @@ function ChatWindow(props) {
               <ArrowDropDownIcon />
             </IconButton>
 
-            <IconButton className="upperClose" color="primary" onClick={props.onClose ? props.onClose : () => { console.log('Close button clicked') }}>
+            <IconButton className="upperClose" color="primary" onClick={props.onClose ? props.onClose : () => { onclick(handleclose) }}>
               <CloseIcon />
             </IconButton>
           </div>
@@ -295,15 +334,16 @@ function ChatWindow(props) {
             </div>
           ) :
             (
+              // || message.sender._id !== arr[index - 1].sender._id
               <Grid container>
                 <Grid item xs={12}>
                   <Box sx={{ overflow: 'auto', maxHeight: 400 }}>
 
                     {chatMessages.map((message, index, arr) => (
                       <div key={index} className="message-container">
-                        {(index === 0 || message.sender._id !== arr[index - 1].sender._id) &&
+                        {(index === 0) &&
                           <div className="username-time">
-                            <Avatar src={message.sender.profilePicture} className="avatar" />
+                            {/* <Avatar src={message.sender.profilePicture} className="avatar" /> */}
                             <Typography variant="subtitle1">{message.sender.username}</Typography>
                             <Typography variant="caption" color="text.secondary" className="time-caption">
                               {new Date(message.dateSent).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -313,6 +353,7 @@ function ChatWindow(props) {
                         <Typography variant="body1" className="message-text">{message.message}</Typography>
                       </div>
                     ))}
+
                     <div ref={messagesEndRef} />
                   </Box>
                 </Grid>
@@ -329,8 +370,22 @@ function ChatWindow(props) {
       </Grid>
 
 
+
     );
   }
+
+  const sendMessage = async (event) => {
+    event.preventDefault();
+    console.log("want to sendddddddddddddddddddddddddddddddddddddddddd");
+    const Sender = selectedChatroom.chatroomMembers.find(member => member.username === username);
+    console.log("Senderrrrrrsssssss: ", Sender);
+    console.log("Button clicked");
+
+    // socket.emit("send_message", { message: newMessage, chatroomId: selectedChatroom._id, sender: Sender });
+    socketRef.current.emit("new message", { content: newMessage, roomID: selectedChatroom._id });
+
+
+  };
 
   function MessageInputForm() {
     // State and logic for message input form
@@ -346,7 +401,6 @@ function ChatWindow(props) {
         </IconButton>
         <form className="chat-form" onSubmit={sendMessage}>
           <div className="input-container">
-
             <textarea
               textarea
               ref={inputRef}
@@ -376,18 +430,7 @@ function ChatWindow(props) {
 
 
 
-  const sendMessage = async(event) => {
-    event.preventDefault();
-    console.log("want to sendddddddddddddddddddddddddddddddddddddddddd");
-    if (socket) {
-      const Sender = selectedChatroom.chatroomMembers.find(member => member.username === username);
-      console.log('dont playyyyyyyyyyyyyyyyyyy'); // Log the status of the socket connection
-      console.log('Socket connected:', socket && socket.connected); // Log the status of the socket connection
-      console.log('message senttttttttttttttttt:', newMessage);
-      await socket.emit('join room', selectedChatroom._id);
-      await socket.emit('new message', { chatID: selectedChatroom._id, message: newMessage, sender: Sender }); // Emit a 'new message' event
-    }
-  };
+
 
 
   return (
@@ -396,6 +439,7 @@ function ChatWindow(props) {
       <Grid container className='gridOfchatwindow' >
         <ChatRoomList />
         <ChatSection {...props} />
+
       </Grid>
     </ChatWindow>
   );
@@ -403,4 +447,5 @@ function ChatWindow(props) {
 
 
 
-export default ChatWindow;
+export default React.memo(ChatWindow);;
+

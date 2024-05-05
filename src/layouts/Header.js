@@ -311,7 +311,7 @@ export default function Header() {
       <MenuItem>
         {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
 
-        <IconButton onClick={() => { setShowChat(true) }}
+        {/* <IconButton onClick={() => { setShowChat(true) }}
           size="large"
           aria-label="show 4 new mails"
           color="inherit"
@@ -340,7 +340,7 @@ export default function Header() {
           <p>Chat</p>
 
 
-        </IconButton>
+        </IconButton> */}
 
         {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
       </MenuItem>
@@ -527,7 +527,7 @@ export default function Header() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
 
-            <IconButton onClick={() => {
+            {/* <IconButton onClick={() => {
               console.log('IconButtonnnnnnnnnnnnnnnnnnnnnnnnnnn clicked');
               setShowChat(true);
             }}
@@ -554,7 +554,7 @@ export default function Header() {
               {showChat && <Chat onClose={closeChatWindow} />}
 
 
-            </IconButton>
+            </IconButton> */}
 
             {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
 

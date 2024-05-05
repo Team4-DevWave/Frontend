@@ -22,19 +22,34 @@ const PostDesign = ({
   video,
   spoiler,
   mentioned,
+  Poll
 }) => {
   const [spoilerClicked, setSpoilerClicked] = useState(false);
+  const [votedOption, setVotedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [poll, setPoll] = useState(Poll); // Initialize with the initial value of Poll
 
 
-const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video);
-console.log("isvaliddd postt y3mm===",isValidPost);
-console.log("title postt y3mm===",video);
-console.log("ahhhhhhhhhhhh postt y3mm===",community);
+  const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video) || (title && Poll);
+
 
 
   const handleSpoilerClick = () => {
     setSpoilerClicked(true);
   };
+
+
+  const handleVote = () => {
+    if (selectedOption) {
+      const updatedPoll = { ...poll };
+      updatedPoll[selectedOption] = updatedPoll[selectedOption] + 1;
+      setVotedOption(selectedOption);
+      setPoll(updatedPoll);
+    }
+  };
+
+
+
 
   function colorUsernames(text, mentioned) {
     // This regular expression matches u/username
@@ -94,11 +109,43 @@ console.log("ahhhhhhhhhhhh postt y3mm===",community);
                 />
               )}
               {image && <img src={image} alt="Post" className="post-image" />}
+
+              {poll && (
+                <div className="poll-section">
+                  {Object.entries(poll).map(([option, rate], index) => (
+                    <div key={option}>
+                      {votedOption === option ? (
+                        <span>&#10004;</span>
+                      ) : (
+                        <input
+                          type="radio"
+                          name="poll-option"
+                          value={option}
+                          checked={selectedOption === option}
+                          onChange={() => setSelectedOption(option)}
+                          disabled={votedOption !== null}
+                        />
+                      )}
+                      <label>{option}</label>
+                      {votedOption && <span style={{ fontWeight: "bold" }}>   ({rate})</span>}
+                    </div>
+                  ))}
+                  <Button
+                    variant="primary"
+                    onClick={handleVote}
+                    disabled={votedOption !== null || selectedOption === null}
+                  >
+                    {votedOption ? 'Vote Recorded' : 'Vote'}
+                  </Button>
+                </div>
+              )}
+
               {video && (
                 <video controls className="post-video">
                   <source src={video} type="video/mp4" />
                 </video>
               )}
+
             </div>
           )}
         </>
