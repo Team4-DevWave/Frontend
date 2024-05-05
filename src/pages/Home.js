@@ -1,5 +1,5 @@
 import Header from "../layouts/Header";
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../layouts/Sidebar";
 import PostFeed from "../components/UserTabs/Feed";
 import SortOptions from "../components/SortOptions";
@@ -34,21 +34,18 @@ function Home({toggleTheme}) {
   }
 
   return (
-
     <div className="home-grid">
       <button onClick={toggleOverlay}>Toggle Chat </button>
       {showOverlay && <Overlay />}
 
-
       <div id="grid-0">
+        {Cookies.get("token") ? <Header /> : <GuestHeader />}
 
-        {Cookies.get("token") ? <Header toggleTheme = {toggleTheme}/> : <GuestHeader />}
       </div>
       <div id="grid-1">
         {Cookies.get("token") ? <SideBar /> : <GuestSideBar />}
       </div>
       <div id="grid-2">
-        <SortOptions />
         <div className="post-feed">
           <PostFeed />
         </div>
