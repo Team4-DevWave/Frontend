@@ -309,7 +309,7 @@
   @media (max-width: 768px) {
     .comments-container {
       left: 100px;
-      max-width: 450px;
+      max-width: 680px;
     }
     .comments-content {
       padding-left: 0;
@@ -322,7 +322,7 @@
   
   @media (max-width: 480px) {
     .comments-container {
-      left: 100px;
+      left: 2%;
       max-width: 350px;
     }
     .comments-content {

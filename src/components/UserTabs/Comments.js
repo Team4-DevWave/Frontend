@@ -8,6 +8,7 @@ import React, {
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import PostContainer from "../PostContainer"; // Uncomment this if you have a PostContainer component
+import GuestPostContainer from "../GuestPostContainer.js";
 import Cookies from "js-cookie";
 import Header from "../../layouts/Header";
 import SideBar from "../../layouts/Sidebar";
@@ -31,19 +32,22 @@ export const LiveCommentsProvider = ({ children }) => {
 };
 
 function Comments() {
+  console.log("Comments rendered");
   //VARIABLES
   const { id, title } = useParams();
   const [post, setPost] = useState(null);
   console.log("Post ID:", id);
-
+  const token = Cookies.get("token");
   //API
 
   useEffect(() => {
-    const token = Cookies.get("token");
+    let config = {};
 
-    const config = {
-      headers: { Authorization: `Bearer ${token}` },
-    };
+    if (token) {
+      config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+    }
 
     console.log("Token:", token);
 
@@ -74,12 +78,15 @@ function Comments() {
             ishide: false,
             issaved: false,
             userVote: item.userVote,
+            Link: item.url,
           };
           console.log("mappeddata", mappedData.content);
           setPost(mappedData);
         }
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }, [id]);
 
   const [loading, setLoading] = React.useState(true);
@@ -104,8 +111,13 @@ function Comments() {
             <SideBar />
           </div>
           <div id="grid-2">
-            {post && <PostContainer postData={post} />}
-            <AddComment postID={id} lock={post.locked} />
+            {post &&
+              (token ? (
+                <PostContainer postData={post} />
+              ) : (
+                <GuestPostContainer postData={post} />
+              ))}
+            {token && <AddComment postID={id} lock={post.locked} />}
             <CommentFeed postID={id} />
           </div>
         </div>
@@ -116,4 +128,4 @@ function Comments() {
   );
 }
 
-export default Comments;
+export default React.memo(Comments);

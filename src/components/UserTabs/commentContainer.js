@@ -150,7 +150,6 @@ function CommentContainer({ commentData }) {
       }
     } catch (error) {
       console.error("Error deleting comment:", error);
-      
     }
   };
 

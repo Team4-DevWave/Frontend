@@ -314,7 +314,7 @@ text-overflow: ellipsis;
 
 @media (max-width: 1350px) {
   .post-container {
-    left: 100px;
+    left: 20%;
   }
   .post-content {
     padding-left: 0;
@@ -325,17 +325,14 @@ text-overflow: ellipsis;
   }
   #postcontainer hr{
     width: 730px;
-    position: relative;
-    left: 90px;
-    margin: 8px;
+    left: 20%;
   }
   
 }
 
 @media (max-width: 980px) {
   .post-container {
-    left: 100px;
-    max-width: 600px;
+    left: 15%;
   }
   .post-content {
     padding-left: 0;
@@ -345,18 +342,15 @@ text-overflow: ellipsis;
     padding-left: 0;
   }
   #postcontainer hr{
-    width: 600px;
-    position: relative;
-    left: 90px;
-    margin: 8px;
+    left: 15%;
   }
 
 }
 
 @media (max-width: 768px) {
   .post-container {
-    left: 20px;
-    max-width: 450px;
+    left: 4%;
+    max-width: 680px;
   }
   .post-content {
     padding-left: 0;
@@ -366,17 +360,15 @@ text-overflow: ellipsis;
     padding-left: 0;
   }
   #postcontainer hr{
-    width: 456px;
-    position: relative;
-    left: 90px;
-    margin: 8px;
+    width: 680px;
+    left: 4%;
   }
 }
 
 @media (max-width: 480px) {
   .post-container {
-    left: 100px;
-    max-width: 350px;
+    left:2%;
+    max-width: 300px;
   }
   .post-content {
     padding-left: 0;
@@ -384,5 +376,9 @@ text-overflow: ellipsis;
   }
   .post-buttons {
     padding-left: 0;
+  }
+  #postcontainer hr{
+    width: 300px;
+    left:2%;
   }
 }
