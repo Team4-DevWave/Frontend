@@ -3,15 +3,16 @@
     display: flex;
     justify-content: space-between;
     margin-top: 2px;
-    margin-left: 200px;
+    margin-left: 300px;
 }
 
     
 .create-post-container {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start; /* Align items to the start of the container */
     margin-top: 10px;
-    margin-left: 200px;
+    margin-left: 300px;
     height: 100%;
 
 }
@@ -19,8 +20,8 @@
 .create-post-form-section {
     flex: 1;
     margin-right: 50px;
-    display: flex; /* Add this line */
-    flex-direction: column; /* Add this line */
+    display: flex;
+    flex-direction: column;
 
 }
 
@@ -102,7 +103,7 @@
 .dropdown-container {
     position: relative;
     margin-top: 20px;
-    margin-left: 200px;
+    margin-left: 300px;
   }
   
   /* Dropdown select */
@@ -164,48 +165,30 @@
 .title
 {
     margin-top: 70px;
-    margin-left: 200px;
+    margin-left: 300px;
+}
+.horizontalLine
+{
+    margin-left: 300px;
+
 }
 .Draftbt
 {
-color: #007bff;
-margin-left: 10px;
-margin-right: 100px;
-}
-.ptnn1
-{
-    width: 10%;
-    padding: 5px;
-    background-color: #c1cad3;
-    color: #fff;
-    border: none;
-    border-radius: 80px;
-    cursor: pointer;
+    color: #007bff;
+    margin-left: 10px; /* Adjust margin as needed */
     margin-top: 10px;
+    margin-right: 400px;
 
 }
-.ptnn1 button:hover {
-    background-color: #a81111; /* Darker shade of gray on hover */
-}
-.ptnn2
-{
-    width: 10%;
-    padding: 5px;
-    background-color: #c1cad3;
-    color: #fff;
-    border: none;
-    border-radius: 80px;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-left: 10px;
 
-}
+
+
 .ptnn3
 {
     width: 15%;
     padding: 5px;
-    background-color: #c1cad3;
-    color: #fff;
+    background-color: #0080ff;
+    color: #221e1e;
     border: none;
     border-radius: 80px;
     cursor: pointer;
@@ -214,7 +197,19 @@ margin-right: 100px;
     margin-bottom: 20px;
 
 }
-
+#button22
+{
+    width: 15%;
+    padding: 5px;
+    background-color: #0080ff;
+    color: #221e1e;
+    border: none;
+    border-radius: 80px;
+    cursor: pointer;
+    margin-top: 8px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
 #deleteicon1
 {
   width: 5%;
@@ -288,4 +283,12 @@ margin-right: 100px;
 #delete-option-button:hover {
 
     background-color: #d2d2d2; /* Darker green on hover */
+}
+@media (max-width: 768px) {
+    .navListsizeLg,
+    .create-post-container,
+    .title,
+    .Draftbt {
+        margin-left: 2px;
+    }
 }

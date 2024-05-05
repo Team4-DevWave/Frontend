@@ -7,7 +7,7 @@ import Img from "./Img";
 import Header from "../../layouts/Header";
 import Cookies from "js-cookie";
 import axios from "axios";
-
+import SideBar from "../../layouts/Sidebar";
 function Nav() {
   const [activeNavItem, setActiveNavItem] = useState(0);
   const [communities, setCommunities] = useState([]);
@@ -55,7 +55,7 @@ function Nav() {
   return (
     <>
       <Header />
-
+<SideBar/>
 
       <div>
         <div className="draft">
