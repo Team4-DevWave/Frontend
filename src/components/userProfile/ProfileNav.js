@@ -74,7 +74,7 @@ function ProfileNav({
   return (
     <div>
       <Tabs
-        className="profileNavTabs"
+        
         value={activeTab}
         onChange={handleTabChange}
         variant={isMobile ? "scrollable" : "standard"}

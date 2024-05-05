@@ -30,8 +30,7 @@ export default function FoundCommunities(props) {
     return (
       <List>
         {communityData.map((community) => (
-          <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+          <
           >
              <Link to={`/r/${community.name}`} style={{textDecoration:"none"}}>
             <ListItem alignItems="flex-start">
@@ -65,7 +64,7 @@ export default function FoundCommunities(props) {
             </ListItem>
             </Link>
             <Divider variant="inset" component="li" />
-          </List>
+          </>
         ))}
       </List>
     );

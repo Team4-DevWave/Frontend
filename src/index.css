@@ -1,20 +1,46 @@
-html
+:root{
+  --bs-body-bg: #f5f5f5;
+  --theme-background: #f5f5f5;
+  --hover-color: #d5d4d4c9;
+  --text-color: #333;
+}
+
+[data-theme="dark"]{
+  --bs-body-bg: #1a1a1b;
+  --theme-background: #2b2b2b;
+  --hover-color: #333;
+  --text-color: #f5f5f5;
+}
+
+[data-theme="light"]{
+  --bs-body-bg: #f5f5f5;
+  --theme-background: #f5f5f5;
+  --text-color: #333;
+}
+
+#root
 {
   font-family: "Roboto", sans-serif;
-  font-weight: 900;
+  
   font-style: normal;
+  background-color: var(--theme-background);
+  color: var(--text-color);
 }
-/* Header
-.container {
-  position: absolute;
-  left: 10%;
-  top: 32%;
-  transform: translate(10%);
-} */
+
+
+html,body{
+  scroll-behavior: smooth;
+  background-color: var(--theme-background);
+}
+
+p,svg,h1,h2,h3,h4,h5,h6,div,span,li,button{
+  color: var(--text-color);
+}
+
 
 nav{
-  border-bottom: 1px solid #e5e5e5;
-  background-color: white;
+  border-bottom: 1px solid var(--bs-body-bg);
+  background-color: var(--bs-body-bg);
   position: fixed !important;
   top: 0 !important;
   width: 100% !important;
@@ -129,7 +155,7 @@ Header .create {
 
 .sub-menu{
   position: relative;
-  background: white;
+  background: var(--bs-body-bg);
   padding: 20px;
   margin: 10px;
   border-radius: 3%;
@@ -160,7 +186,7 @@ Header .create {
 }
 
 .sub-menu-link:hover{
-  background: #f5f5f5;
+  background: var(--bs-body-bg);
   border-radius: 5px;
 }
 
@@ -238,7 +264,7 @@ Header .create {
   transition: all 0.2s ease-in-out;
 }
 .side-bar-link:hover{
-  background: #f5f5f5;
+  background: var(--hover-color);
   border-radius: 5px;
   padding: 0px 0px; /* Adjust as needed */
 }
@@ -284,7 +310,7 @@ summary div {
 }
 
 summary div:hover{
-  background-color: #f5f5f5;
+  background-color: var(--hover-color);
   border-radius: 5px;
 }
 

@@ -1,0 +1,20 @@
+{
+  "subredditrules": [
+    {
+      "id": "1",
+      "rules": ["No racism", "No sexism", "No homophobia"]
+    },
+    {
+      "id": "2",
+      "rules": ["No spam", "No self-promotion", "No doxxing"]
+    },
+    {
+      "id": "3",
+      "rules": [
+        "No NSFW content",
+        "No gore",
+        "No spam"
+      ]
+    }
+  ]
+}

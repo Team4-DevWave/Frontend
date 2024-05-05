@@ -175,12 +175,13 @@ function CreatePost() {
     };
 
     const handleEditDraft = (draft) => {
-        setTitle(draft.title);
-        setContent(draft.content);
+      setTitle(draft.title);
+      setContent(draft.content);
+      setShowSavedDrafts(false); 
     };
 
     const handleShowSavedDrafts = () => {
-        setShowSavedDrafts(true);
+      setShowSavedDrafts((prevShowSavedDrafts) => !prevShowSavedDrafts); // Toggle the state
     };
     ///////////////////////////////////////////////////////////////////
     const handleBoldClick = () => {
@@ -356,6 +357,7 @@ function CreatePost() {
                     <IconButton
                 aria-label="fingerprint"
                 color="error"
+                className="ptn2"
                 onClick={handleBoldClick}
               >
                 <FormatBoldIcon />
@@ -364,6 +366,7 @@ function CreatePost() {
               <IconButton
                 aria-label="fingerprint"
                 color="error"
+                className="ptn2"
                 onClick={handleItalicClick}
               >
                 <FormatItalicIcon />
@@ -372,6 +375,8 @@ function CreatePost() {
               <IconButton
                 aria-label="fingerprint"
                 color="error"
+                className="ptn2"
+
                 onClick={handleStrikeClick}
               >
                 <StrikethroughSIcon />
@@ -380,6 +385,8 @@ function CreatePost() {
               <IconButton
                 aria-label="fingerprint"
                 color="error"
+                className="ptn2"
+
                 onClick={handleCodeClick}
               >
                 <CodeIcon />
@@ -400,7 +407,7 @@ function CreatePost() {
 
 
                     <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''}>Save Draft</button>
+                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled={!title} className={!title  ? 'disabled-button' : ''}>Save Draft</button>
                         <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''} >Post</button>
                         {postDone && <script>alert("Post done");</script>}
 
@@ -412,7 +419,7 @@ function CreatePost() {
 
                     <Button
                         variant="danger"
-                        className="ptnn3"
+                        id="button22"
                         onClick={handleOc}
                         style={{ background: OC ? 'green' : '#c1cad3' }}
                     >
@@ -420,8 +427,8 @@ function CreatePost() {
                     </Button>
                     <Button
                         variant="danger"
-                        className="ptnn3"
-                        onClick={handleSpoiler}
+                        id="button22"
+                                    onClick={handleSpoiler}
                         style={{ background: spoiler1 ? 'green' : '#c1cad3' }}
 
                     >
@@ -429,7 +436,7 @@ function CreatePost() {
                     </Button>
                     <Button
                         variant="danger"
-                        className="ptnn3"
+                        id="button22"
                         onClick={handleNSFW}
                         style={{ background: NFSW ? 'green' : '#c1cad3' }}
                     >
@@ -438,7 +445,7 @@ function CreatePost() {
 
                     <Button
                         variant="danger"
-                        className="ptnn3"
+                        id="button22"
                         onClick={handleFlair}
                         style={{ background: Flair ? 'green' : '#c1cad3' }}
                     >
@@ -449,7 +456,24 @@ function CreatePost() {
             </div>
 
 
-
+            <div>
+                <button className='Draftbt' onClick={handleShowSavedDrafts}>Drafts</button>
+                {showSavedDrafts && (
+                    <div className="saved-drafts-popup">
+                        <h3>Saved Drafts</h3>
+                        <ul>
+                            {savedDrafts.map((draft, index) => (
+                                <li key={index}>
+                                  <div >Post:{index + 1}</div>
+                                    <div>Title: {draft.title}</div>
+                                    <div>Content: {draft.content}</div>
+                                    <button onClick={() => handleEditDraft(draft)}>Edit</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </div>
 
         </div>
     );

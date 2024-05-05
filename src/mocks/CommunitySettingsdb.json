@@ -1,0 +1,85 @@
+{
+  "CommunitySettings": [
+    {
+      "name": "testing1182",
+      "id": "1",
+        "description": "testing1182",
+      "type": "public",
+      "welcomeMessage": false,
+      "NSFW": false,
+      "acceptrequest": false
+    },
+    {
+      "name": "testing1183",
+      "id": "2",
+        "description": "testing1183",
+      "type": "public",
+      "welcomeMessage": false,
+      "NSFW": false,
+      "acceptrequest": false
+    },
+    {
+      "name": "testing1184",
+        "id": "3",
+        "description": "testing1184",
+      "type": "public",
+      "welcomeMessage": false,
+      "NSFW": false,
+      "acceptrequest": false
+    },
+    {
+      "name": "testing1185",
+      "id" :"4",
+      "description": "testing1185",
+      "type": "public",
+      "welcomeMessage": false,
+      "NSFW": false,
+      "acceptrequest": false
+    },
+    {
+      "name": "testing1186",
+      "id": "5",
+        "description": "testing1186",
+      "type": "public",
+      "welcomeMessage": false,
+      "NSFW": false,
+      "acceptrequest": false
+    },
+    {
+      "name": "testing1187",
+        "id": "6",
+        "description": "testing1187",
+      "type": "public",
+      "welcomeMessage": false,
+      "NSFW": false,
+      "acceptrequest": false
+    },
+    {
+      "name": "testing1188",
+      "id": "7",
+        "description": "testing1188",
+      "type": "public",
+      "welcomeMessage": false,
+      "NSFW": false,
+      "acceptrequest": false
+    },
+    {
+      "name": "testing1189",
+      "id": "8",
+        "description": "testing1189",
+      "type": "public",
+      "welcomeMessage": false,
+      "NSFW": false,
+      "acceptrequest": false
+    },
+    {
+      "name": "testing1190",
+"id": "9",
+        "description": "testing1190",
+      "type": "public",
+      "welcomeMessage": false,
+      "NSFW": false,
+      "acceptrequest": false
+    }
+  ]
+}

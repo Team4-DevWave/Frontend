@@ -5,8 +5,9 @@ import { PropTypes } from "prop-types";
 import routes from "../utils/routes";
 import { useRoutes } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
-function SideBar() {
+function SideBar(props) {
   const [recent, setRecent] = useState([]);
   useEffect(() => {
     fetch("https://www.reddit.com/r/redditdev.json")
@@ -17,10 +18,16 @@ function SideBar() {
   const [communities, setCommunities] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/v1/r/all")
-      .then((response) => setCommunities(response.data.data.subreddits))
+      .get("http://localhost:8000/api/v1/r/user_subreddits",
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+      )
+      .then((response) => setCommunities(response.data.data.userSubreddits))
       .catch((error) => console.error("Error:", error));
-  }, []);
+  }, [props]);
 
   return (
     <sidebar id="sidebar">
@@ -256,6 +263,46 @@ function SideBar() {
                 </div>
               </details>
             </li>
+            <hr className="horizontal-line" />
+            <li>
+              <details open>
+                <summary className="sub-list-title" data-testid="summary">
+                  <li>
+                    <div>
+                      FAVORITES
+                      <svg
+                        rpl=""
+                        fill="currentColor"
+                        height="20"
+                        icon-name="caret-down-outline"
+                        viewBox="0 0 20 20"
+                        width="20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="summary-arrow"
+                        role="svg"
+                      >
+                        {" "}
+                        <path d="M10 13.125a.624.624 0 0 1-.442-.183l-5-5 .884-.884L10 11.616l4.558-4.558.884.884-5 5a.624.624 0 0 1-.442.183Z"></path>
+                      </svg>
+                    </div>
+                  </li>
+                </summary>
+                <div className="sub-list">
+                  <ul className="sub-list-items">
+                    {Array.isArray(JSON.parse(localStorage.getItem("favorites"))) &&
+                      JSON.parse(localStorage.getItem("favorites")).map((item) => (
+                        <li key={item.id}>
+                          <a href="#item.url" className="side-bar-link">
+                            <img>{/* Your img here */}</img>
+                            <p>t/{item}</p>
+                          </a>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </details>
+            </li>
+
 
             <hr className="horizontal-line" />
             <li>
