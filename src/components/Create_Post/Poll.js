@@ -72,10 +72,10 @@ function Poll() {
         const pollOptions = {};
         options.forEach((option, index) => {
             // Skip empty options
-            if (option.trim() !== '') {
-                // Assign the option name as the key and set the value to 0
-                pollOptions[option] = 0;
-            }
+            // if (option.trim() !== '') {
+            //     // Assign the option name as the key and set the value to 0
+            //     pollOptions[option] = 0;
+            // }
         });
     
         // Prepare the data to be sent in the Axios request

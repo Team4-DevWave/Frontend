@@ -83,6 +83,8 @@ function Feed() {
                 ishide: item.hidden,
                 issaved: item.saved,
                 userVote: item.userVote,
+                Link: item.url,
+
               };
             } else {
               return null;

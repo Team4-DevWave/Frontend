@@ -15,6 +15,11 @@ import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Edit from "./Edit";
+import { FaLock } from "react-icons/fa";
+import { FaLockOpen } from "react-icons/fa";
+import { BsExclamationDiamond } from "react-icons/bs";
+import { BsExclamationDiamondFill } from "react-icons/bs";
+import { TbRating18Plus } from "react-icons/tb";
 
 
 function PostContainer({ postData }) {
@@ -219,7 +224,8 @@ function PostContainer({ postData }) {
   const handelsavedpost = () => {
     console.log("id posstttttt=", postData.id);
     console.log("tokeeeen=", token);
-
+    console.log("titelle::::",postData.title);
+    console.log("nsfw::::",postData.nsfw);
     axios
       .patch(
         `http://localhost:8000/api/v1/posts/${postData.id}/save`,
@@ -293,7 +299,8 @@ function PostContainer({ postData }) {
   const handelUnsaved = () => {
     console.log("id posstttttt=", postData.id);
     console.log("tokeeeen=", token);
-
+    console.log("titelle::::",postData.title);
+    console.log("nsfw::::",postData.nsfw);
     axios
       .patch(
         `http://localhost:8000/api/v1/posts/${postData.id}/save`,
@@ -591,6 +598,83 @@ function PostContainer({ postData }) {
                             <li>
                               <Delete onDelete={handleDelete} />
                             </li>
+
+                            <li
+                              onClick={
+                                postData.locked
+                                  ? handleLock
+                                  : handleLock
+                              }
+                            >
+                              {postData.locked ? (
+                                <>
+                                  <FaLock
+                                    sx={{ marginRight: "10px" }}
+                                  />
+                                     UnLock
+                                </>
+                              ) : (
+                                <>
+                                  <FaLockOpen
+                                    sx={{ marginRight: "10px" }}
+                                  />
+                                  Lock
+                                </>
+                              )}
+                            </li>
+
+
+                            <li
+                              onClick={
+                                postData.spoiler
+                                  ? handleSpoiler
+                                  : handleSpoiler
+                              }
+                            >
+                              {postData.locked ? (
+                                <>
+                                  <BsExclamationDiamondFill
+                                    sx={{ marginRight: "10px" }}
+                                  />
+                                     Remove Spoiler Tag
+                                </>
+                              ) : (
+                                <>
+                                  <BsExclamationDiamond
+                                    sx={{ marginRight: "10px" }}
+                                  />
+                                  Add Spoiler Tag
+                                </>
+                              )}
+                            </li>
+
+
+
+
+                            <li
+                              onClick={
+                                postData.nsfw
+                                  ? handleNSFW
+                                  : handleNSFW
+                              }
+                            >
+                              {postData.locked ? (
+                                <>
+                                  <TbRating18Plus
+                                    sx={{ marginRight: "10px" }}
+                                  />
+                                     Remove NSFW Tag
+                                </>
+                              ) : (
+                                <>
+                                  <TbRating18Plus
+                                    sx={{ marginRight: "10px" }}
+                                  />
+                                  Add NSFW Tag
+                                </>
+                              )}
+                            </li>
+
                           </>
                         ) : (
                           <>

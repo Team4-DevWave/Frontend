@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
-import UserPostContainer from "./UserPostContainer";
+import PostContainer from "../PostContainer";
 
 function PostFeed() {
   const [posts, setPosts] = useState([]);
@@ -25,7 +25,9 @@ function PostFeed() {
                 id: item._id,
                 title: item.title,
                 content: item.text_body,
-                time: item.postedTime,
+                time: item.lastEditedTime
+                  ? item.lastEditedTime
+                  : item.postedTime,
                 votes: item.votes,
                 numviews: item.numViews,
                 spoiler: item.spoiler,
@@ -36,9 +38,13 @@ function PostFeed() {
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
-                ishide: true,
-                issaved: false,
                 video: item.video,
+                subredditID: item.subredditID,
+                ishide: item.hidden,
+                issaved: item.saved,
+                userVote: item.userVote,
+                Link: item.url,
+
               };
             } else {
               return null;
@@ -67,7 +73,7 @@ function PostFeed() {
         // Render the posts
         posts.map((post, index) => {
           console.log("Post data:", post); // Log the post data here
-          return <UserPostContainer key={index} postData={post} />;
+          return <PostContainer key={index} postData={post} />;
         })
       )}
     </div>
