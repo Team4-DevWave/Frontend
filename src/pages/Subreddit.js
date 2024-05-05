@@ -21,7 +21,7 @@ import { useParams } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState } from "react";
-export default function Subreddit(props) {
+export default function Subreddit({ toggleTheme }) {
   const { subredditName } = useParams();
   const [sortOption, setSortOption] = React.useState("best");
   const [validSubreddit, setValidSubreddit] = React.useState(false);
@@ -295,7 +295,7 @@ export default function Subreddit(props) {
 
       <div class="angry-grid">
         <div id="item-0">
-          <Header />
+          <Header toggleTheme={toggleTheme} />
         </div>
         <div id="item-1">
           <SideBar joinStatus={joinStatus} favorites={favorites} />

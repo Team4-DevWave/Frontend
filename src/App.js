@@ -25,6 +25,7 @@ function App() {
     } else {
       setTheme(lightTheme);
     }
+    document.documentElement.setAttribute("data-theme", currentTheme);
   }, []);
   return (
     

@@ -26,10 +26,6 @@ function Home({toggleTheme}) {
     }, 2000);
   }, []);
 
-  useEffect(() => {
-    document.title = "Home";
-  
-  }, []);
 
 
 

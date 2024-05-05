@@ -14,7 +14,7 @@ import { useNavigate } from "react-router";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 
-function Login() {
+function Login({toggleTheme}) {
   let yourBearerToken = "";
 
   const config = {
@@ -61,6 +61,7 @@ function Login() {
           username: userState.username,
           email: userState.email,
           password: userState.password,
+          mtoken: "NONE",
         },
         config
       )

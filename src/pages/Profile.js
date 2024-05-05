@@ -6,7 +6,7 @@ import RightSidebar from "../components/userProfile/RightSidebar";
 import ProfileNav from "../components/userProfile/ProfileNav";
 import UserProfileHeader from "../components/userProfile/UserProfileHeader";
 import axios from "axios";
-function Profile() {
+function Profile({toggleTheme}) {
   const [userData, setUserData] = useState({
     username: "Mahmoud",
     postKarma: 1,
@@ -88,7 +88,7 @@ function Profile() {
 
   return (
     <div className="navbar-padding">
-      <Header />
+      <Header toggleTheme={toggleTheme}/>
       <div className="sidebar" id="profgrid-1">
         <SideBar />
       </div>

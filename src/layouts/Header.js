@@ -382,8 +382,6 @@ export default function Header({ toggleTheme }) {
         sx={{
           backgroundColor: (theme) =>
             theme.palette.mode === "dark" ? "#1a1a1b" : "#ffffff",
-
-          borderBottom: "1px solid #e0e0e0",
           color: "black",
         }}
       >
