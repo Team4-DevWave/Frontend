@@ -1,0 +1,128 @@
+{
+  "removed": [
+    {
+      "type": "post",
+      "data": {
+        "post": {
+          "_id": "aa0c",
+          "votes": {
+            "upvotes": 1,
+            "downvotes": 0
+          },
+          "username": "joe",
+          "title": "sjkna",
+          "content": "klasfn",
+          "bold": false,
+          "italic": false,
+          "id": "aa0c"
+        },
+        "id": "aa0c"
+      },
+      "user": {
+        "id": "a0c",
+        "name": "joe"
+      },
+      "date": "2013-01-01T00:00:00Z",
+      "subredditId": "2",
+      "reason": "spam",
+      "id": "aa0c",
+      "removedstatus": false,
+      "spamstatus": false,
+      "removedby": "admin",
+      "status": "disapproved"
+    },
+    {
+      "type": "post",
+      "data": {
+        "post": {
+          "_id": "aa0c",
+          "votes": {
+            "upvotes": 1,
+            "downvotes": 0
+          },
+          "username": "joe",
+          "title": "hello",
+          "content": "fax",
+          "bold": false,
+          "italic": false,
+          "id": "aa0d"
+        },
+        "id": "aa0d"
+      },
+      "user": {
+        "id": "a0c",
+        "name": "joe"
+      },
+      "date": "2013-01-01T00:00:00Z",
+      "subredditId": "1",
+      "reason": "spam",
+      "id": "aa0d",
+      "removedstatus": false,
+      "spamstatus": false,
+      "removedby": "admin",
+      "status": "approved"
+    },
+    {
+      "type": "post",
+      "data": {
+        "post": {
+          "_id": "aa0c",
+          "votes": {
+            "upvotes": 1,
+            "downvotes": 0
+          },
+          "username": "joe",
+          "title": "sjkna",
+          "content": "klasfn",
+          "bold": false,
+          "italic": false,
+          "id": "aa0e"
+        },
+        "id": "aa0e"
+      },
+      "user": {
+        "id": "a0c",
+        "name": "joe"
+      },
+      "date": "2013-01-01T00:00:00Z",
+      "subredditId": "1",
+      "reason": "spam",
+      "id": "aa0e",
+      "removedstatus": false,
+      "spamstatus": false,
+      "removedby": "admin",
+      "status": "disapproved"
+    },
+    {
+      "type": "comment",
+      "data": {
+        "comment": {
+          "_id": "aa0c",
+          "votes": {
+            "upvotes": 1,
+            "downvotes": 0
+          },
+          "username": "joe",
+          "title": "sjkna",
+          "content": "klasfn",
+          "bold": false,
+          "italic": false,
+          "id": "aa0f"
+        },
+        "id": "aa0f"
+      },
+      "user": {
+        "id": "a0c",
+        "name": "joe"
+      },
+      "date": "2013-01-01T00:00:00Z",
+      "subredditId": "1",
+      "reason": "spam",
+      "id": "aa0f",
+      "removedstatus": false,
+      "spamstatus": false,
+      "removedby": "admin",
+      "status": "disapproved"
+    }
+  ]
+}

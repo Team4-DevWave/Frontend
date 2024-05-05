@@ -3,15 +3,20 @@
   min-width: 400px;
   height: auto;
   position: relative;
- margin-left: 100px;
+  left: 100px;
   text-decoration: none;
+}
+
+#postcontainer{
+  max-width: 730px;
+  min-width: 400px;
 }
 
 #postcontainer hr{
   max-width: 730px;
   min-width: 400px;
   position: relative;
-  
+  left: 100px;
   margin: 8px;
 }
 
@@ -305,4 +310,79 @@ text-overflow: ellipsis;
 
 .options-list ul li:hover {
   background-color: #f0f0f0;
+}
+
+@media (max-width: 1350px) {
+  .post-container {
+    left: 100px;
+  }
+  .post-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .post-buttons {
+    padding-left: 0;
+  }
+  #postcontainer hr{
+    width: 730px;
+    position: relative;
+    left: 90px;
+    margin: 8px;
+  }
+  
+}
+
+@media (max-width: 980px) {
+  .post-container {
+    left: 100px;
+    max-width: 600px;
+  }
+  .post-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .post-buttons {
+    padding-left: 0;
+  }
+  #postcontainer hr{
+    width: 600px;
+    position: relative;
+    left: 90px;
+    margin: 8px;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .post-container {
+    left: 20px;
+    max-width: 450px;
+  }
+  .post-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .post-buttons {
+    padding-left: 0;
+  }
+  #postcontainer hr{
+    width: 456px;
+    position: relative;
+    left: 90px;
+    margin: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-container {
+    left: 100px;
+    max-width: 350px;
+  }
+  .post-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .post-buttons {
+    padding-left: 0;
+  }
 }

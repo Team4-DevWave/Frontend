@@ -3,6 +3,7 @@ import axios from 'axios'; // Import axios
 import "../../pages/Notification/notification.css"; // Import the CSS file
 import {Meta} from '@storybook/react';
 import propTypes from 'prop-types';
+import Cookies from 'js-cookie';
 
 // Import the images
 import commentImage from "../../images/comment.png";
@@ -17,10 +18,14 @@ const Notification = ({setNotificationCount}) => {
     const [unreadCount, setUnreadCount] = useState(0); // State variable to store count of unread notifications
 
     useEffect(() => {
-        axios.get('http://localhost:8000/get_notifications')
+        const bearerToken = Cookies.get('token');
+        const config = {
+            headers: { Authorization: `Bearer ${bearerToken}` },
+        };
+        axios.get('http://localhost:8000/api/v1/notifications', config)
             .then(response => {
-                setData(response.data);
-                setNotificationCount(response.data.length);
+                setData(response.data.data.notifications);
+                setNotificationCount(response.data.data.notifications.length);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -42,36 +47,72 @@ const Notification = ({setNotificationCount}) => {
                 return newPostImage;
             case "report":
                 return reportImage;
+            case "upvote":
+                return newPostImage;
+            case "follow":
+                return friendRequestImage;
+            case "mention":
+                return commentImage;
+
+
             default:
                 return null;
         }
     };
 
     const markAsRead = (index) => {
-        const notificationId = data[index].id; // Assuming each notification has an 'id' field
+        const notificationId = data[index]._id; // Assuming each notification has an '_id' field
+        const bearerToken = Cookies.get('token');
+        const config = {
+            headers: { Authorization: `Bearer ${bearerToken}` },
+        };
 
-        axios.post('http://localhost:8000/hide_notification', { notification_id: notificationId })
+        axios.patch(`http://localhost:8000/api/v1/notifications/hide/${notificationId}`, {}, config)
             .then(response => {
-                if (response.data.status === 'false') {
+                if (response.data.status == "success") {
+                    // Mark the notification as read in the state
+                    setData((oldData) => {
+                        const newData = [...oldData];
+                        newData[index].status = "false";
+                        return newData;
+                    });
+
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+        axios.patch(`http://localhost:8000/api/v1/notifications/read/${notificationId}` ,{}, config)
+            .then(response => {
+                if (response.data.status == "success") {
                     // Mark the notification as read in the state
                     setData((oldData) => {
                         const newData = [...oldData];
                         newData[index].status = "true";
                         return newData;
                     });
-                    setNotificationCount((prevCount) => prevCount - 1);
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
+        axios.get('http://localhost:8000/api/v1/notifications', config)
+            .then(response => {
+                setData(response.data.data.notifications);
+                setNotificationCount(response.data.data.notifications.length);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     };
 
     return (
+        //check
         <div>
             {/* Display the received data */}
             {data.map((notification, index) => (
-                !notification.isRead &&(
+                !notification.read &&(
                     <div key={index} className={`notification`}  onClick={() => markAsRead(index)}>
                         <img
                             src={getImage(notification.type)}
@@ -80,10 +121,13 @@ const Notification = ({setNotificationCount}) => {
                         />
                         <div>
                             {/*json { "status": "", [ "timestamp": "", "username": "", "subreddit": "", "type": "", "body": "" ] }*/}
-                            <h3 id={"datarecieved"}>Data received from server:</h3>
-                            <p>{notification.userName} has {notification.type}ed your post</p>
+
+                            <h3>{notification.content}</h3>
                             <p>{notification.threadData}</p>
-                            <p>{notification.timestamp}</p>
+                            <p> {
+                                // Create a new Date object with the timestamp
+                                new Date(notification.createdAt).toISOString().slice(0,16).replace("T", " ")
+                            }</p>
 
                         </div>
                     </div>

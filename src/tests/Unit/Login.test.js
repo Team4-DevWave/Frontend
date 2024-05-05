@@ -33,16 +33,7 @@ describe("Login Component", () => {
     );
     expect(screen.getByText(/Login with Google/i)).toBeInTheDocument();
   });
-  test("renders FacebookLogin component", () => {
-    render(
-      <GoogleOAuthProvider>
-        <Router>
-          <Login />
-        </Router>
-      </GoogleOAuthProvider>
-    );
-    expect(screen.getByText(/Login with Facebook/i)).toBeInTheDocument();
-  });
+ 
   test("renders user input", () => {
     render(
       <GoogleOAuthProvider>

@@ -69,6 +69,7 @@
   .post-text {
     font-size: 0.9rem;
     color: #555;
+    margin-left: 10px;
   }
   
   .post-image {
@@ -80,5 +81,19 @@
   
   .invalid-post {
     color: #ff0000;
+  }
+  .blur-image {
+    filter: blur(1px);
+    opacity: 0.5;
+    height: 80px;
+    width: calc(100% - 2 * 15px); /* Calculate width minus left and right margins */
+    margin: 10px 15px; /* Adjust margins as needed */
+    border-radius: 8px; /* Keep border radius consistent with other elements */
+  }
+  #spoiler1 {
+    font-weight: bold;
+    margin-right: 100px; /* Add some spacing between elements */
+    margin-top: 100px;
+    margin-left: 500px;
   }
   

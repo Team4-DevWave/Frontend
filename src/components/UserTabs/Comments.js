@@ -23,7 +23,6 @@ export const LiveCommentsProvider = ({ children }) => {
   const addLiveComment = (comment) => {
     setLiveComments([...liveComments, comment]);
   };
-
   return (
     <LiveCommentsContext.Provider value={{ liveComments, addLiveComment }}>
       {children}
@@ -54,7 +53,7 @@ function Comments() {
         console.log("Posts data:", response.data.data.post);
 
         const item = response.data.data.post;
-        if (item.text_body) {
+        if (item) {
           const mappedData = {
             id: item._id,
             title: item.title,
@@ -70,6 +69,11 @@ function Comments() {
             username: item.userID.username,
             commentsCount: item.commentsCount,
             image: item.image,
+            video: item.video,
+            subredditID: item.subredditID,
+            ishide: false,
+            issaved: false,
+            userVote: item.userVote,
           };
           console.log("mappeddata", mappedData.content);
           setPost(mappedData);
@@ -91,14 +95,22 @@ function Comments() {
   }
   return (
     <LiveCommentsProvider>
-      <div style={{ marginTop: "67px" }}>
-        <Header />
-        <SideBar />
+      <div>
+        <div className="home-grid">
+          <div id="grid-0">
+            <Header />
+          </div>
+          <div id="grid-1">
+            <SideBar />
+          </div>
+          <div id="grid-2">
+            {post && <PostContainer postData={post} />}
+            <AddComment postID={id} lock={post.locked} />
+            <CommentFeed postID={id} />
+          </div>
+        </div>
         <div style={{ paddingBottom: "30px" }}></div>
         {/* Uncomment the following line if you have a PostContainer component */}
-        {post && <PostContainer postData={post} />}
-        <AddComment postID={id} />
-        <CommentFeed postID={id} />
       </div>
     </LiveCommentsProvider>
   );

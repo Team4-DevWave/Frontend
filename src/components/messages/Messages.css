@@ -4,11 +4,27 @@
     align-items: start;
     padding: 20px;
     border: 1px solid #e0e0e0;
-    border-radius: 10px;
+    border-radius: 50px;
     margin-bottom: 20px;
     background-color: #fff;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
+    max-width: 1200px;
+    max-height: 4000px;
+
+}
+.subject-Message {
+    margin-bottom: 1000px;
+    display: flex;
+}
+
+.message-text {
+    font-family: 'Courier New', monospace;
+}
+.message-time {
+    position: absolute;
+    top: 0;
+    right: 30px;
 }
 
 .message-container:hover {
@@ -50,4 +66,11 @@
 .Send-button{
     margin-right:10px;
 
+}
+.Are_you_sure_label{
+    margin-top:25px;
+}
+
+.yes_Button{
+    margin-right:20px;
 }

@@ -21,6 +21,9 @@ import OverView from "../components/UserTabs/Overview.js";
 import Upvoted from "../components/UserTabs/Upvoted.js";
 import Downvoted from "../components/UserTabs/Downvoted.js";
 import { useParams } from "react-router-dom";
+import SearchPage from "../pages/SearchPage";
+import Chat from "../pages/chat/ChatPage.js";
+import ModQueue from "../pages/ModQueue/ModQueue";
 
 function CommentsRoute() {
   const { id, title } = useParams();
@@ -34,15 +37,17 @@ const routes = {
   "/signup": () => <Signup />,
   "/settings": () => <Settings />,
   "/messages": () => <Message />,
-  "/user": () => <UserPage />,
+  "/user/:username": () => <UserPage />,
   "/reset": () => <ResetCredentials />,
   "/Notification": () => <Notification />,
   "/CreatePost": () => <CreatePost />,
   "/profile": () => <Profile />,
-  "/r/:subreddit": () => (
+  "/r/:subredditName": () => (
     <Subreddit name="Persona3" description="h" rules="h" members="h" />
   ),
+  "/modqueue": () => <ModQueue />,
   "/comments/:id/:title": CommentsRoute,
+  "search/:query": () => <SearchPage />,
 
   //**These are test routes and will be removed upon integration */
   "/selectgender": () => <SelectGender />,
@@ -55,5 +60,6 @@ const routes = {
   "/overview": () => <OverView />,
   "/upvoted": () => <Upvoted />,
   "/downvoted": () => <Downvoted />,
+  "/chat": () => <Chat />,
 };
 export default routes;
