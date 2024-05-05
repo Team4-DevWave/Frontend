@@ -136,20 +136,7 @@ body{
     transition: 0.3s;
 }
 
-/* .input-field input:focus + .placeholder-label{
-    top: 0;
-    transform: translateY(-90%);
-    font-size: 14px;
-    color: #49a7ff;
 
-}
-.input-field input.has-value + .placeholder-label {
-    position: absolute;
-    top: 0;
-    transform: translateY(-90%);
-    font-size: 14px;
-    color: #000000;
-  } */
 
 .remember-forgot{
     display: flex;

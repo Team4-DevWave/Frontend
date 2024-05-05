@@ -332,7 +332,7 @@ text-overflow: ellipsis;
 }
 
 .options-list ul li:hover {
-  background-color: #f0f0f0;
+  background-color: var(--hover-color);
 }
 
 @media (max-width: 1350px) {

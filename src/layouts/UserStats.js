@@ -291,7 +291,7 @@ export default function UserStats(props) {
           justifyContent: "center",
           boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
           borderRadius: "25px",
-          backgroundColor: "#f5f5f5",
+         
         }}
       >
         <span style={{ display: "inline" }}>
@@ -304,11 +304,9 @@ export default function UserStats(props) {
               aria-haspopup="true"
               onClick={handleClick}
               sx={{
-                backgroundColor: "#f5f5f5",
+                
                 color: "#000",
-                "&:hover": {
-                  backgroundColor: "#f5f5f5",
-                },
+                width: "40px",
                 borderRadius: "50px",
                 border: "1px solid #000",
                 boxShadow: "none",
@@ -347,8 +345,8 @@ export default function UserStats(props) {
             <Button
               endIcon={<IoChatbubbleEllipsesOutline />}
               sx={{
-                backgroundColor: "white",
-                color: "black",
+                
+              
                 "&:hover": {
                   backgroundColor: "#f5f5f5",
                 },

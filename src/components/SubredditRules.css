@@ -1,5 +1,24 @@
+:root {
+  --bs-body-bg: #f5f5f5;
+  --theme-background: #f5f5f5;
+  --hover-color: #d5d4d4c9;
+  --text-color: #333;
+}
+
+[data-theme="dark"] {
+  --bs-body-bg: #1a1a1b;
+  --theme-background: #2b2b2b;
+  --hover-color: #333;
+  --text-color: #f5f5f5;
+}
+
+[data-theme="light"] {
+  --bs-body-bg: #f5f5f5;
+  --theme-background: #f5f5f5;
+  --text-color: #333;
+}
 .subreddit-rules{
-    background-color: rgba(222, 222, 222, 0.701);
+    background-color: var(--hover-color);
     padding: 10px;
     max-height: 70vh; /* Set a fixed height for the div */
   overflow-y: auto; 

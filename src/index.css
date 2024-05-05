@@ -21,7 +21,7 @@
 #root
 {
   font-family: "Roboto", sans-serif;
-  font-weight: 900;
+  
   font-style: normal;
   background-color: var(--theme-background);
   color: var(--text-color);

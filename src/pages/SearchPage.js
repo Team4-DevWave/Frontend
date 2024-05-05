@@ -20,7 +20,7 @@ import FoundComments from "../layouts/SearchResultsTabs/FoundComments";
 import FoundMedia from "../layouts/SearchResultsTabs/FoundMedia";
 
 
-export default function SearchPage() {
+export default function SearchPage({ toggleTheme}) {
   const { query } = useParams();
   const [results, setResults] = useState([]);
   const [page, setPage] = React.useState(1);
@@ -63,7 +63,7 @@ export default function SearchPage() {
   return (
     <div className="home-grid">
       <div id="grid-0">
-        {Cookies.get("token") ? <Header /> : <GuestHeader />}
+        {Cookies.get("token") ? <Header toggleTheme={toggleTheme} /> : <GuestHeader />}
       </div>
       <div id="grid-1">
         {Cookies.get("token") ? <SideBar /> : <GuestSideBar />}
