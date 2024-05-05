@@ -18,7 +18,9 @@ import Cookies from "js-cookie";
 import LoadingScreen from "../components/LoadingScreen";
 import SubredditRules from "../components/SubredditRules";
 import { useParams } from "react-router-dom";
-
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useState } from "react";
 export default function Subreddit(props) {
   const { subredditName } = useParams();
   const [sortOption, setSortOption] = React.useState("best");
@@ -110,6 +112,10 @@ export default function Subreddit(props) {
         )
         .then((response) => {
           console.log("Unsubscribe response:", response);
+          // remove from favorites
+          let newFavorites = favorites.filter((item) => item !== subredditName);
+          localStorage.setItem("favorites", JSON.stringify(newFavorites));
+          setFavorites(newFavorites);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -215,6 +221,24 @@ export default function Subreddit(props) {
     };
   }, []);
 
+  const [favorites, setFavorites] = useState(
+    JSON.parse(localStorage.getItem("favorites")) || []
+  );
+
+  const handleFavorite = () => {
+    let newFavorites;
+    if (favorites.includes(subredditName)) {
+      newFavorites = favorites.filter((item) => item !== subredditName);
+    } else {
+      newFavorites = [...favorites, subredditName];
+      if(joinStatus === "Join") {
+        handleJoin();
+      }
+    }
+    localStorage.setItem("favorites", JSON.stringify(newFavorites));
+    setFavorites(newFavorites);
+  };
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -230,7 +254,23 @@ export default function Subreddit(props) {
         open={Boolean(anchorEl)}
         onClose={handleCloseMore}
       >
-        <MenuItem onClick={handleCloseMore}>Add to favorites</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleFavorite();
+          }}
+        >
+          {favorites.includes(subredditName) ? (
+            <FavoriteIcon
+              sx={{
+                color: "red",
+                padding: "5px",
+              }}
+            />
+          ) : (
+            <FavoriteBorderIcon sx={{ padding: "5px" }} />
+          )}
+          {favorites.includes(subredditName) ? "Unfavorite" : "Favorite"}
+        </MenuItem>
         <MenuItem onClick={handleCloseMore}>Mute t/{subredditName}</MenuItem>
       </Menu>
 
@@ -258,7 +298,7 @@ export default function Subreddit(props) {
           <Header />
         </div>
         <div id="item-1">
-          <SideBar />
+          <SideBar joinStatus={joinStatus} favorites={favorites} />
         </div>
         <div id="item-2">
           <SortOptions onSortOptionChange={setSortOption} />
@@ -269,16 +309,31 @@ export default function Subreddit(props) {
           </div>
         </div>
         <div id="item-3">
-          <SubredditRules isSticky={isSticky} />
+          <SubredditRules
+            isSticky={isSticky}
+            status={subredditData.status}
+            members={subredditData.members.length}
+            rules={subredditData.rules}
+            moderators={subredditData.moderators}
+            people={subredditData.members}
+          />
         </div>
         <div id="item-4">
           {" "}
           <div className="subreddit-container">
-            <div className="subreddit-banner"></div>
+           <div 
+  className="subreddit-banner" 
+  style={{
+    backgroundImage: `url("https://preview.redd.it/k0ozkhhjubh31.jpg?width=2400&format=pjpg&auto=webp&s=6d44bf6a3a98bee16d1a70697b919fbd53a97796")`
+  }}
+></div>
             <div className="internal-banner-strip">
               <img
                 className="subreddit-image"
-                src={subredditData.srLooks.icon}
+                src={
+                  subredditData.srLooks.icon ||
+                  "https://fastly.picsum.photos/id/511/200/200.jpg?hmac=QTzrMGu9nrJDRE4TMoboI_EAM5ZdwXF09ylHr7LFZCg"
+                }
               />
               <div className="subreddit-strip">
                 <h1 className="subreddit-title">t/{subredditData.name}</h1>

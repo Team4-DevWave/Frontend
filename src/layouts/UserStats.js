@@ -18,6 +18,7 @@ import {
   Radio,
   FormControlLabel,
   InputLabel,
+  Snackbar,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import MoreVert from "@mui/icons-material/MoreVert";
@@ -31,6 +32,7 @@ import { MdFmdBad } from "react-icons/md";
 import { MdOutlineQuestionAnswer } from "react-icons/md";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import CustomSnackbar from "../components/MUIEdited/CustomSnackbar";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 export default function UserStats(props) {
   const username = props.username;
@@ -42,13 +44,16 @@ export default function UserStats(props) {
   const [radioValue, setRadioValue] = React.useState("");
   const [offense, setOffense] = React.useState("");
   const [followed, setFollowed] = useState(false);
-  
+  const [snack, openSnack] = useState(false);
+  const [followStatus, setFollowStatus] = useState(false);
+  const [blockedStatus, setBlockedStatus] = useState(false);
+
   const handleRadioChange = (event) => {
     setRadioValue(event.target.value);
     setOffense(event.target.value);
   };
 
-  const openSnack = (bool) => {
+  const openReportPopUp = (bool) => {
     setOpenReport(bool);
   };
 
@@ -62,6 +67,16 @@ export default function UserStats(props) {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const sendReport = () => {
+    const token = Cookies.get("token");
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    axios.post();
   };
 
   useEffect(() => {
@@ -81,8 +96,100 @@ export default function UserStats(props) {
       });
   }, [username]);
 
+  useEffect(() => {
+    console.log("useEffect");
+    const token = Cookies.get("token");
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    axios
+      .get(`http://localhost:8000/api/v1/users/me/current`, config)
+      .then((response) => {
+        let followed = response.data.data.user.followedUsers.includes(username);
+        let blocked = response.data.data.user.blockedUsers.includes(username);
+        setFollowStatus(followed);
+        setBlockedStatus(blocked);
+        console.log("followed", followed);
+        console.log("blocked", blocked);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const toggleFollow = () => {
+    const token = Cookies.get("token");
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    if (!followStatus) {
+      axios
+        .post(
+          `http://localhost:8000/api/v1/users/me/friend/${username}`,
+          config
+        )
+        .then((response) => {
+          setFollowStatus(response.status == 200 ? true : false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .post(
+          `http://localhost:8000/api/v1/users/me/friend/${username}`,
+          config
+        )
+        .then((response) => {
+          setFollowStatus(response.status == 204 ? false : true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const handleBlock = () => {
+    const token = Cookies.get("token");
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    if (!blockedStatus) {
+      axios
+        .post(`http://localhost:8000/api/v1/users/me/block/${username}`, config)
+        .then((response) => {
+          setBlockedStatus(response.status == 200 ? true : false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    else{
+      axios
+        .post(`http://localhost:8000/api/v1/users/me/block/${username}`, config)
+        .then((response) => {
+          setBlockedStatus(response.status == 204 ? false : true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
   return (
     <div style={{ marginLeft: "10px", marginTop: "20px" }}>
+      <CustomSnackbar
+        isOpen={snack}
+        onClose={() => openSnack(false)}
+        message="User has been reported to moderators. Thank you for helping keep our community safe!"
+        severity="warning"
+      />
       <Dialog open={openReport} onClose={handleCloseReport}>
         <DialogTitle>Report User</DialogTitle>
         <DialogContent sx={{ width: 300 }}>
@@ -132,11 +239,19 @@ export default function UserStats(props) {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button
+            onClick={() => {
+              setOpenReport(false);
+              handleClose();
+            }}
+          >
+            Cancel
+          </Button>
           <Button
             onClick={() => {
               openSnack(true);
-              handleClose();
+              sendReport();
+              setOpenReport(false);
             }}
             disabled={!offense}
             variant="contained"
@@ -155,11 +270,15 @@ export default function UserStats(props) {
       >
         <MenuItem onClick={handleClose}>Share</MenuItem>
         <MenuItem onClick={handleClose}>Send a Message</MenuItem>
-        <MenuItem onClick={handleClose}>Block Account</MenuItem>
-        <MenuItem onClick={()=>{
+        <MenuItem onClick={handleBlock}>Block Account</MenuItem>
+        <MenuItem
+          onClick={() => {
             handleClose();
             setOpenReport(true);
-        }}>Report Profile</MenuItem>
+          }}
+        >
+          Report Profile
+        </MenuItem>
       </Menu>
       <Card
         sx={{
@@ -203,7 +322,14 @@ export default function UserStats(props) {
           </div>
           <div>
             <Button
-              endIcon={<AddCircleOutlineTwoToneIcon />}
+              onClick={toggleFollow}
+              endIcon={
+                !followStatus ? (
+                  <AddCircleOutlineTwoToneIcon />
+                ) : (
+                  <RemoveCircleOutlineIcon />
+                )
+              }
               sx={{
                 backgroundColor: "#0079d3",
                 color: "#fff",
@@ -215,7 +341,7 @@ export default function UserStats(props) {
                 marginTop: "1rem",
               }}
             >
-              Follow
+              {followStatus ? "Unfollow" : "Follow"}
             </Button>
 
             <Button
@@ -230,7 +356,7 @@ export default function UserStats(props) {
                 border: "1px solid #000",
                 padding: "0.5rem 1rem",
                 marginTop: "1rem",
-                marginLeft: "1rem",
+                marginLeft: "0.8rem",
               }}
             >
               Chat

@@ -1,5 +1,5 @@
 .subreddit-banner {
-  background-color: #0079d3;
+  
 
   /* margin-left: 400px; */
   border-radius: 10px 10px 0 0;
@@ -168,7 +168,7 @@
    
 }
 
-@media (max-width: 1500px){
+@media (max-width: 1710px){
   #item-3{
       display: none;
   }
