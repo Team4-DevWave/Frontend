@@ -1,12 +1,26 @@
 import "./Profile.css";
 import Header from "../layouts/Header";
 import React, { useEffect, useState } from "react";
-import SideBar from "../layouts/Sidebar";
-import RightSidebar from "../components/userProfile/RightSidebar";
-import ProfileNav from "../components/userProfile/ProfileNav";
-import UserProfileHeader from "../components/userProfile/UserProfileHeader";
 import axios from "axios";
-function Profile({toggleTheme}) {
+import { Avatar, Typography, Tabs, Tab } from "@mui/material";
+import OverView from "../components/UserTabs/Overview";
+import UserPost from "../components/UserTabs/UserPost";
+import UserComments from "../components/UserTabs/UserComments";
+import UserSavedPost from "../components/UserTabs/UserSavedPost";
+import UserHidden from "../components/UserTabs/UserHiddenPost";
+import Upvoted from "../components/UserTabs/Upvoted";
+import Downvoted from "../components/UserTabs/Downvoted";
+import UserStats from "../layouts/UserStats";
+import Sidebar from "../layouts/Sidebar";
+
+import { useParams } from "react-router-dom";
+
+function Profile({ toggleTheme }) {
+  const [value, setValue] = React.useState(0);
+  const [username, setUsername] = useState("moashraf");
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  }
   const [userData, setUserData] = useState({
     username: "Mahmoud",
     postKarma: 1,
@@ -87,40 +101,67 @@ function Profile({toggleTheme}) {
   }, []);
 
   return (
-    <div className="navbar-padding">
-      <Header toggleTheme={toggleTheme}/>
-      <div className="sidebar" id="profgrid-1">
-        <SideBar />
-      </div>
+    <>
+      <div class="home-grid">
+        <div id="grid-0">
+          <Header toggleTheme={toggleTheme} />
+        </div>
+        <div id="grid-1">
+          <Sidebar />
+        </div>
+        <div
+          id="grid-2"
+          style={{
+            borderRadius: "50px",
+          }}
+        >
+          <div className="user-profile-data" style={{ padding: "20px" }}>
+            <Avatar
+              alt={username}
+              sx={{
+                width: "100px",
+                height: "100px",
 
-      <div class="profileCSS">
-        <div class="userProfileHeader">
-          <UserProfileHeader />
+                marginBottom: "10px",
+              }}
+              src={
+                userData.profilePicture || "https://i.redd.it/ym0nsl4yrgq71.jpg"
+              }
+            />
+            <Typography variant="h4" style={{ fontWeight: "bold" }}>
+              u/{localStorage.getItem("username")}
+            </Typography>
+          </div>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="auto"
+            aria-label="scrollable auto tabs example"
+          >
+            <Tab label="Overview" />
+            <Tab label="Posts" />
+            <Tab label="Comments" />
+            <Tab label="Saved" />
+            <Tab label="Hidden" />
+            <Tab label="Upvoted" />
+            <Tab label="Downvoted" />
+
+          </Tabs>
+          <hr />
+          {value === 0 && <OverView />}
+          {value === 1 && <UserPost />}
+          {value === 2 && <UserComments />}
+          {value === 3 && <UserSavedPost />}
+          {value === 4 && <UserHidden />}
+          {value === 5 && <Upvoted />}
+          {value === 6 && <Downvoted />}
+        </div>
+        <div id="grid-3">
+          <UserStats username={localStorage.getItem("username")} />
         </div>
       </div>
-      <div class="profileNav">
-        <ProfileNav
-          overviewData={userData.overviewData}
-          postsData={userData.postsData}
-          commentsData={userData.commentsData}
-          savedData={userData.savedData}
-          hiddenData={userData.hiddenData}
-          upvotedData={userData.upvotedData}
-          downvotedData={userData.downvotedData}
-        />
-      </div>
-      <div className="rightSidebar">
-        <RightSidebar
-          username={userData.username}
-          postKarma={userData.postKarma}
-          commentKarma={userData.commentKarma}
-          cakeDay={userData.cakeDay}
-          goldReceived={userData.goldReceived}
-          socialLinks={userData.socialLinks}
-          moderationTools={userData.moderationTools}
-        />
-      </div>
-    </div>
+    </>
   );
 }
 
