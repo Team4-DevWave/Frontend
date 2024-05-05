@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import "./SubredditRules.css";
+import { Avatar, ListItemAvatar, ListItemText } from "@mui/material";
+import { use } from "marked";
+import { useNavigate } from "react-router-dom";
+import { List, ListItem} from "@mui/material";
 
 export default function SubredditRules(props) {
     useEffect(() => {
@@ -8,19 +12,19 @@ export default function SubredditRules(props) {
     }, [props.isSticky]);
    
 
-
+    const navigate = useNavigate();
     return (
         <div className={props.isSticky? "subreddit-rules sticky": "subreddit-rules"}>
-            <h3>Description</h3>
+            <h3>About Community</h3>
             <div className="subreddit-description">
-                lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                {props.status}
             </div>
             <hr />
             <div className="subreddit-data">
-                <ul>
+                <ul className="data-list">
                     <li>
                         <strong>
-                            221k
+                            {props.members}
                         </strong>
                         <span>
                             Members
@@ -28,7 +32,7 @@ export default function SubredditRules(props) {
                     </li>
                     <li>
                         <strong>
-                            1008
+                        {props.members}
                         </strong>
                         <span>
                             Online
@@ -49,46 +53,44 @@ export default function SubredditRules(props) {
             <div className="subreddit-ruleset">
                 <h3>Rules</h3>
                 <ol type="1">
-                    <li>
-                     No Racism
-                    </li>
-                    <li>
-                     No Sexism  
-                    </li>
-                    <li>
-                        No Xenophobia
-                    </li>
-                    <li>
-                        No Danganronpa fans
-                    </li>
-                    <li>
-                        No Hate Speech
-                    </li>
-                    <li>
-                        No Harassment
-                    </li>
-                    <li>
-                        No Spam
-                    </li>
+                    {props.rules.length === 0 && <li style={{listStyle:"none"}}>No rules have been set for this subreddit</li>}
+                    {props.rules.map((rule, index) => (
+                        <li key={index}>
+                            {rule}
+                        </li>
+                    ))}
 
                 </ol>
             </div>
             <div className="subreddit-mods">
                 <h3>Moderators</h3>
-                <ul>
-                    <li>
-                        <img className="mod-avatar" src="https://www.redditstatic.com/avatars/avatar_default_03_24A0ED.png" alt="moderator" />
-                        <span>u/moderator1</span>
-                    </li>
-                    <li>
-                        <img className="mod-avatar" src="https://www.redditstatic.com/avatars/avatar_default_03_24A0ED.png" alt="moderator" />
-                        <span>u/moderator2</span>
-                    </li>
-                    <li>
-                        <img className="mod-avatar" src="https://www.redditstatic.com/avatars/avatar_default_03_24A0ED.png" alt="moderator" />
-                        <span>u/moderator3</span>
-                    </li>
-                </ul>
+              <List>
+                {props.moderators.map((mod, index) => (
+                    <ListItem key={index} onClick={()=> navigate(`/user/${mod.username}`)} style={{cursor:"-moz-grab"}} >
+                       <ListItemAvatar>
+                            <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpOcB5CtpnCFAaxz3wh59gJGAlw3j_U4dNGbyCkt-izA&s" sx={{ width: 30, height: 30 }} />
+                       </ListItemAvatar>
+                       <ListItemText>
+                            u/{mod.username}
+                       </ListItemText>
+                    </ListItem>
+                ))}
+              </List>
+
+                <h3>Members</h3>
+                <List>
+                {props.people.map((member, index) => (
+                    <ListItem key={index} onClick={()=> navigate(`/user/${member.username}`)} style={{cursor:"cell"}} >
+                       <ListItemAvatar>
+                            <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpOcB5CtpnCFAaxz3wh59gJGAlw3j_U4dNGbyCkt-izA&s" sx={{ width: 30, height: 30 }} />
+                       </ListItemAvatar>
+                       <ListItemText>
+                            u/{member.username}
+                       </ListItemText>
+                    </ListItem>
+                ))}
+              </List>
+                
 
             </div>
         </div>

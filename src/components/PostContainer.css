@@ -1,3 +1,26 @@
+
+:root{
+  --bs-body-bg: #f5f5f5;
+  --theme-background: #f5f5f5;
+  --hover-color: #d5d4d4c9;
+  --text-color: #333;
+  --comments: #e2e2e2;
+}
+
+[data-theme="dark"]{
+  --bs-body-bg: #1a1a1b;
+  --theme-background: #2b2b2b;
+  --hover-color: #333;
+  --text-color: #f5f5f5;
+  --comments: #333; 
+}
+
+[data-theme="light"]{
+  --bs-body-bg: #f5f5f5;
+  --theme-background: #f5f5f5;
+  --text-color: #333;
+}
+
 .post-container{
   max-width: 730px;
   min-width: 400px;
@@ -21,7 +44,7 @@
 }
 
 .post-container:hover{
-  background: #f5f5f5;
+  background: var(--hover-color);
   border-radius: 20px;
 }
 
@@ -71,7 +94,7 @@ text-overflow: ellipsis;
 
 .comments{
   position: relative;
-  background: #ebeaea;
+  background: var(--comments);
   border-radius: 20px;
   cursor: pointer;
   margin-right: 6px;
@@ -79,7 +102,7 @@ text-overflow: ellipsis;
 }
 
 .comments:hover{
-  background: #e2e2e2;
+  background: var(--hover-color);
   border-radius: 20px;
 }
 
@@ -183,7 +206,7 @@ text-overflow: ellipsis;
   position: relative;
   height: 30px;
   display: flex;
-  background: #ebeaea;
+  background: var(--comments);
   border-radius: 20px;
   cursor: pointer;
   margin-right: 6px;
@@ -222,7 +245,7 @@ text-overflow: ellipsis;
 
 .share-menu{
   position: relative;
-  background: white;
+  background: var(--theme-background);
   margin: 10px;
   border-radius: 8%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -269,7 +292,7 @@ text-overflow: ellipsis;
 }
 
 .options-button {
-  background-color: #fff;
+  background-color: var(--comments);
   color: black;
   border: none;
   padding: 8px 12px;
@@ -279,7 +302,7 @@ text-overflow: ellipsis;
 }
 
 .options-button:hover {
-  background-color: #e2e2e2; /* Change to black */
+  background-color: var(--hover-color); /* Change to black */
   color: black; /* Change text color to white when hovered */
   border-radius: 50px; /* Reset border-radius */
 }
@@ -289,7 +312,7 @@ text-overflow: ellipsis;
   position: absolute;
   top: calc(100% + 10px);
   right: 0%;
-  background-color: #fff;
+  background-color: var(--theme-background);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   z-index: 1;
@@ -309,7 +332,7 @@ text-overflow: ellipsis;
 }
 
 .options-list ul li:hover {
-  background-color: #f0f0f0;
+  background-color: var(--hover-color);
 }
 
 @media (max-width: 1350px) {
