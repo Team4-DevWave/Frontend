@@ -198,9 +198,9 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
     console.log("newchatroom ", tempChatRoomName.current)
   };
   return (
-    <Grid className="chat-section-second ">
+    <Grid className="chat-section-second">
       <div className="header-container-secondSection">
-        <h1 className="chat-header-secondSection">{selectedChatroom ? selectedChatroom.chatroomName : 'Chat Room'}</h1>
+        <h1 className="chatroomName-secondSection">{selectedChatroom ? selectedChatroom.chatroomName : 'Chat Room'}</h1>
         <div className="headerTabs-secondSection">
           <IconButton className="settings-button-secondSection" color="primary">
             <SettingsIcon />
@@ -214,7 +214,7 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
 
         </div>
       </div>
-      <div className="messages">
+      <div className="createChatRoom-or-Message">
         {showNewChatRoomCreation ? (
           <div>
             <div>
@@ -251,27 +251,25 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
         ) :
           (
             <Grid className='ChatAreaBetweenUsers'>
-              <Grid item xs={11}>
-                <Box ref={chatSectionRef}>
+              <Box ref={chatSectionRef}>
 
-                  {chatMessages2.map((message, index, arr) => (
-                    <div key={index} className="message-container">
-                      {(index === 0 || message.sender.username !== arr[index - 1].sender.username) &&
-                        <div className="username-time">
-                          <Avatar src={message.sender.profilePicture} className="avatar" style={{ marginRight: '10px' }} />
-                          <Typography variant="subtitle1">{message.sender.username}</Typography>
-                          <Typography variant="caption" color="text.secondary" className="time-caption">
-                            {new Date(message.dateSent).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </Typography>
-                        </div>
-                      }
-                      <Typography variant="body1" className="message-text">{message.message}</Typography>
-                    </div>
-                  ))}
+                {chatMessages2.map((message, index, arr) => (
+                  <div key={index} className="message-container">
+                    {(index === 0 || message.sender.username !== arr[index - 1].sender.username) &&
+                      <div className="username-time">
+                        <Avatar src={message.sender.profilePicture} className="avatar" style={{ marginRight: '10px' }} />
+                        <Typography variant="subtitle1">{message.sender.username}</Typography>
+                        <Typography variant="caption" color="text.secondary" className="time-caption">
+                          {new Date(message.dateSent).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </Typography>
+                      </div>
+                    }
+                    <Typography variant="body1" className="message-text">{message.message}</Typography>
+                  </div>
+                ))}
 
-                  <div ref={messagesEndRef} />
-                </Box>
-              </Grid>
+                <div ref={messagesEndRef} />
+              </Box>
               <Grid item xs={11}>
               </Grid>
             </Grid>
@@ -279,9 +277,7 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
 
         }
       </div>
-      <div >
-        {!showNewChatRoomCreation &&selectedChatroom && <MessageInputForm selectedChatroom={selectedChatroom} socketRef={socketRef} />}
-      </div>
+        {!showNewChatRoomCreation && selectedChatroom && <MessageInputForm selectedChatroom={selectedChatroom} socketRef={socketRef} />}
     </Grid>
 
 
@@ -433,12 +429,10 @@ function ChatWindow({ toggleOverlay, showOverlay }) {
 
   return (
 
-    <div className="chat-window" >{/* onClick={handleClick} */}
-      <Grid container className='gridOfchatwindow' >
+    <Grid className="chat-window" >{/* onClick={handleClick} */}
         <ChatRoomList />
         <ChatSection handleclose={handleclose} showOverlay={showOverlay} selectedChatroom={selectedChatroom} showNewChatRoomCreation={showNewChatRoomCreation} config={config} bearerToken={bearerToken} chatMessages={chatMessages} fetchChatrooms={fetchChatrooms} />
-      </Grid>
-    </div>
+    </Grid>
   );
 }
 
