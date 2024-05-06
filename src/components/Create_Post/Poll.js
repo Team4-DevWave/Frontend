@@ -95,7 +95,7 @@ function Poll() {
         // Make the Axios request
         try {
             const response = await axios.post(
-                community === "username" ? `http://localhost:8000/api/v1/posts/submit/u/${username}` : `http://localhost:8000/api/v1/posts/submit/r/${community}`,
+                community === "username" ? `https://www.threadit.tech/api/v1/posts/submit/u/${username}` : `https://www.threadit.tech/api/v1/posts/submit/r/${community}`,
                 postData,
                 config
             );

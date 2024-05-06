@@ -72,7 +72,7 @@ const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,
     console.log("newChatRoomMembers: ", newChatRoomMembers.current);
     axios
       .post(
-        'http://localhost:8000/api/v1/chatrooms/',
+        'https://www.threadit.tech/api/v1/chatrooms/',
         {
           chatroomName: tempChatRoomName.current,
           chatroomMembers: newChatRoomMembers.current,
@@ -142,7 +142,7 @@ const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,
     if (!socketRef.current) {
       console.log("hello initttttttttttttttttttttttttttttttttt ");
       setinit(true);
-      const socket = io('http://localhost:3002/', { query: { token: bearerToken } });
+      const socket = io('https://www.threadit.tech/', { query: { token: bearerToken } });
       socketRef.current = socket;
       socketRef.current.on("connect", () => {
         console.log("socket  connected");

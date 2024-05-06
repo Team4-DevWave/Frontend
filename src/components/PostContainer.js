@@ -374,7 +374,7 @@ function PostContainer({ postData }) {
     console.log("lockeddddd------->", postData.locked);
     axios
       .patch(
-        `http://localhost:8000/api/v1/posts/${postData.id}/lock`,
+        `https://www.threadit.tech/api/v1/posts/${postData.id}/lock`,
         null,
         config
       )
@@ -399,7 +399,7 @@ function PostContainer({ postData }) {
     console.log("spoiler------->", postData.spoiler);
     axios
       .patch(
-        `http://localhost:8000/api/v1/posts/${postData.id}/spoiler`,
+        `https://www.threadit.tech/api/v1/posts/${postData.id}/spoiler`,
         null,
         config
       )
@@ -424,7 +424,7 @@ function PostContainer({ postData }) {
     console.log("nsfw------->", postData.spoiler);
     axios
       .patch(
-        `http://localhost:8000/api/v1/posts/${postData.id}/nsfw`,
+        `https://www.threadit.tech/api/v1/posts/${postData.id}/nsfw`,
         null,
         config
       )

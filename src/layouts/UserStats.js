@@ -105,7 +105,7 @@ export default function UserStats(props) {
     };
 
     axios
-      .get(`http://localhost:8000/api/v1/users/me/current`, config)
+      .get(`https://www.threadit.tech/api/v1/users/me/current`, config)
       .then((response) => {
         let followed = response.data.data.user.followedUsers.includes(username);
         let blocked = response.data.data.user.blockedUsers.includes(username);
@@ -129,7 +129,7 @@ export default function UserStats(props) {
     if (!followStatus) {
       axios
         .post(
-          `http://localhost:8000/api/v1/users/me/friend/${username}`,
+          `https://www.threadit.tech/api/v1/users/me/friend/${username}`,
           config
         )
         .then((response) => {
@@ -141,7 +141,7 @@ export default function UserStats(props) {
     } else {
       axios
         .post(
-          `http://localhost:8000/api/v1/users/me/friend/${username}`,
+          `https://www.threadit.tech/api/v1/users/me/friend/${username}`,
           config
         )
         .then((response) => {
@@ -162,7 +162,7 @@ export default function UserStats(props) {
 
     if (!blockedStatus) {
       axios
-        .post(`http://localhost:8000/api/v1/users/me/block/${username}`, config)
+        .post(`https://www.threadit.tech/api/v1/users/me/block/${username}`, config)
         .then((response) => {
           setBlockedStatus(response.status == 200 ? true : false);
         })
@@ -172,7 +172,7 @@ export default function UserStats(props) {
     }
     else{
       axios
-        .post(`http://localhost:8000/api/v1/users/me/block/${username}`, config)
+        .post(`https://www.threadit.tech/api/v1/users/me/block/${username}`, config)
         .then((response) => {
           setBlockedStatus(response.status == 204 ? false : true);
         })
