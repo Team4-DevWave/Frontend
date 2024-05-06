@@ -30,6 +30,12 @@ import TagIcon from "@mui/icons-material/Tag";
 import Chat from "../components/Chat/ChatWindow.js";
 import NotificationDropdown from "../components/NotificationDropdown";
 
+
+import Overlay from "../components/overlay/Overlay.js";
+import ChatIcon from '@mui/icons-material/Chat';
+
+import CustomSwitch from "../components/MUIEdited/CustomSwitch.js";
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -54,6 +60,22 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
 }));
+
+function useChatWindowIcon() {
+  const [showOverlay, setShowOverlay] = useState(false);
+
+  const toggleOverlay = () => {
+    setShowOverlay(!showOverlay);
+  };
+  return (
+    <div>
+      <IconButton onClick={toggleOverlay} className="chatIconInHome">
+        <ChatIcon />
+      </IconButton>
+      {showOverlay && <Overlay toggleOverlay={toggleOverlay} showOverlay={showOverlay} />}
+    </div>
+  );
+}
 
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -87,25 +109,53 @@ const SearchResults = styled("div")(({ theme }) => ({
 
 const handleKeyPress = (event) => {
   if (event.key === "Enter") {
-
     window.location.href = `/search/${event.target.value}`;
   }
 };
 
-export default function Header() {
+const handleTheme = (toggleTheme) => {
+  console.log("changing theme");
+  const html = document.querySelector("html");
+  toggleTheme();
+  //props.toggleTheme();
+  if (html.getAttribute("data-theme") === "dark") {
+    html.setAttribute("data-theme", "light");
+    localStorage.setItem("theme", "light");
+  } else {
+    html.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+  }
+};
+
+export default function Header({ toggleTheme }) {
+  useEffect(() => {
+    //load theme
+    const html = document.querySelector("html");
+    const theme = localStorage.getItem("theme");
+    if (theme) {
+      html.setAttribute("data-theme", theme);
+    } else {
+      html.setAttribute("data-theme", "light");
+      localStorage.setItem("theme", "light");
+    }
+  }, []);
+
   const [notificationsCount, setNotificationsCount] = useState(0);
   const fetchNotificationCount = () => {
-    const bearerToken = Cookies.get('token');
+    const bearerToken = Cookies.get("token");
     const config = {
       headers: { Authorization: `Bearer ${bearerToken}` },
     };
-    axios.get('http://localhost:8000/api/v1/notifications', config)
-      .then(response => {
-        const unreadNotifications = response.data.data.notifications.filter(notification => !notification.read);
+    axios
+      .get("http://localhost:8000/api/v1/notifications", config)
+      .then((response) => {
+        const unreadNotifications = response.data.data.notifications.filter(
+          (notification) => !notification.read
+        );
         setNotificationsCount(unreadNotifications.length);
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
       });
   };
   const [showChat, setShowChat] = useState(false);
@@ -205,21 +255,11 @@ export default function Header() {
           <p>Edit Avatar</p>
         </a>
       </MenuItem>
-      <MenuItem className="header-item" onClick={handleMenuClose}>
+      <MenuItem className="header-item" onClick={()=>handleTheme(toggleTheme)}>
         <a href="#" className="sub-menu-link" data-testid="dark-mode-nav">
-          <svg
-            rpl=""
-            fill="currentColor"
-            height="20"
-            icon-name="night-outline"
-            viewBox="0 0 20 20"
-            width="20"
-            xmlns="http://www.w3.org/2000/svg"
-            role="svg"
-          >
-            <path d="M9.875 19a9.073 9.073 0 0 1-8.48-5.78 1.094 1.094 0 0 1 .247-1.191 1.145 1.145 0 0 1 1.232-.255c1.13.449 2.361.587 3.564.4A6.89 6.89 0 0 0 12.17 6.44a6.806 6.806 0 0 0-.394-3.564 1.148 1.148 0 0 1 .255-1.231 1.1 1.1 0 0 1 1.193-.248 9.082 9.082 0 0 1 5.746 9.254 9.184 9.184 0 0 1-8.32 8.32 11.93 11.93 0 0 1-.775.028Zm-7.206-5.967A7.871 7.871 0 1 0 13.033 2.668 8.116 8.116 0 0 1 2.669 13.033Z"></path>
-          </svg>
-          <p>Dark Mode</p>
+          <p>
+            Dark Mode <CustomSwitch />{" "}
+          </p>
         </a>
       </MenuItem>
       <MenuItem className="header-item" onClick={handleMenuClose}>
@@ -302,47 +342,16 @@ export default function Header() {
         </Badge>
 
         <p>Notifications</p>
-
-
-
-
       </MenuItem>
 
       <MenuItem>
         {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
-
-        {/* <IconButton onClick={() => { setShowChat(true) }}
-          size="large"
-          aria-label="show 4 new mails"
-          color="inherit"
-        >
-
-
-
-          <Badge color="error">
-            <svg
-
-              rpl=""
-              fill="currentColor"
-              height="20"
-              icon-name="chat-outline"
-              viewBox="0 0 20 20"
-              width="20"
-              xmlns="http://www.w3.org/2000/svg"
-              role="svg"
-            >
-              <path d="M11.61 19.872a10.013 10.013 0 0 0 6.51-4.035A9.999 9.999 0 0 0 12.275.264c-1.28-.3-2.606-.345-3.903-.132a10.05 10.05 0 0 0-8.25 8.311 9.877 9.877 0 0 0 1.202 6.491l-1.24 4.078a.727.727 0 0 0 .178.721.72.72 0 0 0 .72.19l4.17-1.193A9.87 9.87 0 0 0 9.998 20c.54 0 1.079-.043 1.612-.128ZM1.558 18.458l1.118-3.69-.145-.24A8.647 8.647 0 0 1 1.36 8.634a8.778 8.778 0 0 1 7.21-7.27 8.765 8.765 0 0 1 8.916 3.995 8.748 8.748 0 0 1-2.849 12.09 8.763 8.763 0 0 1-3.22 1.188 8.68 8.68 0 0 1-5.862-1.118l-.232-.138-3.764 1.076ZM6.006 9a1.001 1.001 0 0 0-.708 1.707A1 1 0 1 0 6.006 9Zm4.002 0a1.001 1.001 0 0 0-.195 1.981 1 1 0 1 0 .195-1.98Zm4.003 0a1.001 1.001 0 1 0 0 2.003 1.001 1.001 0 0 0 0-2.003Z"></path>
-            </svg>
-          </Badge>
-
-          {showChat && <Chat onClose={closeChatWindow} />}
-
-          <p>Chat</p>
-
-
-        </IconButton> */}
-
+        {/*call useChatWindowIcon*/}
+        <div style={{ marginTop: '10px' }}>
+          {useChatWindowIcon()}
+        </div>
         {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
+
       </MenuItem>
 
       <MenuItem onClick={handleProfileMenuOpen}>
@@ -382,10 +391,11 @@ export default function Header() {
       //remove hashtag from search
       search.replace("#", "");
       axios
-        .get(`http://localhost:8000/api/v1/homepage/search?q=${search}&sort=Top&page=1`)
+        .get(
+          `http://localhost:8000/api/v1/homepage/search?q=${search}&sort=Top&page=1`
+        )
         .then((response) => {
           setResults(response.data.data.subreddits.slice(0, 4));
-
 
           console.log(results);
         })
@@ -400,9 +410,8 @@ export default function Header() {
       <AppBar
         position="fixed"
         sx={{
-          backgroundColor: "white",
-
-          borderBottom: "1px solid #e0e0e0",
+          backgroundColor: (theme) =>
+            theme.palette.mode === "dark" ? "#1a1a1b" : "#ffffff",
           color: "black",
         }}
       >
@@ -454,7 +463,7 @@ export default function Header() {
             }}
             onKeyDown={(e) => handleKeyPress(e)}
             style={{
-              backgroundColor: "#d3d3d3",
+              borderColor: "black",
               borderRadius: "20px",
               width: !searchSize ? "50%" : "",
             }}
@@ -477,8 +486,8 @@ export default function Header() {
                 Communities
               </Typography>
               <List>
-
-                {results && results.length > 0 &&
+                {results &&
+                  results.length > 0 &&
                   results.map((community, i) => (
                     <ListItem
                       key={i}
@@ -495,16 +504,18 @@ export default function Header() {
                           alignItems: "center",
                         }}
                       >
-                        <img src={community.srLooks.icon} alt="icon" width="35px" height="35px"
+                        <img
+                          src={community.srLooks.icon}
+                          alt="icon"
+                          width="35px"
+                          height="35px"
                           style={{ marginRight: "10px", borderRadius: "50px" }}
                         />
-
 
                         <p>t/{community.name}</p>
                       </a>
                     </ListItem>
                   ))}
-
 
                 <ListItem
                   style={{
@@ -526,35 +537,9 @@ export default function Header() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
-
-            {/* <IconButton onClick={() => {
-              console.log('IconButtonnnnnnnnnnnnnnnnnnnnnnnnnnn clicked');
-              setShowChat(true);
-            }}
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge color="error">
-                <svg
-
-                  rpl=""
-                  fill="currentColor"
-                  height="20"
-                  icon-name="chat-outline"
-                  viewBox="0 0 20 20"
-                  width="20"
-                  xmlns="http://www.w3.org/2000/svg"
-                  role="svg"
-                >
-                  <path d="M11.61 19.872a10.013 10.013 0 0 0 6.51-4.035A9.999 9.999 0 0 0 12.275.264c-1.28-.3-2.606-.345-3.903-.132a10.05 10.05 0 0 0-8.25 8.311 9.877 9.877 0 0 0 1.202 6.491l-1.24 4.078a.727.727 0 0 0 .178.721.72.72 0 0 0 .72.19l4.17-1.193A9.87 9.87 0 0 0 9.998 20c.54 0 1.079-.043 1.612-.128ZM1.558 18.458l1.118-3.69-.145-.24A8.647 8.647 0 0 1 1.36 8.634a8.778 8.778 0 0 1 7.21-7.27 8.765 8.765 0 0 1 8.916 3.995 8.748 8.748 0 0 1-2.849 12.09 8.763 8.763 0 0 1-3.22 1.188 8.68 8.68 0 0 1-5.862-1.118l-.232-.138-3.764 1.076ZM6.006 9a1.001 1.001 0 0 0-.708 1.707A1 1 0 1 0 6.006 9Zm4.002 0a1.001 1.001 0 0 0-.195 1.981 1 1 0 1 0 .195-1.98Zm4.003 0a1.001 1.001 0 1 0 0 2.003 1.001 1.001 0 0 0 0-2.003Z"></path>
-                </svg>
-              </Badge>
-
-              {showChat && <Chat onClose={closeChatWindow} />}
-
-
-            </IconButton> */}
+            <div style={{ marginTop: '10px' }}>
+          {useChatWindowIcon()}
+        </div>
 
             {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
 

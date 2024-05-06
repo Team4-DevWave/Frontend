@@ -30,62 +30,148 @@ import { use } from 'marked';
 
 import io from "socket.io-client";
 
+import MessageInputForm from './MessageInputForm.js';
 
 
-function ChatWindow(props) {
-  const ChatWindow = styled(Card)({
-    display: 'block',
-    position: 'fixed',
-    bottom: 0,
-    height: 500,
-    width: 900,
-    right: 10,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 20,
-  });
-  const handleClick = (event) => {
-    event.stopPropagation();
-    // Rest of your click handler code
+function FriendCheckbox({ username, initialChecked,handleFriendsChange  }) 
+{
+  console.log("initialChecked", initialChecked);
+  const [isChecked, setIsChecked] = useState(initialChecked && initialChecked.current.includes(username) ? true : false);
+  const handleChange = () => {
+    setIsChecked(!isChecked);
+    handleFriendsChange(username);
   };
-  const [chatMessages, setchatMessages] = useState([]);
-  const [chatRommsIsFetched, setchatRommsIsFetched] = useState(false);
-  const username = localStorage.getItem("username");
-  const [chatRoomsMembers, setchatRoomsMembers] = useState([]);
-  const [chatroomName, setchatroomName] = useState([username, "hussein"]);
-  const [newMessage, setNewMessage] = useState('');
-  const inputRef = useRef();
-  const textareaRef = useRef();
 
-  // const socket = io.connect("http://localhost:3002");
-  const [message, setMessage] = useState("");
-  const [messageReceived, setMessageReceived] = useState("");
+  return (
+    <Checkbox 
+      checked={isChecked}  
+      onChange={handleChange}
+    />
+  );
+}
 
 
-  const [newChatRoomName, setnewChatRoomName] = useState('');
-  const [newChatRoomMembers, setnewChatRoomMembers] = useState([]);
+
+const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,selectedChatroom,showNewChatRoomCreation,config,bearerToken,chatMessages,fetchChatrooms}) {
+  const chatSectionRef = useRef(null);
+  const socketRef = useRef(null);
+  const [init, setinit] = useState(false);
+  const tempChatRoomName = useRef('');
+  const newChatRoomMembers = useRef([]);
   const [FollowedUsers, setFollowedUsers] = useState([]);
   const messagesEndRef = useRef(null);
-  const [showNewChatRoomCreation, setShowNewChatRoomCreation] = useState(false);
-  //  <Avatar src={message.sender.profilePicture} />
+  const [chatMessages2, setchatMessages2] = useState(chatMessages);
+  console.log("ChatSection rendered");
+  const textareaRef = useRef();
+  console.log("chatMessages148", chatMessages);
 
-  const [chatRooms, setChatRooms] = useState([]);
-  const [selectedChatroom, setselectedChatroom] = useState(null);
 
-  const [init, setinit] = useState(false);
-  const socketRef = useRef(null);
-
-  let bearerToken = Cookies.get('token');
-  const config = {
-    headers: { Authorization: `Bearer ${bearerToken}` },
-
+  const handleCreateNewChatRoom = (e) => {
+    e.preventDefault();
+    console.log("newChatRoomNameallooohus: ", tempChatRoomName.current);
+    console.log("newChatRoomMembers: ", newChatRoomMembers.current);
+    axios
+      .post(
+        'http://localhost:8000/api/v1/chatrooms/',
+        {
+          chatroomName: tempChatRoomName.current,
+          chatroomMembers: newChatRoomMembers.current,
+        },
+        config
+      )
+      .then((response) => {
+        if (response.status === 201) {
+          console.log("Chatroom created successfully");
+          //clear the newChatRoomMembers
+          newChatRoomMembers.current = [];
+           fetchChatrooms();
+          toast.success('Chatroom created successfully');
+        } else {
+          console.log("Failed to create chatroom");
+        }
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+  useEffect(() => {
+    if(chatMessages)
+      {
+        setchatMessages2(chatMessages);
+      }
+    }
+  , [chatMessages]);
 
 
+  useEffect(() => {
+    if(showNewChatRoomCreation)
+      {
+    handleGetFollowedUsers();
+      }
+  }, [showNewChatRoomCreation]);
+      
 
-  console.log('ChatWindow renderedddddddddddddddd');
+
+  // useEffect(() => {
+  //   if (!init) {
+  //     console.log("hello initttttttttttttttttttttttttttttttttt ");
+  //     setinit(true);
+  //     const socket = io('http://localhost:3002/', { query: { token: bearerToken } });
+  //     socketRef.current = socket;
+  //     socketRef.current.on("connect", () => {
+  //       console.log("socket  connected");
+  //       socketRef.current.emit("login", bearerToken);
+  //       socketRef.current.emit('join rooms');
+
+  //       socketRef.current.on("message received", (data) => {
+  //         console.log("message received98756", data);
+  //         setchatMessages2(prevMessages => [...prevMessages, data]);
+          
+
+  //       });
+
+  //     });
+  //   }
+  //   return () => {
+
+  //   };
+  // }, [init]);
+
+  useEffect(() => {
+    if (!socketRef.current) {
+      console.log("hello initttttttttttttttttttttttttttttttttt ");
+      setinit(true);
+      const socket = io('http://localhost:3002/', { query: { token: bearerToken } });
+      socketRef.current = socket;
+      socketRef.current.on("connect", () => {
+        console.log("socket  connected");
+        socketRef.current.emit("login", bearerToken);
+        socketRef.current.emit('join rooms');
+
+        socketRef.current.on("message received", (data) => {
+          console.log("message received98756", data);
+          console.log("message received98756", data.sender.sender.username);
+
+          setchatMessages2(prevMessages => [...prevMessages, data.sender]);
+          
+
+        });
+
+      });
+    }
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.off("message received");
+        socketRef.current.off("new message");
+        socketRef.current.off("connect")
+      }
+
+    };
+  }, [socketRef]);
 
 
-
+  
   const handleGetFollowedUsers = async () => {
     axios.get('http://localhost:8000/api/v1/users/me/current', config)
       .then(response => {
@@ -98,35 +184,167 @@ function ChatWindow(props) {
       });
   }
 
-  const handleCreateNewChatRoomIcon = () => {
-    setShowNewChatRoomCreation(true);
-  };
-  const handleNameChange = (event) => {
-    setnewChatRoomName(event.target.value);
+
+  const handleNameChange = (chatRoomName1) => {
+    console.log("chatRoomName1: ", chatRoomName1);
+    tempChatRoomName.current = chatRoomName1;
+    console.log("after tempChatRoomName: ", tempChatRoomName.current);
   };
   const handleFriendsChange = (selectedFriends) => {
     console.log("selectedFriends: ", selectedFriends);
-    setnewChatRoomMembers(prevMembers => {
-      if (prevMembers.includes(selectedFriends)) {
-        // If selectedFriends is already in the array, remove it
-        return prevMembers.filter(member => member !== selectedFriends);
-      } else {
-        // If selectedFriends is not in the array, add it
-        return prevMembers.concat(selectedFriends);
-      }
-    });
+    if (newChatRoomMembers.current.includes(selectedFriends)) {
+      // If selectedFriends is already in the array, remove it
+      newChatRoomMembers.current = newChatRoomMembers.current.filter(member => member !== selectedFriends);
+    } else {
+      // If selectedFriends is not in the array, add it
+      newChatRoomMembers.current = newChatRoomMembers.current.concat(selectedFriends);
+    }
+    console.log("newchatroom ",tempChatRoomName.current)
   };
+  return (
+    <Grid className="chat-section-second ">
+      <div className="header-container">
+        <h1 className="chat-header">{selectedChatroom ? selectedChatroom.chatroomName : 'Chat Room'}</h1>
+        <div className="headerTabs">
+          <IconButton className="settings-button" color="primary">
+            <SettingsIcon />
+          </IconButton>
+
+          <IconButton className="dropdown-button" color="primary">
+            <ArrowDropDownIcon />
+          </IconButton>
+          <IconButton className="close-button" color="primary" onClick={() => { if (showOverlay) handleclose(socketRef); }}>
+          <CloseIcon> 
+          </CloseIcon >
+          </IconButton>
+
+        </div>
+      </div>
+      <div className="messages">
+        {showNewChatRoomCreation ? (
+          <div>
+            <div>
+              <div style={{ marginBottom: '16px' }}>
+
+                <TextField
+
+                  ref={textareaRef}
+
+                  className="ChatRoomName"
+                  onChange={(e) => {
+                  handleNameChange(e.target.value);
+                  }}
+                  multiline
+                  variant="outlined"
+                />
+
+
+              </div>
+              {FollowedUsers.map((user, index) => (
+                <div key={index}>
+                  
+                  <FriendCheckbox
+                    username={user.username}
+                    newChatRoomMembers={newChatRoomMembers}
+                    handleFriendsChange={handleFriendsChange}
+                  />
+                  <label>{user.username}</label>
+                </div>
+              ))}
+              <Button variant="contained" color="primary" onClick={handleCreateNewChatRoom}>Create</Button>
+            </div>
+          </div>
+        ) :
+          (
+            <Grid className='ChatAreaBetweenUsers'>
+              <Grid item xs={11}>
+                <Box ref={chatSectionRef}>
+
+                  {chatMessages2.map((message, index, arr) => (
+                    <div key={index} className="message-container">
+                      {(index === 0 || message.sender.username !==arr[index - 1].sender.username) &&
+                        <div className="username-time">
+                          <Avatar src={message.sender.profilePicture} className="avatar" style={{ marginRight: '10px' }} />      
+                          <Typography variant="subtitle1">{message.sender.username}</Typography>
+                          <Typography variant="caption" color="text.secondary" className="time-caption">
+                            {new Date(message.dateSent).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </Typography>
+                        </div>
+                      }
+                      <Typography variant="body1" className="message-text">{message.message}</Typography>
+                    </div>
+                  ))}
+
+                  <div ref={messagesEndRef} />
+                </Box>
+              </Grid>
+              <Grid item xs={11}>
+              </Grid>
+            </Grid>
+          )
+
+        }
+      </div>
+      <div >
+        {!showNewChatRoomCreation && <MessageInputForm selectedChatroom={selectedChatroom} socketRef={socketRef} />}
+      </div>
+    </Grid>
+
+
+
+  );
+});
+
+
+function ChatWindow({ toggleOverlay, showOverlay}) {
+
+  console.log("ChatWindow rendered");
+  const [chatMessages, setchatMessages] = useState([]);
+  const [chatRommsIsFetched, setchatRommsIsFetched] = useState(false);
+  const username = localStorage.getItem("username");
+
+  // const [chatRoomsMembers, setchatRoomsMembers] = useState([]);
+  // const [chatroomName, setchatroomName] = useState([username, "hussein"]);
+
+
+  // const [newMessage, setNewMessage] = useState('');
+
+  // const [message, setMessage] = useState("");
+  // const [messageReceived, setMessageReceived] = useState("");
+
+
+  // const [newChatRoomName, setnewChatRoomName] = useState('');
+  const [showNewChatRoomCreation, setShowNewChatRoomCreation] = useState(false);
+  //  <Avatar src={message.sender.profilePicture} />
+
+  const [chatRooms, setChatRooms] = useState([]);
+  const [selectedChatroom, setselectedChatroom] = useState(null);
+
+
+  let bearerToken = Cookies.get('token');
+  const config = {
+    headers: { Authorization: `Bearer ${bearerToken}` },
+
+  };
+
+
+
+
+
+
 
   const loadChat = async (chatroom) => {
     try {
       console.log("i am rendered whic is not goooddddd");
       const response = await axios.get(`http://localhost:8000/api/v1/chatrooms/${chatroom._id}/messages/`, config);
       setchatMessages(response.data.data.chatMessages);
+      
+      console.log("chatMessages123456789: ", chatMessages);
       setShowNewChatRoomCreation(false);
       setselectedChatroom(chatroom);
-      if (socketRef.current) {
-        socketRef.current.emit("join rooms");
-      }
+      // if (socketRef.current) {
+      //   socketRef.current.emit("join rooms");
+      // }
 
     } catch (error) {
       console.error('Failed to load chat:', error);
@@ -140,7 +358,7 @@ function ChatWindow(props) {
       setchatRommsIsFetched(true);
       const response = await axios.get('http://localhost:8000/api/v1/chatrooms/', config);
       //  console.log(response); // Log the entire response
-      console.log("i am the king " + response.data.data.chatrooms);
+      // console.log("i am the king " + response.data.data.chatrooms);
 
       if (response.data.data.chatrooms.length > 0) {
         setChatRooms(response.data.data.chatrooms);
@@ -157,45 +375,21 @@ function ChatWindow(props) {
 
   useEffect(() => {
     if (!chatRommsIsFetched) {
-      fetchChatrooms();
+      console.log("fetching chatrooms123456789");
+       fetchChatrooms();
     }
   }, []);
 
 
 
 
-
-
-
-
-  const handleCreateNewChatRoom = (e) => {
-    e.preventDefault();
-    console.log("newChatRoomName: ", newChatRoomName);
-    console.log("ismaillllll: ", newChatRoomMembers);
-    axios
-      .post(
-        'http://localhost:8000/api/v1/chatrooms/',
-        {
-          chatroomName: newChatRoomName,
-          chatroomMembers: newChatRoomMembers,
-        },
-        config
-      )
-      .then((response) => {
-        if (response.status === 201) {
-          console.log("Chatroom created successfully");
-          fetchChatrooms();
-          toast.success('Chatroom created successfully');
-        } else {
-          console.log("Failed to create chatroom");
-        }
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const handleCreateNewChatRoomIcon = () => {
+    setShowNewChatRoomCreation(true);
   };
 
+
+
+  
 
   function ChatRoomList() {
     // State and logic for chat room list
@@ -211,7 +405,7 @@ function ChatWindow(props) {
           <div className="headerdisplayChatRooms">
             <h1 className="chat-headerone">Chats</h1>
             <div className="header-icons">
-              <IconButton color="primary" onClick={(event) => { handleCreateNewChatRoomIcon(event); handleGetFollowedUsers(); }}>
+              <IconButton color="primary" onClick={(event) => { handleCreateNewChatRoomIcon(event) }}>
                 <AddIcon />
               </IconButton>
 
@@ -233,218 +427,28 @@ function ChatWindow(props) {
     );
   }
 
-  const handleclose = () => {
+  const handleclose = (socketRef) => {
     {
+      console.log("socket offf");
       socketRef.current.off("message received");
       socketRef.current.off("new message");
       socketRef.current.off("connect")
       socketRef.current.off("login");
     }
+    //call the passed fn to toggleoverlay
+    toggleOverlay();
   }
-
-  function ChatSection(props) {
-
-    useEffect(() => {
-      if (!init) {
-        console.log("hello initttttttttttttttttttttttttttttttttt ");
-        setinit(true);
-        const socket = io('http://localhost:3002/', { query: { token: bearerToken } });
-        socketRef.current = socket;
-        socketRef.current.on("connect", () => {
-          console.log("Connected to the serverrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-          //selectedChatroom._id
-          socketRef.current.emit("login", bearerToken);
-          socketRef.current.emit('join rooms');
-  
-          // socket.on("receive_message", (data) => {
-          //   setchatMessages(prevMessages => [...prevMessages, data]);
-          //   console.log("message receiveddddddddddd: ", data.message);
-  
-          // });
-          socketRef.current.on("message received", (data) => {
-            setchatMessages(prevMessages => [...prevMessages, data]);
-            console.log("message receiveddddddddddd: ", data.content);
-  
-          });
-  
-        });
-      }
-
-      
-      return () => {
-
-      };
-    }, [init]);
-
-
-    // State and logic for selected chat room
-    useEffect(() => {
-      if (textareaRef.current) {
-        textareaRef.current.focus();
-        console.log('ChatSection ay 7aagaaaaaaaaaaaaaaaaaaa');
-      }
-    }, [newChatRoomName]);
-
-    return (
-      <Grid className="chat-section-second ">
-        <div className="header-container">
-          <h1 className="chat-header">{selectedChatroom ? selectedChatroom.chatroomName : 'Chat Room'}</h1>
-          <div className="headerTabs">
-            <IconButton className="settings-button" color="primary">
-              <SettingsIcon />
-            </IconButton>
-
-            <IconButton className="dropdown-button" color="primary">
-              <ArrowDropDownIcon />
-            </IconButton>
-
-            <IconButton className="upperClose" color="primary" onClick={props.onClose ? props.onClose : () => { onclick(handleclose) }}>
-              <CloseIcon />
-            </IconButton>
-          </div>
-        </div>
-        <div className="messages">
-          {showNewChatRoomCreation ? (
-            <div>
-              <div>
-                <div style={{ marginBottom: '16px' }}>
-
-                  <textarea
-                    textarea
-                    ref={textareaRef}
-
-                    className="ChatRoomName"
-                    value={newChatRoomName}
-                    onChange={(e) => {
-                      setnewChatRoomName(e.target.value);
-                    }}
-                  />
-                </div>
-                {FollowedUsers.map((user, index) => (
-                  <div key={index}>
-                    <Checkbox
-                      checked={newChatRoomMembers.includes(user.username)}
-                      onChange={() => handleFriendsChange(user.username)}
-                    />
-                    <label>{user.username}</label>
-                  </div>
-                ))}
-                <Button variant="contained" color="primary" onClick={handleCreateNewChatRoom}>Create</Button>
-              </div>
-            </div>
-          ) :
-            (
-              // || message.sender._id !== arr[index - 1].sender._id
-              <Grid container>
-                <Grid item xs={12}>
-                  <Box sx={{ overflow: 'auto', maxHeight: 400 }}>
-
-                    {chatMessages.map((message, index, arr) => (
-                      <div key={index} className="message-container">
-                        {(index === 0) &&
-                          <div className="username-time">
-                            {/* <Avatar src={message.sender.profilePicture} className="avatar" /> */}
-                            <Typography variant="subtitle1">{message.sender.username}</Typography>
-                            <Typography variant="caption" color="text.secondary" className="time-caption">
-                              {new Date(message.dateSent).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            </Typography>
-                          </div>
-                        }
-                        <Typography variant="body1" className="message-text">{message.message}</Typography>
-                      </div>
-                    ))}
-
-                    <div ref={messagesEndRef} />
-                  </Box>
-                </Grid>
-                <Grid item xs={12}>
-                </Grid>
-              </Grid>
-            )
-
-          }
-        </div>
-        <div className="message-input-form-Chat">
-          <MessageInputForm />
-        </div>
-      </Grid>
-
-
-
-    );
-  }
-
-  const sendMessage = async (event) => {
-    event.preventDefault();
-    console.log("want to sendddddddddddddddddddddddddddddddddddddddddd");
-    const Sender = selectedChatroom.chatroomMembers.find(member => member.username === username);
-    console.log("Senderrrrrrsssssss: ", Sender);
-    console.log("Button clicked");
-
-    // socket.emit("send_message", { message: newMessage, chatroomId: selectedChatroom._id, sender: Sender });
-    socketRef.current.emit("new message", { content: newMessage, roomID: selectedChatroom._id });
-
-
-  };
-
-  function MessageInputForm() {
-    // State and logic for message input form
-    useEffect(() => {
-      inputRef.current.focus();
-
-      console.log('MessageInputForm rendered');
-    }, []);
-    return (
-      <div className="form-container">
-        <IconButton color="primary">
-          <CameraAltIcon />
-        </IconButton>
-        <form className="chat-form" onSubmit={sendMessage}>
-          <div className="input-container">
-            <textarea
-              textarea
-              ref={inputRef}
-              className="chat-input"
-              value={newMessage}
-              onChange={(e) => {
-                setNewMessage(e.target.value);
-              }}
-            />
-            <div className="icons-container">
-              <IconButton color="primary">
-                <EmojiEmotionsIcon />
-              </IconButton>
-              <IconButton color="primary">
-                <GifIcon />
-              </IconButton>
-            </div>
-          </div>
-
-          <IconButton type="submit" color="primary" onClick={sendMessage}>
-            <SendIcon />
-          </IconButton>
-        </form>
-      </div>
-    );
-  }
-
-
-
-
-
 
   return (
 
-    <ChatWindow className="chat-window" onClick={handleClick} >
+    <div className="chat-window" >{/* onClick={handleClick} */}
       <Grid container className='gridOfchatwindow' >
         <ChatRoomList />
-        <ChatSection {...props} />
-
+        <ChatSection  handleclose={handleclose}  showOverlay={  showOverlay} selectedChatroom={selectedChatroom} showNewChatRoomCreation={showNewChatRoomCreation} config={config} bearerToken={bearerToken}  chatMessages={chatMessages} fetchChatrooms={fetchChatrooms}  />
       </Grid>
-    </ChatWindow>
+    </div>
   );
 }
-
 
 
 export default React.memo(ChatWindow);;

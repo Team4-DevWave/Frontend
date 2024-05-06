@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Header from "../../layouts/Header";
 import SettingsNav from "../../components/Settings/SettingsNav";
 import LoadingScreen from "../../components/LoadingScreen";
-function Settings() {
+function Settings({toggleTheme}) {
   
     const [loading, setLoading] = React.useState(true);
     
@@ -21,7 +21,7 @@ function Settings() {
 
   return (
     <div id="settingsID" className="navbar-padding">
-      <Header />
+      <Header toggleTheme={toggleTheme} />
       <div className="SettingsHeader">
         <h1 className="SettingsTitle">User settings</h1>
         <SettingsNav />
