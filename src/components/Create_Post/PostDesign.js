@@ -5,6 +5,7 @@ import "./PostDesign.css";
 import { BsExclamationDiamondFill } from "react-icons/bs";
 import { marked } from "marked";
 import { useLocation, Link } from "react-router-dom";
+import { Avatar } from "@mui/material";
 
 // URL for the blurred image
 const blurredImageUrl =
@@ -78,7 +79,19 @@ const PostDesign = ({
     <div>
       <div className="post-header">
         <div className="user-profile">
-          <img src={userpic} alt="User" className="user-pic" />
+          <Avatar
+            src={
+              userpic ||
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpOcB5CtpnCFAaxz3wh59gJGAlw3j_U4dNGbyCkt-izA&s"
+            }
+            sx={{
+              width: 30,
+              height: 30,
+              marginRight: "10px",
+              marginLeft: "10px",
+              marginTop: "10px",
+            }}
+          />
           <div className="user-details">
             <p className="username">{username}</p>
             {incommunity && (
