@@ -247,10 +247,10 @@ function PostContainer({ postData }) {
         console.log(error);
         console.log("idd==", postData.id);
       });
-      setShowMss(true);
+    setShowMss(true);
 
-      //Hide the alert after 3 seconds
-      setTimeout(() => setShowMss(false), 3000);
+    //Hide the alert after 3 seconds
+    setTimeout(() => setShowMss(false), 3000);
   };
 
   const handleHidePost = () => {
@@ -326,10 +326,10 @@ function PostContainer({ postData }) {
         console.log(error);
         console.log("idd==", postData.id);
       });
-      setShowMss(true);
+    setShowMss(true);
 
-      //Hide the alert after 3 seconds
-      setTimeout(() => setShowMss(false), 3000);
+    //Hide the alert after 3 seconds
+    setTimeout(() => setShowMss(false), 3000);
   };
   const handleUnHidePost = () => {
     // Send API request to hide the post with postId using Axios
@@ -463,11 +463,11 @@ function PostContainer({ postData }) {
           <div className="post-container">
             {isHidden ? (
               <>
-              <p className="deleted-post">Post hidden</p>
-              <button type="button" onClick={handleHidePost} >Undo</button>
-
+                <p className="deleted-post">Post hidden</p>
+                <button type="button" onClick={handleHidePost}>
+                  Undo
+                </button>
               </>
-              
             ) : (
               <>
                 <article>
@@ -896,7 +896,7 @@ function PostContainer({ postData }) {
                     Link copied to clipboard
                   </Alert>
                 )}
-                                {showMss && (
+                {showMss && (
                   <Alert variant="success" className="alert">
                     Post Saved
                   </Alert>
