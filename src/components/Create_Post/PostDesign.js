@@ -4,12 +4,14 @@ import { SlOptions } from "react-icons/sl";
 import "./PostDesign.css";
 import { BsExclamationDiamondFill } from "react-icons/bs";
 import { marked } from "marked";
+import { useLocation, Link } from "react-router-dom";
 
 // URL for the blurred image
 const blurredImageUrl =
   "https://via.placeholder.com/150/000000/FFFFFF?text=Spoiler";
 
 const PostDesign = ({
+  id,
   username,
   userpic,
   community,
@@ -22,24 +24,25 @@ const PostDesign = ({
   video,
   spoiler,
   mentioned,
-  Poll
+  Poll,
 }) => {
   const [spoilerClicked, setSpoilerClicked] = useState(false);
   const [votedOption, setVotedOption] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   const [poll, setPoll] = useState(Poll); // Initialize with the initial value of Poll
+  const location = useLocation();
+  const isHomePage = location.pathname === "/" || location.pathname === "/home";
 
-
-  const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video) || (title && Poll);
-  console.log("isvaliddd postt y3mm===", isValidPost);
-  console.log("title postt y3mm===", video);
-  console.log("ahhhhhhhhhhhh postt y3mm===", community);
-
+  const isValidPost =
+    (title && text) ||
+    (title && image) ||
+    (title && Link) ||
+    (title && video) ||
+    (title && Poll);
 
   const handleSpoilerClick = () => {
     setSpoilerClicked(true);
   };
-
 
   const handleVote = () => {
     if (selectedOption) {
@@ -49,9 +52,6 @@ const PostDesign = ({
       setPoll(updatedPoll);
     }
   };
-
-
-
 
   function colorUsernames(text, mentioned) {
     // This regular expression matches u/username
@@ -81,7 +81,31 @@ const PostDesign = ({
           <img src={userpic} alt="User" className="user-pic" />
           <div className="user-details">
             <p className="username">{username}</p>
-            {incommunity && <p className="community">{community}</p>}
+            {incommunity && (
+              <a
+                className="community"
+                href={`/r/${community.replace(/ /g, "-")}`}
+                onClick={(event) => {
+                  if (
+                    event.target.tagName === "BUTTON" ||
+                    window.location.pathname.includes(
+                      `/r/${community.replace(/ /g, "-")}`
+                    )
+                  ) {
+                    event.preventDefault();
+                  }
+                }}
+                style={{
+                  margin: "0",
+                  padding: "0",
+                  position: "relative",
+                  top: "5px",
+                  textDecoration: "none",
+                }}
+              >
+                {community}
+              </a>
+            )}
             <p className="date">{Date}</p>
           </div>
         </div>
@@ -94,22 +118,63 @@ const PostDesign = ({
               <strong> SPOILER </strong>
             </>
           )}
-          <h2 className="post-title">{title}</h2>
+          {title.trim() !== "" ? (
+            <a
+              className="post-link"
+              href={`/comments/${id}/${title.toLowerCase().replace(/ /g, "-").replace(/\//g, "-")}`}
+              onClick={(event) => {
+                if (
+                  event.target.tagName === "BUTTON" ||
+                  window.location.pathname.includes("/comments/")
+                ) {
+                  event.preventDefault();
+                }
+              }}
+            >
+              <h2 className="post-title">{title}</h2>
+            </a>
+          ) : null}
           {spoiler && !spoilerClicked ? ( // Check if spoiler is true and not clicked
             <div className="post-content" onClick={handleSpoilerClick}>
               <img src={blurredImageUrl} alt="Spoiler" className="blur-image" />
             </div>
           ) : (
             <div className="post-content">
-              {Link && <a href={Link} className="post-link" style={{ color: 'blue' }}>{Link}</a>}
-              {text && (
-                <p
-                  className="post-text"
-                  dangerouslySetInnerHTML={{
-                    __html: marked(colorUsernames(text, mentioned)),
-                  }}
-                />
+              {Link && (
+                <a href={Link} className="post-link" style={{ color: "blue" }}>
+                  {Link}
+                </a>
               )}
+              {text ? (
+                Object.keys(mentioned).length > 0 ? (
+                  <p
+                    className="post-text"
+                    dangerouslySetInnerHTML={{
+                      __html: marked(colorUsernames(text, mentioned)),
+                    }}
+                  />
+                ) : (
+                  <a
+                    className="post-link"
+                    href={`/comments/${id}/${title.toLowerCase().replace(/ /g, "-").replace(/\//g, "-")}`}
+                    onClick={(event) => {
+                      if (
+                        event.target.tagName === "BUTTON" ||
+                        window.location.pathname.includes("/comments/")
+                      ) {
+                        event.preventDefault();
+                      }
+                    }}
+                  >
+                    <p
+                      className="post-text"
+                      dangerouslySetInnerHTML={{
+                        __html: marked(colorUsernames(text, mentioned)),
+                      }}
+                    ></p>
+                  </a>
+                )
+              ) : null}
               {image && <img src={image} alt="Post" className="post-image" />}
 
               {poll && (
@@ -129,7 +194,9 @@ const PostDesign = ({
                         />
                       )}
                       <label>{option}</label>
-                      {votedOption && <span style={{ fontWeight: "bold" }}>   ({rate})</span>}
+                      {votedOption && (
+                        <span style={{ fontWeight: "bold" }}> ({rate})</span>
+                      )}
                     </div>
                   ))}
                   <Button
@@ -137,7 +204,7 @@ const PostDesign = ({
                     onClick={handleVote}
                     disabled={votedOption !== null || selectedOption === null}
                   >
-                    {votedOption ? 'Vote Recorded' : 'Vote'}
+                    {votedOption ? "Vote Recorded" : "Vote"}
                   </Button>
                 </div>
               )}
@@ -147,7 +214,6 @@ const PostDesign = ({
                   <source src={video} type="video/mp4" />
                 </video>
               )}
-
             </div>
           )}
         </>

@@ -99,6 +99,7 @@ function Signup() {
           country: country,
           gender: userState.gender,
           interests: preferences,
+          mtoken: "NONE"
         },
         config
       )

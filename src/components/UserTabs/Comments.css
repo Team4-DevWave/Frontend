@@ -25,7 +25,7 @@
 
 .fake-addcomment{
     position: relative;
-    left: 10%;
+    left: 100px;
     width: 733px;
     height: 50px;
     padding: 10px 10px 10px 10px;
@@ -135,4 +135,66 @@
   .text-formatting-button.code{
     background-color: #bebebe;
     border-radius: 50%;
+  }
+
+
+  @media (max-width: 1350px) {
+    .fake-addcomment {
+      max-width: 733px;
+    }
+    .addcomment-container {
+      max-width: 733px;
+    }
+    .addcomment-box{
+      width: 720px;
+    }
+    .cancel-btn{
+      left: 80%;
+    }
+    
+  }
+  
+  @media (max-width: 980px) {
+    .fake-addcomment {
+      left: 12%;
+    }
+    .addcomment-container {
+      left: 12%;
+    }
+    .addcomment-box{
+      left: 12%;
+    }
+    
+  }
+  
+  @media (max-width: 768px) {
+    .fake-addcomment {
+      left: 4%;
+      max-width: 680px;
+    }
+    .addcomment-container {
+      left: 4%;
+      max-width: 680px;
+    }
+    .addcomment-box{
+      max-width: 660px;
+      left: 4%;
+    }
+
+  }
+  
+  @media (max-width: 480px) {
+    .fake-addcomment {
+      max-width: 400px;
+      left: 2%;
+    }
+    
+    .addcomment-container {
+      max-width: 400px;
+      left: 2%;
+    }
+    .addcomment-box{
+      max-width: 380px;
+      left: 2%;
+    }
   }

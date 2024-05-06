@@ -34,6 +34,7 @@ import NotificationDropdown from "../components/NotificationDropdown";
 import Overlay from "../components/overlay/Overlay.js";
 import ChatIcon from '@mui/icons-material/Chat';
 
+import CustomSwitch from "../components/MUIEdited/CustomSwitch.js";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -108,25 +109,53 @@ const SearchResults = styled("div")(({ theme }) => ({
 
 const handleKeyPress = (event) => {
   if (event.key === "Enter") {
-
     window.location.href = `/search/${event.target.value}`;
   }
 };
 
-export default function Header() {
+const handleTheme = (toggleTheme) => {
+  console.log("changing theme");
+  const html = document.querySelector("html");
+  toggleTheme();
+  //props.toggleTheme();
+  if (html.getAttribute("data-theme") === "dark") {
+    html.setAttribute("data-theme", "light");
+    localStorage.setItem("theme", "light");
+  } else {
+    html.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+  }
+};
+
+export default function Header({ toggleTheme }) {
+  useEffect(() => {
+    //load theme
+    const html = document.querySelector("html");
+    const theme = localStorage.getItem("theme");
+    if (theme) {
+      html.setAttribute("data-theme", theme);
+    } else {
+      html.setAttribute("data-theme", "light");
+      localStorage.setItem("theme", "light");
+    }
+  }, []);
+
   const [notificationsCount, setNotificationsCount] = useState(0);
   const fetchNotificationCount = () => {
-    const bearerToken = Cookies.get('token');
+    const bearerToken = Cookies.get("token");
     const config = {
       headers: { Authorization: `Bearer ${bearerToken}` },
     };
-    axios.get('http://localhost:8000/api/v1/notifications', config)
-      .then(response => {
-        const unreadNotifications = response.data.data.notifications.filter(notification => !notification.read);
+    axios
+      .get("http://localhost:8000/api/v1/notifications", config)
+      .then((response) => {
+        const unreadNotifications = response.data.data.notifications.filter(
+          (notification) => !notification.read
+        );
         setNotificationsCount(unreadNotifications.length);
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
       });
   };
   const [showChat, setShowChat] = useState(false);
@@ -226,21 +255,11 @@ export default function Header() {
           <p>Edit Avatar</p>
         </a>
       </MenuItem>
-      <MenuItem className="header-item" onClick={handleMenuClose}>
+      <MenuItem className="header-item" onClick={()=>handleTheme(toggleTheme)}>
         <a href="#" className="sub-menu-link" data-testid="dark-mode-nav">
-          <svg
-            rpl=""
-            fill="currentColor"
-            height="20"
-            icon-name="night-outline"
-            viewBox="0 0 20 20"
-            width="20"
-            xmlns="http://www.w3.org/2000/svg"
-            role="svg"
-          >
-            <path d="M9.875 19a9.073 9.073 0 0 1-8.48-5.78 1.094 1.094 0 0 1 .247-1.191 1.145 1.145 0 0 1 1.232-.255c1.13.449 2.361.587 3.564.4A6.89 6.89 0 0 0 12.17 6.44a6.806 6.806 0 0 0-.394-3.564 1.148 1.148 0 0 1 .255-1.231 1.1 1.1 0 0 1 1.193-.248 9.082 9.082 0 0 1 5.746 9.254 9.184 9.184 0 0 1-8.32 8.32 11.93 11.93 0 0 1-.775.028Zm-7.206-5.967A7.871 7.871 0 1 0 13.033 2.668 8.116 8.116 0 0 1 2.669 13.033Z"></path>
-          </svg>
-          <p>Dark Mode</p>
+          <p>
+            Dark Mode <CustomSwitch />{" "}
+          </p>
         </a>
       </MenuItem>
       <MenuItem className="header-item" onClick={handleMenuClose}>
@@ -323,10 +342,6 @@ export default function Header() {
         </Badge>
 
         <p>Notifications</p>
-
-
-
-
       </MenuItem>
 
       <MenuItem>
@@ -376,10 +391,11 @@ export default function Header() {
       //remove hashtag from search
       search.replace("#", "");
       axios
-        .get(`http://localhost:8000/api/v1/homepage/search?q=${search}&sort=Top&page=1`)
+        .get(
+          `http://localhost:8000/api/v1/homepage/search?q=${search}&sort=Top&page=1`
+        )
         .then((response) => {
           setResults(response.data.data.subreddits.slice(0, 4));
-
 
           console.log(results);
         })
@@ -394,9 +410,8 @@ export default function Header() {
       <AppBar
         position="fixed"
         sx={{
-          backgroundColor: "white",
-
-          borderBottom: "1px solid #e0e0e0",
+          backgroundColor: (theme) =>
+            theme.palette.mode === "dark" ? "#1a1a1b" : "#ffffff",
           color: "black",
         }}
       >
@@ -448,7 +463,7 @@ export default function Header() {
             }}
             onKeyDown={(e) => handleKeyPress(e)}
             style={{
-              backgroundColor: "#d3d3d3",
+              borderColor: "black",
               borderRadius: "20px",
               width: !searchSize ? "50%" : "",
             }}
@@ -471,8 +486,8 @@ export default function Header() {
                 Communities
               </Typography>
               <List>
-
-                {results && results.length > 0 &&
+                {results &&
+                  results.length > 0 &&
                   results.map((community, i) => (
                     <ListItem
                       key={i}
@@ -489,16 +504,18 @@ export default function Header() {
                           alignItems: "center",
                         }}
                       >
-                        <img src={community.srLooks.icon} alt="icon" width="35px" height="35px"
+                        <img
+                          src={community.srLooks.icon}
+                          alt="icon"
+                          width="35px"
+                          height="35px"
                           style={{ marginRight: "10px", borderRadius: "50px" }}
                         />
-
 
                         <p>t/{community.name}</p>
                       </a>
                     </ListItem>
                   ))}
-
 
                 <ListItem
                   style={{

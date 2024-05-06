@@ -3,8 +3,7 @@ import PostContainer from "../PostContainer";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
-import UserPostContainer from "./UserPostContainer";
-import MyPostsCont from "./MyPostsCont";
+
 
 function PostFeed() {
   const [posts, setPosts] = useState([]);
@@ -29,25 +28,25 @@ function PostFeed() {
                 id: item._id,
                 title: item.title,
                 content: item.text_body,
-                time: item.postedTime,
+                time: item.lastEditedTime
+                  ? item.lastEditedTime
+                  : item.postedTime,
                 votes: item.votes,
                 numviews: item.numViews,
                 spoiler: item.spoiler,
                 nsfw: item.nsfw,
                 locked: item.locked,
-                type: item.type,
                 approved: item.approved,
                 mentioned: item.mentioned,
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
-                Link: item.url,
                 video: item.video,
-                Link:item.url,
-                video:item.video,
-                community:item.community,
-                issaved:item.saved,
-                ishide:item.hidden
+                subredditID: item.subredditID,
+                ishide: item.hidden,
+                issaved: item.saved,
+                userVote: item.userVote,
+                Link: item.url,
 
               };
             } else {

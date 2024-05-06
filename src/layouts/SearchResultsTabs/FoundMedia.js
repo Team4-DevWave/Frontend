@@ -29,7 +29,9 @@ export default function FoundMedia(props) {
     return <>
     <div>
       {media.map((item) => (
-        <Card key={item._id}>
+        <Card key={item._id}
+        sx={{ maxWidth: 445, margin: 2 }}
+        >
           <CardHeader
             title={item.title}
             subheader={`Posted by u/${item.userID.username}`}

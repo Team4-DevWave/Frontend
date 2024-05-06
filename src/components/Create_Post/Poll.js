@@ -72,10 +72,10 @@ function Poll() {
         const pollOptions = {};
         options.forEach((option, index) => {
             // Skip empty options
-            if (option.trim() !== '') {
-                // Assign the option name as the key and set the value to 0
-                pollOptions[option] = 0;
-            }
+            // if (option.trim() !== '') {
+            //     // Assign the option name as the key and set the value to 0
+            //     pollOptions[option] = 0;
+            // }
         });
     
         // Prepare the data to be sent in the Axios request
@@ -124,51 +124,17 @@ function Poll() {
     };
     
     //////////////////////////////////////////////////////
-    const handleBoldClick = () => {
-        setIsBold(!isBold);
-    };
 
-    const handleItalicClick = () => {
-        setIsItalic(!isItalic);
-    };
-    const handlestrikeClick = () => {
-        setIsstrikethrough(!isstrikethrough);
-    };
 
 
     const handleContentChange = (e) => {
         setContent(e.target.value);
     };
-    //save draft handel
-    const handleSaveDraft = (e) => {
-        e.preventDefault();
-        const draft = {
-            title: title,
-            content: content
-        };
-        setSavedDrafts([...savedDrafts, draft]);
-        // Reset form fields after saving draft
-        setTitle('');
-        setContent('');
-        setIsBold(false);
-        setIsItalic(false);
-        setIsstrikethrough(false);
-        setSpoiler(false);
-    };
 
-    const handleEditDraft = (draft) => {
-        setTitle(draft.title);
-        setContent(draft.content);
-    };
-
-    const handleShowSavedDrafts = () => {
-        setShowSavedDrafts(true);
-    };
 
     useEffect(() => {
         // Enable/disable buttons based on whether title is empty
         const areButtonsDisabled = title.trim() === '';
-        document.getElementById('savedefaultbtn').disabled = areButtonsDisabled;
         document.getElementById('postbtn1').disabled = areButtonsDisabled;
     }, [title]);
 
@@ -187,14 +153,16 @@ function Poll() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // You can handle form submission here
+        // Check if there are no options added
+        if (options.every(option => option.trim() === '')) {
+            // Reset form fields after submission only if no options are added
+            setTitle('');
+            setContent('');
+            setIsBold(false);
+            setIsItalic(false);
+        }
         console.log("Title:", title);
         console.log("Content:", content);
-        // Reset form fields after submission
-        setTitle('');
-        setContent('');
-        setIsBold(false);
-        setIsItalic(false);
     };
     const handleSpoiler = (event) => {
         console.log("spoilerzft=", spoiler1);
@@ -227,21 +195,7 @@ function Poll() {
                         required
                     />
                     <label htmlFor="content"></label>
-                    <div className="toolbar1">
-                        <Button
-                            variant="danger"
-                            className={isBold ? 'active' : ''}
-                            onClick={handleBoldClick}
-                            data-testid="Bold"
-                        >
-                            <FaBold />
-                        </Button>
-                        <button type="button" onClick={handleItalicClick} className={isItalic ? 'active' : ''}>I</button>
-                        <button type="button" onClick={handlestrikeClick} className={isstrikethrough ? 'active' : ''}>S</button>
-                        <button type="button" onClick={handlestrikeClick} className={isstrikethrough ? 'active' : ''}>code</button>
 
-
-                    </div>
                     <textarea
                         ref={textAreaRef}
                         id="content"
@@ -292,7 +246,6 @@ function Poll() {
 
 
                     <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''}>Save Draft</button>
                         <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''} >Post</button>
                         {postDone && <script>alert("Post done");</script>}
 
