@@ -165,7 +165,7 @@ export default function Header({ toggleTheme }) {
     fetchNotificationCount();
     const interval = setInterval(() => {
       fetchNotificationCount();
-    }, 5000); // Fetches every 5 seconds
+    }, 30000); // Fetches every 30 seconds
 
     // Clear interval on component unmount
     return () => {
