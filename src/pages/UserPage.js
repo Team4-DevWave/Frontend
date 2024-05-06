@@ -10,7 +10,7 @@ import OtherUserPosts from "../layouts/OtherUserTabs/OtherUserPosts";
 import OtherUserComments from "../layouts/OtherUserTabs/OtherUserComments";
 import UserStats from "../layouts/UserStats";
 
-function UserPage() {
+function UserPage({toggleTheme}) {
   const [value, setValue] = React.useState(0);
   const { username } = useParams();
   const [userData, setUserData] = useState({});
@@ -52,7 +52,7 @@ function UserPage() {
     <>
       <div class="home-grid">
         <div id="grid-0">
-          <Header />
+          <Header toggleTheme={toggleTheme} />
         </div>
         <div id="grid-1">
           <Sidebar />
@@ -60,7 +60,7 @@ function UserPage() {
         <div
           id="grid-2"
           style={{
-            backgroundColor: "#fcfcfc",
+           
             borderRadius: "50px",
           
           }}

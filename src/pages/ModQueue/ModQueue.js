@@ -9,13 +9,17 @@ function ModQueue() {
     return (
         <div className="navbar-padding">
             <Header />
-<div className="header"></div>
+<div
+></div>
 
 
-            <div className="header">
+            <div  sx={{ alignItems: 'center', justifyContent: 'center',paddingLeft:'0px', width: '100%', margin: 'auto', }}
+            >
 
-                <h1 className="title">Modqueue</h1>
+                <h1 className="title"
+                >Modqueue</h1>
                 <ModNav/>
+
             </div>
         </div>
 

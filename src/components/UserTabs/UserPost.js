@@ -3,8 +3,7 @@ import PostContainer from "../PostContainer";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
-import UserPostContainer from "./UserPostContainer";
-import MyPostsCont from "./MyPostsCont";
+
 
 function PostFeed() {
   const [posts, setPosts] = useState([]);
@@ -29,22 +28,26 @@ function PostFeed() {
                 id: item._id,
                 title: item.title,
                 content: item.text_body,
-                time: item.postedTime,
+                time: item.lastEditedTime
+                  ? item.lastEditedTime
+                  : item.postedTime,
                 votes: item.votes,
                 numviews: item.numViews,
                 spoiler: item.spoiler,
                 nsfw: item.nsfw,
                 locked: item.locked,
-                type: item.type,
                 approved: item.approved,
                 mentioned: item.mentioned,
                 username: item.userID.username,
                 commentsCount: item.commentsCount,
                 image: item.image,
-                Link: item.url,
                 video: item.video,
-                Link:item.url,
-                video:item.video
+                subredditID: item.subredditID,
+                ishide: item.hidden,
+                issaved: item.saved,
+                userVote: item.userVote,
+                Link: item.url,
+
               };
             } else {
               return null;
@@ -68,17 +71,23 @@ function PostFeed() {
   }, []);
 
   return (
-    <div className="post-feed">
-      {/* Check if noPosts is true and render the appropriate message */}
-      {noPosts ? (
-        <h1 className="deleted-post">u/{username} hasn't posted yet</h1>
-      ) : (
-        // Render the posts
-        posts.map((post, index) => {
-          console.log("Post data:", post); // Log the post data here
-          return <MyPostsCont key={index} postData={post} />;
-        })
-      )}
+    <div className="home-grid">
+      <div id="grid-2">
+        <div className="post-feed">
+          {/* Check if noPosts is true and render the appropriate message */}
+          {noPosts ? (
+            <h1 className="deleted-post">u/{username} hasn't posted yet</h1>
+          ) : (
+            // Render the posts
+            posts.map((post, index) => {
+              console.log("Post data:", post); // Log the post data here
+              return <PostContainer key={index} postData={post} />;
+            })
+          )}
+
+        </div>
+      </div>
+
     </div>
   );
 }

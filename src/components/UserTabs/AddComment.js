@@ -317,6 +317,11 @@ function AddComment(id, lock) {
           )}
 
           <div
+            style={{
+              whiteSpace: "pre-wrap",
+              overflow: "auto",
+              wordWrap: "break-word",
+            }} // Add this style
             dangerouslySetInnerHTML={{
               __html: marked(colorUsernames(comment)),
             }}
@@ -329,30 +334,28 @@ function AddComment(id, lock) {
           >
             <TextFormatIcon />
           </IconButton>
-          <Button
-            sx={{
-              borderRadius: 25,
-              margin: "4px",
-              position: "relative",
-              left: "65%",
-            }}
-            onClick={handleCancel}
-            variant={"outlined"}
-          >
-            Cancel
-          </Button>
-          <Button
-            sx={{
-              borderRadius: 25,
-              margin: "4px",
-              position: "relative",
-              left: "65%",
-            }}
-            onClick={handleClickComment}
-            variant={"contained"}
-          >
-            Comment
-          </Button>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button
+              sx={{
+                borderRadius: 25,
+                margin: "4px",
+              }}
+              onClick={handleCancel}
+              variant={"outlined"}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{
+                borderRadius: 25,
+                margin: "4px",
+              }}
+              onClick={handleClickComment}
+              variant={"contained"}
+            >
+              Comment
+            </Button>
+          </div>
         </div>
       )}
     </>

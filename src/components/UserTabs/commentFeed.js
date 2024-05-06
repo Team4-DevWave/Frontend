@@ -12,11 +12,14 @@ function CommentFeed(postID) {
   const [loading, setLoading] = useState(false);
   const { liveComments } = useContext(LiveCommentsContext);
   const loader = useRef(null);
+  const token = Cookies.get("token");
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
-      threshold: 1,
-      rootMargin: "30px",
+      root: null,
+      rootMargin: "20px",
+      threshold: 1.0,
     });
     if (loader.current) {
       observer.observe(loader.current);
@@ -25,14 +28,19 @@ function CommentFeed(postID) {
   }, []);
 
   useEffect(() => {
-    if (loading) {
+    if (loading || !hasMore) {
+      console.log("comments data Loading");
       return;
     }
     setLoading(true);
-    const token = Cookies.get("token");
-    const config = {
-      headers: { Authorization: `Bearer ${token}` },
-    };
+
+    let config = {};
+
+    if (token) {
+      config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+    }
 
     axios
       .get(
@@ -40,6 +48,7 @@ function CommentFeed(postID) {
         config
       )
       .then((response) => {
+        console.log("Comments data:", response.data.data.comments);
         const mappedData = response.data.data.comments
           .map((item) => {
             if (item.content) {
@@ -63,16 +72,24 @@ function CommentFeed(postID) {
 
         setComments((prevComments) => [...prevComments, ...mappedData]);
         setLoading(false);
+
+        if (response.data.data.comments.length === 0) {
+          setHasMore(false);
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
         setLoading(false);
       });
+  }, [page, loading]);
+
+  useEffect(() => {
+    console.log("Comments data page:", page);
   }, [page]);
 
   const handleObserver = (entities) => {
     const target = entities[0];
-    if (target.isIntersecting && !loading) {
+    if (target.isIntersecting && !loading && hasMore) {
       setPage((prevPage) => prevPage + 1);
     }
   };

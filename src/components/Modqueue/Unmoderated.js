@@ -4,8 +4,12 @@ import { Button, Select, MenuItem, Card, CardContent, CardActions, CheckCircleOu
 import PropTypes from 'prop-types';
 import './Removed.css';
 import PostContainer2 from "../PostCointainer2";
+import {useMediaQuery} from "@mui/material";
+
 
 function Unmoderated() {
+    const isTabletOrMobile = useMediaQuery('(max-width: 1224px)');
+    const cardStyle = isTabletOrMobile ? { width: '100%',padding:'10px', margin:'5px' } : { width: '50%' ,padding :'20px', maargi:'10px'};
     const [subreddits, setSubreddits] = useState([]);
     const [selectedSubreddit, setSelectedSubreddit] = useState('');
     const [removedPosts, setRemovedPosts] = useState([]);
@@ -64,7 +68,7 @@ function Unmoderated() {
                         <h4 className={'h4'}>Select your Subreddit please</h4>
                     </td>
                     <td>
-                        <h4> <Select
+                        <h4> <Select classname = {'select'}
                             value={selectedSubreddit ? selectedSubreddit.id : ''}
                             onChange={(event) => {
                                 const subredditId = event.target.value;
@@ -86,15 +90,12 @@ function Unmoderated() {
                 </tr>
             </table>
             {removedPosts.filter(post => post.spamstatus === false && post.removedstatus === false && post.type =='post'
-            ).map((post)=>  (
-                <Card key={post.id} className={'unmoderated'}>
+            ).map((post,index)=>  (
+                <Card key={post.id} className={ 'unmoderated card' }
+                >
                     <CardContent>
-                        <h2>
-                            {post.data.post.title}
-                        </h2>
-                        <p>
-                            {post.data.post.content}
-                        </p>
+                        <PostContainer2 key={index} postData={post.data.post} />
+
                         <p>
                             by username  {post.user.name}
                         </p>
@@ -117,9 +118,8 @@ function Unmoderated() {
             ).map((post)=>  (
                 <Card key={post.id} className={'unmoderated'}>
                     <CardContent>
-                        <h2>
-                            {post.data.comment.content}
-                        </h2>
+
+                        <PostContainer2 postData={post.data.comment} />
                         <p>
                             {post.data.comment.content}
                         </p>
