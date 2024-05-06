@@ -211,7 +211,7 @@ function CreatePost() {
     if (start === end) {
       // No text is selected, insert a default bold string
       newValue =
-        value.substring(0, start) + "** **" + value.substring(start);
+        value.substring(0, start) + "**bold text**" + value.substring(start);
     } else {
       // Text is selected, wrap it with **
       newValue =
@@ -226,7 +226,6 @@ function CreatePost() {
     textareaRef.current.selectionStart = start + 2;
     textareaRef.current.selectionEnd = end + 2;
   };
-
   const handleItalicClick = () => {
     const start = textareaRef.current.selectionStart;
     const end = textareaRef.current.selectionEnd;
