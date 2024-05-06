@@ -47,6 +47,8 @@ function PostContainer({ postData }) {
   }
 
   const [showAlert, setShowAlert] = useState(false);
+  const [showMss, setShowMss] = useState(false);
+
   const [isHidden, setIsHidden] = useState(false);
 
   function copyLink() {
@@ -245,6 +247,10 @@ function PostContainer({ postData }) {
         console.log(error);
         console.log("idd==", postData.id);
       });
+      setShowMss(true);
+
+      //Hide the alert after 3 seconds
+      setTimeout(() => setShowMss(false), 3000);
   };
 
   const handleHidePost = () => {
@@ -320,6 +326,10 @@ function PostContainer({ postData }) {
         console.log(error);
         console.log("idd==", postData.id);
       });
+      setShowMss(true);
+
+      //Hide the alert after 3 seconds
+      setTimeout(() => setShowMss(false), 3000);
   };
   const handleUnHidePost = () => {
     // Send API request to hide the post with postId using Axios
@@ -452,7 +462,12 @@ function PostContainer({ postData }) {
         <>
           <div className="post-container">
             {isHidden ? (
+              <>
               <p className="deleted-post">Post hidden</p>
+              <button type="button" onClick={handleHidePost} >Undo</button>
+
+              </>
+              
             ) : (
               <>
                 <article>
@@ -879,6 +894,11 @@ function PostContainer({ postData }) {
                 {showAlert && (
                   <Alert variant="success" className="alert">
                     Link copied to clipboard
+                  </Alert>
+                )}
+                                {showMss && (
+                  <Alert variant="success" className="alert">
+                    Post Saved
                   </Alert>
                 )}
               </>
