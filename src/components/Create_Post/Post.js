@@ -166,7 +166,6 @@ function CreatePost() {
   const handleContentChange = (e) => {
     setContent(e.target.value);
   };
-  
   //save draft handel
   const handleSaveDraft = (e) => {
     e.preventDefault();
@@ -211,7 +210,7 @@ function CreatePost() {
     if (start === end) {
       // No text is selected, insert a default bold string
       newValue =
-        value.substring(0, start) + "** **" + value.substring(start);
+        value.substring(0, start) + "**bold text**" + value.substring(start);
     } else {
       // Text is selected, wrap it with **
       newValue =
@@ -435,12 +434,11 @@ function CreatePost() {
 
           ></textarea>
 
-{/* <div
+          <div
             dangerouslySetInnerHTML={{
               __html: marked(colorUsernames(content)),
             }}
-          /> */}
-
+          />
 
 
           <div>
@@ -503,7 +501,7 @@ function CreatePost() {
                 <div fontWeight='bold'>Post:{index + 1}</div>
                 <div>Title: {draft.title}</div>
                 <div>Content: {draft.content}</div>
-                <Button onClick={() => { setSelectedDraft(draft); setDraftDialogOpen(false); handleEditDraft(draft);}}>Edit</Button>
+                <Button onClick={() => { setSelectedDraft(draft); setDraftDialogOpen(false); }}>Edit</Button>
                 <Button onClick={() => handleDeleteDraft(index)}>Delete</Button>
               </li>
             ))}

@@ -334,6 +334,27 @@ text-overflow: ellipsis;
 .options-list ul li:hover {
   background-color: var(--hover-color);
 }
+.deleted-post {
+  color: #333; /* Dark gray color for the deleted post message */
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.deleted-post + button {
+  background-color: #007bff; /* Blue background color for the Undo button */
+  color: #fff; /* White text color for the Undo button */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.deleted-post + button:hover {
+  background-color: #0056b3; /* Darker blue background color on hover */
+}
+
 
 @media (max-width: 1350px) {
   .post-container {
