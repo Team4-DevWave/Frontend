@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-
 import { FaBold } from "react-icons/fa";
 import { Chip, Button, IconButton, Box, Paper, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
-
 import './CreatePost.css'; // Import your CSS file for styling
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
@@ -501,7 +499,7 @@ function CreatePost() {
                 <div fontWeight='bold'>Post:{index + 1}</div>
                 <div>Title: {draft.title}</div>
                 <div>Content: {draft.content}</div>
-                <Button onClick={() => { setSelectedDraft(draft); setDraftDialogOpen(false); }}>Edit</Button>
+                <Button onClick={() => { setSelectedDraft(draft); setDraftDialogOpen(false); handleEditDraft(draft)}}>Edit</Button>
                 <Button onClick={() => handleDeleteDraft(index)}>Delete</Button>
               </li>
             ))}
