@@ -4,6 +4,7 @@ import "../../pages/Notification/notification.css"; // Import the CSS file
 import {Meta} from '@storybook/react';
 import propTypes from 'prop-types';
 import Cookies from 'js-cookie';
+import { useMediaQuery } from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 // Import the images
 import commentImage from "../../images/comment.png";
@@ -14,6 +15,7 @@ import newPostImage from "../../images/newPost.png";
 import reportImage from "../../images/report.png";
 
 const Notification = ({setNotificationCount}) => {
+     const isMobile = useMediaQuery('(max-width: 1224px)');
     const navigate = useNavigate();
     const [data, setData] = useState([]); // State variable to store received data
     const [unreadCount, setUnreadCount] = useState(0); // State variable to store count of unread notifications
@@ -134,21 +136,44 @@ const Notification = ({setNotificationCount}) => {
                 break;
 
             case "friendRequest":
+                navigate(`/user/${notification.contentID.username}`);
                 break;
 
             case "follow":
+                navigate(`/user/${notification.contentID.username}`);
                 break;
 
         }
-    }
+    };
 
     return (
         //check
-        <div>
+        <div style={{ display: 'center',
+
+        //     moving to rightside of the screen because of side bar in case of desktop onlt
+            objectPosition: 'center',
+            margin: isMobile ? '0' : '0 0 0 200px',
+
+            width :'60%',
+
+        }}>
+
             {/* Display the received data */}
             {data.map((notification, index) => (
                 !notification.read &&(
-                    <div key={index} className={`notification`}  onClick={() => handleNotificationClick(notification)}>
+                    <div key={index} className={`notification`}  onClick={() => handleNotificationClick(notification)}
+                         style={{
+                             margin: '10px',
+                             padding: '10px',
+                             borderRadius: '10px',
+                             boxShadow: '0 0 10px rgba(0,0,0,0.1)', // Add some shadow for a modern look
+                             transition: 'all 0.3s ease', // Add transition for smooth animation
+                             ':hover': {
+                                 transform: 'scale(1.02)', // Add scale animation on hover
+                                 boxShadow: '0 0 20px rgba(0,0,0,0.2)', // Increase shadow on hover
+                             }
+                         }}
+                    >
                         <img
                             src={getImage(notification.type)}
                             alt={notification.type}
