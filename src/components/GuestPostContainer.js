@@ -100,7 +100,7 @@ function GuestPostContainer({ postData }) {
               data-testid="post"
               username={postData.username}
               userpic={postData2.userpic}
-              community={postData.subredditID.name}
+              community={postData.subredditID?.name || ""}
               incommunity={postData2.incommunity}
               Date={new Date(postData.time).toLocaleString([], {
                 day: "2-digit",

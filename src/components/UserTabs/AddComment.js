@@ -326,14 +326,24 @@ function AddComment(id, lock) {
               __html: marked(colorUsernames(comment)),
             }}
           />
-          <IconButton
-            aria-label="fingerprint"
-            color="error"
-            onClick={toggleFormat}
-            ref={formattingOptions}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              position: "relative",
+              top: "46px",
+            }}
           >
-            <TextFormatIcon />
-          </IconButton>
+            <IconButton
+              aria-label="fingerprint"
+              color="error"
+              onClick={toggleFormat}
+              ref={formattingOptions}
+            >
+              <TextFormatIcon />
+            </IconButton>
+          </div>
+
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <Button
               sx={{

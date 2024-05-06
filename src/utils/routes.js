@@ -25,41 +25,53 @@ import SearchPage from "../pages/SearchPage";
 import Chat from "../pages/chat/ChatPage.js";
 import ModQueue from "../pages/ModQueue/ModQueue";
 
-function CommentsRoute() {
+function CommentsRoute({ toggleTheme }) {
   const { id, title } = useParams();
-  return <Comments postID={id} postTitle={title} />;
+  return <Comments postID={id} postTitle={title} toggleTheme={toggleTheme} />;
 }
 
-const routes =  {
-  "/": ({toggleTheme}) => <Home toggleTheme={toggleTheme} />,
-  "/home": ({toggleTheme}) => <Home toggleTheme={toggleTheme}/>,
+const routes = {
+  "/": ({ toggleTheme }) => <Home toggleTheme={toggleTheme} />,
+  "/home": ({ toggleTheme }) => <Home toggleTheme={toggleTheme} />,
   "/login": () => <Login />,
   "/signup": () => <Signup />,
-  "/settings": ({toggleTheme}) => <Settings toggleTheme={toggleTheme} />,
-  "/messages": ({toggleTheme}) => <Message toggleTheme={toggleTheme}  />,
-  "/user/:username": ({toggleTheme}) => <UserPage toggleTheme={toggleTheme} />,
-  "/reset": () => <ResetCredentials />,
-  "/Notification": ({toggleTheme}) => <Notification toggleTheme={toggleTheme} />,
-  "/CreatePost": ({toggleTheme}) => <CreatePost toggleTheme={toggleTheme} />,
-  "/profile": ({toggleTheme}) => <Profile toggleTheme={toggleTheme} />,
-  "/r/:subredditName": ({toggleTheme}) => (
-    <Subreddit  toggleTheme={toggleTheme} />
+  "/settings": ({ toggleTheme }) => <Settings toggleTheme={toggleTheme} />,
+  "/messages": ({ toggleTheme }) => <Message toggleTheme={toggleTheme} />,
+  "/user/:username": ({ toggleTheme }) => (
+    <UserPage toggleTheme={toggleTheme} />
   ),
-  "/modqueue": ({toggleTheme}) => <ModQueue  toggleTheme={toggleTheme}/>,
+  "/reset": () => <ResetCredentials />,
+  "/Notification": ({ toggleTheme }) => (
+    <Notification toggleTheme={toggleTheme} />
+  ),
+  "/CreatePost": ({ toggleTheme }) => <CreatePost toggleTheme={toggleTheme} />,
+  "/profile": ({ toggleTheme }) => <Profile toggleTheme={toggleTheme} />,
+  "/r/:subredditName": ({ toggleTheme }) => (
+    <Subreddit toggleTheme={toggleTheme} />
+  ),
+  "/modqueue": ({ toggleTheme }) => <ModQueue toggleTheme={toggleTheme} />,
   "/comments/:id/:title": CommentsRoute,
-  "search/:query": ({toggleTheme}) => <SearchPage toggleTheme={toggleTheme} />,
+  "search/:query": ({ toggleTheme }) => (
+    <SearchPage toggleTheme={toggleTheme} />
+  ),
 
   //**These are test routes and will be removed upon integration */
   "/selectgender": () => <SelectGender />,
   "/selectinterests": () => <SelectInterests />,
   "/selectusername": () => <SelectUsername />,
-  "/usersavedpost": ({toggleTheme}) => <UserSavedPost toggleTheme={toggleTheme} />,
-  "/userpost": ({toggleTheme}) => <UserPost toggleTheme={toggleTheme} />,
-  "/userhiddenpost": ({toggleTheme}) => <UserHiddenPost  toggleTheme={toggleTheme} />,
-  "/usercomments": ({toggleTheme}) => <UserComments  toggleTheme={toggleTheme}/>,
-  "/overview": ({toggleTheme}) => <OverView  toggleTheme={toggleTheme}/>,
-  "/upvoted": ({toggleTheme}) => <Upvoted toggleTheme={toggleTheme}/>,
-  "/downvoted": ({toggleTheme}) => <Downvoted toggleTheme={toggleTheme} />,
-  "/chat": ({toggleTheme}) => <Chat toggleTheme={toggleTheme}/>,
+  "/usersavedpost": ({ toggleTheme }) => (
+    <UserSavedPost toggleTheme={toggleTheme} />
+  ),
+  "/userpost": ({ toggleTheme }) => <UserPost toggleTheme={toggleTheme} />,
+  "/userhiddenpost": ({ toggleTheme }) => (
+    <UserHiddenPost toggleTheme={toggleTheme} />
+  ),
+  "/usercomments": ({ toggleTheme }) => (
+    <UserComments toggleTheme={toggleTheme} />
+  ),
+  "/overview": ({ toggleTheme }) => <OverView toggleTheme={toggleTheme} />,
+  "/upvoted": ({ toggleTheme }) => <Upvoted toggleTheme={toggleTheme} />,
+  "/downvoted": ({ toggleTheme }) => <Downvoted toggleTheme={toggleTheme} />,
+  "/chat": ({ toggleTheme }) => <Chat toggleTheme={toggleTheme} />,
 };
 export default routes;

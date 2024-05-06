@@ -70,7 +70,9 @@ function Feed() {
     console.log("Sort option changed:", sortOption);
     axios
       .get(
-        `http://localhost:8000/api/v1/posts/${sortOption}?page=${page}`,
+        token
+          ? `http://localhost:8000/api/v1/posts/${sortOption}?page=${page}`
+          : `http://localhost:8000/api/v1/posts?page=${page}`,
         config
       )
 
@@ -93,6 +95,7 @@ function Feed() {
                 approved: item.approved,
                 mentioned: item.mentioned,
                 username: item.userID.username,
+                userpic: item.userID.profilePicture,
                 commentsCount: item.commentsCount,
                 image: item.image,
                 video: item.video,
