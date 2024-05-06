@@ -22,14 +22,11 @@ function MessageInputForm({ selectedChatroom, socketRef}) {
       };
     
     return (
-      <div className="form-container">
-        <IconButton color="primary">
-          <CameraAltIcon />
-        </IconButton>
-        <form className="chat-form" onSubmit={sendMessage}>
-          <div className="input-container">
+      <div className="form-container-Message-Input-From">
+        <form className="chat-form-Message-Input-From" onSubmit={sendMessage}>
+          <div className="input-container-Message-Input-From">
             <TextField
-              className="chat-input"
+              className="chat-input-Message-Input-From"
               onChange={(e) => {
                 setNewMessage(e.target.value);
               }}
@@ -37,7 +34,7 @@ function MessageInputForm({ selectedChatroom, socketRef}) {
               variant="outlined"
 
             />
-            <div className="icons-container">
+            <div className="icons-container-Message-Input-From">
               <IconButton color="primary">
                 <EmojiEmotionsIcon />
               </IconButton>
@@ -46,7 +43,6 @@ function MessageInputForm({ selectedChatroom, socketRef}) {
               </IconButton>
             </div>
           </div>
-
           <IconButton type="submit" color="primary" onClick={sendMessage}>
             <SendIcon />
           </IconButton>
