@@ -17,10 +17,12 @@ import GuestSideBar from "../layouts/GuestSidebar";
 function Home({toggleTheme}) {
   const [loading, setLoading] = React.useState(true);
   const [showOverlay, setShowOverlay] = useState(false);
+  
 
-  const toggleOverlay = () => {
-    setShowOverlay(!showOverlay);
-  };
+  // const [showOverlay, setShowOverlay] = useState(false);
+  // const toggleOverlay = () => {
+  //   setShowOverlay(!showOverlay);
+  // };
 
   useEffect(() => {
     setTimeout(() => {
@@ -37,9 +39,10 @@ function Home({toggleTheme}) {
 
   return (
     <div className="home-grid">
-      <button onClick={toggleOverlay}>Toggle Chat</button>
-      {showOverlay && <Overlay />}
-
+      {/* <IconButton onClick={toggleOverlay} className="chatIconInHome">
+        <ChatIcon />
+      </IconButton>
+      {showOverlay && <Overlay toggleOverlay={toggleOverlay} showOverlay={showOverlay} />} */}
 
       <div id="grid-0">
         {Cookies.get("token") ? <Header /> : <GuestHeader />}
