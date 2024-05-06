@@ -61,7 +61,7 @@ function NotificationNav() {
                             <Badge
                                 color="primary"
                                 badgeContent={notificationCount}
-                                sx={{ color: "#000", backgroundColor: "#fff" }}
+                                sx={{ color: "#000" }}
                             >
                                 {" "}
                                 Notifications
