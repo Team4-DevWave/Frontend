@@ -52,7 +52,7 @@ function FriendCheckbox({ username, initialChecked,handleFriendsChange  })
 
 
 
-const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,selectedChatroom,showNewChatRoomCreation,config,bearerToken,setchatMessages,chatMessages}) {
+const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,selectedChatroom,showNewChatRoomCreation,config,bearerToken,chatMessages,fetchChatrooms}) {
   const chatSectionRef = useRef(null);
   const socketRef = useRef(null);
   const [init, setinit] = useState(false);
@@ -60,8 +60,10 @@ const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,
   const newChatRoomMembers = useRef([]);
   const [FollowedUsers, setFollowedUsers] = useState([]);
   const messagesEndRef = useRef(null);
-
+  const [chatMessages2, setchatMessages2] = useState(chatMessages);
+  console.log("ChatSection rendered");
   const textareaRef = useRef();
+  console.log("chatMessages148", chatMessages);
 
 
   const handleCreateNewChatRoom = (e) => {
@@ -82,7 +84,7 @@ const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,
           console.log("Chatroom created successfully");
           //clear the newChatRoomMembers
           newChatRoomMembers.current = [];
-          // fetchChatrooms();
+           fetchChatrooms();
           toast.success('Chatroom created successfully');
         } else {
           console.log("Failed to create chatroom");
@@ -93,6 +95,13 @@ const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,
         console.log(error);
       });
   };
+  useEffect(() => {
+    if(chatMessages)
+      {
+        setchatMessages2(chatMessages);
+      }
+    }
+  , [chatMessages]);
 
 
   useEffect(() => {
@@ -104,28 +113,62 @@ const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,
       
 
 
+  // useEffect(() => {
+  //   if (!init) {
+  //     console.log("hello initttttttttttttttttttttttttttttttttt ");
+  //     setinit(true);
+  //     const socket = io('http://localhost:3002/', { query: { token: bearerToken } });
+  //     socketRef.current = socket;
+  //     socketRef.current.on("connect", () => {
+  //       console.log("socket  connected");
+  //       socketRef.current.emit("login", bearerToken);
+  //       socketRef.current.emit('join rooms');
+
+  //       socketRef.current.on("message received", (data) => {
+  //         console.log("message received98756", data);
+  //         setchatMessages2(prevMessages => [...prevMessages, data]);
+          
+
+  //       });
+
+  //     });
+  //   }
+  //   return () => {
+
+  //   };
+  // }, [init]);
+
   useEffect(() => {
-    if (!init) {
+    if (!socketRef.current) {
       console.log("hello initttttttttttttttttttttttttttttttttt ");
       setinit(true);
       const socket = io('http://localhost:3002/', { query: { token: bearerToken } });
       socketRef.current = socket;
       socketRef.current.on("connect", () => {
+        console.log("socket  connected");
         socketRef.current.emit("login", bearerToken);
         socketRef.current.emit('join rooms');
 
         socketRef.current.on("message received", (data) => {
           console.log("message received98756", data);
-          setchatMessages(prevMessages => [...prevMessages, data]);
+          console.log("message received98756", data.sender.sender.username);
+
+          setchatMessages2(prevMessages => [...prevMessages, data.sender]);
+          
 
         });
 
       });
     }
     return () => {
+      if (socketRef.current) {
+        socketRef.current.off("message received");
+        socketRef.current.off("new message");
+        socketRef.current.off("connect")
+      }
 
     };
-  }, [init]);
+  }, [socketRef]);
 
 
   
@@ -217,7 +260,7 @@ const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,
               <Grid item xs={11}>
                 <Box ref={chatSectionRef}>
 
-                  {chatMessages.map((message, index, arr) => (
+                  {chatMessages2.map((message, index, arr) => (
                     <div key={index} className="message-container">
                       {(index === 0 || message.sender.username !==arr[index - 1].sender.username) &&
                         <div className="username-time">
@@ -259,6 +302,7 @@ function ChatWindow({ toggleOverlay, showOverlay}) {
   const [chatMessages, setchatMessages] = useState([]);
   const [chatRommsIsFetched, setchatRommsIsFetched] = useState(false);
   const username = localStorage.getItem("username");
+
   // const [chatRoomsMembers, setchatRoomsMembers] = useState([]);
   // const [chatroomName, setchatroomName] = useState([username, "hussein"]);
 
@@ -314,7 +358,7 @@ function ChatWindow({ toggleOverlay, showOverlay}) {
       setchatRommsIsFetched(true);
       const response = await axios.get('http://localhost:8000/api/v1/chatrooms/', config);
       //  console.log(response); // Log the entire response
-      console.log("i am the king " + response.data.data.chatrooms);
+      // console.log("i am the king " + response.data.data.chatrooms);
 
       if (response.data.data.chatrooms.length > 0) {
         setChatRooms(response.data.data.chatrooms);
@@ -331,7 +375,8 @@ function ChatWindow({ toggleOverlay, showOverlay}) {
 
   useEffect(() => {
     if (!chatRommsIsFetched) {
-      // fetchChatrooms();
+      console.log("fetching chatrooms123456789");
+       fetchChatrooms();
     }
   }, []);
 
@@ -384,6 +429,7 @@ function ChatWindow({ toggleOverlay, showOverlay}) {
 
   const handleclose = (socketRef) => {
     {
+      console.log("socket offf");
       socketRef.current.off("message received");
       socketRef.current.off("new message");
       socketRef.current.off("connect")
@@ -393,23 +439,12 @@ function ChatWindow({ toggleOverlay, showOverlay}) {
     toggleOverlay();
   }
 
- 
-
-
-
-
-
-
-
-
-
   return (
 
     <div className="chat-window" >{/* onClick={handleClick} */}
       <Grid container className='gridOfchatwindow' >
         <ChatRoomList />
-        <ChatSection  handleclose={handleclose}  showOverlay={  showOverlay} selectedChatroom={selectedChatroom} showNewChatRoomCreation={showNewChatRoomCreation} config={config} bearerToken={bearerToken} setchatMessages={setchatMessages} chatMessages={chatMessages}  />
-
+        <ChatSection  handleclose={handleclose}  showOverlay={  showOverlay} selectedChatroom={selectedChatroom} showNewChatRoomCreation={showNewChatRoomCreation} config={config} bearerToken={bearerToken}  chatMessages={chatMessages} fetchChatrooms={fetchChatrooms}  />
       </Grid>
     </div>
   );

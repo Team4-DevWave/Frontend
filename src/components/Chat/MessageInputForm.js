@@ -16,10 +16,9 @@ function MessageInputForm({ selectedChatroom, socketRef}) {
 
     const sendMessage = async (event) => {
         event.preventDefault();
+        console.log('want senddddd:', newMessage);
         // socket.emit("send_message", { message: newMessage, chatroomId: selectedChatroom._id, sender: Sender });
         socketRef.current.emit("new message", { message: newMessage, roomID: selectedChatroom._id });
-    
-    
       };
     
     return (
