@@ -56,7 +56,7 @@ function CommentFeed(postID) {
                 id: item._id,
                 user: item.user.username,
                 content: item.content,
-                time: item.createdAt,
+                time: item.lastEdited ? item.lastEdited : item.createdAt,
                 post: item.post,
                 hidden: item.hidden,
                 votes: item.votes,
