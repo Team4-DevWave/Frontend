@@ -476,7 +476,7 @@ function PostContainer({ postData }) {
                       className="post-content"
                       data-testid="post"
                       username={postData.username}
-                      userpic={postData2.userpic}
+                      userpic={postData.userpic}
                       community={postData.subredditID?.name || ""}
                       incommunity={postData2.incommunity}
                       Date={new Date(postData.time).toLocaleString([], {
@@ -500,7 +500,7 @@ function PostContainer({ postData }) {
                       className="post-content"
                       data-testid="post"
                       username={edited.userID.username}
-                      userpic={postData2.userpic}
+                      userpic={postData.userpic}
                       community={edited.subredditID}
                       Date={new Date(edited.lastEditedTime).toLocaleString([], {
                         day: "2-digit",
@@ -732,7 +732,7 @@ function PostContainer({ postData }) {
                           <svg
                             role="svg"
                             rpl=""
-                            fill="black"
+                            fill="currentColor"
                             height="16"
                             icon-name="upvote-outline"
                             viewBox="0 0 20 20"
@@ -768,7 +768,7 @@ function PostContainer({ postData }) {
                           <svg
                             role="svg"
                             rpl=""
-                            fill="black"
+                            fill="currentColor"
                             height="16"
                             icon-name="downvote-outline"
                             viewBox="0 0 20 20"
@@ -802,7 +802,7 @@ function PostContainer({ postData }) {
                               rpl=""
                               aria-hidden="true"
                               className="icon-comment"
-                              fill="black"
+                              fill="currentColor"
                               height="20"
                               icon-name="comment-outline"
                               viewBox="0 0 20 20"
@@ -824,7 +824,7 @@ function PostContainer({ postData }) {
                               rpl=""
                               aria-hidden="true"
                               className="icon-comment"
-                              fill="black"
+                              fill="currentColor"
                               height="20"
                               icon-name="comment-outline"
                               viewBox="0 0 20 20"
@@ -852,7 +852,7 @@ function PostContainer({ postData }) {
                           rpl=""
                           aria-hidden="true"
                           className="icon-share"
-                          fill="black"
+                          fill="currentColor"
                           height="20"
                           icon-name="share-ios-outline"
                           viewBox="0 0 20 20"

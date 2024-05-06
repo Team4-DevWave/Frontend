@@ -11,7 +11,9 @@ import PostContainer from "../PostContainer"; // Uncomment this if you have a Po
 import GuestPostContainer from "../GuestPostContainer.js";
 import Cookies from "js-cookie";
 import Header from "../../layouts/Header";
+import GuestHeader from "../../layouts/GuestHeader.js";
 import SideBar from "../../layouts/Sidebar";
+import GuestSideBar from "../../layouts/GuestSidebar.js";
 import "./Comments.css";
 import LoadingScreen from ".././LoadingScreen";
 import CommentFeed from "./commentFeed.js";
@@ -31,7 +33,7 @@ export const LiveCommentsProvider = ({ children }) => {
   );
 };
 
-function Comments() {
+function Comments({ toggleTheme }) {
   console.log("Comments rendered");
   //VARIABLES
   const { id, title } = useParams();
@@ -105,10 +107,14 @@ function Comments() {
       <div>
         <div className="home-grid">
           <div id="grid-0">
-            <Header />
+            {Cookies.get("token") ? (
+              <Header toggleTheme={toggleTheme} />
+            ) : (
+              <GuestHeader toggleTheme={toggleTheme} />
+            )}
           </div>
           <div id="grid-1">
-            <SideBar />
+            {Cookies.get("token") ? <SideBar /> : <GuestSideBar />}
           </div>
           <div id="grid-2">
             {post &&

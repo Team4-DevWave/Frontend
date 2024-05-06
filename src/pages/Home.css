@@ -46,7 +46,7 @@
 #grid-3 {
 
    /* background-color: #FE8F6A;  */
-   grid-row-start: 2;
+   grid-row-start: 3;
    grid-column-start: 10;
 
    grid-row-end: 6;
