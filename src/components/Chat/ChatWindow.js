@@ -142,7 +142,7 @@ const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,
     if (!socketRef.current) {
       console.log("hello initttttttttttttttttttttttttttttttttt ");
       setinit(true);
-      const socket = io('http://localhost:3002/', { query: { token: bearerToken } });
+      const socket = io('http://localhost:3005/', { query: { token: bearerToken } });
       socketRef.current = socket;
       socketRef.current.on("connect", () => {
         console.log("socket  connected");
@@ -150,10 +150,10 @@ const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,
         socketRef.current.emit('join rooms');
 
         socketRef.current.on("message received", (data) => {
-          console.log("message received98756", data);
-          console.log("message received98756", data.sender.sender.username);
-
-          setchatMessages2(prevMessages => [...prevMessages, data.sender]);
+          console.log("message to test1", data);
+          console.log("message to test2", data);
+       //   response.data.data.chatMessages
+          setchatMessages2(prevMessages => [...prevMessages, data]);
           
 
         });
@@ -162,9 +162,9 @@ const ChatSection = React.memo(function ChatSection(  {handleclose, showOverlay,
     }
     return () => {
       if (socketRef.current) {
-        socketRef.current.off("message received");
-        socketRef.current.off("new message");
-        socketRef.current.off("connect")
+        // socketRef.current.off("message received");
+        // socketRef.current.off("new message");
+        // socketRef.current.off("connect")
       }
 
     };
@@ -452,4 +452,3 @@ function ChatWindow({ toggleOverlay, showOverlay}) {
 
 
 export default React.memo(ChatWindow);;
-
