@@ -34,9 +34,34 @@
     width: 100%;
     max-width: 700px;
 }
+.title-input {
+  width: 100px; /* Take the full width of the container */
+ /* Set text color to white */
+  background-color: transparent; /* Set background color to transparent */
+  border: none; /* Remove border */
+  outline: none; /* Remove outline */
+  font-size: 1.2rem; /* Adjust font size as needed */
+  padding: 0.2rem; /* Add padding */
+}
 
 
 
+.dialog-content {
+  width: 100%;
+}
+
+.text-editor {
+  color: white; /* Set text color to white */
+  height: 200px; /* Set the height of the text editor */
+  width: 100%; /* Ensure the text editor takes the full width of the container */
+  resize: vertical; /* Allow vertical resizing */
+}
+.highlight {
+    color: orange;
+    font-weight: bold;
+  }
+  
+  
 .create-post-form input[type="text"],
 .create-post-form textarea {
     width: 100%;
