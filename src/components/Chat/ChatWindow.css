@@ -3,8 +3,8 @@
   display: flex;
   
   flex-direction: row;
-  height: 500px;
-  width: 610px; /* Set a width for the chat window */
+  height: 490px;
+  width: 910px; /* Set a width for the chat window */
   position: fixed; /* Make the position fixed */
   right: 30px; /* Position it 20px from the right edge of the screen */
   bottom: 30px; /* Position it 20px from the bottom edge of the screen */
@@ -34,7 +34,9 @@
 }
 .displayAllChatRooms {
   overflow-y: auto;
-  max-height: 475px; /* Adjust this value as needed */
+  max-height: 430px; /* Adjust this value as needed */
+  overflow-x: hidden;
+
 }
 .displayChatRooms
 {
@@ -70,10 +72,23 @@
   border-right: 3px solid black; /* Add a border to the right side of the first section */
 }
 .chat-section-second {
+  position: relative; /* Make it a positioning context for its children */
+  height: 450px;
+  width: 100%;
   flex: 0.6;
   overflow-y: auto;
   
 }
+.upperClose
+{
+  
+}
+.upperClose:hover {
+  color: #ff0000; /* Change color to red when hovering */
+}
+
+
+
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -81,22 +96,13 @@
   border-bottom: 1px solid black ; /* Adjust as needed */
   line-height: 1.5; /* Adjust as needed */
 
-  height: 50px;
+  height: 40px;
 
 }
 .chat-headerone
 {
   text-align: left;
 
-}
-.settings-button
-{
-  
-}
-.upperClose
-{
-
-  
 }
 
 
@@ -136,14 +142,24 @@
 .message-time {
   position: relative;
 }
+.ChatAreaBetweenUsers
+{
+  position: relative;
+  height: 300px;
+  overflow-y: auto;
+  width: 100%;
+
+}
 .form-container {
-  position: fixed;
-  bottom: 10px;
+  position: relative;
+  top: 1px;
   height: 80px;
   display: flex;
   width: 460px;
+
   margin-left:10px;
 }
+
 .input-container {
   position: relative;
   display: flex;
@@ -162,16 +178,23 @@
   white-space: pre-wrap;
 }
 
+
 .chat-input {
-  width: 310px; /* Adjust this value as needed */
+  width: 360px; /* Adjust this value as needed */
   font-size: 16px;
   font-family: 'Times New Roman', Times, serif;
   font-style: bold;
-  border: none;
-  background: transparent;
-  outline: none;
-}
+  border-color: transparent;
 
+  border-radius: 80px;
+  overflow: auto; /* Add this line */
+  max-height: 80px; /* Add this line */
+
+
+}
+.chat-input .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: transparent !important;
+}
 .icons-container {
   position: absolute;
   right: 6px;
@@ -182,4 +205,5 @@
   display: flex;
   flex-wrap: nowrap;
 }
+
 

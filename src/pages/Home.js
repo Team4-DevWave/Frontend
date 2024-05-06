@@ -1,5 +1,5 @@
 import Header from "../layouts/Header";
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../layouts/Sidebar";
 import PostFeed from "../components/UserTabs/Feed";
 import SortOptions from "../components/SortOptions";
@@ -9,15 +9,18 @@ import Cookies from "js-cookie";
 import GuestHeader from "../layouts/GuestHeader";
 import GuestSideBar from "../layouts/GuestSidebar";
 
-import Overlay from "../components/overlay/Overlay.js";
+// import Overlay from "../components/overlay/Overlay.js";
+// import IconButton from '@mui/material/IconButton';
+// import ChatIcon from '@mui/icons-material/Chat';
+
 
 function Home() {
   const [loading, setLoading] = React.useState(true);
-  const [showOverlay, setShowOverlay] = useState(false);
 
-  const toggleOverlay = () => {
-    setShowOverlay(!showOverlay);
-  };
+  // const [showOverlay, setShowOverlay] = useState(false);
+  // const toggleOverlay = () => {
+  //   setShowOverlay(!showOverlay);
+  // };
 
   useEffect(() => {
     setTimeout(() => {
@@ -32,8 +35,10 @@ function Home() {
   return (
 
     <div className="home-grid">
-      <button onClick={toggleOverlay}>Toggle Chat</button>
-      {showOverlay && <Overlay />}
+      {/* <IconButton onClick={toggleOverlay} className="chatIconInHome">
+        <ChatIcon />
+      </IconButton>
+      {showOverlay && <Overlay toggleOverlay={toggleOverlay} showOverlay={showOverlay} />} */}
 
 
       <div id="grid-0">
