@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import Report from "../Report";
 import Delete from "../Delete";
+import Edit from "../Edit";
 
 function CommentContainer({ commentData }) {
   const [commentData2, setCommentData2] = useState({
@@ -27,6 +28,8 @@ function CommentContainer({ commentData }) {
     setShowOptions(!showOptions);
   };
   const [isDeleted, setIsDeleted] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
+  const [edited, setEdited] = useState(null);
 
   const shareMenu = useRef(null);
   const buttonRef = useRef(null);
@@ -75,14 +78,28 @@ function CommentContainer({ commentData }) {
     };
   }, [shareMenu]);
 
-  const [voteStatus, setVoteStatus] = useState(0); // 0 = no vote, 1 = upvoted, -1 = downvoted
-  const [upvoteCount, setUpVoteCount] = useState(commentData.votes.upvotes);
-  const [downvoteCount, setDownVoteCount] = useState(
-    commentData.votes.downvotes
+  const [voteStatus, setVoteStatus] = useState(commentData.userVote); // 0 = no vote, 1 = upvoted, -1 = downvoted
+  const [upvoteCount, setUpVoteCount] = useState(
+    commentData?.votes?.upvotes || 0
   );
+  const [downvoteCount, setDownVoteCount] = useState(
+    commentData?.votes?.downvotes || 0
+  );
+  const [upvoted, setUpvoted] = useState(false);
+  const [downvoted, setDownvoted] = useState(false);
   const [count, setCount] = useState(
     commentData.votes.upvotes - commentData.votes.downvotes
   );
+
+  useEffect(() => {
+    if (commentData.userVote === "downvoted") {
+      setVoteStatus(-1);
+    } else if (commentData.userVote === "upvoted") {
+      setVoteStatus(1);
+    } else {
+      setVoteStatus(0);
+    }
+  }, [commentData.userVote]);
 
   const handleUpvote = async () => {
     try {
@@ -103,6 +120,7 @@ function CommentContainer({ commentData }) {
         Number(response.data.data.upvotes) -
           Number(response.data.data.downvotes)
       );
+      setVoteStatus((prevVoteStatus) => (prevVoteStatus === 1 ? 0 : 1));
     } catch (error) {
       console.error(error);
     }
@@ -127,6 +145,7 @@ function CommentContainer({ commentData }) {
         Number(response.data.data.upvotes) -
           Number(response.data.data.downvotes)
       );
+      setVoteStatus((prevVoteStatus) => (prevVoteStatus === -1 ? 0 : -1));
     } catch (error) {
       console.error(error);
     }
@@ -150,7 +169,6 @@ function CommentContainer({ commentData }) {
       }
     } catch (error) {
       console.error("Error deleting comment:", error);
-      
     }
   };
 
@@ -206,28 +224,73 @@ function CommentContainer({ commentData }) {
       });
   };
 
+  const handleEdit = async (editedContent) => {
+    const token = Cookies.get("token");
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/comments/${commentData.id}`,
+        { content: editedContent },
+        config
+      );
+      if (response.status === 200) {
+        console.log("Post editted successfully");
+        setIsEdited(true); // Set isDeleted to true
+        console.log("Edit", isEdited);
+        const mappedData = response.data.data.comment;
+        setEdited(mappedData);
+      }
+    } catch (error) {
+      console.error("Error Editing post:", error);
+    }
+  };
+
   return (
     <div className="comments-container">
       {!isDeleted && (
         <>
-          <PostDesign
-            className="comments-content"
-            data-testid="post"
-            username={commentData.user}
-            userpic={commentData2.userpic}
-            community={commentData.community}
-            incommunity={commentData2.incommunity}
-            Date={new Date(commentData.time).toLocaleString([], {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-            text={commentData.content}
-            title={commentData2.title}
-            mentioned={mentionedUsernames}
-          />
+          {!isEdited ? (
+            <PostDesign
+              className="comments-content"
+              data-testid="post"
+              username={commentData.user}
+              userpic={commentData2.userpic}
+              community={commentData.community}
+              incommunity={commentData2.incommunity}
+              Date={new Date(commentData.time).toLocaleString([], {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+              text={commentData.content}
+              title={commentData2.title}
+              mentioned={mentionedUsernames}
+            />
+          ) : (
+            <PostDesign
+              className="comments-content"
+              data-testid="post"
+              username={edited.user.username}
+              userpic={commentData2.userpic}
+              community={commentData2.title}
+              Date={new Date(edited.lastEdited).toLocaleString([], {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+              text={edited.content}
+              title={commentData2.title}
+              mentioned={mentionedUsernames}
+            />
+          )}
+
           <div className="options-container">
             <Button
               variant="danger"
@@ -242,6 +305,12 @@ function CommentContainer({ commentData }) {
                 <ul>
                   {commentData.user === username ? (
                     <>
+                      <li>
+                        <Edit
+                          onEdit={handleEdit}
+                          postContent={commentData.content}
+                        />
+                      </li>
                       <li
                         onClick={
                           commentData.issaved ? handleUnsaved : handleSaved

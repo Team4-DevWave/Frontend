@@ -3,18 +3,21 @@ import axios from 'axios';
 
 import { FaBold } from "react-icons/fa";
 
-import './CreatePost.css'; // Import your CSS file for styling
+import './Nav.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 import Cookies from "js-cookie";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+
 function Poll() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [isBold, setIsBold] = useState(false);
     const [isItalic, setIsItalic] = useState(false);
     const [isstrikethrough, setIsstrikethrough] = useState(false);
+    const navigate = useNavigate();
 
     const [savedDrafts, setSavedDrafts] = useState([]);
     const [showSavedDrafts, setShowSavedDrafts] = useState(false);
@@ -41,8 +44,16 @@ function Poll() {
 
 
     const [options, setOptions] = useState(['', '']); // Initial options
+    const [duration1, setDuration1] = useState(1); // State for duration
+
+    // Rest of your code...
+
+    const handleDurationChange = (e) => {
+        setDuration1(parseInt(e.target.value)); // Update duration state
+    };
 
     const handleAddOption = () => {
+
         setOptions([...options, '']); // Add an empty option when the button is clicked
     };
 
@@ -64,10 +75,10 @@ function Poll() {
 
     const handelpostclick = async (e) => {
         e.preventDefault();
-    
+
         console.log("usernammmeeee==", username);
         console.log("community in post file==", community);
-    
+
         // Create an object to hold the poll options
         const pollOptions = {};
         options.forEach((option, index) => {
@@ -76,8 +87,13 @@ function Poll() {
             //     // Assign the option name as the key and set the value to 0
             //     pollOptions[option] = 0;
             // }
+            if (option.trim() !== '') {
+                // Assign the option name as the key and an empty array as the value
+                pollOptions[option] = [];
+            }
         });
-    
+        console.log("post zfttttt==", pollOptions);
+
         // Prepare the data to be sent in the Axios request
         const postData = {
             title: title,
@@ -89,9 +105,10 @@ function Poll() {
             spoiler: spoiler1,
             nsfw: NFSW,
             // Assign the poll options object to the 'poll' property
-            poll: pollOptions
+            poll: pollOptions,
+            duration: duration1
         };
-    
+
         // Make the Axios request
         try {
             const response = await axios.post(
@@ -99,7 +116,7 @@ function Poll() {
                 postData,
                 config
             );
-    console.log("dataaaa==",pollOptions);
+            console.log("dataaaa==", pollOptions);
             console.log("sent spoiler=", spoiler1);
             setPostDone(true);
             setTitle('');
@@ -109,67 +126,33 @@ function Poll() {
             setIsstrikethrough(false);
             setSpoiler(false);
             setNFSW(false);
-    
+            navigate(`/UserPost`);
+
             if (response.status === 201) {
                 console.log("post is created");
             } else {
                 console.log("post is not created");
             }
             console.log(response);
-            alert("Post done");
         } catch (error) {
             console.log(error);
             console.log("ssssssssssss");
         }
     };
-    
-    //////////////////////////////////////////////////////
-    const handleBoldClick = () => {
-        setIsBold(!isBold);
-    };
 
-    const handleItalicClick = () => {
-        setIsItalic(!isItalic);
-    };
-    const handlestrikeClick = () => {
-        setIsstrikethrough(!isstrikethrough);
-    };
+    //////////////////////////////////////////////////////
+
 
 
     const handleContentChange = (e) => {
         setContent(e.target.value);
     };
-    //save draft handel
-    const handleSaveDraft = (e) => {
-        e.preventDefault();
-        const draft = {
-            title: title,
-            content: content
-        };
-        setSavedDrafts([...savedDrafts, draft]);
-        // Reset form fields after saving draft
-        setTitle('');
-        setContent('');
-        setIsBold(false);
-        setIsItalic(false);
-        setIsstrikethrough(false);
-        setSpoiler(false);
-    };
 
-    const handleEditDraft = (draft) => {
-        setTitle(draft.title);
-        setContent(draft.content);
-    };
-
-    const handleShowSavedDrafts = () => {
-        setShowSavedDrafts(true);
-    };
 
     useEffect(() => {
         // Enable/disable buttons based on whether title is empty
         const areButtonsDisabled = title.trim() === '';
-        document.getElementById('savedefaultbtn').disabled = areButtonsDisabled;
-        document.getElementById('postbtn1').disabled = areButtonsDisabled;
+        document.getElementById('createcss').disabled = areButtonsDisabled;
     }, [title]);
 
     useEffect(() => {
@@ -185,17 +168,21 @@ function Poll() {
         }
     }, [isBold, isItalic, isstrikethrough]); // Include isItalic in the dependency array
 
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        // You can handle form submission here
+        // Check if there are no options added and both title and content are empty
+        if (options.every(option => option.trim() === '') && title.trim() === '' && content.trim() === '') {
+            // Reset form fields after submission only if no options are added and both title and content are empty
+            setTitle('');
+            setContent('');
+            setIsBold(false);
+            setIsItalic(false);
+        }
         console.log("Title:", title);
         console.log("Content:", content);
-        // Reset form fields after submission
-        setTitle('');
-        setContent('');
-        setIsBold(false);
-        setIsItalic(false);
     };
+
     const handleSpoiler = (event) => {
         console.log("spoilerzft=", spoiler1);
         setSpoiler((prevSpoiler) => !prevSpoiler);
@@ -227,21 +214,7 @@ function Poll() {
                         required
                     />
                     <label htmlFor="content"></label>
-                    <div className="toolbar1">
-                        <Button
-                            variant="danger"
-                            className={isBold ? 'active' : ''}
-                            onClick={handleBoldClick}
-                            data-testid="Bold"
-                        >
-                            <FaBold />
-                        </Button>
-                        <button type="button" onClick={handleItalicClick} className={isItalic ? 'active' : ''}>I</button>
-                        <button type="button" onClick={handlestrikeClick} className={isstrikethrough ? 'active' : ''}>S</button>
-                        <button type="button" onClick={handlestrikeClick} className={isstrikethrough ? 'active' : ''}>code</button>
 
-
-                    </div>
                     <textarea
                         ref={textAreaRef}
                         id="content"
@@ -289,11 +262,17 @@ function Poll() {
                         <button id="add-option-button" onClick={handleAddOption}>Add Option</button>
                     </div>
 
+                    <div id="select-container">
+                        {"duration:"}
+                        <select value={duration1} onChange={handleDurationChange}>
 
-
+                            {[...Array(7)].map((_, index) => (
+                                <option key={index + 1} value={index + 1}>{index + 1} day{index !== 0 && 's'}</option>
+                            ))}
+                        </select>
+                    </div>
                     <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''}>Save Draft</button>
-                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''} >Post</button>
+                        <button type="submit" id="createcss" onClick={handelpostclick} data-testid="post" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''} >Post</button>
                         {postDone && <script>alert("Post done");</script>}
 
                     </div>

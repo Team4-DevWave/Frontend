@@ -73,13 +73,6 @@ function SortOptions({ onSortOptionChange }) {
             >
               <p>Top</p>
             </a>
-            <a
-              href="#e"
-              className="sort-option-link"
-              onClick={() => handleSortOptionClick("rising")}
-            >
-              <p>Rising</p>
-            </a>
           </div>
         </div>
       </button>

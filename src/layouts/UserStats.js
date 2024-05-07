@@ -140,7 +140,7 @@ export default function UserStats(props) {
           config
         )
         .then((response) => {
-          setFollowStatus(response.status == 200 ? true : false);
+          setFollowStatus(response.status === 200 ? true : false);
         })
         .catch((error) => {
           console.log(error);
@@ -152,7 +152,7 @@ export default function UserStats(props) {
           config
         )
         .then((response) => {
-          setFollowStatus(response.status == 204 ? false : true);
+          setFollowStatus(response.status === 204 ? false : true);
         })
         .catch((error) => {
           console.log(error);
@@ -176,8 +176,7 @@ export default function UserStats(props) {
         .catch((error) => {
           console.log(error);
         });
-    }
-    else{
+    } else {
       axios
         .delete(`http://localhost:8000/api/v1/users/me/block/${username}`, config)
         .then((response) => {
@@ -298,7 +297,6 @@ export default function UserStats(props) {
           justifyContent: "center",
           boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
           borderRadius: "25px",
-         
         }}
       >
         <span style={{ display: "inline" }}>
@@ -311,7 +309,6 @@ export default function UserStats(props) {
               aria-haspopup="true"
               onClick={handleClick}
               sx={{
-                
                 color: "#000",
                 width: "40px",
                 borderRadius: "50px",
@@ -352,8 +349,6 @@ export default function UserStats(props) {
             <Button
               endIcon={<IoChatbubbleEllipsesOutline />}
               sx={{
-                
-              
                 "&:hover": {
                   backgroundColor: "#f5f5f5",
                 },
