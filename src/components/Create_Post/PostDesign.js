@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { Button } from "react-bootstrap";
 import { SlOptions } from "react-icons/sl";
 import "./PostDesign.css";
 import { BsExclamationDiamondFill } from "react-icons/bs";
 import { marked } from "marked";
+import axios from 'axios';
+import Cookies from "js-cookie";
 
 // URL for the blurred image
 const blurredImageUrl =
@@ -22,15 +24,23 @@ const PostDesign = ({
   video,
   spoiler,
   mentioned,
-  Poll
+  Poll,
+  Postid,
+  userPollVote,
 }) => {
   const [spoilerClicked, setSpoilerClicked] = useState(false);
   const [votedOption, setVotedOption] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   const [poll, setPoll] = useState(Poll); // Initialize with the initial value of Poll
+  const token = Cookies.get("token");
 
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+console.log("polaas",Poll);
+console.log("idddddd",Postid);
 
-  const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video) || (title && Poll);
+  const isValidPost = (title && text) || (title && image) || (title && Link) || (title && video) || (title && Poll) || title;
 
 
 
@@ -40,15 +50,43 @@ const PostDesign = ({
 
 
   const handleVote = () => {
+    console.log("poll===",poll)
     if (selectedOption) {
       const updatedPoll = { ...poll };
       updatedPoll[selectedOption] = updatedPoll[selectedOption] + 1;
       setVotedOption(selectedOption);
       setPoll(updatedPoll);
     }
+    axios
+        .post(
+          `http://localhost:8000/api/v1/posts/${Postid}/votepoll`,
+          {
+option:selectedOption,
+          },
+          config
+        )
+        .then((response) => {
+
+          if (response.status === 201) {
+            console.log("post is created");
+
+          } else {
+            console.log("post is not created");
+          }
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("ssssssssssss");
+        });
   };
 
-
+  useEffect(() => {
+    if (userPollVote) {
+      setSelectedOption(userPollVote);
+      handleVote();
+    }
+  }, [userPollVote]);
 
 
   function colorUsernames(text, mentioned) {

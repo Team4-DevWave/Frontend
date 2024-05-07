@@ -24,6 +24,7 @@ import { TbRating18Plus } from "react-icons/tb";
 
 function PostContainer({ postData }) {
   console.log("Is post saved:", postData.issaved);
+  console.log("poll==",postData.poll);
   const shareMenu = useRef(null);
   const buttonRef = useRef(null);
   const location = useLocation();
@@ -511,6 +512,9 @@ function PostContainer({ postData }) {
                         video={postData.video}
                         spoiler={postData.spoiler}
                         mentioned={mentionedUsernames}
+                        Poll={postData.poll}
+                        Postid={postData.id}
+                        userPollVote={postData.userPollVote}
                       />
                     ) : (
                       <PostDesign
