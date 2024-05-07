@@ -63,6 +63,7 @@ function CommentFeed(postID) {
                 saved: item.saved,
                 collapsed: item.collapsed,
                 mentioned: item.mentioned,
+                userVote: item.userVote,
               };
             } else {
               return null;
@@ -83,9 +84,36 @@ function CommentFeed(postID) {
       });
   }, [page, loading]);
 
+  const [filteredComments, setFilteredComments] = useState([]);
+  useEffect(() => {
+    const mappedData = liveComments
+      .map((item) => {
+        if (item.content) {
+          return {
+            id: item._id,
+            user: item.user,
+            content: item.content,
+            time: item.lastEdited ? item.lastEdited : item.createdAt,
+            post: item.post,
+            hidden: item.hidden,
+            votes: item.votes,
+            saved: item.saved,
+            collapsed: item.collapsed,
+            mentioned: item.mentioned,
+            userVote: item.userVote,
+          };
+        } else {
+          return null;
+        }
+      })
+      .filter(Boolean);
+    setFilteredComments(mappedData);
+  }, [liveComments]);
+
   useEffect(() => {
     console.log("Comments data page:", page);
-  }, [page]);
+    console.log("livecomments", filteredComments.user);
+  }, [page, filteredComments]);
 
   const handleObserver = (entities) => {
     const target = entities[0];
@@ -101,9 +129,9 @@ function CommentFeed(postID) {
       ))}
 
       {/* Display the live comments */}
-      {/* {liveComments.map((comment, index) => (
+      {filteredComments.map((comment, index) => (
         <CommentContainer key={index} commentData={comment} />
-      ))} */}
+      ))}
       {loading && (
         <div
           style={{

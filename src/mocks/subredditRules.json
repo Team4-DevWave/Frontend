@@ -1,20 +1,55 @@
-{
-  "subredditrules": [
-    {
+
+[{
+
+
       "id": "1",
-      "rules": ["No racism", "No sexism", "No homophobia"]
+      "rules": [
+        {
+          "rule": "No racism",
+          "description": "Any form of racism will not be tolerated."
+        },
+        {
+          "rule": "No sexism",
+          "description": "Any form of sexism will not be tolerated."
+        },
+        {
+          "rule": "No homophobia",
+          "description": "Any form of homophobia will not be tolerated."
+        }
+      ]
     },
     {
       "id": "2",
-      "rules": ["No spam", "No self-promotion", "No doxxing"]
+      "rules": [
+        {
+          "rule": "No NSFW content",
+          "description": "Any NSFW content will be removed."
+        },
+        {
+          "rule": "No gore",
+          "description": "Any gore will be removed."
+        },
+        {
+          "rule": "No spam",
+          "description": "Any spam will be removed."
+        }
+      ]
     },
     {
       "id": "3",
       "rules": [
-        "No NSFW content",
-        "No gore",
-        "No spam"
+        {
+          "rule": "No personal information",
+          "description": "Any personal information will be removed."
+        },
+        {
+          "rule": "No witch hunting",
+          "description": "Any witch hunting will be removed."
+        },
+        {
+          "rule": "No brigading",
+          "description": "Any brigading will be removed."
+        }
       ]
     }
-  ]
-}
+]

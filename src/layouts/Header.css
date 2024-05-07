@@ -38,3 +38,13 @@ Search {
   cursor: pointer;
   transition: all 0.3s;
 }
+#sss-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns items to the right */
+  margin-top: 10px; /* Adjust margin as needed */
+}
+
+#sss {
+  margin-left: 250px;
+  margin-bottom: 10px; /* Add space between button and other elements if needed */
+}

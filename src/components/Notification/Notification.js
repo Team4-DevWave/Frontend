@@ -157,7 +157,7 @@ const Notification = ({setNotificationCount}) => {
         }}>
 
             {/* Display the received data */}
-            {data.map((notification, index) => (
+            {data.length>0?data.map((notification, index) => (
                 !notification.read &&(
                     <div key={index} className={`notification`}  onClick={() => handleNotificationClick(notification)}
                          style={{
@@ -277,7 +277,12 @@ const Notification = ({setNotificationCount}) => {
                         </table>
                     </div>
                 )
-            ))}
+            ))
+            :(
+                <p>No available Notifications
+                </p>
+                )
+            }
         </div>
 
     );

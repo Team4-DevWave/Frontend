@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button, Select, MenuItem, Card, CardContent, CardActions, CheckCircleOutline, Menu } from '@mui/material';
 import PropTypes from 'prop-types';
 import './Removed.css';
-import PostContainer2 from "../PostCointainer2";
+import PostContainer2 from '../PostCointainer2';
 
 function Edited() {
     const [subreddits, setSubreddits] = useState([]);
@@ -129,6 +129,7 @@ function Edited() {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
+
                             {post.edits.map((edit, index) => (
                                 <MenuItem onClick={handleClose} key={index}>
                                     Reason: {edit.reason},Edit:{edit.edited} ,Status: {edit.status}, Date: {edit.date}

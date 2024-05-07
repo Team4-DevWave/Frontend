@@ -19,7 +19,7 @@ app.get('/api/subreddits/:subredditId/usernames', (req, res) => {
     if (usernames.length > 0) {
         res.json(usernames);
     } else {
-        res.status(404).json({ message: 'No usernames found for this subreddit' });
+      res.json({message: "No usernames found"});
     }
 });
 
