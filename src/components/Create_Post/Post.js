@@ -431,11 +431,11 @@ function CreatePost() {
 
           ></textarea>
 
-          <div
+          {/* <div
             dangerouslySetInnerHTML={{
               __html: marked(colorUsernames(content)),
             }}
-          />
+          /> */}
 
           <div>
             <button type="button" onClick={handleSaveDraft} id="createcss" disabled={!title} className={!title ? 'disabled-button' : ''}>Save Draft</button>
