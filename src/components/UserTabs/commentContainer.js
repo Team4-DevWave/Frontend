@@ -92,6 +92,7 @@ function CommentContainer({ commentData }) {
   );
 
   useEffect(() => {
+    console.log("userVote", commentData.userVote);
     if (commentData.userVote === "downvoted") {
       setVoteStatus(-1);
     } else if (commentData.userVote === "upvoted") {

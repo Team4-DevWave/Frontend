@@ -12,6 +12,7 @@ import Upvoted from "../components/UserTabs/Upvoted";
 import Downvoted from "../components/UserTabs/Downvoted";
 import UserStats from "../layouts/UserStats";
 import Sidebar from "../layouts/Sidebar";
+import RightSidebar from "../components/userProfile/RightSidebar";
 
 import { useParams } from "react-router-dom";
 
@@ -158,7 +159,15 @@ function Profile({ toggleTheme }) {
           {value === 6 && <Downvoted />}
         </div>
         <div id="grid-3">
-          <UserStats username={localStorage.getItem("username")} />
+        <RightSidebar
+          username={userData.username}
+          postKarma={userData.postKarma}
+          commentKarma={userData.commentKarma}
+          cakeDay={userData.cakeDay}
+          goldReceived={userData.goldReceived}
+          socialLinks={userData.socialLinks}
+          moderationTools={userData.moderationTools}
+        />
         </div>
       </div>
     </>

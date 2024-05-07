@@ -69,6 +69,7 @@ export default function UserStats(props) {
     setAnchorEl(null);
   };
 
+
   const sendReport = () => {
     const token = Cookies.get("token");
 
@@ -76,7 +77,13 @@ export default function UserStats(props) {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    axios.post();
+    axios.post("http://localhost:4000/reports", {
+      name: localStorage.getItem("username"),
+      offense: offense,
+      reason: reason,
+      reportedUser: username,
+
+    });
   };
 
   useEffect(() => {
@@ -171,7 +178,7 @@ export default function UserStats(props) {
         });
     } else {
       axios
-        .post(`http://localhost:8000/api/v1/users/me/block/${username}`, config)
+        .delete(`http://localhost:8000/api/v1/users/me/block/${username}`, config)
         .then((response) => {
           setBlockedStatus(response.status == 204 ? false : true);
         })
