@@ -158,7 +158,7 @@ function Feed() {
           style={{
             position: "fixed", // Position fixed
             bottom: "20px",
-            right: "20px",
+            left: "300px",
           }}
         >
           <KeyboardDoubleArrowUpIcon />
