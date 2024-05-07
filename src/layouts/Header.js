@@ -29,6 +29,12 @@ import axios from "axios";
 import TagIcon from "@mui/icons-material/Tag";
 import Chat from "../components/Chat/ChatWindow.js";
 import NotificationDropdown from "../components/NotificationDropdown";
+import { FiPlus } from "react-icons/fi";
+import { Button } from "@mui/material";
+
+import Overlay from "../components/overlay/Overlay.js";
+import ChatIcon from "@mui/icons-material/Chat";
+
 import CustomSwitch from "../components/MUIEdited/CustomSwitch.js";
 
 const Search = styled("div")(({ theme }) => ({
@@ -180,6 +186,10 @@ export default function Header({ toggleTheme }) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const handleCreatePost = () => {
+    window.location.href = "/createpost";
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -504,6 +514,14 @@ export default function Header({ toggleTheme }) {
               </List>
             </SearchResults>
           )}
+          <div id="sss-container">
+            <Button
+              id="sss"
+              onClick={handleCreatePost}
+            >
+              <FiPlus /> Create Post
+            </Button>
+          </div>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
