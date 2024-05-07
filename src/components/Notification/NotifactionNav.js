@@ -101,7 +101,7 @@ function NotificationNav() {
                     />
                 </Link>
             </Tabs>
-            <div class="horizontalLine"></div>
+
 
             {activeNavItem === 0 && <Notification  />}
             {activeNavItem === 1 && <OldNotification />}

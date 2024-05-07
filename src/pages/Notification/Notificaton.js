@@ -9,14 +9,17 @@ import {useMediaQuery} from '@mui/material';
 function Notification() {
     const theme = useTheme();
     const isDesktop = useMediaQuery('(min-width: 1143px)');
+    const isMobile = useMediaQuery('(max-width: 1142px)');
 
     console.log('notification rendered');
     return (
         <div className="navbar-padding">
             <Header />
             <div className="header"></div>
-            {isDesktop && <Sidebar />}
-            <div className="sidebar"></div>
+
+            <div className="sidebar">
+                {isDesktop && <Sidebar />}
+            </div>
 
             <div sx={{
                 alignItems: 'center',
@@ -24,10 +27,10 @@ function Notification() {
                 justifyContent: 'center',
                 paddingLeft: isDesktop ? '200px' : '0px',
                 width: '100%',
-                margin: 'auto',
+                margin: isMobile ? '0' : '0 300px 0 0px',
             }}
             >
-                <h1 className="title">Notification</h1>
+                <h1  className="title">Notification</h1>
                 <NotificationNav />
             </div>
         </div>
