@@ -57,9 +57,12 @@ function CommunitySettings() {
 
     const handleUpdate = () => {
         // Update the settings for the selected subreddit
-        axios.put(`http://localhost:4007/api/communitysettings/${selectedSubreddit}`, settings)
+        axios.put(`http://localhost:4007/api/communitysettings/${selectedSubreddit}`, { settings })
             .then(response => {
-                console.log('Settings updated');
+                console.log('Settings updated:', response.data);
+            })
+            .catch(error => {
+                console.error('Error updating settings:', error);
             });
     };
 
