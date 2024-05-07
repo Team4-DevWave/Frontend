@@ -80,6 +80,7 @@ export default function CustomSwitch() {
               sx={{ m: 0 }}
               checked={state.checkedA}
               onChange={handleChange}
+              name="checkedA"
             />
           }
         />
