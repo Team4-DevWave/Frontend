@@ -1,8 +1,32 @@
+:root {
+  --bs-body-bg: #f5f5f5;
+  --theme-background: #f5f5f5;
+  --hover-color: #d5d4d4c9;
+  --text-color: #333;
+  --place-holder: rgb(58, 44, 40);
+}
+
+[data-theme="dark"] {
+  --bs-body-bg: #1a1a1b;
+  --theme-background: #2b2b2b;
+  --hover-color: #333;
+  --text-color: #f5f5f5;
+  --place-holder: rgb(218, 218, 218);
+}
+
+[data-theme="light"] {
+  --bs-body-bg: #f5f5f5;
+  --theme-background: #f5f5f5;
+  --text-color: #333;
+  --place-holder: rgb(40, 48, 58);
+}
+
 .addcomment-box{
     width: 720px;
     min-height: 50px;
     padding: 10px;
-    border: 1px solid #ffff;
+    border: 1px solid var(--theme-background);
+    background-color: var(--theme-background);
     border-radius: 20px;
     margin-bottom: 10px;
     outline:none;
@@ -49,7 +73,7 @@
 }
 
 .add-comment-p{
-    color: rgb(40, 48, 58);
+    color: var(--place-holder);
     font-size: 15px;
     padding: 3px;
 }
@@ -141,15 +165,15 @@
   @media (max-width: 1350px) {
     .fake-addcomment {
       max-width: 733px;
+      left: 9%;
     }
     .addcomment-container {
       max-width: 733px;
+      left: 9%;
     }
     .addcomment-box{
       width: 720px;
-    }
-    .cancel-btn{
-      left: 80%;
+      left: 9%;
     }
     
   }
@@ -170,14 +194,14 @@
   @media (max-width: 768px) {
     .fake-addcomment {
       left: 4%;
-      max-width: 680px;
+      max-width: 92%;
     }
     .addcomment-container {
       left: 4%;
-      max-width: 680px;
+      max-width: 92%;
     }
     .addcomment-box{
-      max-width: 660px;
+      max-width: 92%;
       left: 4%;
     }
 
@@ -185,16 +209,16 @@
   
   @media (max-width: 480px) {
     .fake-addcomment {
-      max-width: 400px;
-      left: 2%;
+      max-width: 90%;
+      left: 4%;
     }
     
     .addcomment-container {
-      max-width: 400px;
-      left: 2%;
+      max-width: 90%;
+      left: 4%;
     }
     .addcomment-box{
-      max-width: 380px;
-      left: 2%;
+      max-width: 90%;
+      left: 4%;
     }
   }

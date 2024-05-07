@@ -23,6 +23,7 @@ import { TbRating18Plus } from "react-icons/tb";
 
 function PostContainer({ postData }) {
   console.log("Is post saved:", postData.issaved);
+  console.log("poll==",postData.poll);
   const shareMenu = useRef(null);
   const buttonRef = useRef(null);
   const location = useLocation();
@@ -47,6 +48,8 @@ function PostContainer({ postData }) {
   }
 
   const [showAlert, setShowAlert] = useState(false);
+  const [showMss, setShowMss] = useState(false);
+
   const [isHidden, setIsHidden] = useState(false);
 
   function copyLink() {
@@ -245,6 +248,10 @@ function PostContainer({ postData }) {
         console.log(error);
         console.log("idd==", postData.id);
       });
+    setShowMss(true);
+
+    //Hide the alert after 3 seconds
+    setTimeout(() => setShowMss(false), 3000);
   };
 
   const handleHidePost = () => {
@@ -320,6 +327,10 @@ function PostContainer({ postData }) {
         console.log(error);
         console.log("idd==", postData.id);
       });
+    setShowMss(true);
+
+    //Hide the alert after 3 seconds
+    setTimeout(() => setShowMss(false), 3000);
   };
   const handleUnHidePost = () => {
     // Send API request to hide the post with postId using Axios
@@ -452,16 +463,22 @@ function PostContainer({ postData }) {
         <>
           <div className="post-container">
             {isHidden ? (
-              <p className="deleted-post">Post hidden</p>
+              <>
+                <p className="deleted-post">Post hidden</p>
+                <button type="button" onClick={handleHidePost}>
+                  Undo
+                </button>
+              </>
             ) : (
               <>
+
                 <article>
                   {!isEdited ? (
                     <PostDesign
                       className="post-content"
                       data-testid="post"
                       username={postData.username}
-                      userpic={postData2.userpic}
+                      userpic={postData.userpic}
                       community={postData.subredditID?.name || ""}
                       incommunity={postData2.incommunity}
                       Date={new Date(postData.time).toLocaleString([], {
@@ -479,13 +496,16 @@ function PostContainer({ postData }) {
                       spoiler={postData.spoiler}
                       mentioned={mentionedUsernames}
                       id={postData.id}
+                        Poll={postData.poll}
+                        Postid={postData.id}
+                        userPollVote={postData.userPollVote}
                     />
                   ) : (
                     <PostDesign
                       className="post-content"
                       data-testid="post"
                       username={edited.userID.username}
-                      userpic={postData2.userpic}
+                      userpic={postData.userpic}
                       community={edited.subredditID}
                       Date={new Date(edited.lastEditedTime).toLocaleString([], {
                         day: "2-digit",
@@ -501,6 +521,9 @@ function PostContainer({ postData }) {
                       spoiler={edited.spoiler}
                       mentioned={edited.mentioned.map((obj) => obj.username)}
                       id={postData.id}
+                          Poll={postData.poll}
+                        Postid={postData.id}
+                        userPollVote={postData.userPollVote}
                     />
                   )}
                 </article>
@@ -717,7 +740,7 @@ function PostContainer({ postData }) {
                           <svg
                             role="svg"
                             rpl=""
-                            fill="black"
+                            fill="currentColor"
                             height="16"
                             icon-name="upvote-outline"
                             viewBox="0 0 20 20"
@@ -753,7 +776,7 @@ function PostContainer({ postData }) {
                           <svg
                             role="svg"
                             rpl=""
-                            fill="black"
+                            fill="currentColor"
                             height="16"
                             icon-name="downvote-outline"
                             viewBox="0 0 20 20"
@@ -787,7 +810,7 @@ function PostContainer({ postData }) {
                               rpl=""
                               aria-hidden="true"
                               className="icon-comment"
-                              fill="black"
+                              fill="currentColor"
                               height="20"
                               icon-name="comment-outline"
                               viewBox="0 0 20 20"
@@ -809,7 +832,7 @@ function PostContainer({ postData }) {
                               rpl=""
                               aria-hidden="true"
                               className="icon-comment"
-                              fill="black"
+                              fill="currentColor"
                               height="20"
                               icon-name="comment-outline"
                               viewBox="0 0 20 20"
@@ -837,7 +860,7 @@ function PostContainer({ postData }) {
                           rpl=""
                           aria-hidden="true"
                           className="icon-share"
-                          fill="black"
+                          fill="currentColor"
                           height="20"
                           icon-name="share-ios-outline"
                           viewBox="0 0 20 20"
@@ -879,6 +902,11 @@ function PostContainer({ postData }) {
                 {showAlert && (
                   <Alert variant="success" className="alert">
                     Link copied to clipboard
+                  </Alert>
+                )}
+                {showMss && (
+                  <Alert variant="success" className="alert">
+                    Post Saved
                   </Alert>
                 )}
               </>

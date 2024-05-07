@@ -5,6 +5,10 @@ import './overlay.css'; // Import CSS file for styling
 
 import Chat from '../Chat/ChatWindow.js';
 function Overlay({ toggleOverlay, showOverlay }) {
+
+  const stopPropagation = (event) => {
+    event.stopPropagation();
+  };
   console.log("overlayrendered")
   // const [showOverlay, setShowOverlay] = useState(false);
   // const [newMessage, setNewMessage] = useState('');
@@ -12,12 +16,12 @@ function Overlay({ toggleOverlay, showOverlay }) {
 
 
   return (
-    <div>
+    <div onClick={stopPropagation}>
       
       {
         <div className="overlay">
           <div className="overlay-content">
-            <Chat toggleOverlay={toggleOverlay} showOverlay={showOverlay} />
+            <Chat toggleOverlay={toggleOverlay} showOverlay={showOverlay} stopPropagation={stopPropagation} />
           </div>
         </div>
       }

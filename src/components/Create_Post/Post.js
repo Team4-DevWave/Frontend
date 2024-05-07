@@ -1,10 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-
 import { FaBold } from "react-icons/fa";
 import { Chip, Button, IconButton, Box, Paper, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
-
-import './CreatePost.css'; // Import your CSS file for styling
+import './Post.css'; // Import your CSS file for styling
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 import Cookies from "js-cookie";
@@ -166,7 +164,6 @@ function CreatePost() {
   const handleContentChange = (e) => {
     setContent(e.target.value);
   };
-  
   //save draft handel
   const handleSaveDraft = (e) => {
     e.preventDefault();
@@ -318,8 +315,8 @@ function CreatePost() {
   useEffect(() => {
     // Enable/disable buttons based on whether title is empty
     const areButtonsDisabled = title.trim() === '';
-    document.getElementById('savedefaultbtn').disabled = areButtonsDisabled;
-    document.getElementById('postbtn1').disabled = areButtonsDisabled;
+    document.getElementById('createcss').disabled = areButtonsDisabled;
+    document.getElementById('createcss').disabled = areButtonsDisabled;
   }, [title]);
 
   useEffect(() => {
@@ -367,7 +364,7 @@ function CreatePost() {
   }
   return (
 
-    <div className="create-post-container">
+    <div className="create-post-container" id="grid-1">
 
       <div className="create-post-form-section">
         <form className="create-post-form" onSubmit={handleSubmit}>
@@ -434,17 +431,15 @@ function CreatePost() {
 
           ></textarea>
 
-{/* <div
+          <div
             dangerouslySetInnerHTML={{
               __html: marked(colorUsernames(content)),
             }}
-          /> */}
-
-
+          />
 
           <div>
-            <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" disabled={!title} className={!title ? 'disabled-button' : ''}>Save Draft</button>
-            <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''} >Post</button>
+            <button type="button" onClick={handleSaveDraft} id="createcss" disabled={!title} className={!title ? 'disabled-button' : ''}>Save Draft</button>
+            <button type="submit" id="createcss" onClick={handelpostclick} data-testid="post" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''} >Post</button>
             {postDone && <script>alert("Post done");</script>}
 
           </div>
@@ -502,7 +497,7 @@ function CreatePost() {
                 <div fontWeight='bold'>Post:{index + 1}</div>
                 <div>Title: {draft.title}</div>
                 <div>Content: {draft.content}</div>
-                <Button onClick={() => { setSelectedDraft(draft); setDraftDialogOpen(false); handleEditDraft(draft);}}>Edit</Button>
+                <Button onClick={() => { setSelectedDraft(draft); setDraftDialogOpen(false); handleEditDraft(draft)}}>Edit</Button>
                 <Button onClick={() => handleDeleteDraft(index)}>Delete</Button>
               </li>
             ))}
