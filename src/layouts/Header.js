@@ -29,7 +29,8 @@ import axios from "axios";
 import TagIcon from "@mui/icons-material/Tag";
 import Chat from "../components/Chat/ChatWindow.js";
 import NotificationDropdown from "../components/NotificationDropdown";
-
+import {  Button } from "@mui/material";
+import { FiPlus } from "react-icons/fi";
 import Overlay from "../components/overlay/Overlay.js";
 import ChatIcon from "@mui/icons-material/Chat";
 
