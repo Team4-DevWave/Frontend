@@ -47,7 +47,7 @@ const OldNotification = ({setNotificationCount}) => {
             case "friendRequest":
                 return friendRequestImage;
             case "newPost":
-                return notification.contentID.userID.profilePicture ? notification.contentID.userID.profilePicture : newPostImage;
+                return  newPostImage;
             case "report":
                 return reportImage;
             case "upvote":
@@ -57,7 +57,7 @@ const OldNotification = ({setNotificationCount}) => {
             case "mention":
                 return commentImage;
             case "post":
-                return notification.contentID.userID.profilePicture ? notification.contentID.userID.profilePicture : newPostImage;
+                return newPostImage;
             default:
                 return null;
         }
@@ -157,120 +157,134 @@ const OldNotification = ({setNotificationCount}) => {
         }}>
 
             {/* Display the received data */}
-            {data.map((notification, index) => (
-                notification.read &&(
-                    <div key={index} className={`notification`}  onClick={() => handleNotificationClick(notification)}
-                         style={{
-                             margin: '10px',
-                             padding: '10px',
-                             borderRadius: '10px',
-                             boxShadow: '0 0 10px rgba(0,0,0,0.1)', // Add some shadow for a modern look
-                             transition: 'all 0.3s ease', // Add transition for smooth animation
-                             ':hover': {
-                                 transform: 'scale(1.02)', // Add scale animation on hover
-                                 boxShadow: '0 0 20px rgba(0,0,0,0.2)', // Increase shadow on hover
-                             }
-                         }}
-                    >
-                        <img
-                            src={getImage(notification.type)}
-                            alt={notification.type}
-                            className="notification-icon"
-                        />
-                        <div>
-                            {/*json { "status": "", [ "timestamp": "", "username": "", "subreddit": "", "type": "", "body": "" ] }*/}
-                            {(() => {
-                                switch (notification.type) {
-                                    case 'comment':
-                                        return (
-                                            <>
-                                                <h3>Comment Notification</h3>
-                                                <h6>{notification.contentID.title}</h6>
-                                                <p>{notification.content}</p>
+            {data.length>0?data.map((notification, index) => (
+                    notification.read &&(
+                        <div key={index} className={`notification`}  onClick={() => handleNotificationClick(notification)}
+                             style={{
+                                 margin: '10px',
+                                 padding: '10px',
+                                 borderRadius: '10px',
+                                 boxShadow: '0 0 10px rgba(0,0,0,0.1)', // Add some shadow for a modern look
+                                 transition: 'all 0.3s ease', // Add transition for smooth animation
+                                 ':hover': {
+                                     transform: 'scale(1.02)', // Add scale animation on hover
+                                     boxShadow: '0 0 20px rgba(0,0,0,0.2)', // Increase shadow on hover
+                                 }
+                             }}
+                        >
+                            <table>
+                                <tr>
+                                    <td>
+                                        <img
+                                            alt={getImage(notification.type, notification)}
+                                            src={getImage(notification.type, notification)}
+                                            className="notification-icon"
+                                        />
+                                    </td>
+                                    <td>
+                                        <div>
+                                            {/*json { "status": "", [ "timestamp": "", "username": "", "subreddit": "", "type": "", "body": "" ] }*/}
+                                            {(() => {
+                                                switch (notification.type) {
+                                                    case 'comment':
+                                                        return (
+                                                            <>
+                                                                <h3>Comment Notification</h3>
+                                                                <h6>{notification.contentID.title}</h6>
+                                                                <p>{notification.content}</p>
 
-                                            </>
-                                        );
-                                    case 'message':
-                                        return (
-                                            <>
-                                                <h3>Message Notification</h3>
-                                                <p>{notification.content}</p>
-                                            </>
-                                        );
-                                    case 'chat':
-                                        return (
-                                            <>
-                                                <h3>Chat Notification</h3>
-                                                <p>{notification.content}</p>
-                                            </>
-                                        );
-                                    case 'friendRequest':
-                                        return (
-                                            <>
-                                                <h3>Friend Request Notification</h3>
-                                                <p>{notification.content}</p>
-                                            </>
-                                        );
-                                    case 'newPost':
-                                        return (
-                                            <>
-                                                <h3>New Post Notification</h3>
-                                                <p>{notification.content}</p>
-                                            </>
-                                        );
-                                    case 'report':
-                                        return (
-                                            <>
-                                                <h3>Report Notification</h3>
-                                                <p>{notification.content}</p>
-                                            </>
-                                        );
-                                    case 'upvote':
-                                        return (
-                                            <>
-                                                <h3>Upvote Notification</h3>
-                                                <p>{notification.content}</p>
-                                            </>
-                                        );
-                                    case 'follow':
-                                        return (
-                                            <>
-                                                <h3>Follow Notification</h3>
-                                                <p>{notification.content}</p>
-                                            </>
-                                        );
-                                    case 'mention':
-                                        return (
-                                            <>
-                                                <h3>Comment Notification</h3>
-                                                <h6>{notification.contentID.title}</h6>
-                                                <p>{notification.content}</p>
+                                                            </>
+                                                        );
+                                                    case 'message':
+                                                        return (
+                                                            <>
+                                                                <h3>Message Notification</h3>
+                                                                <p>{notification.content}</p>
+                                                            </>
+                                                        );
+                                                    case 'chat':
+                                                        return (
+                                                            <>
+                                                                <h3>Chat Notification</h3>
+                                                                <p>{notification.content}</p>
+                                                            </>
+                                                        );
+                                                    case 'friendRequest':
+                                                        return (
+                                                            <>
+                                                                <h3>Friend Request Notification</h3>
+                                                                <p>{notification.content}</p>
+                                                            </>
+                                                        );
+                                                    case 'newPost':
+                                                        return (
+                                                            <>
+                                                                <h3>New Post Notification</h3>
+                                                                <p>{notification.content}</p>
+                                                            </>
+                                                        );
+                                                    case 'report':
+                                                        return (
+                                                            <>
+                                                                <h3>Report Notification</h3>
+                                                                <p>{notification.content}</p>
+                                                            </>
+                                                        );
+                                                    case 'upvote':
+                                                        return (
+                                                            <>
+                                                                <h3>Upvote Notification</h3>
+                                                                <p>{notification.content}</p>
+                                                            </>
+                                                        );
+                                                    case 'follow':
+                                                        return (
+                                                            <>
+                                                                <h3>Follow Notification</h3>
+                                                                <p>{notification.content}</p>
+                                                            </>
+                                                        );
+                                                    case 'mention':
+                                                        return (
+                                                            <>
+                                                                <h3>Comment Notification</h3>
+                                                                <h6>{notification.contentID.title}</h6>
+                                                                <p>{notification.content}</p>
 
-                                            </>
-                                        );
-                                    case 'post':
-                                        return (
-                                            <>
-                                                <h3>Post Notification</h3>
-                                                <h6>{notification.contentID.title}</h6>
-                                                <p>{notification.content}</p>
+                                                            </>
+                                                        );
+                                                    case 'post':
+                                                        return (
+                                                            <>
+                                                                <h3>Post Notification</h3>
+                                                                <h6>{notification.contentID.title}</h6>
+                                                                <p>{notification.content}</p>
 
-                                            </>
-                                        );
-                                    default:
-                                        return null;
-                                }
-                            })()}
-                            <p> {
-                                // Create a new Date object with the timestamp
-                                new Date(notification.createdAt).toISOString().slice(0,16).replace("T", " ")
-                            }</p>
+                                                            </>
+                                                        );
+                                                    default:
+                                                        return null;
+                                                }
+                                            })()}
+                                            <p> {
+                                                // Create a new Date object with the timestamp
+                                                new Date(notification.createdAt).toISOString().slice(0,16).replace("T", " ")
+                                            }</p>
 
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
-                    </div>
+                    )
+                ))
+                :(
+                    <p>No available Notifications
+                    </p>
                 )
-            ))}
+            }
         </div>
+
     );
 };
 
