@@ -63,7 +63,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function GuestHeader() {
+const handleTheme = (toggleTheme) => {
+  console.log("changing theme");
+  const html = document.querySelector("html");
+  toggleTheme();
+  //props.toggleTheme();
+  if (html.getAttribute("data-theme") === "dark") {
+    html.setAttribute("data-theme", "light");
+    localStorage.setItem("theme", "light");
+  } else {
+    html.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+  }
+};
+
+export default function GuestHeader({ toggleTheme }) {
   const matches = useMediaQuery("(max-width:1350px)");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -177,7 +191,7 @@ export default function GuestHeader() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" style={{backgroundColor:"white"}}>
+      <AppBar position="fixed" style={{ backgroundColor: "white" }}>
         <Toolbar>
           {matches && (
             <React.Fragment>

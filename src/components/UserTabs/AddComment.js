@@ -317,42 +317,55 @@ function AddComment(id, lock) {
           )}
 
           <div
+            style={{
+              whiteSpace: "pre-wrap",
+              overflow: "auto",
+              wordWrap: "break-word",
+            }} // Add this style
             dangerouslySetInnerHTML={{
               __html: marked(colorUsernames(comment)),
             }}
           />
-          <IconButton
-            aria-label="fingerprint"
-            color="error"
-            onClick={toggleFormat}
-            ref={formattingOptions}
-          >
-            <TextFormatIcon />
-          </IconButton>
-          <Button
-            sx={{
-              borderRadius: 25,
-              margin: "4px",
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
               position: "relative",
-              left: "65%",
+              top: "46px",
             }}
-            onClick={handleCancel}
-            variant={"outlined"}
           >
-            Cancel
-          </Button>
-          <Button
-            sx={{
-              borderRadius: 25,
-              margin: "4px",
-              position: "relative",
-              left: "65%",
-            }}
-            onClick={handleClickComment}
-            variant={"contained"}
-          >
-            Comment
-          </Button>
+            <IconButton
+              aria-label="fingerprint"
+              color="error"
+              onClick={toggleFormat}
+              ref={formattingOptions}
+            >
+              <TextFormatIcon />
+            </IconButton>
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button
+              sx={{
+                borderRadius: 25,
+                margin: "4px",
+              }}
+              onClick={handleCancel}
+              variant={"outlined"}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{
+                borderRadius: 25,
+                margin: "4px",
+              }}
+              onClick={handleClickComment}
+              variant={"contained"}
+            >
+              Comment
+            </Button>
+          </div>
         </div>
       )}
     </>
