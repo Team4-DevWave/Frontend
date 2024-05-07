@@ -541,6 +541,7 @@ export default function Header({ toggleTheme }) {
               </List>
             </SearchResults>
           )}
+          
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
