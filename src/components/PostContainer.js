@@ -23,6 +23,7 @@ import { TbRating18Plus } from "react-icons/tb";
 
 function PostContainer({ postData }) {
   console.log("Is post saved:", postData.issaved);
+  console.log("poll==",postData.poll);
   const shareMenu = useRef(null);
   const buttonRef = useRef(null);
   const location = useLocation();
@@ -470,6 +471,7 @@ function PostContainer({ postData }) {
               </>
             ) : (
               <>
+
                 <article>
                   {!isEdited ? (
                     <PostDesign
@@ -494,6 +496,9 @@ function PostContainer({ postData }) {
                       spoiler={postData.spoiler}
                       mentioned={mentionedUsernames}
                       id={postData.id}
+                        Poll={postData.poll}
+                        Postid={postData.id}
+                        userPollVote={postData.userPollVote}
                     />
                   ) : (
                     <PostDesign
@@ -516,6 +521,9 @@ function PostContainer({ postData }) {
                       spoiler={edited.spoiler}
                       mentioned={edited.mentioned.map((obj) => obj.username)}
                       id={postData.id}
+                          Poll={postData.poll}
+                        Postid={postData.id}
+                        userPollVote={postData.userPollVote}
                     />
                   )}
                 </article>

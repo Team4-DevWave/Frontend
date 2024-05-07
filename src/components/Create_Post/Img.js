@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import deleteIcon from './image/WhatsApp Image 2024-03-16 at 16.15.11_80aefda1.jpg';
-import './CreatePost.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
 import { AiOutlineDelete } from 'react-icons/ai';
 // import axios from 'axios';
@@ -234,7 +233,7 @@ else{
                         accept="image/*, video/*"
                         multiple
                     />
-                    <button type="submit" onClick={handelpostclick} data-testid="post" disabled={!title || community===""}   className={!title || community==="" ? 'disabled-button' : ''}>
+                    <button type="submit" id="createcss" onClick={handelpostclick} data-testid="post" disabled={!title || community===""}   className={!title || community==="" ? 'disabled-button' : ''}>
                         Post
                     </button>
                 </form>

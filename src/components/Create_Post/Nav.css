@@ -1,0 +1,130 @@
+.container {
+  display: grid;
+  grid-template-rows: 70px 300px auto auto auto;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 0px;
+  height: 90vh;
+  overflow-x: hidden;
+
+}
+
+.home-gridd {
+  display: grid;
+  grid-template-rows: 70px 300px auto auto auto;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 0px;
+  height: 100%;
+  
+
+}
+
+#gridd-0 {
+  grid-row-start: 1;
+  grid-column-start: 1;
+  grid-row-end: 2;
+  grid-column-end: 12;
+}
+
+#grid-1 {
+  grid-row-start: 2;
+  grid-column-start: 1;
+  grid-row-end: 8;
+  grid-column-end: 5;
+}
+
+#gridd-2 {
+  grid-row-start: 1; /* Adjust the starting row to move it more up */
+  grid-column-start: 1;
+  grid-row-end: 7; /* Maintain the ending row */
+  grid-column-end: 12;
+}
+
+
+
+
+.header {
+  grid-row: 1;
+  grid-column: 1 / -1;
+}
+
+.nav {
+  grid-row: 1 / 6;
+  grid-column: 3 / 5;
+}
+
+.content {
+  grid-row: 2 / 7;
+  grid-column: 5 / -1;
+}
+
+.footer {
+  grid-row: -1;
+  grid-column: 1 / -1;
+}
+.disabled-button {
+  opacity: 0.5; 
+  cursor: not-allowed; 
+}
+
+#add-option-button {
+  background: none;
+  border: none;
+  color: #007bff; /* Button text color */
+  font-size: 16px;
+  cursor: pointer;
+  float: left; /* Position the button on the left */
+  margin-bottom: 10px; /* Add margin below the button */
+}
+/* CSS for dropdown list */
+#select-container {
+  position: relative;
+  display: inline-block;
+  margin-left: 10px; /* Adjust the margin as needed */
+  
+}
+.option-container {
+  display: flex;
+  align-items: center;
+  margin-top: 5px; /* Adjust spacing between each option */
+}
+
+#delete-option-button {
+  background: none;
+  border: none;
+  color: #007bff; /* Button text color */
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px; /* Adjust the distance between the input field and the delete button */
+}
+#delete-option-button {
+  background: none;
+  border: none;
+  width: 8%;
+  padding: 10px;
+  color: #007bff; /* Button text color */
+  font-size: 20px;
+  cursor: pointer;
+  margin-bottom: 25px;
+  margin-left: auto; /* Push the button to the right */
+}
+
+
+@media (max-width: 1350px) {
+  .nav {
+    display: none;
+  }
+
+  .sidebar {
+    grid-row: 2 / 6;
+    grid-column: 1 / 3;
+  }
+}
+
+@media (max-width: 980px) {
+  .header,
+  .sidebar,
+  .content,
+  .footer {
+    grid-column: 1 / -1;
+  }
+}

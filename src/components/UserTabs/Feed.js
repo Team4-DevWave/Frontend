@@ -104,6 +104,10 @@ function Feed() {
                 issaved: item.saved,
                 userVote: item.userVote,
                 Link: item.url,
+                poll:item.poll,
+                userPollVote:item.userPollVote,
+
+
               };
             } else {
               return null;
