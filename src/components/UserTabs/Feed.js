@@ -70,7 +70,9 @@ function Feed() {
     console.log("Sort option changed:", sortOption);
     axios
       .get(
-        `https://www.threadit.tech/api/v1/posts/${sortOption}?page=${page}`,
+        token
+          ? `https://www.threadit.tech/api/v1/posts/${sortOption}?page=${page}`
+          : `https://www.threadit.tech/api/v1/posts?page=${page}`,
         config
       )
 
@@ -93,6 +95,7 @@ function Feed() {
                 approved: item.approved,
                 mentioned: item.mentioned,
                 username: item.userID.username,
+                userpic: item.userID.profilePicture,
                 commentsCount: item.commentsCount,
                 image: item.image,
                 video: item.video,
@@ -101,6 +104,10 @@ function Feed() {
                 issaved: item.saved,
                 userVote: item.userVote,
                 Link: item.url,
+                poll:item.poll,
+                userPollVote:item.userPollVote,
+
+
               };
             } else {
               return null;
@@ -155,7 +162,7 @@ function Feed() {
           style={{
             position: "fixed", // Position fixed
             bottom: "20px",
-            right: "20px",
+            left: "300px",
           }}
         >
           <KeyboardDoubleArrowUpIcon />

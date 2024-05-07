@@ -11,11 +11,14 @@ import PostContainer from "../PostContainer"; // Uncomment this if you have a Po
 import GuestPostContainer from "../GuestPostContainer.js";
 import Cookies from "js-cookie";
 import Header from "../../layouts/Header";
+import GuestHeader from "../../layouts/GuestHeader.js";
 import SideBar from "../../layouts/Sidebar";
+import GuestSideBar from "../../layouts/GuestSidebar.js";
 import "./Comments.css";
 import LoadingScreen from ".././LoadingScreen";
 import CommentFeed from "./commentFeed.js";
 import AddComment from "./AddComment.js";
+import SubredditRules from "../SubredditRules.js";
 
 export const LiveCommentsContext = createContext(null);
 export const LiveCommentsProvider = ({ children }) => {
@@ -31,7 +34,7 @@ export const LiveCommentsProvider = ({ children }) => {
   );
 };
 
-function Comments() {
+function Comments({ toggleTheme }) {
   console.log("Comments rendered");
   //VARIABLES
   const { id, title } = useParams();
@@ -39,6 +42,8 @@ function Comments() {
   console.log("Post ID:", id);
   const token = Cookies.get("token");
   //API
+  const [subredditData, setSubredditData] = React.useState({});
+  const [validSubreddit, setValidSubreddit] = React.useState(false);
 
   useEffect(() => {
     let config = {};
@@ -80,7 +85,7 @@ function Comments() {
             userVote: item.userVote,
             Link: item.url,
           };
-          console.log("mappeddata", mappedData.content);
+          console.log("mappeddata", mappedData.subredditID);
           setPost(mappedData);
         }
       })
@@ -89,7 +94,28 @@ function Comments() {
       });
   }, [id]);
 
+  useEffect(() => {
+    if (post && post.subredditID) {
+      axios
+        .get(`http://localhost:8000/api/v1/r/${post.subredditID.name}`, {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        })
+        .then((response) => {
+          console.log("Subreddit data:", response.data.data.subreddit);
+          setSubredditData(response.data.data.subreddit);
+          setValidSubreddit(true);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setValidSubreddit(false);
+        });
+    }
+  }, [post]);
+
   const [loading, setLoading] = React.useState(true);
+  const [isSticky, setSticky] = React.useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -97,18 +123,41 @@ function Comments() {
     }, 2000);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        console.log("Sticky");
+        setSticky(true);
+      } else {
+        console.log("Not sticky");
+        setSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   if (loading) {
     return <LoadingScreen />;
   }
+
   return (
     <LiveCommentsProvider>
       <div>
         <div className="home-grid">
           <div id="grid-0">
-            <Header />
+            {Cookies.get("token") ? (
+              <Header toggleTheme={toggleTheme} />
+            ) : (
+              <GuestHeader toggleTheme={toggleTheme} />
+            )}
           </div>
           <div id="grid-1">
-            <SideBar />
+            {Cookies.get("token") ? <SideBar /> : <GuestSideBar />}
           </div>
           <div id="grid-2">
             {post &&
@@ -120,6 +169,18 @@ function Comments() {
             {token && <AddComment postID={id} lock={post.locked} />}
             <CommentFeed postID={id} />
           </div>
+          {post && post.subredditID && (
+            <div id="item-3">
+              <SubredditRules
+                isSticky={isSticky}
+                status={subredditData.status}
+                members={subredditData.members.length}
+                rules={subredditData.rules}
+                moderators={subredditData.moderators}
+                people={subredditData.members}
+              />
+            </div>
+          )}
         </div>
         <div style={{ paddingBottom: "30px" }}></div>
         {/* Uncomment the following line if you have a PostContainer component */}

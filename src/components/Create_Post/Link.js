@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaBold } from "react-icons/fa";
 // import axios from 'axios';
-import './CreatePost.css'; // Import your CSS file for styling
+import './Nav.css'; // Import your CSS file for styling
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { FiPlus } from "react-icons/fi";
@@ -215,8 +215,8 @@ function Link() {
 
 
                     <div>
-                        <button type="button" onClick={handleSaveDraft} id="savedefaultbtn" data-testid="savedraft" disabled={!title || community==="" || !content} className={!title || community==="" || !content ? 'disabled-button' : ''}>Save Draft</button>
-                        <button type="submit" id="postbtn1" onClick={handelpostclick} data-testid="post" disabled={!title || community==="" || !content} className={!title || community==="" || !content ? 'disabled-button' : ''}>Post</button>
+                        <button type="button" onClick={handleSaveDraft} id="createcss" data-testid="savedraft" disabled={!title || community==="" || !content} className={!title || community==="" || !content ? 'disabled-button' : ''}>Save Draft</button>
+                        <button type="submit" id="createcss" onClick={handelpostclick} data-testid="post" disabled={!title || community==="" || !content} className={!title || community==="" || !content ? 'disabled-button' : ''}>Post</button>
                         {postDone && <p>Post done</p>}
 
                     </div>

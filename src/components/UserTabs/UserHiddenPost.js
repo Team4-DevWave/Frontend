@@ -44,7 +44,8 @@ function PostFeed() {
                 issaved: item.saved,
                 userVote: item.userVote,
                 Link: item.url,
-
+                poll:item.poll,
+                userPollVote:item.userPollVote,
               };
             } else {
               return null;

@@ -12,7 +12,7 @@
   --theme-background: #2b2b2b;
   --hover-color: #333;
   --text-color: #f5f5f5;
-  --comments: #333; 
+  --comments: #3d3d3d;  
 }
 
 [data-theme="light"]{
@@ -23,7 +23,7 @@
 
 .post-container{
   max-width: 730px;
-  min-width: 400px;
+  /* min-width: 400px; */
   height: auto;
   position: relative;
   left: 100px;
@@ -37,7 +37,7 @@
 
 #postcontainer hr{
   max-width: 730px;
-  min-width: 400px;
+  /* min-width: 400px; */
   position: relative;
   left: 100px;
   margin: 8px;
@@ -81,7 +81,7 @@ text-overflow: ellipsis;
 
 .reach{
   position: relative;
-  background: #ebeaea;
+  background: var(--comments);
   border-radius: 20px;
   margin-right: 12px;
 }
@@ -102,7 +102,7 @@ text-overflow: ellipsis;
 }
 
 .comments:hover{
-  background: var(--hover-color);
+  background: var(--theme-secondary);
   border-radius: 20px;
 }
 
@@ -220,7 +220,7 @@ text-overflow: ellipsis;
 }
 
 .share:hover{
-  background: #e2e2e2;
+  background: var(--theme-secondary);
   border-radius: 20px;
 }
 
@@ -358,7 +358,7 @@ text-overflow: ellipsis;
 
 @media (max-width: 1350px) {
   .post-container {
-    left: 20%;
+    left: 15%;
   }
   .post-content {
     padding-left: 0;
@@ -369,7 +369,7 @@ text-overflow: ellipsis;
   }
   #postcontainer hr{
     width: 730px;
-    left: 20%;
+    left: 15%;
   }
   
 }
@@ -394,7 +394,7 @@ text-overflow: ellipsis;
 @media (max-width: 768px) {
   .post-container {
     left: 4%;
-    max-width: 680px;
+    max-width: 92vw;
   }
   .post-content {
     padding-left: 0;
@@ -404,7 +404,7 @@ text-overflow: ellipsis;
     padding-left: 0;
   }
   #postcontainer hr{
-    width: 680px;
+    width: 92vw;
     left: 4%;
   }
 }
@@ -412,7 +412,7 @@ text-overflow: ellipsis;
 @media (max-width: 480px) {
   .post-container {
     left:2%;
-    max-width: 300px;
+    max-width: 85vw;
   }
   .post-content {
     padding-left: 0;
@@ -422,7 +422,7 @@ text-overflow: ellipsis;
     padding-left: 0;
   }
   #postcontainer hr{
-    width: 300px;
+    width: 90vw;
     left:2%;
   }
 }

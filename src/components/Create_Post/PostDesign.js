@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { Button } from "react-bootstrap";
 import { SlOptions } from "react-icons/sl";
 import "./PostDesign.css";
 import { BsExclamationDiamondFill } from "react-icons/bs";
 import { marked } from "marked";
+import axios from 'axios';
+import Cookies from "js-cookie";
 import { useLocation, Link } from "react-router-dom";
+import { Avatar } from "@mui/material";
+
 
 // URL for the blurred image
 const blurredImageUrl =
@@ -25,33 +29,72 @@ const PostDesign = ({
   spoiler,
   mentioned,
   Poll,
+  Postid,
+  userPollVote,
+
 }) => {
   const [spoilerClicked, setSpoilerClicked] = useState(false);
   const [votedOption, setVotedOption] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   const [poll, setPoll] = useState(Poll); // Initialize with the initial value of Poll
+  const token = Cookies.get("token");
+
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+
+
+
   const location = useLocation();
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
 
-  const isValidPost =
-    (title && text) ||
-    (title && image) ||
-    (title && Link) ||
-    (title && video) ||
-    (title && Poll);
+  const isValidPost =true;
 
   const handleSpoilerClick = () => {
     setSpoilerClicked(true);
   };
 
   const handleVote = () => {
+    console.log("poll===",poll)
     if (selectedOption) {
       const updatedPoll = { ...poll };
       updatedPoll[selectedOption] = updatedPoll[selectedOption] + 1;
       setVotedOption(selectedOption);
       setPoll(updatedPoll);
     }
+    axios
+        .post(
+          `http://localhost:8000/api/v1/posts/${Postid}/votepoll`,
+          {
+option:selectedOption,
+          },
+          config
+        )
+        .then((response) => {
+
+          if (response.status === 201) {
+            console.log("post is created");
+
+          } else {
+            console.log("post is not created");
+          }
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("ssssssssssss");
+        });
   };
+
+  useEffect(() => {
+    if (userPollVote) {
+      setSelectedOption(userPollVote);
+      handleVote();
+    }
+  }, [userPollVote]);
+
+
 
   function colorUsernames(text, mentioned) {
     // This regular expression matches u/username
@@ -78,7 +121,19 @@ const PostDesign = ({
     <div>
       <div className="post-header">
         <div className="user-profile">
-          <img src={userpic} alt="User" className="user-pic" />
+          <Avatar
+            src={
+              userpic ||
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpOcB5CtpnCFAaxz3wh59gJGAlw3j_U4dNGbyCkt-izA&s"
+            }
+            sx={{
+              width: 30,
+              height: 30,
+              marginRight: "10px",
+              marginLeft: "10px",
+              marginTop: "10px",
+            }}
+          />
           <div className="user-details">
             <p className="username">{username}</p>
             {incommunity && (
