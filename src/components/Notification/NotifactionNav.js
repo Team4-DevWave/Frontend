@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Tabs, Tab, Badge } from "@mui/material";
+import { Tabs, Tab,Badge, useTheme, useMediaQuery, Box } from '@mui/material';
 import { Link } from "react-router-dom";
 import axios from 'axios'; // Import axios
 import Notification from "./Notification";
@@ -7,6 +7,8 @@ import OldNotification from "./oldnotifications";
 import Cookies from "js-cookie";
 
 function NotificationNav() {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [activeNavItem, setActiveNavItem] = useState(0);
     const [notificationCount, setNotificationCount] = useState(0); // State variable to store notification count
     const [isLoading, setIsLoading] = useState(true);
@@ -49,7 +51,9 @@ function NotificationNav() {
                 onChange={handleTabChange}
                 indicatorColor="primary"
                 textColor="primary"
-                left
+                centered={isMobile ? false : true}
+                variant={isMobile ? "scrollable" : "standard"}
+                scrollButtons="auto"
             >
                 <Tab
                     label={
@@ -57,7 +61,7 @@ function NotificationNav() {
                             <Badge
                                 color="primary"
                                 badgeContent={notificationCount}
-                                sx={{ color: "#000", backgroundColor: "#fff" }}
+                                sx={{ color: "#000" }}
                             >
                                 {" "}
                                 Notifications

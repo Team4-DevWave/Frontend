@@ -223,7 +223,6 @@ function CreatePost() {
     textareaRef.current.selectionStart = start + 2;
     textareaRef.current.selectionEnd = end + 2;
   };
-
   const handleItalicClick = () => {
     const start = textareaRef.current.selectionStart;
     const end = textareaRef.current.selectionEnd;

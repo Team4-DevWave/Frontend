@@ -21,7 +21,6 @@ import { BsExclamationDiamond } from "react-icons/bs";
 import { BsExclamationDiamondFill } from "react-icons/bs";
 import { TbRating18Plus } from "react-icons/tb";
 
-
 function PostContainer({ postData }) {
   console.log("Is post saved:", postData.issaved);
   console.log("poll==",postData.poll);
@@ -227,8 +226,8 @@ function PostContainer({ postData }) {
   const handelsavedpost = () => {
     console.log("id posstttttt=", postData.id);
     console.log("tokeeeen=", token);
-    console.log("titelle::::",postData.title);
-    console.log("nsfw::::",postData.nsfw);
+    console.log("titelle::::", postData.title);
+    console.log("nsfw::::", postData.nsfw);
     axios
       .patch(
         `http://localhost:8000/api/v1/posts/${postData.id}/save`,
@@ -249,10 +248,10 @@ function PostContainer({ postData }) {
         console.log(error);
         console.log("idd==", postData.id);
       });
-      setShowMss(true);
+    setShowMss(true);
 
-      //Hide the alert after 3 seconds
-      setTimeout(() => setShowMss(false), 3000);
+    //Hide the alert after 3 seconds
+    setTimeout(() => setShowMss(false), 3000);
   };
 
   const handleHidePost = () => {
@@ -306,8 +305,8 @@ function PostContainer({ postData }) {
   const handelUnsaved = () => {
     console.log("id posstttttt=", postData.id);
     console.log("tokeeeen=", token);
-    console.log("titelle::::",postData.title);
-    console.log("nsfw::::",postData.nsfw);
+    console.log("titelle::::", postData.title);
+    console.log("nsfw::::", postData.nsfw);
     axios
       .patch(
         `http://localhost:8000/api/v1/posts/${postData.id}/save`,
@@ -328,10 +327,10 @@ function PostContainer({ postData }) {
         console.log(error);
         console.log("idd==", postData.id);
       });
-      setShowMss(true);
+    setShowMss(true);
 
-      //Hide the alert after 3 seconds
-      setTimeout(() => setShowMss(false), 3000);
+    //Hide the alert after 3 seconds
+    setTimeout(() => setShowMss(false), 3000);
   };
   const handleUnHidePost = () => {
     // Send API request to hide the post with postId using Axios
@@ -397,7 +396,6 @@ function PostContainer({ postData }) {
           window.location.href = "/";
         } else {
           console.log("faliedddddddddddddd");
-
         }
         console.log(response);
       })
@@ -407,7 +405,6 @@ function PostContainer({ postData }) {
       });
   };
 
-  
   const handleSpoiler = () => {
     console.log("id===", postData.id);
     console.log("spoiler------->", postData.spoiler);
@@ -424,7 +421,6 @@ function PostContainer({ postData }) {
           window.location.href = "/";
         } else {
           console.log("faliedddddddddddddd");
-
         }
         console.log(response);
       })
@@ -433,7 +429,7 @@ function PostContainer({ postData }) {
         console.log("falissssss");
       });
   };
-  
+
   const handleNSFW = () => {
     console.log("id===", postData.id);
     console.log("nsfw------->", postData.spoiler);
@@ -450,7 +446,6 @@ function PostContainer({ postData }) {
           window.location.href = "/";
         } else {
           console.log("faliedddddddddddddd");
-
         }
         console.log(response);
       })
@@ -461,7 +456,7 @@ function PostContainer({ postData }) {
   };
 
   /////////////////////////////////////////////////////////////////////////////
-  
+
   return (
     <div id="postcontainer" className="max-width">
       {!isDeleted && (
@@ -469,80 +464,70 @@ function PostContainer({ postData }) {
           <div className="post-container">
             {isHidden ? (
               <>
-              <p className="deleted-post">Post hidden</p>
-              <button type="button" onClick={handleHidePost} >Undo</button>
-
+                <p className="deleted-post">Post hidden</p>
+                <button type="button" onClick={handleHidePost}>
+                  Undo
+                </button>
               </>
-              
             ) : (
               <>
-                {" "}
-                <a
-                  className="post-link"
-                  href={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
-                  onClick={(event) => {
-                    if (
-                      event.target.tagName === "BUTTON" ||
-                      window.location.pathname.includes("/comments/")
-                    ) {
-                      event.preventDefault();
-                    }
-                  }}
-                >
-                  <article>
-                    {!isEdited ? (
-                      <PostDesign
-                        className="post-content"
-                        data-testid="post"
-                        username={postData.username}
-                        userpic={postData2.userpic}
-                        community={postData.community}
-                        incommunity={postData2.incommunity}
-                        Date={new Date(postData.time).toLocaleString([], {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                        title={postData.title} // Pass the title from postData
-                        text={postData.content} // Pass the content from postData as text
-                        image={postData.image}
-                        Link={postData.Link}
-                        video={postData.video}
-                        spoiler={postData.spoiler}
-                        mentioned={mentionedUsernames}
+
+                <article>
+                  {!isEdited ? (
+                    <PostDesign
+                      className="post-content"
+                      data-testid="post"
+                      username={postData.username}
+                      userpic={postData.userpic}
+                      community={postData.subredditID?.name || ""}
+                      incommunity={postData2.incommunity}
+                      Date={new Date(postData.time).toLocaleString([], {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                      title={postData.title} // Pass the title from postData
+                      text={postData.content} // Pass the content from postData as text
+                      image={postData.image}
+                      Link={postData.Link}
+                      video={postData.video}
+                      spoiler={postData.spoiler}
+                      mentioned={mentionedUsernames}
+                      id={postData.id}
                         Poll={postData.poll}
                         Postid={postData.id}
                         userPollVote={postData.userPollVote}
-                      />
-                    ) : (
-                      <PostDesign
-                        className="post-content"
-                        data-testid="post"
-                        username={edited.userID.username}
-                        userpic={postData2.userpic}
-                        community={edited.subredditID}
-                        Date={new Date(edited.lastEditedTime).toLocaleString(
-                          [],
-                          {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          }
-                        )}
-                        title={edited.title} // Pass the title from edited
-                        text={edited.text_body} // Pass the content from edited as text
-                        image={edited.image}
-                        video={edited.video}
-                        spoiler={edited.spoiler}
-                        mentioned={edited.mentioned.map((obj) => obj.username)}
-                      />
-                    )}
-                  </article>
-                </a>
+                    />
+                  ) : (
+                    <PostDesign
+                      className="post-content"
+                      data-testid="post"
+                      username={edited.userID.username}
+                      userpic={postData.userpic}
+                      community={edited.subredditID}
+                      Date={new Date(edited.lastEditedTime).toLocaleString([], {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                      title={edited.title} // Pass the title from edited
+                      text={edited.text_body} // Pass the content from edited as text
+                      image={edited.image}
+                      video={edited.video}
+                      spoiler={edited.spoiler}
+                      mentioned={edited.mentioned.map((obj) => obj.username)}
+                      id={postData.id}
+                          Poll={postData.poll}
+                        Postid={postData.id}
+                        userPollVote={postData.userPollVote}
+                    />
+                  )}
+                </article>
+
                 <div className="options-container">
                   <Button
                     variant="danger"
@@ -600,7 +585,7 @@ function PostContainer({ postData }) {
                                       marginBottom: "3px",
                                     }}
                                   />
-                                  Un Hide
+                                  Unhide
                                 </>
                               ) : (
                                 <>
@@ -620,80 +605,85 @@ function PostContainer({ postData }) {
 
                             <li
                               onClick={
-                                postData.locked
-                                  ? handleLock
-                                  : handleLock
+                                postData.locked ? handleLock : handleLock
                               }
                             >
                               {postData.locked ? (
                                 <>
                                   <FaLock
-                                    sx={{ marginRight: "10px" }}
-                                  />
-                                     UnLock
+                                    sx={{
+                                      marginRight: "10px",
+                                      marginBottom: "3px",
+                                    }}
+                                  />{" "}
+                                  UnLock
                                 </>
                               ) : (
                                 <>
                                   <FaLockOpen
-                                    sx={{ marginRight: "10px" }}
-                                  />
+                                    sx={{
+                                      marginRight: "10px",
+                                      marginBottom: "3px",
+                                    }}
+                                  />{" "}
                                   Lock
                                 </>
                               )}
                             </li>
 
-
                             <li
                               onClick={
-                                postData.spoiler
-                                  ? handleSpoiler
-                                  : handleSpoiler
+                                postData.spoiler ? handleSpoiler : handleSpoiler
                               }
                             >
-                              {postData.locked ? (
+                              {postData.spoiler ? (
                                 <>
                                   <BsExclamationDiamondFill
-                                    sx={{ marginRight: "10px" }}
-                                  />
-                                     Remove Spoiler Tag
+                                    sx={{
+                                      marginRight: "10px",
+                                      marginBottom: "3px",
+                                    }}
+                                  />{" "}
+                                  Remove Spoiler Tag
                                 </>
                               ) : (
                                 <>
                                   <BsExclamationDiamond
-                                    sx={{ marginRight: "10px" }}
-                                  />
+                                    sx={{
+                                      marginRight: "10px",
+                                      marginBottom: "3px",
+                                    }}
+                                  />{" "}
                                   Add Spoiler Tag
                                 </>
                               )}
                             </li>
 
-
-
-
                             <li
-                              onClick={
-                                postData.nsfw
-                                  ? handleNSFW
-                                  : handleNSFW
-                              }
+                              onClick={postData.nsfw ? handleNSFW : handleNSFW}
                             >
-                              {postData.locked ? (
+                              {postData.nsfw ? (
                                 <>
                                   <TbRating18Plus
-                                    sx={{ marginRight: "10px" }}
-                                  />
-                                     Remove NSFW Tag
+                                    sx={{
+                                      marginRight: "10px",
+                                      marginBottom: "3px",
+                                    }}
+                                  />{" "}
+                                  Remove NSFW Tag
                                 </>
                               ) : (
                                 <>
                                   <TbRating18Plus
-                                    sx={{ marginRight: "10px" }}
-                                  />
+                                    sx={{
+                                      marginRight: "10px",
+                                      marginBottom: "3px",
+                                    }}
+                                  />{" "}
                                   Add NSFW Tag
                                 </>
                               )}
                             </li>
-
                           </>
                         ) : (
                           <>
@@ -750,7 +740,7 @@ function PostContainer({ postData }) {
                           <svg
                             role="svg"
                             rpl=""
-                            fill="black"
+                            fill="currentColor"
                             height="16"
                             icon-name="upvote-outline"
                             viewBox="0 0 20 20"
@@ -786,7 +776,7 @@ function PostContainer({ postData }) {
                           <svg
                             role="svg"
                             rpl=""
-                            fill="black"
+                            fill="currentColor"
                             height="16"
                             icon-name="downvote-outline"
                             viewBox="0 0 20 20"
@@ -811,7 +801,7 @@ function PostContainer({ postData }) {
                     {isHomePage ? (
                       <Link
                         className="comment-link"
-                        to={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-")}`}
+                        to={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-").replace(/\//g, "-")}`}
                       >
                         <span className="comment-container">
                           <span className="flex-text">
@@ -820,7 +810,7 @@ function PostContainer({ postData }) {
                               rpl=""
                               aria-hidden="true"
                               className="icon-comment"
-                              fill="black"
+                              fill="currentColor"
                               height="20"
                               icon-name="comment-outline"
                               viewBox="0 0 20 20"
@@ -842,7 +832,7 @@ function PostContainer({ postData }) {
                               rpl=""
                               aria-hidden="true"
                               className="icon-comment"
-                              fill="black"
+                              fill="currentColor"
                               height="20"
                               icon-name="comment-outline"
                               viewBox="0 0 20 20"
@@ -870,7 +860,7 @@ function PostContainer({ postData }) {
                           rpl=""
                           aria-hidden="true"
                           className="icon-share"
-                          fill="black"
+                          fill="currentColor"
                           height="20"
                           icon-name="share-ios-outline"
                           viewBox="0 0 20 20"
@@ -906,25 +896,6 @@ function PostContainer({ postData }) {
                         </svg>
                         <p>Copy Link</p>
                       </button>
-
-                      <a
-                        className="share-menu-link"
-                        href={`/submit?source_id=t3_${postData.id}`}
-                      >
-                        <svg
-                          rpl=""
-                          className="mt-[1px] ml-[4px]"
-                          fill="currentColor"
-                          height="20"
-                          icon-name="crosspost-outline"
-                          viewBox="0 0 20 20"
-                          width="20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="m15.944 11.926-.888.879 1.925 1.945H12A4.873 4.873 0 0 1 7.138 10 4.873 4.873 0 0 1 12 5.25h4.971l-1.915 1.936.888.878L18.875 5.1a.727.727 0 0 0-.007-1.025l-2.929-2.9-.878.888L17.011 4H12a6.128 6.128 0 0 0-6.056 5.25H1v1.625h4.981A6.117 6.117 0 0 0 12 16h5l-1.94 1.92.878.89 2.929-2.9a.726.726 0 0 0 .006-1.025l-2.929-2.96Z"></path>
-                        </svg>
-                        <p className="crosspost">Crosspost</p>
-                      </a>
                     </div>
                   </div>
                 </div>
@@ -933,7 +904,7 @@ function PostContainer({ postData }) {
                     Link copied to clipboard
                   </Alert>
                 )}
-                                {showMss && (
+                {showMss && (
                   <Alert variant="success" className="alert">
                     Post Saved
                   </Alert>
