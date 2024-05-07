@@ -1,3 +1,5 @@
+@media screen and (min-width: 1001px) {
+
 /* ChatWindow.css */
 
 /* Base styles for chat window */
@@ -12,9 +14,11 @@
   right: 0;
   bottom: 0;
   border: 1px solid black;
+  background-color: aqua;
+
   border-radius: 20px;
-  background-color: white;
   opacity: 1;
+
 }
 
 /* Chat room list section */
@@ -23,7 +27,7 @@
   border-right: 3px solid black;
   height: 100%;
   /* Set height to 100% to fill the available space */
-
+  overflow-x: hidden;
 }
 
 /* Chat room list */
@@ -32,6 +36,7 @@
   /* Adjust to leave space for the header */
   overflow-y: auto;
   /* Add scrollbar for vertical overflow */
+  
 
 }
 
@@ -106,21 +111,29 @@
 
 .close-button {}
 
-
-
+}
+/*Chat room item2 */
 /* Media query for smaller screens ***********************************************************************************************************/
 @media screen and (max-width: 1000px) {/*768*/
   .chat-window {
-    flex-direction: column;
-    /* Change to column layout on smaller screens */
+    display: flex;
+    
+    flex-direction: row;
     height: 70%;
-    /* Set height to 100% to fill the available space */
-    width: 90%;
-    /* Set width to 100% to fill the available space */
-    border-radius: 0;
-    /* Remove border radius */
+    width: 70%; /* Set a width for the chat window */
+    position: fixed; /* Make the position fixed */
+    right: 0px; /* Position it 20px from the right edge of the screen */
+    bottom: 0px; /* Position it 20px from the bottom edge of the screen */
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: white; /* Or any non-transparent color */
+    opacity: 1;
   }
 
+  .gridOfchatwindow
+  {
+    height: 100%;
+  }
   .chat-section-first {
     flex: 0.4;
     border-right: 3px solid black;
@@ -140,29 +153,22 @@
     /* Add scrollbar for vertical overflow */
 
   }
-  
+
 
   /* Header container */
   .headerdisplayChatRooms {
+    position: relative;
+    top: 1px;
+    margin-left: auto;
+    justify-content: space-between; /* This will put maximum space between .header-icons and h1 */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid black;
-    line-height: 1.5;
-    height: 40px;
-    padding: 0 10px;
-    overflow-x: hidden;
-
-    /* Add padding to create space for scrollbar */
-
+    resize: none; /* Disable manual resize */
   }
 
  
-  /*hover highlight*/
-  .displayChatRooms:hover {
-    background-color: red;
-    transform: scale(1.05);
-  }
+
+
+ 
 
 
 
@@ -180,11 +186,6 @@
   }
 
 
-  /* Hover effect for chat room item */
-  .displayChatRooms:hover {
-    background-color: red;
-    transform: scale(1.05);
-  }
 
   /* Header icons */
   .header-icons-firstsecction {
@@ -310,4 +311,75 @@
       right: 30px;
     }
 
+  
+    /* Chat room item2 */
+
+
+    
+   
+    .ChatAreaBetweenUsers
+    {
+      position: relative;
+      height: 300px;
+      overflow-y: auto;
+      width: 100%;
+    
+    }
+    .form-container {
+      position: relative;
+      top: 1px;
+      height: 80px;
+      display: flex;
+      width: 460px;
+    
+      margin-left:10px;
+    }
+    
+    .input-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 450px; /* Adjust this value as needed */
+      height: 80px; /* Adjust this value as needed */
+      padding: 10px;
+      border: none;
+      border-radius: 80px;
+      background-color: rgb(168, 167, 167);
+    
+      resize: none; /* Disable manual resize */
+      min-height: 10px; /* Minimum height */
+      max-height: 100px; /* Maximum height */
+      word-wrap: break-word; /* Break words to prevent horizontal overflow */
+      white-space: pre-wrap;
+    }
+    
+    
+    .chat-input {
+      width: 360px; /* Adjust this value as needed */
+      font-size: 16px;
+      font-family: 'Times New Roman', Times, serif;
+      font-style: bold;
+      border-color: transparent;
+    
+      border-radius: 80px;
+      overflow: auto; /* Add this line */
+      max-height: 80px; /* Add this line */
+    
+    
+    }
+    .chat-input .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+      border-color: transparent !important;
+    }
+    .icons-container {
+      position: absolute;
+      right: 6px;
+      display: flex;
+    }
+    
+    .chat-form {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+    
+    
   }

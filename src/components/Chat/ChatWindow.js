@@ -257,24 +257,24 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
             <Grid className='ChatAreaBetweenUsers'>
               <Box ref={chatSectionRef}>
 
-                {chatMessages2.map((message, index, arr) => {
-                    console.log("message.chatID._id ", message.chatID, " selectedChatroom: " , selectedChatroom);
-
-                  return message.chatID._id === selectedChatroom && (
-                    <>
-                      {(index === 0 || message.sender.username !== arr[index - 1].sender.username) && (
-                        <div className="username-time">
-                          <Avatar src={message.sender.profilePicture} className="avatar" style={{ marginRight: '10px' }} />
-                          <Typography variant="subtitle1">{message.sender.username}</Typography>
-                          <Typography variant="caption" color="text.secondary" className="time-caption">
-                            {new Date(message.dateSent).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </Typography>
-                        </div>
-                      )}
-                      <Typography variant="body1" className="message-text">{message.message}</Typography>
-                    </>
-                  );
-                })}
+              {chatMessages2.map((message, index, arr) => (
+                console.log("selectedChatroom aboMody: ", selectedChatroom._id , "message.chatroomID ismail: ", message),
+                  <div key={index} className="message-container">
+                    
+                    {(index === 0 || message.sender.username !== arr[index - 1].sender.username) && {/*selectedChatroom._id === message.chatroomID._id */}&&
+                      <div className="username-time">
+                        <Avatar src={message.sender.profilePicture} className="avatar" style={{ marginRight: '10px' }} />
+                        <Typography variant="subtitle1">{message.sender.username}</Typography>
+                        <Typography variant="caption" color="text.secondary" className="time-caption">
+                          {new Date(message.dateSent).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </Typography>
+                      </div>
+                    }
+                    {  <Typography variant="body1" className="message-text">{message.message}</Typography>}
+                    {/* // <Typography variant="body1" className="message-text">{message.message}</Typography> */}
+                    {/*selectedChatroom._id === message.chatroomID._id &&*/}
+                  </div>
+                ))}
 
                 <div ref={messagesEndRef} />
               </Box>
