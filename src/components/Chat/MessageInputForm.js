@@ -23,6 +23,7 @@ function MessageInputForm({ selectedChatroom, socketRef }) {
     setNewMessage("");
     console.log('want senddddd:', newMessage);
     // socket.emit("send_message", { message: newMessage, chatroomId: selectedChatroom._id, sender: Sender });
+    console.log('Socket connection status:', socketRef.current.connected);
     socketRef.current.emit("new message", { message: newMessage, roomID: selectedChatroom._id });
   };
 
