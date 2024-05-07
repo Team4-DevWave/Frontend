@@ -3,30 +3,24 @@ import { Grid, IconButton, TextField } from '@mui/material';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import GifIcon from '@mui/icons-material/Gif';
+import InputEmoji from 'react-input-emoji'
+
 import SendIcon from '@mui/icons-material/Send';
 import './ChatWindow.css';
 import { use } from 'marked';
-
-import { Picker } from 'emoji-mart';
-import 'emoji-mart/css/emoji-mart.css';
 
 
 function MessageInputForm({ selectedChatroom, socketRef }) {
   console.log('MessageInputForm rendered');
   const [newMessage, setNewMessage] = useState("");
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-
   console.log('MessageInputForm rendered');
-
-  const addEmoji = (emoji) => {
-    setNewMessage(newMessage + emoji.native);
-  };
 
   useEffect(() => {
   }, []);
 
   const sendMessage = async (event) => {
     event.preventDefault();
+    setNewMessage("");
     console.log('want senddddd:', newMessage);
     // socket.emit("send_message", { message: newMessage, chatroomId: selectedChatroom._id, sender: Sender });
     socketRef.current.emit("new message", { message: newMessage, roomID: selectedChatroom._id });
@@ -35,25 +29,24 @@ function MessageInputForm({ selectedChatroom, socketRef }) {
   return (
     <Grid className="chat-form-Message-Input-From" > {/*onSubmit={sendMessage}*/}
       <div className="input-container-Message-Input-From">
-        <TextField
-          className="chat-input-Message-Input-From"
-          onChange={(e) => {
-            setNewMessage(e.target.value);
-          }}
-          multiline
-          variant="outlined"
-
+        <InputEmoji
+          value={newMessage}
+          onChange={setNewMessage}
+          cleanOnEnter
+          onEnter={sendMessage}
+          placeholder="Type a message"
         />
         <div className="icons-container-Message-Input-From">
-          <IconButton color="primary" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-            <EmojiEmotionsIcon />
-          </IconButton>
-          {showEmojiPicker && <Picker onSelect={addEmoji} />}
+
+          {/* <IconButton color="primary">
+              <GifIcon />
+            </IconButton> */}
         </div>
-        <IconButton type="submit" color="primary" onClick={sendMessage}>
+        <IconButton type="submit" color="primary" className='sendIcon-Message-Input-Form' onClick={sendMessage}>
           <SendIcon />
         </IconButton>
       </div>
+
     </Grid>
   );
 }

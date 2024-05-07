@@ -109,7 +109,7 @@
 
 
 /* Media query for smaller screens ***********************************************************************************************************/
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {/*768*/
   .chat-window {
     flex-direction: column;
     /* Change to column layout on smaller screens */
@@ -245,26 +245,69 @@
       width: 100%;
       height: 10%;
       
-
     }
+
+    .chat-form-Message-Input-From .MuiOutlinedInput-root {
+      border: 1px solid black; /* Adjust as needed */
+
+      border-radius: 50px; /* Adjust as needed */
+    }
+
     .input-container-Message-Input-From
     {
       width: 100%;
-      height: 70%;
+      height: 100%;
       display: flex;
-      flex: 1; /* Allow the input field and icons container to share the available space */
+      flex-direction: row;
+     
     }
+
+   
     .chat-input-Message-Input-From
     {
       flex: 1; /* Allow the input field to grow to fill available space */
-      width: calc(100% - 48px); /* Adjust width to leave space for icons */
+      width:100% ; /* Adjust width to leave space for icons */
       height: 100%;
+      top: 15px;
+      overflow-y:auto ;
+
+    }
+   
+
+    .chat-input-Message-Input-From .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color:  transparent; /* Change this to your preferred color */
     }
     .icons-container-Message-Input-From
     {
-      display: flex;
-      margin-left: 10px; /* Add margin between input field and icons */
+      position: relative;
+      width: 10%;
+      top: 14px;
+      right: 49px;
 
+    }
+
+    .react-input-emoji--button svg {
+      width: 100%;
+      height: 100%;
+      top: 100px;
+
+    }
+
+    .react-input-emoji--button {
+      position: relative;
+      width: 12%;
+      left: 15px;
+      height: 30%;
+      bottom: 2px;
+
+    }
+    .sendIcon-Message-Input-Form
+    {
+
+      position: relative;
+      width: 10%;
+      top: 0px;
+      right: 30px;
     }
 
   }

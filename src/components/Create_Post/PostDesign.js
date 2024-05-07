@@ -34,12 +34,7 @@ const PostDesign = ({
   const location = useLocation();
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
 
-  const isValidPost =
-    (title && text) ||
-    (title && image) ||
-    (title && Link) ||
-    (title && video) ||
-    (title && Poll);
+  const isValidPost =true;
 
   const handleSpoilerClick = () => {
     setSpoilerClicked(true);

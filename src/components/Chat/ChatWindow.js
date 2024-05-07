@@ -50,7 +50,7 @@ function FriendCheckbox({ username, initialChecked, handleFriendsChange }) {
 
 
 
-const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, selectedChatroom, showNewChatRoomCreation, config, bearerToken, chatMessages, fetchChatrooms }) {
+const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, selectedChatroom, showNewChatRoomCreation, config, bearerToken, chatMessages, fetchChatrooms, ...props }) {
   const chatSectionRef = useRef(null);
   const socketRef = useRef(null);
   const [init, setinit] = useState(false);
@@ -63,6 +63,10 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
   const textareaRef = useRef();
   console.log("chatMessages148", chatMessages);
 
+
+  const stopPropagation = (event) => {
+    event.stopPropagation();
+  };
 
   const handleCreateNewChatRoom = (e) => {
     e.preventDefault();
@@ -198,7 +202,7 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
     console.log("newchatroom ", tempChatRoomName.current)
   };
   return (
-    <Grid className="chat-section-second">
+    <Grid className="chat-section-second" onClick={stopPropagation}>
       <div className="header-container-secondSection">
         <h1 className="chatroomName-secondSection">{selectedChatroom ? selectedChatroom.chatroomName : 'Chat Room'}</h1>
         <div className="headerTabs-secondSection">
@@ -253,20 +257,24 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
             <Grid className='ChatAreaBetweenUsers'>
               <Box ref={chatSectionRef}>
 
-                {chatMessages2.map((message, index, arr) => (
-                  <div key={index} className="message-container">
-                    {(index === 0 || message.sender.username !== arr[index - 1].sender.username) &&
-                      <div className="username-time">
-                        <Avatar src={message.sender.profilePicture} className="avatar" style={{ marginRight: '10px' }} />
-                        <Typography variant="subtitle1">{message.sender.username}</Typography>
-                        <Typography variant="caption" color="text.secondary" className="time-caption">
-                          {new Date(message.dateSent).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </Typography>
-                      </div>
-                    }
-                    <Typography variant="body1" className="message-text">{message.message}</Typography>
-                  </div>
-                ))}
+                {chatMessages2.map((message, index, arr) => {
+                    console.log("message.chatID._id ", message.chatID, " selectedChatroom: " , selectedChatroom);
+
+                  return message.chatID._id === selectedChatroom && (
+                    <>
+                      {(index === 0 || message.sender.username !== arr[index - 1].sender.username) && (
+                        <div className="username-time">
+                          <Avatar src={message.sender.profilePicture} className="avatar" style={{ marginRight: '10px' }} />
+                          <Typography variant="subtitle1">{message.sender.username}</Typography>
+                          <Typography variant="caption" color="text.secondary" className="time-caption">
+                            {new Date(message.dateSent).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </Typography>
+                        </div>
+                      )}
+                      <Typography variant="body1" className="message-text">{message.message}</Typography>
+                    </>
+                  );
+                })}
 
                 <div ref={messagesEndRef} />
               </Box>
@@ -277,7 +285,7 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
 
         }
       </div>
-        {!showNewChatRoomCreation && selectedChatroom && <MessageInputForm selectedChatroom={selectedChatroom} socketRef={socketRef} />}
+      {!showNewChatRoomCreation && selectedChatroom && <MessageInputForm selectedChatroom={selectedChatroom} socketRef={socketRef} />}
     </Grid>
 
 
@@ -286,7 +294,8 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
 });
 
 
-function ChatWindow({ toggleOverlay, showOverlay }) {
+function ChatWindow({ toggleOverlay, showOverlay, stopPropagation }) {
+
 
   console.log("ChatWindow rendered");
   const [chatMessages, setchatMessages] = useState([]);
@@ -309,7 +318,7 @@ function ChatWindow({ toggleOverlay, showOverlay }) {
 
   const [chatRooms, setChatRooms] = useState([]);
   const [selectedChatroom, setselectedChatroom] = useState(null);
-
+  
 
   let bearerToken = Cookies.get('token');
   const config = {
@@ -378,19 +387,21 @@ function ChatWindow({ toggleOverlay, showOverlay }) {
   };
 
 
+  console.log("selected chat room chatwindow: ", selectedChatroom);
 
 
-
-  function ChatRoomList() {
+  function ChatRoomList(...props) {
     // State and logic for chat room list
-
+    const stopPropagation = (event) => {
+      event.stopPropagation();
+    };
     useEffect(() => {
       console.log('ChatRoomList rendered');
     }, []);
 
 
     return (
-      <Grid className="chat-section-first">
+      <Grid className="chat-section-first" onClick={stopPropagation}>
         <div className="headerdisplayChatRooms">
           <h1 className="chat-headerone">Chats</h1>
           <div className="header-icons-firstsecction">
@@ -429,9 +440,9 @@ function ChatWindow({ toggleOverlay, showOverlay }) {
 
   return (
 
-    <Grid className="chat-window" >{/* onClick={handleClick} */}
-        <ChatRoomList />
-        <ChatSection handleclose={handleclose} showOverlay={showOverlay} selectedChatroom={selectedChatroom} showNewChatRoomCreation={showNewChatRoomCreation} config={config} bearerToken={bearerToken} chatMessages={chatMessages} fetchChatrooms={fetchChatrooms} />
+    <Grid className="chat-window" onClick={stopPropagation}>{/* onClick={handleClick} */}
+      <ChatRoomList />
+      <ChatSection handleclose={handleclose} showOverlay={showOverlay} selectedChatroom={selectedChatroom} showNewChatRoomCreation={showNewChatRoomCreation} config={config} bearerToken={bearerToken} chatMessages={chatMessages} fetchChatrooms={fetchChatrooms} onClick={stopPropagation} />
     </Grid>
   );
 }
