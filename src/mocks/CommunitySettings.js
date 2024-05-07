@@ -7,6 +7,7 @@ const path = require('path');
 const app = express();
 const PORT = 4007;
 app.use(cors());
+app.use (express.json());
 let communitySettings = require('./CommunitySettingsdb.json');
 
 // Route to get list of community settings
@@ -23,8 +24,8 @@ app.get('/api/communitysettings/:subredditId', (req, res) => {
 // update the community settings of subreddit using id
 app.put('/api/communitysettings/:subredditId', (req, res) => {
     const subredditId = req.params.subredditId;
-    const settings = req.body;
-    console.log(settings);
+    console.log(req.body);
+    const settings = req.body.settings;
     const index = communitySettings.CommunitySettings.findIndex(subreddit => subreddit.id === subredditId);
     console.log(index);
     if (index !== -1) {
