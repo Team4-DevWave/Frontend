@@ -121,7 +121,7 @@ function Home({ toggleTheme }) {
         </div>
       </div>
       <div id="item-3">
-        <RecentPosts isSticky={isSticky} posts={posts} />
+        {posts.length > 0 && <RecentPosts isSticky={isSticky} posts={posts} />}
       </div>
     </div>
   );

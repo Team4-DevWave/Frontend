@@ -37,6 +37,8 @@ import CustomSwitch from "../components/MUIEdited/CustomSwitch.js";
 
 import { Avatar } from "@mui/material";
 
+import AddIcon from "@mui/icons-material/Add";
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -141,6 +143,10 @@ export default function Header({ toggleTheme }) {
       localStorage.setItem("theme", "light");
     }
   }, []);
+
+  const handlePostClick = () => {
+    navigate("/CreatePost");
+  };
 
   const [notificationsCount, setNotificationsCount] = useState(0);
   const fetchNotificationCount = () => {
@@ -532,6 +538,9 @@ export default function Header({ toggleTheme }) {
           )}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton size="large" color="inherit" onClick={handlePostClick}>
+              <AddIcon />
+            </IconButton>
             {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
             <div style={{ marginTop: "10px" }}>{useChatWindowIcon()}</div>
 

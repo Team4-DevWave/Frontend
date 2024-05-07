@@ -27,6 +27,7 @@
     padding: 10px;
     border: 1px solid var(--theme-background);
     background-color: var(--theme-background);
+    color: var(--text-color);
     border-radius: 20px;
     margin-bottom: 10px;
     outline:none;
@@ -194,20 +195,20 @@
   @media (max-width: 768px) {
     .fake-addcomment {
       left: 4%;
-      max-width: 92%;
+      max-width: 165%;
     }
     .addcomment-container {
       left: 4%;
-      max-width: 92%;
+      max-width: 165%;
     }
     .addcomment-box{
-      max-width: 92%;
+      max-width: 165%;
       left: 4%;
     }
 
   }
   
-  @media (max-width: 480px) {
+  /* @media (max-width: 480px) {
     .fake-addcomment {
       max-width: 90%;
       left: 4%;
@@ -221,4 +222,4 @@
       max-width: 90%;
       left: 4%;
     }
-  }
+  } */
