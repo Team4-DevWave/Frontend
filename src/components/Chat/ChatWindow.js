@@ -74,7 +74,7 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
     console.log("newChatRoomMembers: ", newChatRoomMembers.current);
     axios
       .post(
-        'https://www.threadit.tech/api/v1/chatrooms/',
+        'https://www.threadit.tech/api/v1/chatrooms',
         {
           chatroomName: tempChatRoomName.current,
           chatroomMembers: newChatRoomMembers.current,
