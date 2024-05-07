@@ -78,14 +78,28 @@ function CommentContainer({ commentData }) {
     };
   }, [shareMenu]);
 
-  const [voteStatus, setVoteStatus] = useState(0); // 0 = no vote, 1 = upvoted, -1 = downvoted
-  const [upvoteCount, setUpVoteCount] = useState(commentData.votes.upvotes);
-  const [downvoteCount, setDownVoteCount] = useState(
-    commentData.votes.downvotes
+  const [voteStatus, setVoteStatus] = useState(commentData.userVote); // 0 = no vote, 1 = upvoted, -1 = downvoted
+  const [upvoteCount, setUpVoteCount] = useState(
+    commentData?.votes?.upvotes || 0
   );
+  const [downvoteCount, setDownVoteCount] = useState(
+    commentData?.votes?.downvotes || 0
+  );
+  const [upvoted, setUpvoted] = useState(false);
+  const [downvoted, setDownvoted] = useState(false);
   const [count, setCount] = useState(
     commentData.votes.upvotes - commentData.votes.downvotes
   );
+
+  useEffect(() => {
+    if (commentData.userVote === "downvoted") {
+      setVoteStatus(-1);
+    } else if (commentData.userVote === "upvoted") {
+      setVoteStatus(1);
+    } else {
+      setVoteStatus(0);
+    }
+  }, [commentData.userVote]);
 
   const handleUpvote = async () => {
     try {
@@ -106,6 +120,7 @@ function CommentContainer({ commentData }) {
         Number(response.data.data.upvotes) -
           Number(response.data.data.downvotes)
       );
+      setVoteStatus((prevVoteStatus) => (prevVoteStatus === 1 ? 0 : 1));
     } catch (error) {
       console.error(error);
     }
@@ -130,6 +145,7 @@ function CommentContainer({ commentData }) {
         Number(response.data.data.upvotes) -
           Number(response.data.data.downvotes)
       );
+      setVoteStatus((prevVoteStatus) => (prevVoteStatus === -1 ? 0 : -1));
     } catch (error) {
       console.error(error);
     }
