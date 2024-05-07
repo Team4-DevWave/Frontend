@@ -8,22 +8,13 @@ import {useTheme} from '@mui/material/styles';
 import {useMediaQuery} from '@mui/material';
 
 function Notification({toggleTheme}) {
-    console.log('notification rendered');
-  return (
-    <div className="navbar-padding">
-      <Header  toggleTheme={toggleTheme}/>
-        <div className="header"></div>
-
-        <div className="sidebar"></div>
-
-function Notification() {
     const theme = useTheme();
     const isDesktop = useMediaQuery('(min-width: 1143px)');
 
     console.log('notification rendered');
     return (
         <div className="navbar-padding">
-            <Header />
+            <Header toggleTheme={toggleTheme} />
             <div className="header"></div>
             {isDesktop && <Sidebar />}
             <div className="sidebar"></div>
