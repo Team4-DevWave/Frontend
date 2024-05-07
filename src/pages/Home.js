@@ -41,7 +41,7 @@ function Home({ toggleTheme }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/v1/users/me/history/`, {
+      .get(`https://www.threadit.tech/api/v1/users/me/history/`, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },

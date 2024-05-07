@@ -73,7 +73,7 @@ function NotificationDropDown() {
             headers: { Authorization: `Bearer ${bearerToken}` },
         };
 
-        axios.patch(`http://localhost:8000/api/v1/notifications/hide/${notificationId}`, {}, config)
+        axios.patch(`https://www.threadit.tech/api/v1/notifications/hide/${notificationId}`, {}, config)
             .then(response => {
                 if (response.data.status == "success") {
                     // Mark the notification as read in the state
@@ -89,7 +89,7 @@ function NotificationDropDown() {
                 console.error('Error:', error);
             });
 
-        axios.patch(`http://localhost:8000/api/v1/notifications/read/${notificationId}` ,{}, config)
+        axios.patch(`https://www.threadit.tech/api/v1/notifications/read/${notificationId}` ,{}, config)
             .then(response => {
                 if (response.data.status == "success") {
                     // Mark the notification as read in the state
@@ -103,7 +103,7 @@ function NotificationDropDown() {
             .catch((error) => {
                 console.error('Error:', error);
             });
-        axios.get('http://localhost:8000/api/v1/notifications', config)
+        axios.get('https://www.threadit.tech/api/v1/notifications', config)
             .then(response => {
                 setData(response.data.data.notifications);
                 setNotificationCount(response.data.data.notifications.length);

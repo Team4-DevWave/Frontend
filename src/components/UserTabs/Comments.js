@@ -97,7 +97,7 @@ function Comments({ toggleTheme }) {
   useEffect(() => {
     if (post && post.subredditID) {
       axios
-        .get(`http://localhost:8000/api/v1/r/${post.subredditID.name}`, {
+        .get(`https://www.threadit.tech/api/v1/r/${post.subredditID.name}`, {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
           },

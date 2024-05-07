@@ -167,7 +167,7 @@ export default function Header({ toggleTheme }) {
   };
   const [profilePic, setProfilePic] = useState("");
   axios
-    .get("http://localhost:8000/api/v1/users/me/current", config)
+    .get("https://www.threadit.tech/api/v1/users/me/current", config)
     .then((response) => {
       console.log(response.data.data);
       setProfilePic(response.data.data.user.profilePicture);

@@ -65,7 +65,7 @@ const PostDesign = ({
     }
     axios
         .post(
-          `http://localhost:8000/api/v1/posts/${Postid}/votepoll`,
+          `https://www.threadit.tech/api/v1/posts/${Postid}/votepoll`,
           {
 option:selectedOption,
           },
