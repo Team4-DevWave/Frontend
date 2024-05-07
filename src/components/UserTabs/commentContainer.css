@@ -327,15 +327,15 @@
   @media (max-width: 768px) {
     .comments-container {
       left: 4vw;
-      max-width: 92vw; /* 100vw - left */
+      max-width: 160vw; /* 100vw - left */
     }
     #commentscontainer hr {
-      width: 92vw; /* 100vw - left */
+      width: 160vw; /* 100vw - left */
       left: 4vw;
     }
   }
   
-  @media (max-width: 480px) {
+  /* @media (max-width: 480px) {
     .comments-container {
       left:2%;
       max-width: 85vw;
@@ -351,5 +351,5 @@
       width: 70vw;
       left:0%;
     }
-  }
+  } */
   
