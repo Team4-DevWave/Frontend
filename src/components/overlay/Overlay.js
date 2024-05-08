@@ -24,6 +24,11 @@ function Overlay({ toggleOverlay, showOverlay }) {
             <Chat toggleOverlay={toggleOverlay} showOverlay={showOverlay} stopPropagation={stopPropagation} />
           </div>
         </div>
+        //           <div className="overlay">
+
+        //             <Chat toggleOverlay={toggleOverlay} showOverlay={showOverlay} stopPropagation={stopPropagation} />
+        // </div>
+
       }
     </div>
   );
