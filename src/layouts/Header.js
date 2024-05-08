@@ -541,18 +541,12 @@ export default function Header({ toggleTheme }) {
               </List>
             </SearchResults>
           )}
-          <div id="sss-container">
-            <Button
-              id="sss"
-              onClick={handleCreatePost}
-            >
-              <FiPlus /> Create Post
-            </Button>
-          </div>
+          
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton size="large" color="inherit" onClick={handlePostClick}>
-              <AddIcon />
+            <IconButton size="small" color="inherit" onClick={handlePostClick}>
+              <AddIcon />Create
             </IconButton>
             {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
             <div style={{ marginTop: "10px" }}>{useChatWindowIcon()}</div>
