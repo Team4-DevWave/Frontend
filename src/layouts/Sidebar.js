@@ -6,6 +6,7 @@ import routes from "../utils/routes";
 import { useRoutes } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Avatar, ListItemAvatar, ListItemText } from "@mui/material";
 
 function SideBar(props) {
   const [recent, setRecent] = useState([]);
@@ -18,13 +19,11 @@ function SideBar(props) {
   const [communities, setCommunities] = useState([]);
   useEffect(() => {
     axios
-      .get("https://www.threadit.tech/api/v1/r/user_subreddits",
-      {
+      .get("https://www.threadit.tech/api/v1/r/user_subreddits", {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
-      }
-      )
+      })
       .then((response) => setCommunities(response.data.data.userSubreddits))
       .catch((error) => console.error("Error:", error));
   }, [props]);
@@ -54,7 +53,7 @@ function SideBar(props) {
               </a>
             </li>
             <li>
-              <a href="/popular" className="side-bar-link">
+              <a href="#e" className="side-bar-link">
                 <svg
                   rpl=""
                   fill="currentColor"
@@ -253,8 +252,14 @@ function SideBar(props) {
                     {Array.isArray(communities) &&
                       communities.map((item) => (
                         <li key={item.id}>
-                          <a href="#item.url" className="side-bar-link">
-                            <img>{/* Your img here */}</img>
+                          <a href={`/r/${item.name}`} className="side-bar-link">
+                            <Avatar
+                              src={
+                                item.icon ||
+                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpOcB5CtpnCFAaxz3wh59gJGAlw3j_U4dNGbyCkt-izA&s"
+                              }
+                              sx={{ width: 30, height: 30, marginLeft: 1 }}
+                            />
                             <p>t/{item.name}</p>
                           </a>
                         </li>
@@ -289,20 +294,23 @@ function SideBar(props) {
                 </summary>
                 <div className="sub-list">
                   <ul className="sub-list-items">
-                    {Array.isArray(JSON.parse(localStorage.getItem("favorites"))) &&
-                      JSON.parse(localStorage.getItem("favorites")).map((item) => (
-                        <li key={item.id}>
-                          <a href="#item.url" className="side-bar-link">
-                            <img>{/* Your img here */}</img>
-                            <p>t/{item}</p>
-                          </a>
-                        </li>
-                      ))}
+                    {Array.isArray(
+                      JSON.parse(localStorage.getItem("favorites"))
+                    ) &&
+                      JSON.parse(localStorage.getItem("favorites")).map(
+                        (item) => (
+                          <li key={item.id}>
+                            <a href="#item.url" className="side-bar-link">
+                              <img>{/* Your img here */}</img>
+                              <p>t/{item}</p>
+                            </a>
+                          </li>
+                        )
+                      )}
                   </ul>
                 </div>
               </details>
             </li>
-
 
             <hr className="horizontal-line" />
             <li>
@@ -442,7 +450,7 @@ function SideBar(props) {
                     </li>
                     <hr className="horizontal-line" />
                     <li>
-                      <a href="#e" className="side-bar-link">
+                      <a href="/all-communities" className="side-bar-link">
                         <svg
                           rpl=""
                           fill="currentColor"

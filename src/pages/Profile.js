@@ -21,7 +21,7 @@ function Profile({ toggleTheme }) {
   const [username, setUsername] = useState("moashraf");
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  }
+  };
   const [userData, setUserData] = useState({
     username: "Mahmoud",
     postKarma: 1,
@@ -101,6 +101,29 @@ function Profile({ toggleTheme }) {
     fetchData();
   }, []);
 
+  const [profilePicture, setProfilePicture] = useState(
+    "https://i.redd.it/ym0nsl4yrgq71.jpg"
+  );
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePicture(reader.result);
+        localStorage.setItem("profilePicture", reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  useEffect(() => {
+    const storedProfilePicture = localStorage.getItem("profilePicture");
+    if (storedProfilePicture) {
+      setProfilePicture(storedProfilePicture);
+    }
+  }, []);
+
   return (
     <>
       <div class="home-grid">
@@ -117,18 +140,26 @@ function Profile({ toggleTheme }) {
           }}
         >
           <div className="user-profile-data" style={{ padding: "20px" }}>
-            <Avatar
-              alt={username}
-              sx={{
-                width: "100px",
-                height: "100px",
-
-                marginBottom: "10px",
-              }}
-              src={
-                userData.profilePicture || "https://i.redd.it/ym0nsl4yrgq71.jpg"
-              }
+            <label htmlFor="profilePictureInput">
+              <Avatar
+                alt={username}
+                sx={{
+                  width: "100px",
+                  height: "100px",
+                  marginBottom: "10px",
+                  cursor: "pointer", // Add cursor pointer
+                }}
+                src={profilePicture}
+              />
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              id="profilePictureInput"
             />
+
             <Typography variant="h4" style={{ fontWeight: "bold" }}>
               u/{localStorage.getItem("username")}
             </Typography>
@@ -147,7 +178,6 @@ function Profile({ toggleTheme }) {
             <Tab label="Hidden" />
             <Tab label="Upvoted" />
             <Tab label="Downvoted" />
-
           </Tabs>
           <hr />
           {value === 0 && <OverView />}
@@ -159,15 +189,15 @@ function Profile({ toggleTheme }) {
           {value === 6 && <Downvoted />}
         </div>
         <div id="grid-3">
-        <RightSidebar
-          username={userData.username}
-          postKarma={userData.postKarma}
-          commentKarma={userData.commentKarma}
-          cakeDay={userData.cakeDay}
-          goldReceived={userData.goldReceived}
-          socialLinks={userData.socialLinks}
-          moderationTools={userData.moderationTools}
-        />
+          <RightSidebar
+            username={userData.username}
+            postKarma={userData.postKarma}
+            commentKarma={userData.commentKarma}
+            cakeDay={userData.cakeDay}
+            goldReceived={userData.goldReceived}
+            socialLinks={userData.socialLinks}
+            moderationTools={userData.moderationTools}
+          />
         </div>
       </div>
     </>

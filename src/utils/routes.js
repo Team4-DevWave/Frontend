@@ -24,6 +24,8 @@ import { useParams } from "react-router-dom";
 import SearchPage from "../pages/SearchPage";
 import Chat from "../pages/chat/ChatPage.js";
 import ModQueue from "../pages/ModQueue/ModQueue";
+import All from "../components/All.js";
+import AllCommunities from "../pages/AllCommunities.js";
 
 function CommentsRoute({ toggleTheme }) {
   const { id, title } = useParams();
@@ -53,6 +55,10 @@ const routes = {
   "/comments/:id/:title": CommentsRoute,
   "search/:query": ({ toggleTheme }) => (
     <SearchPage toggleTheme={toggleTheme} />
+  ),
+  "/all": ({ toggleTheme }) => <All toggleTheme={toggleTheme} />,
+  "/all-communities": ({ toggleTheme }) => (
+    <AllCommunities toggleTheme={toggleTheme} />
   ),
 
   //**These are test routes and will be removed upon integration */
