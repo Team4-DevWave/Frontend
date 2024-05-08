@@ -1,4 +1,4 @@
-import "./Profile.css";
+import styles from "./Profile.module.css";
 import Header from "../layouts/Header";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -21,7 +21,7 @@ function Profile({ toggleTheme }) {
   const [username, setUsername] = useState("moashraf");
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  }
+  };
   const [userData, setUserData] = useState({
     username: "Mahmoud",
     postKarma: 1,
@@ -103,20 +103,20 @@ function Profile({ toggleTheme }) {
 
   return (
     <>
-      <div class="home-grid">
-        <div id="grid-0">
+      <div className={styles.userProfileGrid}>
+        <div id="user-profile-grid-0">
           <Header toggleTheme={toggleTheme} />
         </div>
-        <div id="grid-1">
+        <div id="user-profile-grid-1">
           <Sidebar />
         </div>
         <div
-          id="grid-2"
+          id="user-profile-grid-2"
           style={{
             borderRadius: "50px",
           }}
         >
-          <div className="user-profile-data" style={{ padding: "20px" }}>
+          <div className={styles.userProfileData} style={{ padding: "20px" }}>
             <Avatar
               alt={username}
               sx={{
@@ -147,7 +147,6 @@ function Profile({ toggleTheme }) {
             <Tab label="Hidden" />
             <Tab label="Upvoted" />
             <Tab label="Downvoted" />
-
           </Tabs>
           <hr />
           {value === 0 && <OverView />}
@@ -158,16 +157,17 @@ function Profile({ toggleTheme }) {
           {value === 5 && <Upvoted />}
           {value === 6 && <Downvoted />}
         </div>
-        <div id="grid-3">
-        <RightSidebar
-          username={userData.username}
-          postKarma={userData.postKarma}
-          commentKarma={userData.commentKarma}
-          cakeDay={userData.cakeDay}
-          goldReceived={userData.goldReceived}
-          socialLinks={userData.socialLinks}
-          moderationTools={userData.moderationTools}
-        />
+
+        <div id="user-profile-grid-3">
+          <RightSidebar
+            username={userData.username}
+            postKarma={userData.postKarma}
+            commentKarma={userData.commentKarma}
+            cakeDay={userData.cakeDay}
+            goldReceived={userData.goldReceived}
+            socialLinks={userData.socialLinks}
+            moderationTools={userData.moderationTools}
+          />
         </div>
       </div>
     </>

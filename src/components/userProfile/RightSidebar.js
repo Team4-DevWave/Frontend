@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
-import SocialLinks from '../Settings/Profile/SocialLinks';
-import { Link } from 'react-router-dom'; // Import Link from React Router
-import axios from 'axios';
-import Cookies from 'js-cookie';
-
-
+import React, { useState, useEffect } from "react";
+import SocialLinks from "../Settings/Profile/SocialLinks";
+import { Link } from "react-router-dom"; // Import Link from React Router
+import axios from "axios";
+import Cookies from "js-cookie";
+import { Button, Typography, Divider } from "@mui/material";
+import styles from "../../pages/Profile.module.css";
 
 const getTodayDate = () => {
   const today = new Date();
@@ -15,77 +14,73 @@ const getTodayDate = () => {
   return `${year}-${month}-${day}`;
 };
 
-function RightSidebar ({  postKarma, commentKarma , cakeDay, goldReceived })  {
-
-
+function RightSidebar({ postKarma, commentKarma, cakeDay, goldReceived }) {
   const [userInfo, setuserInfo] = useState();
   const [userName, setuserName] = useState();
+  const [about, setAbout] = useState("");
 
   cakeDay = getTodayDate();
-  let bearerToken = Cookies.get('token');
-    const config = {
-        headers: { Authorization: `Bearer ${bearerToken}` },
-    };
+  let bearerToken = Cookies.get("token");
+  const config = {
+    headers: { Authorization: `Bearer ${bearerToken}` },
+  };
 
-    useEffect(() => {
-      axios.get('http://localhost:8000/api/v1/users/me/current', config)
-        .then(response => {
-          setuserInfo(response.data.data.user);
-          console.log('userInfo:', userInfo.username);
-          setuserName(userInfo.username)
-          
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-        });
-    }, []);
+  useEffect(() => {
+    setAbout(localStorage.getItem("about") || ""); // Retrieve about from local storage
+
+    axios
+      .get("http://localhost:8000/api/v1/users/me/current", config)
+      .then((response) => {
+        setuserInfo(response.data.data.user);
+        console.log("userInfo:", userInfo.username);
+        setuserName(userInfo.username);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   return (
-    <div className="right-sidebar">
-      <div className="user-info">
-        <h3>{userName}</h3>
-        <p>Post Karma: {postKarma}</p>
-        <p>Comment Karma: {commentKarma}</p>
-        <p>Cake Day: {cakeDay}</p>
-        <p>Gold Received: {goldReceived}</p>
+    <div className={styles.rightSidebar}>
+      <div className={styles.userInfoContainer}>
+        <div className={styles.userInfo}>
+          <Typography variant="h5">{userName}</Typography>
+          <Typography variant="body1">Post Karma: {postKarma}</Typography>
+          <Typography variant="body1">Comment Karma: {commentKarma}</Typography>
+        </div>
+        <div className={styles.userInfo}>
+          <Typography variant="body1">Cake Day: {cakeDay}</Typography>
+          <Typography variant="body1">Gold Received: {goldReceived}</Typography>
+        </div>
       </div>
-      <hr />
-      <div className="settings">
+      <Divider />
+      <div className={styles.about}>
+        <Typography variant="h5">About</Typography>
+        <Typography variant="body2">{about}</Typography>
+      </div>
+      <Divider />
+      <div className={styles.settings}>
         <Link to="/settings">
-          <button className="edit-profile">Edit Profile</button>
-        </Link>
-      </div>
-      <hr />
-      <div className="moderation">
-        <h3>Moderation</h3>
-        <Link to="https://www.reddit.com/user/Ok_Operation_7782/about/edit/moderation/" >
-          <Button
-          sx={{
-            color: 'var(--color-black)',
-            background: 'var(--color-light-gray)',
-            fontWeight: 'bold',
-            fontSize: 'var(--font-very-small)',
-            textTransform: 'none',
-            padding: '10px 15px',
-            borderRadius: '10rem',
-            border: '0',
-            ml: 'auto',
-          }}
-          >
-          Mod Settings
+          <Button variant="contained" color="primary">
+            Edit Profile
           </Button>
         </Link>
+      </div>
+      <Divider />
+      <div className={styles.moderation}>
+        <Typography variant="h5">Moderation</Typography>
+        <Link to="https://www.reddit.com/user/Ok_Operation_7782/about/edit/moderation/">
+          <Button variant="outlined">Mod Settings</Button>
+        </Link>
+      </div>
 
-     </div>
-      <hr />
-      <div className="links">
-        <h3>Links</h3>
-        <SocialLinks/>
+      <Divider />
+      <div className={styles.links}>
+        <Typography variant="h5">Links</Typography>
+        <SocialLinks />
       </div>
     </div>
   );
-};
-
-
+}
 
 export default RightSidebar;
