@@ -18,13 +18,14 @@
   --text-color: #333;
 }
 
+
 .right-sidebar {
   width: 300px; /* Adjust width as needed */
   background-color: var(--hover-color);
   padding: 40px 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: 40px 20px 0 0;
+  margin: 100px 80px 0 0;
 }
 
 .user-info {
@@ -148,105 +149,5 @@
   }
   @media screen and (max-width: 768px) {
     max-width: 100%;
-  }
-}
-
-/* Profile.css */
-.home-grid {
-  display: grid;
-  grid-template-columns: 1fr 2fr 4fr 2fr;
-  grid-template-rows: auto;
-  gap: 20px;
-  padding: 20px;
-}
-
-#grid-0,
-#grid-1,
-#grid-3 {
-  grid-column: span 1;
-}
-
-#grid-2 {
-  grid-column: span 4;
-  border-radius: 20px;
-  padding: 20px;
-}
-
-.user-profile-data {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  gap: 2rem;
-  margin-top: 20px;
-}
-
-.user-profile-data label {
-  cursor: pointer;
-}
-
-.user-profile-data input[type="file"] {
-  display: none;
-}
-
-.user-profile-data h4 {
-  font-weight: bold;
-}
-
-.user-tabs {
-  margin-top: 20px;
-}
-
-.user-tabs .MuiTabs-root {
-  border-bottom: 1px solid #ccc;
-}
-
-.user-tabs .MuiTab-root {
-  text-transform: none;
-}
-
-.user-tabs .Mui-selected {
-  font-weight: bold;
-}
-
-.right-sidebar {
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.user-info h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.settings,
-.moderation,
-.links {
-  margin-top: 20px;
-}
-
-.edit-profile {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-@media screen and (max-width: 768px) {
-  .home-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-  }
-
-  #grid-0,
-  #grid-1,
-  #grid-3 {
-    grid-column: span 1;
-  }
-
-  #grid-2 {
-    grid-column: span 1;
-    border-radius: 0;
-    padding: 10px;
   }
 }
