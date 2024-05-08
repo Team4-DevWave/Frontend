@@ -1,4 +1,4 @@
-import "./Profile.css";
+import styles from "./Profile.module.css";
 import Header from "../layouts/Header";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -101,65 +101,34 @@ function Profile({ toggleTheme }) {
     fetchData();
   }, []);
 
-  const [profilePicture, setProfilePicture] = useState(
-    "https://i.redd.it/ym0nsl4yrgq71.jpg"
-  );
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePicture(reader.result);
-        localStorage.setItem("profilePicture", reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  useEffect(() => {
-    const storedProfilePicture = localStorage.getItem("profilePicture");
-    if (storedProfilePicture) {
-      setProfilePicture(storedProfilePicture);
-    }
-  }, []);
-
   return (
     <>
-      <div class="home-grid">
-        <div id="grid-0">
+      <div className={styles.userProfileGrid}>
+        <div id="user-profile-grid-0">
           <Header toggleTheme={toggleTheme} />
         </div>
-        <div id="grid-1">
+        <div id="user-profile-grid-1">
           <Sidebar />
         </div>
         <div
-          id="grid-2"
+          id="user-profile-grid-2"
           style={{
             borderRadius: "50px",
           }}
         >
-          <div className="user-profile-data" style={{ padding: "20px" }}>
-            <label htmlFor="profilePictureInput">
-              <Avatar
-                alt={username}
-                sx={{
-                  width: "100px",
-                  height: "100px",
-                  marginBottom: "10px",
-                  cursor: "pointer", // Add cursor pointer
-                }}
-                src={profilePicture}
-              />
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-              id="profilePictureInput"
-            />
+          <div className={styles.userProfileData} style={{ padding: "20px" }}>
+            <Avatar
+              alt={username}
+              sx={{
+                width: "100px",
+                height: "100px",
 
+                marginBottom: "10px",
+              }}
+              src={
+                userData.profilePicture || "https://i.redd.it/ym0nsl4yrgq71.jpg"
+              }
+            />
             <Typography variant="h4" style={{ fontWeight: "bold" }}>
               u/{localStorage.getItem("username")}
             </Typography>
@@ -188,7 +157,7 @@ function Profile({ toggleTheme }) {
           {value === 5 && <Upvoted />}
           {value === 6 && <Downvoted />}
         </div>
-        <div id="grid-3">
+        <div id="user-profile-grid-3">
           <RightSidebar
             username={userData.username}
             postKarma={userData.postKarma}
