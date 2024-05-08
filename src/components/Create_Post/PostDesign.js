@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { SlOptions } from "react-icons/sl";
 import "./PostDesign.css";
@@ -49,25 +49,30 @@ const PostDesign = ({
   const location = useLocation();
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
 
-  const isValidPost =true;
+  const isValidPost = true;
 
   const handleSpoilerClick = () => {
     setSpoilerClicked(true);
   };
 
   const handleVote = () => {
-    console.log("poll===",poll)
+    console.log("poll======================", poll);
+    console.log("poll========2222==============", selectedOption);
+    if (userPollVote !== null) {
+    setSelectedOption(poll);
+    }
     if (selectedOption) {
       const updatedPoll = { ...poll };
       updatedPoll[selectedOption] = updatedPoll[selectedOption] + 1;
       setVotedOption(selectedOption);
       setPoll(updatedPoll);
     }
-    axios
+    if (userPollVote === null) {
+      axios
         .post(
           `https://www.threadit.tech/api/v1/posts/${Postid}/votepoll`,
           {
-option:selectedOption,
+            option: selectedOption,
           },
           config
         )
@@ -85,14 +90,26 @@ option:selectedOption,
           console.log(error);
           console.log("ssssssssssss");
         });
+    }
   };
 
   useEffect(() => {
-    if (userPollVote) {
-      setSelectedOption(userPollVote);
+    console.log("uss-----", userPollVote);
+    console.log("idd-----", Postid);
+
+    if (userPollVote !== null) {
+      console.log("joinnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+      console.log("selectedOption------------111111-", selectedOption);
+      console.log("polll------------111111-", poll);
+
+      setSelectedOption(poll);
+      console.log("selectedOption------------22222222222222-", selectedOption);
+      console.log("polll------------222222222-", poll);
+
+
       handleVote();
     }
-  }, [userPollVote]);
+  }, []);
 
 
 
@@ -100,6 +117,7 @@ option:selectedOption,
     // This regular expression matches u/username
     const regex = /(u\/\w+)/g;
     console.log("mention", mentioned);
+
     // Replace all instances of u/username with an anchor tag with the "username" class
     return text.replace(regex, (match) => {
       // Remove the 'u/' from the start of the match to get the username

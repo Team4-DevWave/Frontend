@@ -29,7 +29,8 @@ import axios from "axios";
 import TagIcon from "@mui/icons-material/Tag";
 import Chat from "../components/Chat/ChatWindow.js";
 import NotificationDropdown from "../components/NotificationDropdown";
-
+import {  Button } from "@mui/material";
+import { FiPlus } from "react-icons/fi";
 import Overlay from "../components/overlay/Overlay.js";
 import ChatIcon from "@mui/icons-material/Chat";
 
@@ -82,6 +83,7 @@ function useChatWindowIcon() {
       )}
     </div>
   );
+
 }
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -358,7 +360,9 @@ export default function Header({ toggleTheme }) {
       <MenuItem>
         {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
         {/*call useChatWindowIcon*/}
-        <div style={{ marginTop: "10px" }}>{useChatWindowIcon()}</div>
+        <div style={{ marginTop: "10px" } }>{useChatWindowIcon()}</div>
+        <p>Chat</p>
+
         {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
       </MenuItem>
 
@@ -542,18 +546,12 @@ export default function Header({ toggleTheme }) {
               </List>
             </SearchResults>
           )}
-          <div id="sss-container">
-            <Button
-              id="sss"
-              onClick={handleCreatePost}
-            >
-              <FiPlus /> Create Post
-            </Button>
-          </div>
+          
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton size="large" color="inherit" onClick={handlePostClick}>
-              <AddIcon />
+            <IconButton size="small" color="inherit" onClick={handlePostClick}>
+              <AddIcon />Create
             </IconButton>
             {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
             <div style={{ marginTop: "10px" }}>{useChatWindowIcon()}</div>
