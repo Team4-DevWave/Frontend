@@ -21,13 +21,12 @@
 .rightSidebar {
   width: 300px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: 40px 20px 0 0;
-
+  margin: 40px 0 0 40px;
+  margin-right: auto;
   background-color: var(--theme-background);
   border: 1px solid var(--text-color);
   border-radius: 8px;
   padding: 20px;
-
   @media screen and (max-width: 768px) {
     display: none;
   }
@@ -45,7 +44,9 @@
 .userInfoContainer {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
 }
 
 .settings,
@@ -97,7 +98,6 @@
   display: grid;
   grid-template-rows: 70px 300px auto auto auto;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-
   gap: 0px;
   height: 100%;
 }
