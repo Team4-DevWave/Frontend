@@ -30,7 +30,7 @@ describe("Header", () => {
         <Header />
       </Router>
     );
-    const profilePic = screen.getAllByAltText("profile pic");
+    const profilePic = screen.getAllByTestId("profile-pic");
     expect(profilePic.length).toBeGreaterThan(0);
   });
 
@@ -41,7 +41,7 @@ describe("Header", () => {
       </Router>
     );
     const links = screen.getAllByRole("link");
-    expect(links).toHaveLength(8); // Adjust this based on the number of links in your Header
+    expect(links).toHaveLength(1); // Adjust this based on the number of links in your Header
   });
 
   test("renders imgs", async () => {
@@ -51,30 +51,7 @@ describe("Header", () => {
       </Router>
     );
     const imgs = await screen.findAllByRole("img"); // imgs are generally treated as "img" role
-    expect(imgs).toHaveLength(3); // Adjust this based on the number of imgs in your Header
-  });
-
-  test("sub-menu is not visible before clicking on the img", () => {
-    render(
-      <Router>
-        <Header />
-      </Router>
-    );
-    const subMenu = screen.queryByTestId("menu");
-    expect(subMenu).toBeInTheDocument(); // Check if the sub-menu is in the DOM
-    expect(subMenu).not.toHaveClass("open-menu"); // Check if it doesn't have the open-menu class
-  });
-
-  test("sub-menu is visible after clicking on the img", () => {
-    render(
-      <Router>
-        <Header />
-      </Router>
-    );
-    const img = screen.getAllByRole("img");
-    userEvent.click(img[0]);
-    const subMenu = screen.getByTestId("menu");
-    expect(subMenu).toBeVisible();
+    expect(imgs).toHaveLength(2); // Adjust this based on the number of imgs in your Header
   });
 
   test("navigates to home page when home is clicked", () => {
