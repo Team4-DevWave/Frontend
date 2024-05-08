@@ -1,4 +1,4 @@
-import "./Profile.css";
+import styles from "./Profile.module.css";
 import Header from "../layouts/Header";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -21,7 +21,7 @@ function Profile({ toggleTheme }) {
   const [username, setUsername] = useState("moashraf");
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  }
+  };
   const [userData, setUserData] = useState({
     username: "Mahmoud",
     postKarma: 1,
@@ -102,63 +102,61 @@ function Profile({ toggleTheme }) {
   }, []);
 
   return (
-    <>
-      <div class="home-grid">
-        <div id="grid-0">
-          <Header toggleTheme={toggleTheme} />
+    <div className={styles.userProfileGrid}>
+      <div id="user-profile-grid-0">
+        <Header toggleTheme={toggleTheme} />
+      </div>
+      <div id="user-profile-grid-1">
+        <Sidebar />
+      </div>
+      <div
+        id="user-profile-grid-2"
+        style={{
+          borderRadius: "50px",
+        }}
+      >
+        <div className={styles.userProfileData} style={{ padding: "20px" }}>
+          <Avatar
+            alt={username}
+            sx={{
+              width: "100px",
+              height: "100px",
+
+              marginBottom: "10px",
+            }}
+            src={
+              userData.profilePicture || "https://i.redd.it/ym0nsl4yrgq71.jpg"
+            }
+          />
+          <Typography variant="h4" style={{ fontWeight: "bold" }}>
+            u/{localStorage.getItem("username")}
+          </Typography>
         </div>
-        <div id="grid-1">
-          <Sidebar />
-        </div>
-        <div
-          id="grid-2"
-          style={{
-            borderRadius: "50px",
-          }}
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          variant="scrollable"
+          scrollButtons="auto"
+          aria-label="scrollable auto tabs example"
         >
-          <div className="user-profile-data" style={{ padding: "20px" }}>
-            <Avatar
-              alt={username}
-              sx={{
-                width: "100px",
-                height: "100px",
-
-                marginBottom: "10px",
-              }}
-              src={
-                userData.profilePicture || "https://i.redd.it/ym0nsl4yrgq71.jpg"
-              }
-            />
-            <Typography variant="h4" style={{ fontWeight: "bold" }}>
-              u/{localStorage.getItem("username")}
-            </Typography>
-          </div>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            variant="scrollable"
-            scrollButtons="auto"
-            aria-label="scrollable auto tabs example"
-          >
-            <Tab label="Overview" />
-            <Tab label="Posts" />
-            <Tab label="Comments" />
-            <Tab label="Saved" />
-            <Tab label="Hidden" />
-            <Tab label="Upvoted" />
-            <Tab label="Downvoted" />
-
-          </Tabs>
-          <hr />
-          {value === 0 && <OverView />}
-          {value === 1 && <UserPost />}
-          {value === 2 && <UserComments />}
-          {value === 3 && <UserSavedPost />}
-          {value === 4 && <UserHidden />}
-          {value === 5 && <Upvoted />}
-          {value === 6 && <Downvoted />}
-        </div>
-        <div id="grid-3">
+          <Tab label="Overview" />
+          <Tab label="Posts" />
+          <Tab label="Comments" />
+          <Tab label="Saved" />
+          <Tab label="Hidden" />
+          <Tab label="Upvoted" />
+          <Tab label="Downvoted" />
+        </Tabs>
+        <hr />
+        {value === 0 && <OverView />}
+        {value === 1 && <UserPost />}
+        {value === 2 && <UserComments />}
+        {value === 3 && <UserSavedPost />}
+        {value === 4 && <UserHidden />}
+        {value === 5 && <Upvoted />}
+        {value === 6 && <Downvoted />}
+      </div>
+      <div id="user-profile-grid-3">
         <RightSidebar
           username={userData.username}
           postKarma={userData.postKarma}
@@ -168,9 +166,8 @@ function Profile({ toggleTheme }) {
           socialLinks={userData.socialLinks}
           moderationTools={userData.moderationTools}
         />
-        </div>
       </div>
-    </>
+    </div>
   );
 }
 
