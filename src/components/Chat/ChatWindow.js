@@ -22,8 +22,6 @@ import { Card, CardContent, Avatar } from '@mui/material';
 import { Typography, Grid, Container } from '@mui/material';
 import { Box } from '@mui/material';
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
@@ -54,7 +52,7 @@ function FriendCheckbox({ username, initialChecked, handleFriendsChange }) {
 
 
 
-const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, selectedChatroom, showNewChatRoomCreation, config, bearerToken, chatMessages, fetchChatrooms,setchatOpen ,chatOpen,...props }) {
+const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, selectedChatroom, showNewChatRoomCreation, config, bearerToken, chatMessages, fetchChatrooms, setchatOpen, chatOpen, ...props }) {
   const chatSectionRef = useRef(null);
   const socketRef = useRef(null);
   const [init, setinit] = useState(false);
@@ -219,149 +217,142 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
   return (
 
     <Grid className="chat-section-second" onClick={stopPropagation}>
-      {chatOpen ? (
-        <div>
-
-          <div className="header-container-secondSection">
-            <h1 className="chatroomName-secondSection">
-              <h1 className="chatroomName-secondSection">{headerText}</h1>
-
-            </h1>
-            <div className="headerTabs-secondSection">
-              <IconButton className="settings-button-secondSection" color="primary">
-                <SettingsIcon />
-              </IconButton>
-
-              <IconButton color="primary" onClick={() => setchatOpen(false)}>
-          <ArrowDropDownIcon />
-        </IconButton>
 
 
-              <IconButton className="close-button" color="primary" onClick={() => { if (showOverlay) handleclose(socketRef); }}>
-                <CloseIcon>
-                </CloseIcon >
-              </IconButton>
+      <div className="header-container-secondSection">
+        <h1 className="chatroomName-secondSection">
+          <h1 className="chatroomName-secondSection">{headerText}</h1>
+
+        </h1>
+        <div className="headerTabs-secondSection">
+          <IconButton className="settings-button-secondSection" color="primary">
+            <SettingsIcon />
+          </IconButton>
+
+          <IconButton color="primary" onClick={() => setchatOpen(false)}>
+            <ArrowDropDownIcon />
+          </IconButton>
+
+
+          <IconButton className="close-button-secondSections" color="primary" onClick={() => { if (showOverlay) handleclose(socketRef); }}>
+            <CloseIcon>
+            </CloseIcon >
+          </IconButton>
+
+        </div>
+      </div>
+      <div className="createChatRoom-or-Message">
+        {showNewChatRoomCreation ? (
+
+          <div className='createChatRoom1'>
+
+            <div className='createChatRoom2'>
+              <div className='createChatRoom3' >
+
+                <TextField
+
+                  ref={textareaRef}
+
+                  className="create-ChatRoomName-secondSection"
+                  onChange={(e) => {
+                    handleNameChange(e.target.value);
+                  }}
+                  multiline
+                  variant="outlined"
+                  placeholder="Write your chatroom name"
+
+                />
+
+
+              </div>
+              {FollowedUsers.map((user, index) => (
+
+                <Card className='FriendCheckbox' key={index}>
+
+                  <FriendCheckbox className='FriendCheckbox1'
+                    username={user.username}
+                    newChatRoomMembers={newChatRoomMembers}
+                    handleFriendsChange={handleFriendsChange}
+                  />
+                  <label>{user.username}</label>
+
+                </Card>
+
+              ))}
+              <Button className='createChatRoom-Button' variant="contained" color="primary" onClick={handleCreateNewChatRoom}>Create</Button>
 
             </div>
           </div>
-          <div className="createChatRoom-or-Message">
-            {showNewChatRoomCreation ? (
+        ) :
 
-              <div className='createChatRoom1'>
+          (
+            <Grid className='ChatAreaBetweenUsers'>
+              <Box ref={chatSectionRef}>
 
-                <div className='createChatRoom2'>
-                  <div className='createChatRoom3' >
+                {chatMessages2.map((message, index, arr) => (
+                  // console.log("new Date(arr[index - 1].dateSent): ", new Date(arr[index - 1].dateSent), "new Date(message.dateSent): ", new Date(message.dateSent),"new Date() ",new Date(),"new Date(message.dateSent) > 24*60*60*1000",new Date(message.dateSent) > 24*60*60*1000 ),
+                  console.log("message.datasend", new Date(message.dateSent)),
+                  <div key={index} className="message-container-SecondSection">
 
-                    <TextField
 
-                      ref={textareaRef}
 
-                      className="create-ChatRoomName-secondSection"
-                      onChange={(e) => {
-                        handleNameChange(e.target.value);
-                      }}
-                      multiline
-                      variant="outlined"
-                      placeholder="Write your chatroom name"
+                    {(index === 0 || message.sender.username !== arr[index - 1].sender.username
+                      || new Date(message.dateSent).getDate() !== new Date(arr[index - 1].dateSent).getDate() ||
+                      new Date(message.dateSent).getMonth() !== new Date(arr[index - 1].dateSent).getMonth())
+                      && (selectedChatroom._id === message.chatID._id) &&
 
-                    />
+                      <div className="username-time">
+                        <div className="date-SecondSection">
+
+                        </div>
+                        <div className="username-SecondSection">
+                          <Avatar src={message.sender.profilePicture} className="avatar" style={{ marginRight: '10px' }} />
+                          <Typography variant="subtitle1" className="UserNameSecondSection">{message.sender.username}</Typography>
+                          <Typography variant="caption" color="text.secondary" className="time-caption">
+                            {new Date(message.dateSent).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </Typography>
+
+
+                        </div>
+
+                      </div>
+                    }
+                    {selectedChatroom._id === message.chatID._id && <div className="message-text">{message.message}</div>}
+                    {
+                      index < arr.length - 1 && (() => {
+                        let currentMessageDate = new Date(arr[index].dateSent).setHours(0, 0, 0, 0);
+                        let nextMessageDate = new Date(arr[index + 1].dateSent).setHours(0, 0, 0, 0);
+
+                        if (currentMessageDate !== nextMessageDate) {
+                          let differenceInDays = Math.floor((nextMessageDate - currentMessageDate) / (1000 * 60 * 60 * 24));
+
+                          return differenceInDays === 1 ?
+                            <div className="date-separator">Yesterday</div> :
+                            differenceInDays > 1 ?
+                              <div className="date-separator">{new Date(currentMessageDate).toLocaleDateString('default', { month: 'long', day: 'numeric' })}</div> :
+                              "";
+                        }
+
+                        return "";
+                      })()
+                    }
 
 
                   </div>
-                  {FollowedUsers.map((user, index) => (
+                ))}
 
-                    <Card className='FriendCheckbox' key={index}>
-
-                      <FriendCheckbox className='FriendCheckbox1'
-                        username={user.username}
-                        newChatRoomMembers={newChatRoomMembers}
-                        handleFriendsChange={handleFriendsChange}
-                      />
-                      <label>{user.username}</label>
-
-                    </Card>
-
-                  ))}
-                  <Button className='createChatRoom-Button' variant="contained" color="primary" onClick={handleCreateNewChatRoom}>Create</Button>
-
-                </div>
-              </div>
-            ) :
-
-              (
-                <Grid className='ChatAreaBetweenUsers'>
-                  <Box ref={chatSectionRef}>
-
-                    {chatMessages2.map((message, index, arr) => (
-                      // console.log("new Date(arr[index - 1].dateSent): ", new Date(arr[index - 1].dateSent), "new Date(message.dateSent): ", new Date(message.dateSent),"new Date() ",new Date(),"new Date(message.dateSent) > 24*60*60*1000",new Date(message.dateSent) > 24*60*60*1000 ),
-                      console.log("message.datasend", new Date(message.dateSent)),
-                      <div key={index} className="message-container-SecondSection">
+                <div ref={messagesEndRef} />
+              </Box>
 
 
-
-                        {(index === 0 || message.sender.username !== arr[index - 1].sender.username
-                          || new Date(message.dateSent).getDate() !== new Date(arr[index - 1].dateSent).getDate() ||
-                          new Date(message.dateSent).getMonth() !== new Date(arr[index - 1].dateSent).getMonth())
-                          && (selectedChatroom._id === message.chatID._id) &&
-
-                          <div className="username-time">
-                            <div className="date-SecondSection">
-
-                            </div>
-                            <div className="username-SecondSection">
-                              <Avatar src={message.sender.profilePicture} className="avatar" style={{ marginRight: '10px' }} />
-                              <Typography variant="subtitle1" className="UserNameSecondSection">{message.sender.username}</Typography>
-                              <Typography variant="caption" color="text.secondary" className="time-caption">
-                                {new Date(message.dateSent).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                              </Typography>
+            </Grid>
+          )}
+      </div>
+      {!showNewChatRoomCreation && selectedChatroom && <MessageInputForm selectedChatroom={selectedChatroom} socketRef={socketRef} />}
 
 
-                            </div>
-
-                          </div>
-                        }
-                        {selectedChatroom._id === message.chatID._id && <div className="message-text">{message.message}</div>}
-                        {
-                          index < arr.length - 1 && (() => {
-                            let currentMessageDate = new Date(arr[index].dateSent).setHours(0, 0, 0, 0);
-                            let nextMessageDate = new Date(arr[index + 1].dateSent).setHours(0, 0, 0, 0);
-
-                            if (currentMessageDate !== nextMessageDate) {
-                              let differenceInDays = Math.floor((nextMessageDate - currentMessageDate) / (1000 * 60 * 60 * 24));
-
-                              return differenceInDays === 1 ?
-                                <div className="date-separator">Yesterday</div> :
-                                differenceInDays > 1 ?
-                                  <div className="date-separator">{new Date(currentMessageDate).toLocaleDateString('default', { month: 'long', day: 'numeric' })}</div> :
-                                  "";
-                            }
-
-                            return "";
-                          })()
-                        }
-
-
-                      </div>
-                    ))}
-
-                    <div ref={messagesEndRef} />
-                  </Box>
-
-
-                </Grid>
-              )}
-          </div>
-          {!showNewChatRoomCreation && selectedChatroom && <MessageInputForm selectedChatroom={selectedChatroom} socketRef={socketRef} />}
-
-        </div>
-      ) : (
-        <AppBar position="fixed" color="primary" onClick={() => setchatOpen(true)}>
-          <Toolbar>
-            <Typography variant="h6">Click to open chat</Typography>
-          </Toolbar>
-        </AppBar>
-      )}
     </Grid>
+
 
 
 
@@ -513,11 +504,23 @@ function ChatWindow({ toggleOverlay, showOverlay, stopPropagation }) {
   }
 
   return (
+    <div className="MinimizeChatRoom">
+      {chatOpen ? (
+        <Grid className="chat-window" onClick={stopPropagation}>{/* onClick={handleClick} */}
 
-    <Grid className="chat-window" onClick={stopPropagation}>{/* onClick={handleClick} */}
-      <ChatRoomList />
-      <ChatSection handleclose={handleclose} showOverlay={showOverlay} selectedChatroom={selectedChatroom} showNewChatRoomCreation={showNewChatRoomCreation} config={config} bearerToken={bearerToken} chatMessages={chatMessages} fetchChatrooms={fetchChatrooms} setchatOpen={setchatOpen} chatOpen={chatOpen} onClick={stopPropagation} />
-    </Grid>
+          <ChatRoomList />
+          <ChatSection handleclose={handleclose} showOverlay={showOverlay} selectedChatroom={selectedChatroom} showNewChatRoomCreation={showNewChatRoomCreation} config={config} bearerToken={bearerToken} chatMessages={chatMessages} fetchChatrooms={fetchChatrooms} setchatOpen={setchatOpen} chatOpen={chatOpen} onClick={stopPropagation} />
+        </Grid>
+      ) :
+
+        <div >
+          <IconButton  color="primary" onClick={() => setchatOpen(true)}>
+            <ArrowDropDownIcon />
+          </IconButton>
+        </div>
+      }
+
+    </div>
   );
 }
 

@@ -81,6 +81,7 @@ function useChatWindowIcon() {
       )}
     </div>
   );
+
 }
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -357,7 +358,9 @@ export default function Header({ toggleTheme }) {
       <MenuItem>
         {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
         {/*call useChatWindowIcon*/}
-        <div style={{ marginTop: "10px" }}>{useChatWindowIcon()}</div>
+        <div style={{ marginTop: "10px" } }>{useChatWindowIcon()}</div>
+        <p>Chat</p>
+
         {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
       </MenuItem>
 

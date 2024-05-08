@@ -2,32 +2,36 @@
 
   /* ChatWindow.css */
 
-  /* Base styles for chat window */
   .chat-window {
     display: flex;
+
     flex-direction: row;
     height: 80%;
-    /* Set height to 100% to fill the available space */
-    width: 60%;
-    /* Set width to 100% to fill the available space */
+    width: 70%;
+    /* Set a width for the chat window */
     position: fixed;
-    right: 0;
-    bottom: 0;
+    /* Make the position fixed */
+    right: 0px;
+    /* Position it 20px from the right edge of the screen */
+    bottom: 0px;
+    /* Position it 20px from the bottom edge of the screen */
     border: 1px solid black;
-    background-color: aqua;
-
     border-radius: 20px;
+    background-color: white;
+    /* Or any non-transparent color */
     opacity: 1;
-
   }
 
-  /* Chat room list section */
+
   .chat-section-first {
     flex: 0.4;
     border-right: 3px solid black;
     height: 100%;
     /* Set height to 100% to fill the available space */
-    overflow-x: hidden;
+
+    width: 100%;
+    /* Set width to 100% to fill the available space */
+
   }
 
   /* Chat room list */
@@ -37,21 +41,25 @@
     overflow-y: auto;
     /* Add scrollbar for vertical overflow */
 
-
   }
+
 
   /* Header container */
   .headerdisplayChatRooms {
-    display: flex;
+    position: relative;
+    top: 1px;
+    margin-left: auto;
     justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid black;
-    line-height: 1.5;
-    height: 40px;
-    padding: 0 10px;
-    /* Add padding to create space for scrollbar */
-
+    /* This will put maximum space between .header-icons and h1 */
+    display: flex;
+    resize: none;
+    /* Disable manual resize */
   }
+
+
+
+
+
 
 
 
@@ -69,47 +77,308 @@
   }
 
 
-  /* Hover effect for chat room item */
-  .displayChatRooms:hover {
-    background-color: red;
-    transform: scale(1.05);
-  }
 
   /* Header icons */
   .header-icons-firstsecction {
     display: flex;
   }
 
+
+
   /* Chat section with messages */
   .chat-section-second {
     position: relative;
     height: 100%;
     /* Set height to 100% to fill the available space */
+    
     width: 100%;
-    flex: 0.6;
-    overflow-y: auto;
+    /*flex: 0.6;*/
+    overflow-x: hidden;
   }
 
   /* Header container */
   .header-container-secondSection {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid black;
     line-height: 1.5;
-    height: 1009%;
+    height: 9%;
+    overflow-x: hidden;
+
+
   }
 
   .chatroomName-secondSection {
+    position: relative;
+    
+    font-size: 100%;
+  }
 
+  .headerTabs-secondSection
+  {
+    
+    position: relative;
     height: 100%;
   }
 
-  .headerTabs-secondSection {}
+  .settings-button-secondSection {
+    position: relative;
+    bottom: 5px;
+    background-color:red;
 
-  .settings-button-secondSection {}
+    right: 0px;
+  }
 
-  .close-button {}
+  .close-button-secondSections {
+
+    position: relative;
+    height: 70%;
+    background-color:red;
+
+  }
+
+
+
+
+  .createChatRoom-or-Message {
+    position: relative;
+    height: 85%;
+    width: 100%;
+    overflow-x: hidden;
+
+  }
+
+  .createChatRoom1 {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+
+  }
+
+  .createChatRoom2 {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+
+  }
+
+  .createChatRoom3 {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    border-radius: 20px;
+  }
+
+
+  
+  .MinimizeChatRoom
+  {
+    position: relative;
+    width: 100% !important;
+    height: 100% !important;
+    top: 0px;
+  }
+  .create-ChatRoomName-secondSection {
+    position: relative;
+    top: 8%;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+
+
+  .createChatRoom-Button {
+    position: relative;
+    bottom: 80%;
+    left: 30%;
+    overflow-x: hidden;
+  }
+
+  .FriendCheckbox {
+    position: relative;
+    bottom: 80%;
+    width: 100%;
+    margin-bottom:3% ;
+    overflow-x: hidden;
+  }
+ .FriendCheckbox1
+ {    background-color: aqua;
+      width: 100%;
+ }
+
+
+
+
+
+
+  .ChatAreaBetweenUsers {
+    height: 85%;
+    overflow-x: hidden;
+
+
+    /* Add scrollbar for vertical overflow */
+  }
+
+  .message-container-SecondSection {
+
+    width: 70%;
+    background-color: transparent;
+    height: 100%;
+    margin-left: 4%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .date-SecondSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .username-time {
+    align-items: left;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .username-SecondSection {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10%;
+  }
+
+  .time-caption {
+    /* bottom: 50px; */
+
+  }
+
+  .message-text {
+    width: 100%;
+    /* overflow-wrap: break-word; */
+    /* Breaks the word at the end of the line */
+    word-wrap: break-word;
+    /* Older browsers */
+    /* white-space: normal; */
+    /* Prevents the text from wrapping */
+    /* background-color: transparent; */
+    color: black;
+    font-size: 20px;    /* font change*/
+    font-style: normal;
+    font-family: Arial, sans-serif;
+  }
+
+  .date-separator {
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .date-separator::before,
+  .date-separator::after {
+    content: "";
+    display: inline-block;
+    width: 50%;
+    height: 1px;
+    background: #000;
+    vertical-align: middle;
+    margin: 0 2% 0 -55%;
+  }
+
+  .date-separator::after {
+    margin: 0 -55% 0 2%;
+  }
+
+  .chat-form-Message-Input-From {
+    position: relative;
+    width: 100%;
+    /* height: 10%; */
+
+  }
+
+  .chat-form-Message-Input-From .MuiOutlinedInput-root {
+    border: 1px solid black;
+    /* Adjust as needed */
+
+    border-radius: 50px;
+    /* Adjust as needed */
+  }
+
+  .input-container-Message-Input-From {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+
+  }
+
+
+  .chat-input-Message-Input-From {
+    position: relative;
+
+    flex: 1;
+    /* Allow the input field to grow to fill available space */
+    width: 100%;
+    /* Adjust width to leave space for icons */
+    height: 100%;
+    top: 15px;
+    overflow-y: auto;
+
+  }
+
+
+  .chat-input-Message-Input-From .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: transparent;
+    /* Change this to your preferred color */
+  }
+
+  .icons-container-Message-Input-From {
+    position: relative;
+    width: 10%;
+    right: 49px;
+    height: 100%;
+
+  }
+
+  .react-input-emoji--button svg {
+    width: 100%;
+    height: 100%;
+    top: 100px;
+
+  }
+
+  .react-input-emoji--button {
+    position: relative;
+    width: 12%;
+    height: 100%;
+
+    left: 15px;
+    height: 100%;
+    bottom: 2px;
+
+  }
+
+  .sendIcon-Message-Input-Form {
+
+    position: relative;
+    width: 10%;
+    top: 0px;
+    height: 100%;
+    right: 30px;
+  }
+
+
+  /* Chat room item2 */
+
 
 }
 
@@ -122,7 +391,7 @@
     display: flex;
 
     flex-direction: row;
-    height: 90%;
+    height: 60%;
     width: 70%;
     /* Set a width for the chat window */
     position: fixed;
@@ -276,7 +545,7 @@
     right: 0px;
   }
 
-  .close-button {
+  .close-button-secondSections {
 
     position: relative;
     bottom: 5px;
@@ -284,7 +553,13 @@
 
   }
 
-
+  .MinimizeChatRoom
+  {
+    position: relative;
+    width: 100% !important;
+    height: 100% !important;
+    top: 0px;
+  }
   .create-ChatRoomName-secondSection {
     position: relative;
     top: 8%;
