@@ -26,8 +26,8 @@
       "subredditId": "2",
       "reason": "spam",
       "id": "aa0c",
-      "removedstatus": false,
-      "spamstatus": false,
+      "removedstatus": true,
+      "spamstatus": true,
       "removedby": "admin",
       "status": "disapproved"
     },
@@ -58,9 +58,9 @@
       "reason": "spam",
       "id": "aa0d",
       "removedstatus": false,
-      "spamstatus": false,
+      "spamstatus": true,
       "removedby": "admin",
-      "status": "approved"
+      "status": "disapproved"
     },
     {
       "type": "post",

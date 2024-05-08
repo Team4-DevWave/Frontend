@@ -1,0 +1,18 @@
+{
+  "reports": [
+    {
+      "name": "moashraf_new",
+      "reportedUser": "moashraf",
+      "offense": "Bullying",
+      "reason": "I was bullied by this user",
+      "id": "129c"
+    },
+    {
+      "id": "d824",
+      "name": "moashraf_new",
+      "offense": "Sexual Harassment",
+      "reason": "",
+      "reportedUser": "hussein_new"
+    }
+  ]
+}

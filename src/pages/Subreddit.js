@@ -5,7 +5,7 @@ import axios from "axios";
 import PostContainer from "../components/PostContainer";
 import Header from "../layouts/Header";
 import SideBar from "../layouts/Sidebar";
-import SortOptions from "../components/SortOptions";
+import SubredditSortOptions from "../components/SubredditSortOptions";
 import "./Subreddit.css";
 import Rules from "../components/Rules";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -23,7 +23,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState } from "react";
 export default function Subreddit({ toggleTheme }) {
   const { subredditName } = useParams();
-  const [sortOption, setSortOption] = React.useState("best");
+  const [sortOption, setSortOption] = React.useState("new");
   const [validSubreddit, setValidSubreddit] = React.useState(false);
   useEffect(() => {
     console.log("Subreddit name:", subredditName);
@@ -144,14 +144,11 @@ export default function Subreddit({ toggleTheme }) {
   useEffect(() => {
     console.log("Sort option changed:", sortOption);
     axios
-      .get(
-        `http://localhost:8000/api/v1/r/${subredditName}/posts/${sortOption}`,
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
-          },
-        }
-      )
+      .get(`http://localhost:8000/api/v1/r/${subredditName}/${sortOption}`, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      })
       .then((response) => {
         console.log("Posts:", response.data.data.posts);
         const fetchedPosts = response.data.data.posts;
@@ -231,7 +228,7 @@ export default function Subreddit({ toggleTheme }) {
       newFavorites = favorites.filter((item) => item !== subredditName);
     } else {
       newFavorites = [...favorites, subredditName];
-      if(joinStatus === "Join") {
+      if (joinStatus === "Join") {
         handleJoin();
       }
     }
@@ -301,7 +298,7 @@ export default function Subreddit({ toggleTheme }) {
           <SideBar joinStatus={joinStatus} favorites={favorites} />
         </div>
         <div id="item-2">
-          <SortOptions onSortOptionChange={setSortOption} />
+          <SubredditSortOptions onSortOptionChange={setSortOption} />
           <div className="post-feed">
             {posts.map((post, index) => {
               return <PostContainer key={index} postData={post} />;
@@ -321,12 +318,12 @@ export default function Subreddit({ toggleTheme }) {
         <div id="item-4">
           {" "}
           <div className="subreddit-container">
-           <div 
-  className="subreddit-banner" 
-  style={{
-    backgroundImage: `url("https://preview.redd.it/k0ozkhhjubh31.jpg?width=2400&format=pjpg&auto=webp&s=6d44bf6a3a98bee16d1a70697b919fbd53a97796")`
-  }}
-></div>
+            <div
+              className="subreddit-banner"
+              style={{
+                backgroundImage: `url("https://preview.redd.it/k0ozkhhjubh31.jpg?width=2400&format=pjpg&auto=webp&s=6d44bf6a3a98bee16d1a70697b919fbd53a97796")`,
+              }}
+            ></div>
             <div className="internal-banner-strip">
               <img
                 className="subreddit-image"

@@ -394,7 +394,7 @@ text-overflow: ellipsis;
 @media (max-width: 768px) {
   .post-container {
     left: 4%;
-    max-width: 92vw;
+    width: 160vw;
   }
   .post-content {
     padding-left: 0;
@@ -404,12 +404,12 @@ text-overflow: ellipsis;
     padding-left: 0;
   }
   #postcontainer hr{
-    width: 92vw;
+    width: 160vw;
     left: 4%;
   }
 }
 
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
   .post-container {
     left:2%;
     max-width: 85vw;
@@ -425,4 +425,4 @@ text-overflow: ellipsis;
     width: 90vw;
     left:2%;
   }
-}
+} */

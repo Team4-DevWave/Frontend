@@ -29,13 +29,16 @@ import axios from "axios";
 import TagIcon from "@mui/icons-material/Tag";
 import Chat from "../components/Chat/ChatWindow.js";
 import NotificationDropdown from "../components/NotificationDropdown";
-
+import {  Button } from "@mui/material";
+import { FiPlus } from "react-icons/fi";
 import Overlay from "../components/overlay/Overlay.js";
 import ChatIcon from "@mui/icons-material/Chat";
 
 import CustomSwitch from "../components/MUIEdited/CustomSwitch.js";
 
 import { Avatar } from "@mui/material";
+
+import AddIcon from "@mui/icons-material/Add";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -142,6 +145,10 @@ export default function Header({ toggleTheme }) {
     }
   }, []);
 
+  const handlePostClick = () => {
+    navigate("/CreatePost");
+  };
+
   const [notificationsCount, setNotificationsCount] = useState(0);
   const fetchNotificationCount = () => {
     const bearerToken = Cookies.get("token");
@@ -220,6 +227,10 @@ export default function Header({ toggleTheme }) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const handleCreatePost = () => {
+    window.location.href = "/createpost";
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -530,8 +541,19 @@ export default function Header({ toggleTheme }) {
               </List>
             </SearchResults>
           )}
+          <div id="sss-container">
+            <Button
+              id="sss"
+              onClick={handleCreatePost}
+            >
+              <FiPlus /> Create Post
+            </Button>
+          </div>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton size="large" color="inherit" onClick={handlePostClick}>
+              <AddIcon />
+            </IconButton>
             {/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */}
             <div style={{ marginTop: "10px" }}>{useChatWindowIcon()}</div>
 

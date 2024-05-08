@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./PostContainer.css";
 import { PropTypes } from "prop-types";
-import PostDesign from "././Create_Post/PostDesign";
+import PostDesignMod from "././Create_Post/PostDesignMod";
 import { SlOptions } from "react-icons/sl";
 import { Button } from "react-bootstrap";
 import Alert from "@mui/material/Alert";
@@ -136,7 +136,7 @@ function PostContainer2({ postData }) {
                             }}
                         >
                             <article>
-                                <PostDesign
+                                <PostDesignMod
                                     className="post-content"
                                     data-testid="post"
                                     username={postData.username}

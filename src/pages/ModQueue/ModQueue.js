@@ -5,10 +5,10 @@ import SideBar from "../../layouts/Sidebar";
 import ModNav from '../../components/Modqueue/ModqueueNavBar';
 import {Meta} from '@storybook/react';
 
-function ModQueue() {
+function ModQueue({toggleTheme}) {
     return (
         <div className="navbar-padding">
-            <Header />
+            <Header toggleTheme={toggleTheme}/>
 <div
 ></div>
 
