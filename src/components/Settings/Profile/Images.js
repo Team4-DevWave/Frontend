@@ -3,25 +3,33 @@ import { Box, Button, Avatar } from "@mui/material";
 
 function Images() {
   const [avatarImage, setAvatarImage] = useState(
-    localStorage.getItem("profilePicture") ||
-      "https://i.redd.it/ym0nsl4yrgq71.jpg"
+    "https://i.redd.it/ym0nsl4yrgq71.jpg"
   );
   const [bannerImage, setBannerImage] = useState(
-    // localStorage.getItem("bannerImage") ||
     "https://i.redd.it/ym0nsl4yrgq71.jpg"
   );
 
   const handleAvatarImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setAvatarImage(URL.createObjectURL(file));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarImage(reader.result);
+        localStorage.setItem("profilePicture", reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   const handleBannerImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setBannerImage(URL.createObjectURL(file));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBannerImage(reader.result);
+        localStorage.setItem("bannerImage", reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
