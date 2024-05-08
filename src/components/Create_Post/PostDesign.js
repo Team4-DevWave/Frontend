@@ -35,10 +35,10 @@ const PostDesign = ({
 }) => {
   const [spoilerClicked, setSpoilerClicked] = useState(false);
   const [votedOption, setVotedOption] = useState(null);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [poll, setPoll] = useState(Poll); // Initialize with the initial value of Poll
+  const [selectedOption, setSelectedOption] = useState(userPollVote);
+  const [poll, setPoll] = useState(Poll); 
   const token = Cookies.get("token");
-
+console.log("snowwwwww===",userPollVote);
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
@@ -63,7 +63,9 @@ const PostDesign = ({
     }
     if (selectedOption) {
       const updatedPoll = { ...poll };
+      if (userPollVote === null) {
       updatedPoll[selectedOption] = updatedPoll[selectedOption] + 1;
+      }
       setVotedOption(selectedOption);
       setPoll(updatedPoll);
     }
