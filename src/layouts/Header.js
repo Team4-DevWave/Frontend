@@ -39,8 +39,7 @@ import CustomSwitch from "../components/MUIEdited/CustomSwitch.js";
 import { Avatar } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
-import { FiPlus } from "react-icons/fi";
-import { Button } from "react-bootstrap";
+
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
