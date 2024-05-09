@@ -273,7 +273,6 @@ function Poll() {
                     </div>
                     <div>
                         <button type="submit" id="createcss" onClick={handelpostclick} data-testid="post" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''} >Post</button>
-                        {postDone && <script>alert("Post done");</script>}
 
                     </div>
 

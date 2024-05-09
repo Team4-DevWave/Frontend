@@ -7,26 +7,28 @@ import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 import Cookies from "js-cookie";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 function Img() {
     const [title, setTitle] = useState('');
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [captions, setCaptions] = useState([]);
-    const[spoiler1, setSpoiler] = useState(false);
-    const[OC, setOc] = useState(false);
-    const[NFSW, setNFSW] = useState(false);
-    const[Flair, setFlair] = useState(false);
+    const [spoiler1, setSpoiler] = useState(false);
+    const [OC, setOc] = useState(false);
+    const [NFSW, setNFSW] = useState(false);
+    const [Flair, setFlair] = useState(false);
     const token = Cookies.get("token");
     var community = localStorage.getItem("communitynamechoosed");
+    const navigate = useNavigate();
 
     const config = {
-      headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
     };
     const username = localStorage.getItem('username');
 
     const handelpostclick = async (event) => {
         event.preventDefault();
-        
+
         // Create an object to hold the post data
         const base64Strings = await Promise.all(uploadedFiles.map(file => {
             return new Promise((resolve, reject) => {
@@ -51,92 +53,94 @@ function Img() {
             }))
         };
         console.log("imageeee/videooo=", base64Strings);
-        console.log("usernammmeeee==",username);
+        console.log("usernammmeeee==", username);
 
-if(community==="username")
-{
-    console.log("community in image/video file11==", community);
+        if (community === "username") {
+            console.log("community in image/video file11==", community);
 
-    axios
-    .post(
-      `https://www.threadit.tech/api/v1/posts/submit/u/${username}`,
-      {
-        title: postData.title,
-        text_body:"",
-        type: "image/video",
-        nsfw: NFSW,
-        spoiler: spoiler1,
-        locked: false,
-        image:postData.files.find(file => file.type === 'image')?.url || "",
-        video:postData.files.find(file => file.type === 'video')?.url || ""
-      },
-      config
-    )
-    .then((response) => {
-        setFlair(false);
-        setNFSW(false);
-        setSpoiler(false);
-        setOc(false);
+            axios
+                .post(
+                    `https://www.threadit.tech/api/v1/posts/submit/u/${username}`,
+                    {
+                        title: postData.title,
+                        text_body: "",
+                        type: "image/video",
+                        nsfw: NFSW,
+                        spoiler: spoiler1,
+                        locked: false,
+                        image: postData.files.find(file => file.type === 'image')?.url || "",
+                        video: postData.files.find(file => file.type === 'video')?.url || ""
+                    },
+                    config
+                )
+                .then((response) => {
+                    setFlair(false);
+                    setNFSW(false);
+                    setSpoiler(false);
+                    setOc(false);
 
-      if (response.status === 201) {
-        console.log("post is created");
+                    if (response.status === 201) {
+                        console.log("post is created");
 
-      } else {
-        console.log("post is not created");
-      }
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
-      console.log("ssssssssssss");
-    });
-}
-else{
-    console.log("community in image/video file22==", community);
+                    } else {
+                        console.log("post is not created");
+                    }
+                    console.log(response);
+                    navigate(`/comments/${response.data.data.post._id}/${response.data.data.post.title.toLowerCase().replace(/ /g, "-").replace(/\//g, "-")} `);
 
-    axios
-    .post(
-      `https://www.threadit.tech/api/v1/posts/submit/r/${community}`,
-      {
-        title: postData.title,
-        text_body:"",
-        type: "image/video",
-        nsfw: NFSW,
-        spoiler: spoiler1,
-        locked: false,
-        image:postData.files.find(file => file.type === 'image')?.url || "",
-        video:postData.files.find(file => file.type === 'video')?.url || ""
-      },
-      config
-    )
-    .then((response) => {
-        setFlair(false);
-        setNFSW(false);
-        setSpoiler(false);
-        setOc(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    console.log("ssssssssssss");
+                });
+        }
+        else {
+            console.log("community in image/video file22==", community);
 
-      if (response.status === 201) {
-        console.log("post is created");
+            axios
+                .post(
+                    `https://www.threadit.tech/api/v1/posts/submit/r/${community}`,
+                    {
+                        title: postData.title,
+                        text_body: "",
+                        type: "image/video",
+                        nsfw: NFSW,
+                        spoiler: spoiler1,
+                        locked: false,
+                        image: postData.files.find(file => file.type === 'image')?.url || "",
+                        video: postData.files.find(file => file.type === 'video')?.url || ""
+                    },
+                    config
+                )
+                .then((response) => {
+                    setFlair(false);
+                    setNFSW(false);
+                    setSpoiler(false);
+                    setOc(false);
 
-      } else {
-        console.log("post is not created");
-      }
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
-      console.log("ssssssssssss");
-    });
-}
- 
+                    if (response.status === 201) {
+                        console.log("post is created");
+
+                    } else {
+                        console.log("post is not created");
+                    }
+                    console.log(response);
+                    navigate(`/comments/${response.data.data.post._id}/${response.data.data.post.title.toLowerCase().replace(/ /g, "-").replace(/\//g, "-")} `);
+
+                })
+                .catch((error) => {
+                    console.log(error);
+                    console.log("ssssssssssss");
+                });
+        }
 
 
 
-        
-        alert("Post done");
+
+
     };
-    
-    
+
+
     const handleFileChange = (e) => {
         const filesArray = Array.from(e.target.files);
         const newCaptions = filesArray.map(() => ''); // Initialize captions array for new files
@@ -166,17 +170,17 @@ else{
         setCaptions([]);
     };
     const handleSpoiler = (event) => {
-        console.log("spoilerzft=",spoiler1);
-        setSpoiler((prevSpoiler) => !prevSpoiler); 
+        console.log("spoilerzft=", spoiler1);
+        setSpoiler((prevSpoiler) => !prevSpoiler);
     };
     const handleOc = (event) => {
-        setOc((prevOC) => !prevOC); 
+        setOc((prevOC) => !prevOC);
     };
     const handleNSFW = (event) => {
-        setNFSW((prevNSFW) => !prevNSFW); 
+        setNFSW((prevNSFW) => !prevNSFW);
     };
     const handleFlair = (event) => {
-        setFlair((prevFlair) => !prevFlair); 
+        setFlair((prevFlair) => !prevFlair);
     };
     return (
         <div className="create-post-container">
@@ -233,16 +237,16 @@ else{
                         accept="image/*, video/*"
                         multiple
                     />
-                    <button type="submit" id="createcss" onClick={handelpostclick} data-testid="post" disabled={!title || community===""}   className={!title || community==="" ? 'disabled-button' : ''}>
+                    <button type="submit" id="createcss" onClick={handelpostclick} data-testid="post" disabled={!title || community === ""} className={!title || community === "" ? 'disabled-button' : ''}>
                         Post
                     </button>
                 </form>
                 <div>
-                <Button
+                    <Button
                         variant="danger"
                         className="ptnn3"
                         onClick={handleOc}
-                        style={{ background: OC ? 'green' : '#c1cad3' }} 
+                        style={{ background: OC ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> OC
@@ -260,17 +264,17 @@ else{
                         variant="danger"
                         className="ptnn3"
                         onClick={handleNSFW}
-                        style={{ background: NFSW ? 'green' : '#c1cad3' }} 
+                        style={{ background: NFSW ? 'green' : '#c1cad3' }}
 
                     >
                         <FiPlus /> NSFW
                     </Button>
-                    
+
                     <Button
                         variant="danger"
                         className="ptnn3"
                         onClick={handleFlair}
-                        style={{ background: Flair ? 'green' : '#c1cad3' }} 
+                        style={{ background: Flair ? 'green' : '#c1cad3' }}
 
                     >
                         <IoPricetagOutline /> Flair
