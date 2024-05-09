@@ -1,6 +1,6 @@
-.post-feed{
+/* .post-feed{
     width: 730px;
-}
+} */
 
 .home-grid {
    display: grid; 
@@ -82,37 +82,5 @@
   }
 }
 
-@media (max-width: 980px) {
-  .subreddit-features {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .subreddit-features > button:not(.more-subreddit) {
-     display: none;
-  }
-  
-  .subreddit-title{
-    margin-right: 50px;
-  }
-  .internal-banner-strip h1{
-    display: block;
-    
-  }
-  .subreddit-features{
-    display: block;
-  }
 
 
-  /* .subreddit-features svg {
-    margin-right: 10px;
-    vertical-align: middle;
-  } */
-}
-
-@media (max-width: 768px) {
-  .subreddit-strip{
-    display: block;
-  }
-
-}
