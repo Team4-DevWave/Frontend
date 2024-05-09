@@ -38,8 +38,8 @@
 #postcontainer hr{
   max-width: 730px;
   /* min-width: 400px; */
-  position: relative;
-  left: 100px;
+  /* position: relative; */
+  /* left: 100px; */
   margin: 8px;
 }
 
@@ -409,7 +409,7 @@ text-overflow: ellipsis;
   }
 }
 
-/* @media (max-width: 480px) {
+@media (max-width: 480px) {
   .post-container {
     left:2%;
     max-width: 85vw;
@@ -425,4 +425,4 @@ text-overflow: ellipsis;
     width: 90vw;
     left:2%;
   }
-} */
+}
