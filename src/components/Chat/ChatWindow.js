@@ -514,8 +514,18 @@ function ChatWindow({ toggleOverlay, showOverlay, stopPropagation }) {
       ) :
 
         <div >
-          <IconButton  color="primary" onClick={() => setchatOpen(true)}>
-            <ArrowDropDownIcon />
+          <IconButton color="primary" onClick={() => setchatOpen(true)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span sx={{
+              fontSize: 'var(--font-medium)',
+              fontWeight: 'bold',
+              color: 'var(--color-black)',
+              marginRight: '10px',
+              marginBottom: '30px',
+              whiteSpace: 'nowrap',
+            }}
+            >Chat</span>
+            <ArrowDropDownIcon/>
+
           </IconButton>
         </div>
       }
