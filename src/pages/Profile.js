@@ -121,6 +121,7 @@ function Profile({ toggleTheme }) {
     const storedProfilePicture = localStorage.getItem("profilePicture");
     if (storedProfilePicture) {
       setProfilePicture(storedProfilePicture);
+      userData.profilePicture = storedProfilePicture;
     }
   }, []);
 
@@ -148,7 +149,7 @@ function Profile({ toggleTheme }) {
                 marginBottom: "10px",
                 cursor: "pointer", // Add cursor pointer
               }}
-              src={profilePicture}
+              src={userData.profilePicture}
             />
           </label>
           <input

@@ -19,10 +19,9 @@
 }
 
 .rightSidebar {
-  width: 300px;
+  width: 280px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: 40px 0 0 40px;
-  margin-right: auto;
+  margin: 40px 0 0 250px;
   background-color: var(--theme-background);
   border: 1px solid var(--text-color);
   border-radius: 8px;
