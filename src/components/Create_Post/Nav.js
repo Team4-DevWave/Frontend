@@ -15,7 +15,7 @@ import GuestHeader from "../../layouts/GuestHeader";
 
 function Nav({ toggleTheme }) {
 
-  const [activeNavItem, setActiveNavItem] = useState(1);
+  const [activeNavItem, setActiveNavItem] = useState(0);
   const [communities, setCommunities] = useState([]);
   const [selectedCommunity, setSelectedCommunity] = useState("");
   const username = localStorage.getItem("username");

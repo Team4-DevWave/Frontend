@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
+import PostContainer from "../PostContainer";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
-import PostContainer from "../PostContainer";
+
 
 function PostFeed() {
   const [posts, setPosts] = useState([]);
-  const [noPosts, setNoPosts] = useState(false); // State to track if there are no saved posts
+  const [noPosts, setNoPosts] = useState(false); // State to track if there are no posts
+  const [mappedDataLength, setMappedDataLength] = useState(0); // State to store the length of mappedData
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -20,7 +23,7 @@ function PostFeed() {
       .then((response) => {
         const mappedData = response.data.data.posts
           .map((item) => {
-            if (item.text_body) {
+            if (item._id) {
               return {
                 id: item._id,
                 title: item.title,
@@ -47,7 +50,6 @@ function PostFeed() {
                 poll:item.poll,
                 userPollVote:item.userPollVote,
 
-                
               };
             } else {
               return null;
@@ -55,8 +57,11 @@ function PostFeed() {
           })
           .filter(Boolean);
 
+        // Set the length of mappedData
+        setMappedDataLength(mappedData.length);
+
         if (mappedData.length === 0) {
-          setNoPosts(true); // Set noPosts state to true if there are no saved posts
+          setNoPosts(true); // Set noPosts state to true if there are no posts
         }
 
         setPosts(mappedData.reverse());
@@ -68,17 +73,23 @@ function PostFeed() {
   }, []);
 
   return (
-    <div className="post-feed">
-      {/* Check if noPosts is true and render the appropriate message */}
-      {noPosts ? (
-        <h1 className="deleted-post">No saved posts found</h1>
-      ) : (
-        // Render the saved posts
-        posts.map((post, index) => {
-          console.log("Post data:", post); // Log the post data here
-          return <PostContainer key={index} postData={post} />;
-        })
-      )}
+    <div className="home-grid">
+      <div id="grid-2">
+        <div className="post-feed">
+          {/* Check if noPosts is true and render the appropriate message */}
+          {noPosts ? (
+            <h1 className="deleted-post">u/{username} hasn't saved posted yet</h1>
+          ) : (
+            // Render the posts
+            posts.map((post, index) => {
+              console.log("Post data:", post); // Log the post data here
+              return <PostContainer key={index} postData={post} />;
+            })
+          )}
+
+        </div>
+      </div>
+
     </div>
   );
 }

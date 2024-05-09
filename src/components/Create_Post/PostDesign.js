@@ -56,8 +56,7 @@ console.log("snowwwwww===",userPollVote);
   };
 
   const handleVote = () => {
-    console.log("poll======================", poll);
-    console.log("poll========2222==============", selectedOption);
+
     if (userPollVote !== null) {
     setSelectedOption(poll);
     }
@@ -100,13 +99,10 @@ console.log("snowwwwww===",userPollVote);
     console.log("idd-----", Postid);
 
     if (userPollVote !== null) {
-      console.log("joinnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
-      console.log("selectedOption------------111111-", selectedOption);
-      console.log("polll------------111111-", poll);
+
 
       setSelectedOption(poll);
-      console.log("selectedOption------------22222222222222-", selectedOption);
-      console.log("polll------------222222222-", poll);
+
 
 
       handleVote();
