@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import './Messages.css';
 import { Link } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function PostReplies() {
 
@@ -14,6 +15,7 @@ function PostReplies() {
 
     const [allMessages, setallMessages] = useState([]);
     const [HideBlockButton, setHideBlockButton] = useState(false);
+    const navigate = useNavigate();
 
     const [page, setPage] = useState(1); // initial page
     const [loading, setLoading] = useState(false);
@@ -182,7 +184,7 @@ function PostReplies() {
                 if (allMessages.length === index + 1) {
                     return (
                         <div ref={lastMessageElementRef} className="message-container" key={message._id}>
-                            <h2>From: {message.from.username}</h2>
+<h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>
                             <h3>To: {message.to.username}</h3>
                             {!message.subject.includes('username mention') && <h3>Subject: {message.subject}</h3>}   
                             <h4>Message: {message.message}</h4>
@@ -190,7 +192,6 @@ function PostReplies() {
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleFullComment(message)}>Full comment</button>
                                 <button onClick={() => handleDelete(message._id)}>Remove</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
                                 {!HideBlockButton ? (
                                 <button onClick={handleBlock}>Block</button>
                             ) : (
@@ -201,14 +202,13 @@ function PostReplies() {
                                         <button onClick={handleCancel}>No</button>
                                     </div>
                                 )}                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
-                                <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
                             </div>
                         </div>
                     )
                 } else {
                     return (
                         <div className="message-container" key={message._id}>
-                            <h2>From: {message.from.username}</h2>
+<h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>
                             <h3>To: {message.to.username}</h3>
                             {!message.subject.includes('username mention') && <h3>Subject: {message.subject}</h3>}                         
                             <h4>Message: {message.message}</h4>
@@ -217,7 +217,6 @@ function PostReplies() {
                                 {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full comment</button>}
 
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
                                 {!HideBlockButton ? (
                                 <button onClick={handleBlock}>Block</button>
                             ) : (
@@ -228,7 +227,6 @@ function PostReplies() {
                                         <button onClick={handleCancel}>No</button>
                                     </div>
                                 )}                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
-                                <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
 
                             </div>
                         </div>

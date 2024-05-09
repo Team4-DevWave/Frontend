@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import './Messages.css';
 import { Link } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 function Unread() {
@@ -15,6 +16,7 @@ function Unread() {
     const [page, setPage] = useState(1); // initial page
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+    const navigate = useNavigate();
 
     const limit = 10;
 
@@ -86,10 +88,10 @@ function Unread() {
 
     const handleBlock = () => {
         setHideBlockButton(true);
-      };
-      const handleCancel = () => {
+    };
+    const handleCancel = () => {
         setHideBlockButton(false);
-      };
+    };
 
     async function handleBlockUser(usernameToBlock) {
 
@@ -101,7 +103,7 @@ function Unread() {
                 console.error('Error blocking user:', error);
             });
 
-            setHideBlockButton(false);
+        setHideBlockButton(false);
     };
 
     const handleReplyChange = (event) => {
@@ -182,23 +184,23 @@ function Unread() {
                 if (allMessages.length === index + 1) {
                     return (
                         <div ref={lastMessageElementRef} className="message-container" key={message._id} >
-                            <h2>From: {message.from.username}</h2>
+                            <h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>
                             <h3>To: {message.to.username}</h3>
                             <h3>Subject: {message.subject}</h3>
                             <h4>Message: {message.message}</h4>
-                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>  
-                     
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>
+
                             <div className="button-container-in-messageRecived">
                                 {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full comment</button>}
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
                                 {!HideBlockButton ? (
-                                <button onClick={handleBlock}>Block</button>
-                            ) : (
-                                
+                                    <button onClick={handleBlock}>Block</button>
+                                ) : (
+
                                     <div>
                                         <p className="Are_you_sure_label">Are you sure you want to block?</p>
-                                        <button className='yes_Button' onClick={() =>handleBlockUser(message.from.username)}>Yes</button>
+                                        <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
                                         <button onClick={handleCancel}>No</button>
                                     </div>
                                 )}
@@ -220,22 +222,22 @@ function Unread() {
                 } else {
                     return (
                         <div className="message-container" key={message._id}>
-                            <h2>From: {message.from.username}</h2>
+                            <h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>
                             <h3>To: {message.to.username}</h3>
                             <h3 className="subject-Message">Subject: {message.subject}</h3>
                             <p className="message-text">Message: {message.message}</p>
-                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
-                                 <div className="button-container-in-messageRecived">
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>
+                            <div className="button-container-in-messageRecived">
                                 {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full comment</button>}
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 <button onClick={() => handleReport(message._id)}>Report</button>
                                 {!HideBlockButton ? (
-                                <button onClick={handleBlock}>Block</button>
-                            ) : (
-                                
+                                    <button onClick={handleBlock}>Block</button>
+                                ) : (
+
                                     <div>
                                         <p className="Are_you_sure_label">Are you sure you want to block?</p>
-                                        <button className='yes_Button' onClick={() =>handleBlockUser(message.from.username)}>Yes</button>
+                                        <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
                                         <button onClick={handleCancel}>No</button>
                                     </div>
                                 )}
