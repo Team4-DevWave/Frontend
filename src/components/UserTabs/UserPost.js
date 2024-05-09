@@ -1,9 +1,9 @@
+import styles from "../../pages/Profile.module.css";
 import React, { useEffect, useState } from "react";
 import PostContainer from "../PostContainer";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axios from "axios";
-
 
 function PostFeed() {
   const [posts, setPosts] = useState([]);
@@ -47,9 +47,8 @@ function PostFeed() {
                 issaved: item.saved,
                 userVote: item.userVote,
                 Link: item.url,
-                poll:item.poll,
-                userPollVote:item.userPollVote,
-
+                poll: item.poll,
+                userPollVote: item.userPollVote,
               };
             } else {
               return null;
@@ -73,8 +72,8 @@ function PostFeed() {
   }, []);
 
   return (
-    <div className="home-grid">
-      <div id="grid-2">
+    <div className={styles.userProfileGrid}>
+      <div id="grid-02">
         <div className="post-feed">
           {/* Check if noPosts is true and render the appropriate message */}
           {noPosts ? (
@@ -86,10 +85,8 @@ function PostFeed() {
               return <PostContainer key={index} postData={post} />;
             })
           )}
-
         </div>
       </div>
-
     </div>
   );
 }
