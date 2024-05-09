@@ -7,12 +7,12 @@ import axios from 'axios';
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 function Link() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [savedDrafts, setSavedDrafts] = useState([]);
-    const [showSavedDrafts, setShowSavedDrafts] = useState(false);
     const [fileUploaded, setFileUploaded] = useState(false);
     const [postDone, setPostDone] = useState(false);
     const [spoiler1, setSpoiler] = useState(false);
@@ -21,6 +21,8 @@ function Link() {
     const [Flair, setFlair] = useState(false);
     const textAreaRef = useRef(null);
     const token = Cookies.get("token");
+    const navigate = useNavigate();
+
     var community = localStorage.getItem("communitynamechoosed");
 
     const config = {
@@ -75,6 +77,8 @@ function Link() {
                         console.log("post is not created");
                     }
                     console.log(response);
+                    navigate(`/comments/${response.data.data.post._id}/${response.data.data.post.title.toLowerCase().replace(/ /g, "-").replace(/\//g, "-")} `);
+
                 })
                 .catch((error) => {
                     console.log(error);
@@ -113,6 +117,8 @@ function Link() {
                         console.log("post is not created");
                     }
                     console.log(response);
+                    navigate(`/comments/${response.data.data.post._id}/${response.data.data.post.title.toLowerCase().replace(/ /g, "-").replace(/\//g, "-")} `);
+
                 })
                 .catch((error) => {
                     console.log(error);
@@ -120,7 +126,6 @@ function Link() {
                 });
         }
 
-        alert("Post done");
 
     };
 
@@ -152,9 +157,7 @@ function Link() {
         setContent(draft.content);
     };
 
-    const handleShowSavedDrafts = () => {
-        setShowSavedDrafts(true);
-    };
+
 
 
 
@@ -215,7 +218,6 @@ function Link() {
 
 
                     <div>
-                        <button type="button" onClick={handleSaveDraft} id="createcss" data-testid="savedraft" disabled={!title || community==="" || !content} className={!title || community==="" || !content ? 'disabled-button' : ''}>Save Draft</button>
                         <button type="submit" id="createcss" onClick={handelpostclick} data-testid="post" disabled={!title || community==="" || !content} className={!title || community==="" || !content ? 'disabled-button' : ''}>Post</button>
                         {postDone && <p>Post done</p>}
 

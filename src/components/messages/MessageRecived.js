@@ -182,7 +182,6 @@ function MessageRecived() {
                                     </div>
                                 )}
                                 <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
-                                <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
                             </div>
                         </div>
                     )
@@ -208,7 +207,6 @@ function MessageRecived() {
                                     </div>
                                 )}
                                 <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
-                                <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
                             </div>
                         </div>
                     )
