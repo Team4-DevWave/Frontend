@@ -194,6 +194,8 @@ function PostContainer({ postData }) {
     } catch (error) {
       console.error("Error deleting post:", error);
     }
+    setShowOptions(!showOptions);
+
   };
 
   const handleEdit = async (editedContent) => {
@@ -218,6 +220,8 @@ function PostContainer({ postData }) {
     } catch (error) {
       console.error("Error Editing post:", error);
     }
+    setShowOptions(!showOptions);
+
   };
 
   if (!postData) {
@@ -252,6 +256,8 @@ function PostContainer({ postData }) {
 
     //Hide the alert after 3 seconds
     setTimeout(() => setShowMss(false), 3000);
+    setShowOptions(!showOptions);
+
   };
 
   const handleHidePost = () => {
@@ -301,8 +307,12 @@ function PostContainer({ postData }) {
         });
       postData.ishide = true;
     }
+    setShowOptions(!showOptions);
+
   };
   const handelUnsaved = () => {
+    setShowOptions(!showOptions);
+
     console.log("id posstttttt=", postData.id);
     console.log("tokeeeen=", token);
     console.log("titelle::::", postData.title);
@@ -333,6 +343,8 @@ function PostContainer({ postData }) {
     setTimeout(() => setShowMss(false), 3000);
   };
   const handleUnHidePost = () => {
+    setShowOptions(!showOptions);
+
     // Send API request to hide the post with postId using Axios
     console.log("idddddddd:", postData.id);
     if (postData.ishide === true) {
@@ -380,6 +392,8 @@ function PostContainer({ postData }) {
   };
   ///////////////////////////////////////////////////////////////////////////
   const handleLock = () => {
+    setShowOptions(!showOptions);
+
     console.log("id===", postData.id);
     console.log("tokenn===", token);
     console.log("lockeddddd------->", postData.locked);
@@ -406,6 +420,8 @@ function PostContainer({ postData }) {
   };
 
   const handleSpoiler = () => {
+    setShowOptions(!showOptions);
+
     console.log("id===", postData.id);
     console.log("spoiler------->", postData.spoiler);
     axios
@@ -431,7 +447,9 @@ function PostContainer({ postData }) {
   };
 
   const handleNSFW = () => {
-    console.log("id===", postData.id);
+    setShowOptions(!showOptions);
+
+    console.log("id==3333333333333333333333333333333333333333333333333333333333333333333333=", postData.id);
     console.log("nsfw------->", postData.spoiler);
     axios
       .patch(
