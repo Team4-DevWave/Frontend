@@ -35,7 +35,16 @@ function ForgetPassword() {
     axios.post("https://www.threadit.tech/api/v1/users/forgotPassword",{
       email: recoveryMail,
       username: recoverUsername
-    },config);
+    },config)
+    .then((response) => {
+      if (response.status === 200) {
+        // If the request was successful, redirect to /reset
+        window.location.href = '/reset';
+      }
+    })
+    .catch((error) => {
+      console.error('An error occurred:', error);
+    });
   };
 
   const handleCancelModal = () => {

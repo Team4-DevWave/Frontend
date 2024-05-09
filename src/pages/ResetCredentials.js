@@ -1,15 +1,12 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { TextField, Button } from "@mui/material";
-import { MdAlternateEmail } from "react-icons/md";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import CustomSnackbar from "../components/MUIEdited/CustomSnackbar";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 function ResetCredentials() {
-  const [resetCode, setResetCode] = useState("");
-  const [touchedResetCode, setTouchedResetCode] = useState(false);
-  const [validResetCode, setValidResetCode] = useState(false);
   const [validNewPassword, setValidNewPassword] = useState(false);
   const [validConfirmNewPassword, setValidConfirmNewPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
@@ -17,39 +14,40 @@ function ResetCredentials() {
   const [touchedNewPassword, setTouchedNewPassword] = useState(false);
   const [touchedConfirmNewPassword, setTouchedConfirmNewPassword] =
     useState(false);
-    const [snack, openSnack] = useState(false);
+  const [snack, openSnack] = useState(false);
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
+    if (validNewPassword && validConfirmNewPassword) {
+      const token = localStorage.getItem('token');
+
+      axios.post(`https://www.threadit.tech/api/v1/users/resetPassword/?token=${token}`, {
+        password: newPassword,
+        passwordConfirm: confirmNewPassword
+      })
+      .then((response) => {
+        console.log(response);
+        openSnack(true);
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error);
+      });
+    }
+  };
   useEffect(() => {
-    console.log(resetCode, newPassword, confirmNewPassword,);
-    console.log(validResetCode, "validResetCode");
+    console.log(newPassword, confirmNewPassword);
     
-    setValidResetCode(resetCode.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/));
     setValidNewPassword(
       newPassword.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
     );
     setValidConfirmNewPassword(newPassword === confirmNewPassword);
-  }, [resetCode, newPassword, confirmNewPassword]);
+  }, [newPassword, confirmNewPassword]);
+
   return (
     <div className="wrapper">
       <div className="background-div">
-        <form className="login-form">
+      <form className="login-form" onSubmit={handleSubmit}>
           <h2>Reset Credentials</h2>
-          <TextField
-            InputProps={{
-              endAdornment: <MdAlternateEmail />,
-            }}
-            sx={{ width: "100%", marginBottom: "25px" }}
-            label="Reset Code"
-            type="text"
-            error={!resetCode && touchedResetCode}
-            helperText={
-              !resetCode && touchedResetCode ? "Code is required" : ""
-            }
-            onChange={(e) => {
-              setResetCode(e.target.value);
-            }}
-            onBlur={() => setTouchedResetCode(true)}
-          />
           <TextField
             InputProps={{
               endAdornment: <TbPasswordFingerprint />,
@@ -100,7 +98,7 @@ function ResetCredentials() {
                 openSnack(true);
             }}
             startIcon={<TbPasswordFingerprint />}
-            disabled={!validResetCode || !validNewPassword || !validConfirmNewPassword}
+            disabled={!validNewPassword || !validConfirmNewPassword}
             type="submit"
           >
             Reset
@@ -119,8 +117,6 @@ export default ResetCredentials;
 
 
 ResetCredentials.propTypes = {
-  /** The reset code sent to the user's email */
-  resetCode: PropTypes.string,
   /** The new password */
   newPassword: PropTypes.string,
   /** The new password confirmation */
