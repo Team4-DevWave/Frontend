@@ -24,9 +24,9 @@ function InboxBar() {
     useEffect(() => {
         console.log(config)
         console.log("Fetching notifications..." ,notificationCount);
-        if (notifications.length > 0) {
-            return;
-        }
+        // if (notifications.length > 0) {
+        //     return;
+        // }
         axios.get("http://localhost:8000/api/v1/messages/unread",config) // Replace with your server URL
 
             .then(response => {
