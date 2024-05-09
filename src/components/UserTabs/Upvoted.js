@@ -56,7 +56,9 @@ function Upvoted() {
                 id: item._id,
                 title: item.title,
                 content: item.text_body,
-                time: item.postedTime,
+                time: item.lastEditedTime
+                  ? item.lastEditedTime
+                  : item.postedTime,
                 votes: item.votes,
                 numviews: item.numViews,
                 spoiler: item.spoiler,
@@ -65,13 +67,17 @@ function Upvoted() {
                 approved: item.approved,
                 mentioned: item.mentioned,
                 username: item.userID.username,
+                userpic: item.userID.profilePicture,
                 commentsCount: item.commentsCount,
                 image: item.image,
                 video: item.video,
                 subredditID: item.subredditID,
-                ishide: false,
-                issaved: false,
+                ishide: item.hidden,
+                issaved: item.saved,
                 userVote: item.userVote,
+                Link: item.url,
+                poll: item.poll,
+                userPollVote: item.userPollVote,
               };
             } else {
               return null;
