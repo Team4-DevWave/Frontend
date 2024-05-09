@@ -94,6 +94,7 @@ function Login({toggleTheme}) {
     onSuccess: (response) => {
       console.log("success");
       console.log(response);
+      window.location.href = 'https://www.threadit.tech';
     },
     onFailure: (response) => {
       console.log("failure");
