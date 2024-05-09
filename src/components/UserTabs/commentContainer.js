@@ -50,7 +50,9 @@ function CommentContainer({ commentData }) {
 
   function copyLink() {
     // Get the URL of the current post
-    var copyText = window.location.origin + `/comments/${commentData.id}/`;
+    var copyText =
+      window.location.origin +
+      `/comments/${commentData.postID}/${commentData.postTitle}`;
 
     // Copy the URL to the clipboard
     navigator.clipboard.writeText(copyText);
@@ -257,6 +259,7 @@ function CommentContainer({ commentData }) {
             <PostDesign
               className="comments-content"
               data-testid="post"
+              id={commentData.postID}
               username={commentData.user}
               userpic={commentData2.userpic}
               community={commentData.community}

@@ -134,7 +134,8 @@ function Feed() {
   return (
     <div className="post-feed">
       <SortOptions onSortOptionChange={setSortOption} />
-      {posts.map((post, index) =>
+      {posts 
+      .filter(post => !post.ishide).map((post, index) =>
         token ? (
           <PostContainer key={index} postData={post} />
         ) : (

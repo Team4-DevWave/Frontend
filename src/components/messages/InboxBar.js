@@ -24,10 +24,10 @@ function InboxBar() {
     useEffect(() => {
         console.log(config)
         console.log("Fetching notifications..." ,notificationCount);
-        if (notifications.length > 0) {
-            return;
-        }
-        axios.get("https://www.threadit.tech/api/v1/messages/unread",config) 
+        // if (notifications.length > 0) {
+        //     return;
+        // }
+        axios.get("https://www.threadit.tech/api/v1/messages/unread",config) // Replace with your server URL
 
             .then(response => {
                 // Update the notification count with the number of unread notifications

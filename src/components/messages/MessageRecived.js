@@ -65,6 +65,17 @@ function MessageRecived() {
     ////////////////////////
 
 
+    // async function handleDelete(id) {
+    //     axios.delete(`http://localhost:8000/api/v1/messages/${id}/delete`, config)
+    //         .then(response => {
+    //             setallMessages(allMessages.filter(message => message._id !== id));
+    //             console.log('Message deleted:', response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error deleting message:', error);
+    //         });
+    // };
+
     async function handleDelete(id) {
         axios.delete(`https://www.threadit.tech/api/v1/messages/${id}/delete`, config)
             .then(response => {
@@ -171,7 +182,6 @@ function MessageRecived() {
                             <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
                                 {!HideBlockButton ? (
                                 <button onClick={handleBlock}>Block</button>
                             ) : (
@@ -196,7 +206,6 @@ function MessageRecived() {
                             <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
                                 {!HideBlockButton ? (
                                 <button onClick={handleBlock}>Block</button>
                             ) : (

@@ -23,11 +23,13 @@ import { TbRating18Plus } from "react-icons/tb";
 
 function PostContainer({ postData }) {
   console.log("Is post saved:", postData.issaved);
-  console.log("poll==",postData.poll);
+  console.log("poll==", postData.poll);
   const shareMenu = useRef(null);
   const buttonRef = useRef(null);
   const location = useLocation();
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
+  const isAllPage =
+    location.pathname === "/all" || location.pathname === "/profile";
   const [isDeleted, setIsDeleted] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
   const [edited, setEdited] = useState(null);
@@ -49,6 +51,8 @@ function PostContainer({ postData }) {
 
   const [showAlert, setShowAlert] = useState(false);
   const [showMss, setShowMss] = useState(false);
+  const [showMss1, setShowMss1] = useState(false);
+
 
   const [isHidden, setIsHidden] = useState(false);
 
@@ -195,7 +199,6 @@ function PostContainer({ postData }) {
       console.error("Error deleting post:", error);
     }
     setShowOptions(!showOptions);
-
   };
 
   const handleEdit = async (editedContent) => {
@@ -221,7 +224,6 @@ function PostContainer({ postData }) {
       console.error("Error Editing post:", error);
     }
     setShowOptions(!showOptions);
-
   };
 
   if (!postData) {
@@ -252,19 +254,19 @@ function PostContainer({ postData }) {
         console.log(error);
         console.log("idd==", postData.id);
       });
+
     setShowMss(true);
 
     //Hide the alert after 3 seconds
     setTimeout(() => setShowMss(false), 3000);
     setShowOptions(!showOptions);
-
   };
 
   const handleHidePost = () => {
     // Send API request to hide the post with postId using Axios
     setIsHidden(!isHidden);
 
-    console.log("idddddddd:", postData.id);
+    console.log("idddddddd4444444444444444444444:", postData.id);
     if (postData.ishide === true) {
       console.log("ishide===", postData.ishide);
       postData.ishide = false;
@@ -289,10 +291,10 @@ function PostContainer({ postData }) {
           console.log("falissssss");
         });
     } else {
-      console.log("ishide===", postData.ishide);
+      console.log("ishide==888888888888888888888888888888888=", postData.ishide);
 
       axios
-        .patch(
+        .post(
           `https://www.threadit.tech/api/v1/posts/${postData.id}/hide`,
           null,
           config
@@ -308,8 +310,62 @@ function PostContainer({ postData }) {
       postData.ishide = true;
     }
     setShowOptions(!showOptions);
-
   };
+
+  const handleUnHidePost = () => {
+    setShowOptions(!showOptions);
+    if(token==='')
+      {
+        window.location.href = "/login";
+      }
+else{
+   // Send API request to hide the post with postId using Axios
+   console.log("idddddddd111:", postData.id);
+   if (postData.ishide === true) {
+     console.log("ishideeeeeeeeeeee==1111111111111111=", postData.ishide);
+     postData.ishide = false;
+     axios
+       .delete(
+         `https://www.threadit.tech/api/v1/posts/${postData.id}/unhide`,
+
+         config
+       )
+       .then((response) => {
+         if (response.status === 201) {
+           console.log("Doneeee");
+
+         } else {
+           console.log("good");
+         }
+         console.log(response);
+       })
+       .catch((error) => {
+         console.log(error);
+         console.log("falissssss");
+       });
+   } else {
+     console.log("ishide=222222222222222222==", postData.ishide);
+
+     axios
+       .patch(
+         `https://www.threadit.tech/api/v1/posts/${postData.id}/hide`,
+         null,
+         config
+       )
+       .then((response) => {
+         // Handle response
+         console.log("Post hidden successfully");
+       })
+       .catch((error) => {
+         // Handle error
+         console.error("Error hiding post:", error);
+       });
+     postData.ishide = true;
+   }
+}
+ 
+  };
+
   const handelUnsaved = () => {
     setShowOptions(!showOptions);
 
@@ -337,58 +393,11 @@ function PostContainer({ postData }) {
         console.log(error);
         console.log("idd==", postData.id);
       });
-    setShowMss(true);
+    setShowMss1(true);
 
     //Hide the alert after 3 seconds
-    setTimeout(() => setShowMss(false), 3000);
-  };
-  const handleUnHidePost = () => {
-    setShowOptions(!showOptions);
-
-    // Send API request to hide the post with postId using Axios
-    console.log("idddddddd:", postData.id);
-    if (postData.ishide === true) {
-      console.log("ishide===", postData.ishide);
-      postData.ishide = false;
-      axios
-        .delete(
-          `https://www.threadit.tech/api/v1/posts/${postData.id}/unhide`,
-
-          config
-        )
-        .then((response) => {
-          if (response.status === 201) {
-            console.log("Doneeee");
-
-            window.location.href = "/";
-          } else {
-            console.log("faliedddddddddddddd");
-          }
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log("falissssss");
-        });
-    } else {
-      console.log("ishide===", postData.ishide);
-
-      axios
-        .patch(
-          `https://www.threadit.tech/api/v1/posts/${postData.id}/hide`,
-          null,
-          config
-        )
-        .then((response) => {
-          // Handle response
-          console.log("Post hidden successfully");
-        })
-        .catch((error) => {
-          // Handle error
-          console.error("Error hiding post:", error);
-        });
-      postData.ishide = true;
-    }
+    setTimeout(() => setShowMss1(false), 3000);
+    
   };
   ///////////////////////////////////////////////////////////////////////////
   const handleLock = () => {
@@ -449,7 +458,10 @@ function PostContainer({ postData }) {
   const handleNSFW = () => {
     setShowOptions(!showOptions);
 
-    console.log("id==3333333333333333333333333333333333333333333333333333333333333333333333=", postData.id);
+    console.log(
+      "id==3333333333333333333333333333333333333333333333333333333333333333333333=",
+      postData.id
+    );
     console.log("nsfw------->", postData.spoiler);
     axios
       .patch(
@@ -483,13 +495,16 @@ function PostContainer({ postData }) {
             {isHidden ? (
               <>
                 <p className="deleted-post">Post hidden</p>
-                <button type="button" onClick={handleHidePost}>
+                <button type="button"  onClick={
+                                postData.ishide
+                                  ? handleUnHidePost
+                                  : handleHidePost
+                              }>
                   Undo
                 </button>
               </>
             ) : (
               <>
-
                 <article>
                   {!isEdited ? (
                     <PostDesign
@@ -514,9 +529,9 @@ function PostContainer({ postData }) {
                       spoiler={postData.spoiler}
                       mentioned={mentionedUsernames}
                       id={postData.id}
-                        Poll={postData.poll}
-                        Postid={postData.id}
-                        userPollVote={postData.userPollVote}
+                      Poll={postData.poll}
+                      Postid={postData.id}
+                      userPollVote={postData.userPollVote}
                     />
                   ) : (
                     <PostDesign
@@ -539,9 +554,9 @@ function PostContainer({ postData }) {
                       spoiler={edited.spoiler}
                       mentioned={edited.mentioned.map((obj) => obj.username)}
                       id={postData.id}
-                          Poll={postData.poll}
-                        Postid={postData.id}
-                        userPollVote={postData.userPollVote}
+                      Poll={postData.poll}
+                      Postid={postData.id}
+                      userPollVote={postData.userPollVote}
                     />
                   )}
                 </article>
@@ -590,9 +605,7 @@ function PostContainer({ postData }) {
                             </li>
                             <li
                               onClick={
-                                postData.ishide
-                                  ? handleUnHidePost
-                                  : handleHidePost
+                                handleHidePost
                               }
                             >
                               {postData.ishide ? (
@@ -716,9 +729,7 @@ function PostContainer({ postData }) {
                             </li>
                             <li
                               onClick={
-                                postData.ishide
-                                  ? handleUnHidePost
-                                  : handleHidePost
+                                handleHidePost
                               }
                             >
                               {postData.ishide ? "Un Hide" : "Hide"}
@@ -816,7 +827,7 @@ function PostContainer({ postData }) {
                   </span>
 
                   <span className="comments">
-                    {isHomePage ? (
+                    {isHomePage || isAllPage ? (
                       <Link
                         className="comment-link"
                         to={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-").replace(/\//g, "-")}`}
@@ -925,6 +936,11 @@ function PostContainer({ postData }) {
                 {showMss && (
                   <Alert variant="success" className="alert">
                     Post Saved
+                  </Alert>
+                )}
+                {showMss1 && (
+                  <Alert variant="success" className="alert">
+                    Post Un Saved
                   </Alert>
                 )}
               </>

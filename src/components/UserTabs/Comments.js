@@ -39,7 +39,7 @@ function Comments({ toggleTheme }) {
   //VARIABLES
   const { id, title } = useParams();
   const [post, setPost] = useState(null);
-  console.log("Post ID:", id);
+  console.log("Post title:", title);
   const token = Cookies.get("token");
   //API
   const [subredditData, setSubredditData] = React.useState({});
@@ -67,7 +67,7 @@ function Comments({ toggleTheme }) {
             id: item._id,
             title: item.title,
             content: item.text_body,
-            time: item.postedTime,
+            time: item.lastEditedTime ? item.lastEditedTime : item.postedTime,
             votes: item.votes,
             numviews: item.numViews,
             spoiler: item.spoiler,
@@ -76,14 +76,17 @@ function Comments({ toggleTheme }) {
             approved: item.approved,
             mentioned: item.mentioned,
             username: item.userID.username,
+            userpic: item.userID.profilePicture,
             commentsCount: item.commentsCount,
             image: item.image,
             video: item.video,
             subredditID: item.subredditID,
-            ishide: false,
-            issaved: false,
+            ishide: item.hidden,
+            issaved: item.saved,
             userVote: item.userVote,
             Link: item.url,
+            poll: item.poll,
+            userPollVote: item.userPollVote,
           };
           console.log("mappeddata", mappedData.subredditID);
           setPost(mappedData);
@@ -94,25 +97,25 @@ function Comments({ toggleTheme }) {
       });
   }, [id]);
 
-  useEffect(() => {
-    if (post && post.subredditID) {
-      axios
-        .get(`https://www.threadit.tech/api/v1/r/${post.subredditID.name}`, {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
-          },
-        })
-        .then((response) => {
-          console.log("Subreddit data:", response.data.data.subreddit);
-          setSubredditData(response.data.data.subreddit);
-          setValidSubreddit(true);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          setValidSubreddit(false);
-        });
-    }
-  }, [post]);
+  // useEffect(() => {
+  //   if (post && post.subredditID) {
+  //     axios
+  //       .get(`http://localhost:8000/api/v1/r/${post.subredditID.name}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${Cookies.get("token")}`,
+  //         },
+  //       })
+  //       .then((response) => {
+  //         console.log("Subreddit data:", response.data.data.subreddit);
+  //         setSubredditData(response.data.data.subreddit);
+  //         setValidSubreddit(true);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error:", error);
+  //         setValidSubreddit(false);
+  //       });
+  //   }
+  // }, [post]);
 
   const [loading, setLoading] = React.useState(true);
   const [isSticky, setSticky] = React.useState(false);
@@ -167,9 +170,9 @@ function Comments({ toggleTheme }) {
                 <GuestPostContainer postData={post} />
               ))}
             {token && <AddComment postID={id} lock={post.locked} />}
-            <CommentFeed postID={id} />
+            <CommentFeed postID={id} postTitle={title} />
           </div>
-          {post && post.subredditID && (
+          {/* {post && post.subredditID && (
             <div id="item-3">
               <SubredditRules
                 isSticky={isSticky}
@@ -180,7 +183,7 @@ function Comments({ toggleTheme }) {
                 people={subredditData.members}
               />
             </div>
-          )}
+          )} */}
         </div>
         <div style={{ paddingBottom: "30px" }}></div>
         {/* Uncomment the following line if you have a PostContainer component */}
