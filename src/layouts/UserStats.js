@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
@@ -47,7 +48,7 @@ export default function UserStats(props) {
   const [snack, openSnack] = useState(false);
   const [followStatus, setFollowStatus] = useState(false);
   const [blockedStatus, setBlockedStatus] = useState(false);
-
+  const [blockMessage, setBlockMessage]= useState("");
   const handleRadioChange = (event) => {
     setRadioValue(event.target.value);
     setOffense(event.target.value);
@@ -88,7 +89,6 @@ export default function UserStats(props) {
 
   useEffect(() => {
     const token = Cookies.get("token");
-
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
@@ -115,7 +115,9 @@ export default function UserStats(props) {
       .get(`http://localhost:8000/api/v1/users/me/current`, config)
       .then((response) => {
         let followed = response.data.data.user.followedUsers.includes(username);
-        let blocked = response.data.data.user.blockedUsers.includes(username);
+          let blockedUsers = response.data.data.user.blockedUsers.map(user => user.username);
+          let blocked = blockedUsers.includes(username);
+        console.log(response.data.data.user.blockedUsers);
         setFollowStatus(followed);
         setBlockedStatus(blocked);
         console.log("followed", followed);
@@ -162,25 +164,27 @@ export default function UserStats(props) {
 
   const handleBlock = () => {
     const token = Cookies.get("token");
-
+    console.log('token', token);
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
-
+    console.log('config', config);
+    console.log("blockedStatus", blockedStatus);
+    console.log('username',username);
     if (!blockedStatus) {
-      axios
-        .post(`http://localhost:8000/api/v1/users/me/block/${username}`, config)
+      axios.post(`http://localhost:8000/api/v1/users/me/block/${username}`,{} ,config)
         .then((response) => {
-          setBlockedStatus(response.status == 200 ? true : false);
+          setBlockedStatus(response.status == 200 ? true : false)
+            setBlockMessage(`You have blocked ${username}`);
         })
         .catch((error) => {
           console.log(error);
         });
     } else {
-      axios
-        .delete(`http://localhost:8000/api/v1/users/me/block/${username}`, config)
+      axios.delete(`http://localhost:8000/api/v1/users/me/block/${username}`,config,{})
         .then((response) => {
           setBlockedStatus(response.status == 204 ? false : true);
+            setBlockMessage(`You have unblocked ${username}`);
         })
         .catch((error) => {
           console.log(error);
@@ -190,6 +194,7 @@ export default function UserStats(props) {
 
   return (
     <div style={{ marginLeft: "10px", marginTop: "20px" }}>
+
       <CustomSnackbar
         isOpen={snack}
         onClose={() => openSnack(false)}
@@ -276,7 +281,7 @@ export default function UserStats(props) {
       >
         <MenuItem onClick={handleClose}>Share</MenuItem>
         <MenuItem onClick={handleClose}>Send a Message</MenuItem>
-        <MenuItem onClick={handleBlock}>Block Account</MenuItem>
+        <MenuItem onClick={handleBlock}>un/Block Account</MenuItem>
         <MenuItem
           onClick={() => {
             handleClose();
@@ -380,6 +385,16 @@ export default function UserStats(props) {
           Moderator of these communities:
         </Typography>
       </Card>
+        <Snackbar
+            open={blockMessage !== ""}
+            autoHideDuration={6000}
+            onClose={() => setBlockMessage("")}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+            <Alert onClose={() => setBlockMessage("")} severity="success">
+                {blockMessage}
+            </Alert>
+        </Snackbar>
     </div>
   );
 }
