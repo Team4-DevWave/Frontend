@@ -3,10 +3,11 @@ import { Box, Button, Avatar } from "@mui/material";
 
 function Images() {
   const [avatarImage, setAvatarImage] = useState(
-    "https://i.redd.it/ym0nsl4yrgq71.jpg"
+    localStorage.getItem("profilePicture") ||
+      "https://i.redd.it/ym0nsl4yrgq71.jpg"
   );
   const [bannerImage, setBannerImage] = useState(
-    "https://i.redd.it/ym0nsl4yrgq71.jpg"
+    localStorage.getItem("bannerImage") || "https://i.redd.it/ym0nsl4yrgq71.jpg"
   );
 
   const handleAvatarImageChange = (event) => {

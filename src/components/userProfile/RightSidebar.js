@@ -69,9 +69,7 @@ function RightSidebar({ postKarma, commentKarma, cakeDay, goldReceived }) {
       <Divider />
       <div className={styles.moderation}>
         <Typography variant="h5">Moderation</Typography>
-        <Link to="https://www.reddit.com/user/Ok_Operation_7782/about/edit/moderation/">
-          <Button variant="outlined">Mod Settings</Button>
-        </Link>
+        <Button variant="outlined">Mod Settings</Button>
       </div>
 
       <Divider />

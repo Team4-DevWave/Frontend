@@ -3,12 +3,10 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import './Messages.css';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 function MentionedUsername() {
-
 
 
 
@@ -222,9 +220,9 @@ function MentionedUsername() {
                 if (allMessages.length === index + 1) {
                     return (
                         <div ref={lastMessageElementRef} className="message-container" key={message._id} >
-                            <h2>From: {message.from.username}</h2>
+                            <h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>
                             <h4> {message.to.username + "     " + message.message}</h4>
-                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>  
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleFullComment(message)}>Full context</button>
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
@@ -245,9 +243,9 @@ function MentionedUsername() {
                 } else {
                     return (
                         <div className="message-container" key={message._id}>
-                            <h2>From: {message.from.username}</h2>
-                            <h4> {message.to.username + "     " + message.message}</h4>
-                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>  
+                            <h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>      
+                                                  <h4> {message.to.username + "     " + message.message}</h4>
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleFullComment(message)}>Full context</button>
                                 {/* {showLink && (
