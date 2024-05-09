@@ -6,7 +6,6 @@ import Alert from "@mui/material/Alert";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
-import useChatWindowIcon from "./Header.js";
 
 import {
   Card,
@@ -50,7 +49,6 @@ export default function UserStats(props) {
   const [followStatus, setFollowStatus] = useState(false);
   const [blockedStatus, setBlockedStatus] = useState(false);
   const [blockMessage, setBlockMessage]= useState("");
-  const { toggleOverlay } = useChatWindowIcon();
   const handleRadioChange = (event) => {
     setRadioValue(event.target.value);
     setOffense(event.target.value);
@@ -116,7 +114,8 @@ export default function UserStats(props) {
     axios
       .get(`https://www.threadit.tech/api/v1/users/me/current`, config)
       .then((response) => {
-        let followed = response.data.data.user.followedUsers.includes(username);
+          let followedUsers = response.data.data.user.followedUsers.map(user => user.username);
+        let followed = followedUsers.includes(username);
           let blockedUsers = response.data.data.user.blockedUsers.map(user => user.username);
           let blocked = blockedUsers.includes(username);
         console.log(response.data.data.user.blockedUsers);
@@ -140,8 +139,8 @@ export default function UserStats(props) {
     if (!followStatus) {
       axios
         .post(
-          `https://www.threadit.tech/api/v1/users/me/friend/${username}`,
-          config
+          `https://www.threadit.tech/api/v1/users/me/friend/${username}`,{}
+         , config
         )
         .then((response) => {
           setFollowStatus(response.status === 200 ? true : false);
@@ -354,9 +353,7 @@ export default function UserStats(props) {
             </Button>
 
             <Button
-
               endIcon={<IoChatbubbleEllipsesOutline />}
-              onclick={toggleOverlay}
               sx={{
                 "&:hover": {
                   backgroundColor: "#f5f5f5",
