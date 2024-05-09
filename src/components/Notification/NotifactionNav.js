@@ -7,13 +7,13 @@ import OldNotification from "./oldnotifications";
 import Cookies from "js-cookie";
 
 function NotificationNav() {
-    const username =localStorage.getItem('username');
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [activeNavItem, setActiveNavItem] = useState(0);
     const [notificationCount, setNotificationCount] = useState(0); // State variable to store notification count
     const [isLoading, setIsLoading] = useState(true);
     const [notifications, setNotifications] = useState([]); // State variable to store notifications
+    const [unreadMessageCount, setUnreadMessageCount] = useState(0);
     useEffect(() => {
         console.log("Fetching notifications...");
         if (notifications.length > 0) {
@@ -25,21 +25,33 @@ function NotificationNav() {
             headers: { Authorization: `Bearer ${bearerToken}` },
         };
         axios.get("http://localhost:8000/api/v1/notifications",config) // Replace with your server URL
+
             .then(response => {
                 // Update the notification count with the number of unread notifications
-                axios.get('http://localhost:8000/api/v1/notifications', config)
-                    .then(response => {
-                        const notifications = response.data.data.notifications;
-                        const filteredNotifications = notifications.filter(notification =>
-                            !(notification.type === 'post' && notification.contentID.userID.username === username)
-                        );
-                        setNotificationCount(filteredNotifications.length);
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
+                const unreadNotifications = response.data.data.notifications.filter(notification => !notification.read);
+                setNotificationCount(unreadNotifications.length);
+                setNotifications(response.data.data.notifications); // Store notifications in state
+                setIsLoading(false);
+            })
+            .catch(error => {
+                console.error("Error fetching notifications: ", error);
+                setIsLoading(false);
             });
     }, [notifications]);
+
+    useEffect(() => {
+        const bearerToken = Cookies.get('token');
+        const config = {
+            headers: { Authorization: `Bearer ${bearerToken}` },
+        };
+        axios.get("http://localhost:8000/api/v1/messages/unread", config)
+            .then(response => {
+                setUnreadMessageCount(response.data.data.messages.length);
+            })
+            .catch(error => {
+                console.error("Error fetching unread messages: ", error);
+            });
+    }, []);
 
     const handleTabChange = (event, newValue) => {
         setActiveNavItem(newValue);
@@ -93,7 +105,16 @@ function NotificationNav() {
                     style={{ textDecoration: "none", color: "inherit" }}
                 >
                     <Tab
-                        label="Messages"
+                        label={
+                            <Badge
+                                color="primary"
+                                badgeContent={unreadMessageCount}
+                                sx={{ color: "#000" }}
+                            >
+                                {" "}
+                                Messages
+                            </Badge>
+                        }
                         sx={{
                             textTransform: "none",
                             fontWeight: "bold",
