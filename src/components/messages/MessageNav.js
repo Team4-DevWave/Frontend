@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { Tabs, Tab } from '@mui/material';
+import { Tabs, Tab, useMediaQuery, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Sent from './Sent';
 import { PropTypes } from 'prop-types';
 import Inbox from "./InboxBar";
 import SendAPrivateMessage from './SendAPrivateMessage';
+
 function MessagesNav() {
     const [activeNavItem, setActiveNavItem] = useState(0);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleTabChange = (event, newValue) => {
         setActiveNavItem(newValue);
@@ -14,38 +17,33 @@ function MessagesNav() {
 
     return (
         <>
-            <Tabs
-                className="navList sizeLg"
-                value={activeNavItem}
-                onChange={handleTabChange}
-                indicatorColor="primary"
-                textColor="primary"
-                left
-            >
-                <Tab label="Send A Private Message" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-                <Tab label="Inbox" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-                <Tab label="Sent" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-            </Tabs>
-            
+       <Tabs
+    className="navList sizeLg"
+    value={activeNavItem}
+    onChange={handleTabChange}
+    indicatorColor="primary"
+    textColor="primary"
+    scrollButtons="auto" // Add this line
+    variant="scrollable" // Add this line
+>
+    <Tab label="Send A Private Message" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
+    <Tab label="Inbox" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
+    <Tab label="Sent" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
+</Tabs>
 
-            <div class="horizontalLine"></div>
+        <div class="horizontalLine"></div>
 
-            {activeNavItem === 0 && <SendAPrivateMessage/>}
-            {activeNavItem === 1 && <Inbox />}
-            {activeNavItem === 2 && <Sent />}
-        </>
+        {activeNavItem === 0 && <SendAPrivateMessage/>}
+        {activeNavItem === 1 && <Inbox />}
+        {activeNavItem === 2 && <Sent />}
+    </>
     );
-
 }
-
-
 
 MessagesNav.propTypes = {
     SendAPrivateMessageTab: PropTypes.string.isRequired,
     InboxTab: PropTypes.string.isRequired,
     SentTab: PropTypes.string.isRequired,
-  };
-  
-  
+};
 
 export default MessagesNav;

@@ -1,18 +1,20 @@
+import React, { useState } from 'react';
+import { Tabs, Tab, useMediaQuery, useTheme } from '@mui/material';
 import All from './All';
 import Unread from './Unread';
 import MessageRecived from './MessageRecived';
 import MentionedUsername from './MentionedUsername';   
 import PostReplies from './PostReplies';
-import React, { useState } from 'react';
-import { Tabs, Tab } from '@mui/material';
-
 
 function InboxBar() {
     const [activeNavItem, setActiveNavItem] = useState(0);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleTabChange = (event, newValue) => {
         setActiveNavItem(newValue);
     };
+
     return (
         <>
             <Tabs
@@ -21,16 +23,16 @@ function InboxBar() {
                 onChange={handleTabChange}
                 indicatorColor="primary"
                 textColor="primary"
-                left
+                variant={isMobile ? "scrollable" : "standard"}
+                scrollButtons={isMobile ? "auto" : "off"}
             >
                 <Tab label="All" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Unread" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Messages" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Post Replies" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
                 <Tab label="Username Mentions" sx={{ textTransform: 'none', fontWeight:'bold', fontSize: 'var(--font-medium)','&:hover': {color: 'var(--color-black)',} }} />
-
-
             </Tabs>
+
             <div class="horizontalLine"></div>
 
             {activeNavItem === 0 && <All />}

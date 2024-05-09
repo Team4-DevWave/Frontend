@@ -30,38 +30,38 @@ export default function FoundCommunities(props) {
     return (
       <List>
         {communityData.map((community) => (
-          <
-          >
-             <Link to={`/r/${community.name}`} style={{textDecoration:"none"}}>
-            <ListItem alignItems="flex-start">
-             
+          <>
+            <Link
+              to={`/r/${community.name}`}
+              style={{ textDecoration: "none" }}
+            >
+              <ListItem alignItems="flex-start">
                 <ListItemAvatar>
                   <Avatar alt={community.name} src={community.srLooks.icon} />
                 </ListItemAvatar>
-            
 
-              <ListItemText
-                primary={"t/" + community.name}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: "inline" }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    >
-                      Members: {community.members.length}
-                    </Typography>
-                    <Typography
-                      sx={{ display: "block" }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    ></Typography>
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
+                <ListItemText
+                  primary={"t/" + community.name}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: "inline" }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        Members: {community.members.length}
+                      </Typography>
+                      <Typography
+                        sx={{ display: "block" }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      ></Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
             </Link>
             <Divider variant="inset" component="li" />
           </>

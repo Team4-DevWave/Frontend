@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { FaBold } from "react-icons/fa";
 import { Chip, Button, IconButton, Box, Paper, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
-import './Post.css'; // Import your CSS file for styling
+import './Nav.css'; // Import your CSS file for styling
 import { FiPlus } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 import Cookies from "js-cookie";
@@ -364,7 +364,7 @@ function CreatePost() {
   }
   return (
 
-    <div className="create-post-container" id="grid-1">
+    <div className="create-post-container" >
 
       <div className="create-post-form-section">
         <form className="create-post-form" onSubmit={handleSubmit}>

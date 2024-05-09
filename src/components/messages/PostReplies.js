@@ -190,7 +190,6 @@ function PostReplies() {
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleFullComment(message)}>Full comment</button>
                                 <button onClick={() => handleDelete(message._id)}>Remove</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
                                 {!HideBlockButton ? (
                                 <button onClick={handleBlock}>Block</button>
                             ) : (
@@ -201,7 +200,6 @@ function PostReplies() {
                                         <button onClick={handleCancel}>No</button>
                                     </div>
                                 )}                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
-                                <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
                             </div>
                         </div>
                     )
@@ -217,7 +215,6 @@ function PostReplies() {
                                 {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full comment</button>}
 
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
                                 {!HideBlockButton ? (
                                 <button onClick={handleBlock}>Block</button>
                             ) : (
@@ -228,7 +225,6 @@ function PostReplies() {
                                         <button onClick={handleCancel}>No</button>
                                     </div>
                                 )}                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
-                                <button onClick={() => handleReplyClick(message.from.username)}>Reply</button>
 
                             </div>
                         </div>
