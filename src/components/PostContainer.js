@@ -23,11 +23,13 @@ import { TbRating18Plus } from "react-icons/tb";
 
 function PostContainer({ postData }) {
   console.log("Is post saved:", postData.issaved);
-  console.log("poll==",postData.poll);
+  console.log("poll==", postData.poll);
   const shareMenu = useRef(null);
   const buttonRef = useRef(null);
   const location = useLocation();
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
+  const isAllPage =
+    location.pathname === "/all" || location.pathname === "/profile";
   const [isDeleted, setIsDeleted] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
   const [edited, setEdited] = useState(null);
@@ -197,7 +199,6 @@ function PostContainer({ postData }) {
       console.error("Error deleting post:", error);
     }
     setShowOptions(!showOptions);
-
   };
 
   const handleEdit = async (editedContent) => {
@@ -223,7 +224,6 @@ function PostContainer({ postData }) {
       console.error("Error Editing post:", error);
     }
     setShowOptions(!showOptions);
-
   };
 
   if (!postData) {
@@ -260,7 +260,6 @@ function PostContainer({ postData }) {
     //Hide the alert after 3 seconds
     setTimeout(() => setShowMss(false), 3000);
     setShowOptions(!showOptions);
-
   };
 
   const handleHidePost = () => {
@@ -311,7 +310,6 @@ function PostContainer({ postData }) {
       postData.ishide = true;
     }
     setShowOptions(!showOptions);
-
   };
 
   const handleUnHidePost = () => {
@@ -460,7 +458,10 @@ else{
   const handleNSFW = () => {
     setShowOptions(!showOptions);
 
-    console.log("id==3333333333333333333333333333333333333333333333333333333333333333333333=", postData.id);
+    console.log(
+      "id==3333333333333333333333333333333333333333333333333333333333333333333333=",
+      postData.id
+    );
     console.log("nsfw------->", postData.spoiler);
     axios
       .patch(
@@ -504,7 +505,6 @@ else{
               </>
             ) : (
               <>
-
                 <article>
                   {!isEdited ? (
                     <PostDesign
@@ -529,9 +529,9 @@ else{
                       spoiler={postData.spoiler}
                       mentioned={mentionedUsernames}
                       id={postData.id}
-                        Poll={postData.poll}
-                        Postid={postData.id}
-                        userPollVote={postData.userPollVote}
+                      Poll={postData.poll}
+                      Postid={postData.id}
+                      userPollVote={postData.userPollVote}
                     />
                   ) : (
                     <PostDesign
@@ -554,9 +554,9 @@ else{
                       spoiler={edited.spoiler}
                       mentioned={edited.mentioned.map((obj) => obj.username)}
                       id={postData.id}
-                          Poll={postData.poll}
-                        Postid={postData.id}
-                        userPollVote={postData.userPollVote}
+                      Poll={postData.poll}
+                      Postid={postData.id}
+                      userPollVote={postData.userPollVote}
                     />
                   )}
                 </article>
@@ -827,7 +827,7 @@ else{
                   </span>
 
                   <span className="comments">
-                    {isHomePage ? (
+                    {isHomePage || isAllPage ? (
                       <Link
                         className="comment-link"
                         to={`/comments/${postData.id}/${postData.title.toLowerCase().replace(/ /g, "-").replace(/\//g, "-")}`}
