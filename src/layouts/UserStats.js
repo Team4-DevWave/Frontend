@@ -6,6 +6,7 @@ import Alert from "@mui/material/Alert";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
+import useChatWindowIcon from "./Header.js";
 
 import {
   Card,
@@ -49,6 +50,7 @@ export default function UserStats(props) {
   const [followStatus, setFollowStatus] = useState(false);
   const [blockedStatus, setBlockedStatus] = useState(false);
   const [blockMessage, setBlockMessage]= useState("");
+  const { toggleOverlay } = useChatWindowIcon();
   const handleRadioChange = (event) => {
     setRadioValue(event.target.value);
     setOffense(event.target.value);
@@ -352,7 +354,9 @@ export default function UserStats(props) {
             </Button>
 
             <Button
+
               endIcon={<IoChatbubbleEllipsesOutline />}
+              onclick={toggleOverlay}
               sx={{
                 "&:hover": {
                   backgroundColor: "#f5f5f5",
