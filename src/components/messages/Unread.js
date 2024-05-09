@@ -17,6 +17,12 @@ function Unread() {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const navigate = useNavigate();
+    const [blockConfirmationMessageId, setBlockConfirmationMessageId] = useState(null);
+
+    const handleBlockButtonClick = (messageId) => {
+        setBlockConfirmationMessageId(messageId);
+    };
+
 
     const limit = 10;
 
@@ -90,7 +96,7 @@ function Unread() {
         setHideBlockButton(true);
     };
     const handleCancel = () => {
-        setHideBlockButton(false);
+        setBlockConfirmationMessageId(null);
     };
 
     async function handleBlockUser(usernameToBlock) {
@@ -103,7 +109,7 @@ function Unread() {
                 console.error('Error blocking user:', error);
             });
 
-        setHideBlockButton(false);
+        setBlockConfirmationMessageId(null);
     };
 
     const handleReplyChange = (event) => {
@@ -193,11 +199,9 @@ function Unread() {
                             <div className="button-container-in-messageRecived">
                                 {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full comment</button>}
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
-                                {!HideBlockButton ? (
-                                    <button onClick={handleBlock}>Block</button>
+                                {blockConfirmationMessageId !== message._id ? (
+                                    <button onClick={() => handleBlockButtonClick(message._id)}>Block</button>
                                 ) : (
-
                                     <div>
                                         <p className="Are_you_sure_label">Are you sure you want to block?</p>
                                         <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
@@ -230,11 +234,9 @@ function Unread() {
                             <div className="button-container-in-messageRecived">
                                 {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full comment</button>}
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
-                                {!HideBlockButton ? (
-                                    <button onClick={handleBlock}>Block</button>
+                                {blockConfirmationMessageId !== message._id ? (
+                                    <button onClick={() => handleBlockButtonClick(message._id)}>Block</button>
                                 ) : (
-
                                     <div>
                                         <p className="Are_you_sure_label">Are you sure you want to block?</p>
                                         <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>

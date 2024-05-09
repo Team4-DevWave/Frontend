@@ -208,7 +208,7 @@
 
   }
   
-  /* @media (max-width: 480px) {
+  @media (max-width: 480px) {
     .fake-addcomment {
       max-width: 90%;
       left: 4%;
@@ -222,4 +222,4 @@
       max-width: 90%;
       left: 4%;
     }
-  } */
+  }
