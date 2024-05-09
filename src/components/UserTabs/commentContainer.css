@@ -24,15 +24,15 @@
 
 
 .comments-container{
-    width: 730px;
+    /* width: 730px; */
     height: auto;
     position: relative;
-    left: 100px;
+    /* left: 100px; */
     text-decoration: none;
   }
   
   #commentscontainer hr{
-    width: 730px;
+    /* width: 730px; */
     position: relative;
     left: 100px;
     margin: 8px;
@@ -335,7 +335,7 @@
     }
   }
   
-  /* @media (max-width: 480px) {
+  @media (max-width: 480px) {
     .comments-container {
       left:2%;
       max-width: 85vw;
@@ -351,5 +351,5 @@
       width: 70vw;
       left:0%;
     }
-  } */
+  }
   
