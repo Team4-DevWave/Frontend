@@ -19,6 +19,8 @@ import { useParams } from "react-router-dom";
 function Profile({ toggleTheme }) {
   const [value, setValue] = React.useState(0);
   const [username, setUsername] = useState("moashraf");
+  const [userFound, setUserFound] = useState(false);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -36,6 +38,23 @@ function Profile({ toggleTheme }) {
     downvotedComments: [],
     hiddenPosts: [],
   });
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/v1/users/${username}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.data.user);
+        setUserData(res.data.data.user);
+        setUserFound(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setUserFound(false);
+      });
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
