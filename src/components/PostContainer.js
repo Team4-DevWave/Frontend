@@ -52,11 +52,7 @@ function PostContainer({ postData }) {
   const [showAlert, setShowAlert] = useState(false);
   const [showMss, setShowMss] = useState(false);
   const [showMss1, setShowMss1] = useState(false);
-  const [showMss2, setShowMss2] = useState(false);
-  const [showMss3, setShowMss3] = useState(false);
 
-  const [showMss4, setShowMss4] = useState(false);
-  const [showMss5, setShowMss5] = useState(false);
 
   const [isHidden, setIsHidden] = useState(false);
 
@@ -407,21 +403,6 @@ else{
   const handleLock = () => {
     setShowOptions(!showOptions);
 
-    if(postData.locked===false)
-      {
-        setShowMss4(true);
-
-        //Hide the alert after 3 seconds
-        setTimeout(() => setShowMss4(false), 3000);
-      }
-      else
-      {
-        setShowMss5(true);
-
-        //Hide the alert after 3 seconds
-        setTimeout(() => setShowMss5(false), 3000);
-      }
-
     console.log("id===", postData.id);
     console.log("tokenn===", token);
     console.log("lockeddddd------->", postData.locked);
@@ -449,20 +430,6 @@ else{
 
   const handleSpoiler = () => {
     setShowOptions(!showOptions);
-    if(postData.spoiler===false)
-      {
-        setShowMss2(true);
-
-        //Hide the alert after 3 seconds
-        setTimeout(() => setShowMss2(false), 3000);
-      }
-      else
-      {
-        setShowMss3(true);
-
-        //Hide the alert after 3 seconds
-        setTimeout(() => setShowMss3(false), 3000);
-      }
 
     console.log("id===", postData.id);
     console.log("spoiler------->", postData.spoiler);
@@ -486,7 +453,6 @@ else{
         console.log(error);
         console.log("falissssss");
       });
-
   };
 
   const handleNSFW = () => {
@@ -975,28 +941,6 @@ else{
                 {showMss1 && (
                   <Alert variant="success" className="alert">
                     Post Un Saved
-                  </Alert>
-                )}
-                                {showMss2 && (
-                  <Alert variant="success" className="alert">
-                    Add Spoiler
-                  </Alert>
-                )}
-                                {showMss3 && (
-                  <Alert variant="success" className="alert">
-                    Remove Spoiler
-                  </Alert>
-                )}
-
-                                
-                                {showMss4 && (
-                  <Alert variant="success" className="alert">
-                    Add Lock
-                  </Alert>
-                )}
-                                {showMss5 && (
-                  <Alert variant="success" className="alert">
-                    Remove Lock
                   </Alert>
                 )}
               </>

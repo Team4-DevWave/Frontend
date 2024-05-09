@@ -50,7 +50,9 @@ function OtherUserOverview() {
                 id: post._id,
                 title: post.title,
                 content: post.text_body,
-                time: post.postedTime,
+                time: post.lastEditedTime
+                  ? post.lastEditedTime
+                  : post.postedTime,
                 votes: post.votes,
                 numviews: post.numViews,
                 spoiler: post.spoiler,
@@ -59,10 +61,17 @@ function OtherUserOverview() {
                 approved: post.approved,
                 mentioned: post.mentioned,
                 username: post.userID.username,
+                userpic: post.userID.profilePicture,
                 commentsCount: post.commentsCount,
                 image: post.image,
-                ishide: false,
-                issaved: false,
+                video: post.video,
+                subredditID: post.subredditID,
+                ishide: post.hidden,
+                issaved: post.saved,
+                userVote: post.userVote,
+                Link: post.url,
+                poll: post.poll,
+                userPollVote: post.userPollVote,
                 type: "post",
               };
             } else {
@@ -77,8 +86,10 @@ function OtherUserOverview() {
                 id: comment._id,
                 user: comment.user.username,
                 content: comment.content,
-                time: comment.createdAt,
-                post: comment.post,
+                time: comment.lastEdited
+                  ? comment.lastEdited
+                  : comment.createdAt,
+                postID: comment.post,
                 hidden: comment.hidden,
                 votes: comment.votes,
                 saved: comment.saved,
