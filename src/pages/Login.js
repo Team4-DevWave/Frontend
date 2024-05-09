@@ -91,7 +91,7 @@ function Login({toggleTheme}) {
     clientId:
       "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
     scope: "https://www.googleapis.com/auth/drive.metadata.readonly",
-    onSucess: (response) => {
+    onSuccess: (response) => {
       console.log(response);
     },
     onFail: (response) => {
