@@ -28,6 +28,7 @@ function ResetCredentials() {
       .then((response) => {
         console.log(response);
         openSnack(true);
+        window.location.href = '/login';
       })
       .catch((error) => {
         console.error('An error occurred:', error);
