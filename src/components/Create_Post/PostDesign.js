@@ -4,11 +4,10 @@ import { SlOptions } from "react-icons/sl";
 import "./PostDesign.css";
 import { BsExclamationDiamondFill } from "react-icons/bs";
 import { marked } from "marked";
-import axios from 'axios';
+import axios from "axios";
 import Cookies from "js-cookie";
 import { useLocation, Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
-
 
 // URL for the blurred image
 const blurredImageUrl =
@@ -31,20 +30,16 @@ const PostDesign = ({
   Poll,
   Postid,
   userPollVote,
-
 }) => {
   const [spoilerClicked, setSpoilerClicked] = useState(false);
   const [votedOption, setVotedOption] = useState(null);
   const [selectedOption, setSelectedOption] = useState(userPollVote);
-  const [poll, setPoll] = useState(Poll); 
+  const [poll, setPoll] = useState(Poll);
   const token = Cookies.get("token");
-console.log("snowwwwww===",userPollVote);
+  console.log("snowwwwww===", userPollVote);
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
-
-
-
 
   const location = useLocation();
   const isHomePage = location.pathname === "/" || location.pathname === "/home";
@@ -56,14 +51,13 @@ console.log("snowwwwww===",userPollVote);
   };
 
   const handleVote = () => {
-
     if (userPollVote !== null) {
-    setSelectedOption(poll);
+      setSelectedOption(poll);
     }
     if (selectedOption) {
       const updatedPoll = { ...poll };
       if (userPollVote === null) {
-      updatedPoll[selectedOption] = updatedPoll[selectedOption] + 1;
+        updatedPoll[selectedOption] = updatedPoll[selectedOption] + 1;
       }
       setVotedOption(selectedOption);
       setPoll(updatedPoll);
@@ -78,10 +72,8 @@ console.log("snowwwwww===",userPollVote);
           config
         )
         .then((response) => {
-
           if (response.status === 201) {
             console.log("post is created");
-
           } else {
             console.log("post is not created");
           }
@@ -99,17 +91,11 @@ console.log("snowwwwww===",userPollVote);
     console.log("idd-----", Postid);
 
     if (userPollVote !== null) {
-
-
       setSelectedOption(poll);
-
-
 
       handleVote();
     }
   }, []);
-
-
 
   function colorUsernames(text, mentioned) {
     // This regular expression matches u/username
@@ -137,31 +123,33 @@ console.log("snowwwwww===",userPollVote);
     <div>
       <div className="post-header">
         <div className="user-profile">
-          <Avatar
-            src={
-              userpic ||
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpOcB5CtpnCFAaxz3wh59gJGAlw3j_U4dNGbyCkt-izA&s"
-            }
-            sx={{
-              width: 30,
-              height: 30,
-              marginRight: "10px",
-              marginLeft: "10px",
-              marginTop: "10px",
-            }}
-          />
+          <a href={`/user/${username}`} style={{ textDecoration: "none" }}>
+            <Avatar
+              src={
+                userpic ||
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpOcB5CtpnCFAaxz3wh59gJGAlw3j_U4dNGbyCkt-izA&s"
+              }
+              sx={{
+                width: 30,
+                height: 30,
+                marginRight: "10px",
+                marginLeft: "10px",
+                marginTop: "10px",
+              }}
+            />
+          </a>
           <div className="user-details">
-            <p className="username">{username}</p>
+            <a href={`/user/${username}`} style={{ textDecoration: "none" }}>
+              <p className="username">{username}</p>
+            </a>
             {incommunity && (
               <a
                 className="community"
-                href={`/r/${community.replace(/ /g, "-")}`}
+                href={`/r/${community}`}
                 onClick={(event) => {
                   if (
                     event.target.tagName === "BUTTON" ||
-                    window.location.pathname.includes(
-                      `/r/${community.replace(/ /g, "-")}`
-                    )
+                    window.location.pathname.includes(`/r/${community}`)
                   ) {
                     event.preventDefault();
                   }

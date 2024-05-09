@@ -46,12 +46,14 @@ function OverView() {
         const mappedData = response.data.data;
         const postsWithTypes = mappedData.posts
           .map((post) => {
-            if (post.text_body) {
+            if (post) {
               return {
                 id: post._id,
                 title: post.title,
                 content: post.text_body,
-                time: post.postedTime,
+                time: post.lastEditedTime
+                  ? post.lastEditedTime
+                  : post.postedTime,
                 votes: post.votes,
                 numviews: post.numViews,
                 spoiler: post.spoiler,
@@ -60,13 +62,17 @@ function OverView() {
                 approved: post.approved,
                 mentioned: post.mentioned,
                 username: post.userID.username,
+                userpic: post.userID.profilePicture,
                 commentsCount: post.commentsCount,
                 image: post.image,
                 video: post.video,
                 subredditID: post.subredditID,
-                ishide: false,
-                issaved: false,
+                ishide: post.hidden,
+                issaved: post.saved,
                 userVote: post.userVote,
+                Link: post.url,
+                poll: post.poll,
+                userPollVote: post.userPollVote,
                 type: "post",
               };
             } else {
@@ -74,6 +80,7 @@ function OverView() {
             }
           })
           .filter(Boolean);
+
         const commentsWithTypes = mappedData.comments
           .map((comment) => {
             if (comment.content) {
@@ -81,8 +88,10 @@ function OverView() {
                 id: comment._id,
                 user: comment.user.username,
                 content: comment.content,
-                time: comment.createdAt,
-                post: comment.post,
+                time: comment.lastEdited
+                  ? comment.lastEdited
+                  : comment.createdAt,
+                postID: comment.post,
                 hidden: comment.hidden,
                 votes: comment.votes,
                 saved: comment.saved,
@@ -96,11 +105,18 @@ function OverView() {
           })
           .filter(Boolean);
 
+        console.log("mappedData.posts", mappedData.posts);
+
+        // Code to populate postsWithTypes...
+
+        console.log("postsWithTypes", postsWithTypes);
+
         setOverviewData((prevData) => [
           ...prevData,
           ...postsWithTypes,
           ...commentsWithTypes,
         ]);
+
         setLoading(false);
       })
       .catch((error) => {

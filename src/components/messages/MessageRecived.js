@@ -3,8 +3,12 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './Messages.css';
+import { toast } from 'react-toastify';  
+import { Snackbar } from '@mui/material';
+import { Alert } from '@mui/material';
 
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Toast } from 'bootstrap';
 
 function MessageRecived() {
     const [allMessages, setallMessages] = useState([]);
@@ -14,12 +18,17 @@ function MessageRecived() {
     const [hasMore, setHasMore] = useState(true);
     const navigate=useNavigate();
     const limit = 10;
+    const [blockConfirmationMessageId, setBlockConfirmationMessageId] = useState(null);
+    const [blockMessage, setBlockMessage] = useState("");
 
     let bearerToken = Cookies.get('token');
     const config = {
         headers: { Authorization: `Bearer ${bearerToken}` },
         params: { page: page, limit: limit },
 
+    };
+    const handleBlockButtonClick = (messageId) => {
+        setBlockConfirmationMessageId(messageId);
     };
 
     useEffect(() => {
@@ -65,6 +74,17 @@ function MessageRecived() {
     ////////////////////////
 
 
+    // async function handleDelete(id) {
+    //     axios.delete(`http://localhost:8000/api/v1/messages/${id}/delete`, config)
+    //         .then(response => {
+    //             setallMessages(allMessages.filter(message => message._id !== id));
+    //             console.log('Message deleted:', response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error deleting message:', error);
+    //         });
+    // };
+
     async function handleDelete(id) {
         axios.delete(`http://localhost:8000/api/v1/messages/${id}/delete`, config)
             .then(response => {
@@ -83,21 +103,27 @@ function MessageRecived() {
         setHideBlockButton(true);
       };
       const handleCancel = () => {
-        setHideBlockButton(false);
-      };
+        setBlockConfirmationMessageId(null);
+    };
 
     async function handleBlockUser(usernameToBlock) {
-
+        
+        console.log("want to block ")
         axios.post(`http://localhost:8000/api/v1/users/me/block/${usernameToBlock}`, {}, config)
             .then(response => {
                 console.log('User blocked:', response.data);
+                Toast.success('User blocked');
+
             })
             .catch(error => {
-                console.error('Error blocking user:', error);
+                console.error('Error blocking use22r:', error);
+                
+                    toast.error(' user already blocked');
+                
             });
 
-            setHideBlockButton(false);
-    };
+            setBlockConfirmationMessageId(null);
+        };
 
     async function handleMarkUnread (message1)  {
         axios.patch(`http://localhost:8000/api/v1/messages/${message1._id}/markread`, { read: !message1.read }, config)
@@ -171,17 +197,15 @@ function MessageRecived() {
                             <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
-                                {!HideBlockButton ? (
-                                <button onClick={handleBlock}>Block</button>
-                            ) : (
-                                
-                                    <div>
-                                        <p className="Are_you_sure_label">Are you sure you want to block?</p>
-                                        <button className='yes_Button' onClick={() =>handleBlockUser(message.from.username)}>Yes</button>
-                                        <button onClick={handleCancel}>No</button>
-                                    </div>
-                                )}
+                                {blockConfirmationMessageId !== message._id ? (
+                <button onClick={() => handleBlockButtonClick(message._id)}>Block</button>
+            ) : (
+                <div>
+                    <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                    <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
+                    <button onClick={handleCancel}>No</button>
+                </div>
+            )}
                                 <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
                             </div>
                         </div>
@@ -196,17 +220,15 @@ function MessageRecived() {
                             <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
-                                {!HideBlockButton ? (
-                                <button onClick={handleBlock}>Block</button>
-                            ) : (
-                                
-                                    <div>
-                                        <p className="Are_you_sure_label">Are you sure you want to block?</p>
-                                        <button className='yes_Button' onClick={() =>handleBlockUser(message.from.username)}>Yes</button>
-                                        <button onClick={handleCancel}>No</button>
-                                    </div>
-                                )}
+                                {blockConfirmationMessageId !== message._id ? (
+                <button onClick={() => handleBlockButtonClick(message._id)}>Block</button>
+            ) : (
+                <div>
+                    <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                    <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
+                    <button onClick={handleCancel}>No</button>
+                </div>
+            )}
                                 <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
                             </div>
                         </div>

@@ -9,8 +9,15 @@ import { Navigate, useNavigate } from 'react-router-dom';
 function MentionedUsername() {
 
 
+    const handleBlockButtonClick = (messageId) => {
+        setBlockConfirmationMessageId(messageId);
+    };
 
+    const handleCancel = () => {
+        setBlockConfirmationMessageId(null);
+    };
 
+    const [blockConfirmationMessageId, setBlockConfirmationMessageId] = useState(null);
 
     const [allMessages, setallMessages] = useState([]);
     const [showReplyTextArea, setshowReplyTextArea] = useState(false);
@@ -113,10 +120,7 @@ function MentionedUsername() {
     const handleBlock = () => {
         setHideBlockButton(true);
     };
-    const handleCancel = () => {
-        setHideBlockButton(false);
-    };
-
+  
     async function handleBlockUser(usernameToBlock) {
 
         axios.post(`http://localhost:8000/api/v1/users/me/block/${usernameToBlock}`, {}, config)
@@ -127,8 +131,8 @@ function MentionedUsername() {
                 console.error('Error blocking user:', error);
             });
 
-        setHideBlockButton(false);
-    };
+            setBlockConfirmationMessageId(null);
+        };
 
     const handleReplyChange = (event) => {
         setReplyText(event.target.value);
@@ -226,8 +230,15 @@ function MentionedUsername() {
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleFullComment(message)}>Full context</button>
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
-                                <button onClick={() => handleMarkUnread(message._id)}>Mark Unread</button>
+                                {blockConfirmationMessageId !== message._id ? (
+                <button onClick={() => handleBlockButtonClick(message._id)}>Block</button>
+            ) : (
+                <div>
+                    <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                    <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
+                    <button onClick={handleCancel}>No</button>
+                </div>
+            )}                                <button onClick={() => handleMarkUnread(message._id)}>Mark Unread</button>
                                 {showReplyTextArea && (
                                     <div>
                                         <textarea value={replyText} onChange={handleReplyChange} />
@@ -257,8 +268,15 @@ function MentionedUsername() {
                                     </Link>
                                 )} */}
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
-                                <button onClick={() => handleMarkUnread(message._id)}>Mark Unread</button>
+                                {blockConfirmationMessageId !== message._id ? (
+                <button onClick={() => handleBlockButtonClick(message._id)}>Block</button>
+            ) : (
+                <div>
+                    <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                    <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
+                    <button onClick={handleCancel}>No</button>
+                </div>
+            )}                                <button onClick={() => handleMarkUnread(message._id)}>Mark Unread</button>
                                 {/* <button onClick={() => handleReplyClick(message.from.username)}>Reply</button> */}
                                 {showReplyTextArea && (
                                     <div>
