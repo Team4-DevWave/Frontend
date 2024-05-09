@@ -86,15 +86,37 @@ function Login({toggleTheme}) {
         setUserState(prevState=> ({...prevState, attempted: true}));
       });
   };
-
-  const googleLogin = useGoogleLogin({
-    clientId:
-      "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
+const googleLogin = useGoogleLogin({
+    clientId: "500020411396-l7soq48qpasrds9ipgo5nff5656i0ial.apps.googleusercontent.com",
     scope: "https://www.googleapis.com/auth/drive.metadata.readonly",
     onSuccess: (response) => {
-      console.log("success");
-      console.log(response);
-      window.location.href = 'https://www.threadit.tech';
+      // console.log("success");
+      // console.log(response);
+      const access_token = response.getAuthResponse().access_token;
+      axios
+        .post(
+          "https://www.threadit.tech/api/v1/users/googleLogin",
+          {
+            token: access_token,
+          },
+          config
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("User is found");
+            const token = response.data.token;
+            Cookies.set("token", token, { expires: 7 });
+            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+            localStorage.setItem("username", response.data.data.user.username);
+            localStorage.setItem("subreddit", response.data.data.joinedSubreddits);
+            navigate("/");
+          } else {
+            console.log("User is not found");
+            setUserState(prevState=> ({...prevState, attempted: true}));
+          }
+          console.log(response);
+        })
+        .catch(error => console.error('Error:', error));
     },
     onFailure: (response) => {
       console.log("failure");
