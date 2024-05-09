@@ -84,7 +84,7 @@
     margin-left: 10px;
   }
   
-  .post-image {
+  .post-image, .post-video {
     width: 100%;
     border-radius: 8px;
     margin-top: 10px;
