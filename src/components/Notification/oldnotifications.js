@@ -21,14 +21,19 @@ const OldNotification = ({setNotificationCount}) => {
     const [unreadCount, setUnreadCount] = useState(0); // State variable to store count of unread notifications
 
     useEffect(() => {
+        const username = localStorage.getItem('username');
         const bearerToken = Cookies.get('token');
         const config = {
             headers: { Authorization: `Bearer ${bearerToken}` },
         };
         axios.get('http://localhost:8000/api/v1/notifications', config)
             .then(response => {
-                setData(response.data.data.notifications);
-                setNotificationCount(response.data.data.notifications.length);
+                const notifications = response.data.data.notifications;
+                const filteredNotifications = notifications.filter(notification =>
+                    !(notification.type === 'post' && notification.contentID.userID.username === username)
+                );
+                setData(filteredNotifications);
+                setNotificationCount(filteredNotifications.length);
             })
             .catch(error => {
                 console.error('Error:', error);
