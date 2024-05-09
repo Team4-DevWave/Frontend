@@ -51,7 +51,9 @@ function OverView() {
                 id: post._id,
                 title: post.title,
                 content: post.text_body,
-                time: post.postedTime,
+                time: post.lastEditedTime
+                  ? post.lastEditedTime
+                  : post.postedTime,
                 votes: post.votes,
                 numviews: post.numViews,
                 spoiler: post.spoiler,
@@ -81,8 +83,10 @@ function OverView() {
                 id: comment._id,
                 user: comment.user.username,
                 content: comment.content,
-                time: comment.createdAt,
-                post: comment.post,
+                time: comment.lastEdited
+                  ? comment.lastEdited
+                  : comment.createdAt,
+                postID: comment.post,
                 hidden: comment.hidden,
                 votes: comment.votes,
                 saved: comment.saved,

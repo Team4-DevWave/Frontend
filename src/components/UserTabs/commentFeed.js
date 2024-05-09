@@ -6,7 +6,7 @@ import axios from "axios";
 import { LiveCommentsContext } from "./Comments.js";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function CommentFeed(postID) {
+function CommentFeed(postID, postTitle) {
   const [comments, setComments] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ function CommentFeed(postID) {
   const loader = useRef(null);
   const token = Cookies.get("token");
   const [hasMore, setHasMore] = useState(true);
-
+  console.log("post title", postID);
   useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
       root: null,
@@ -64,6 +64,8 @@ function CommentFeed(postID) {
                 collapsed: item.collapsed,
                 mentioned: item.mentioned,
                 userVote: item.userVote,
+                postID: postID.postID,
+                postTitle: postID.postTitle,
               };
             } else {
               return null;
