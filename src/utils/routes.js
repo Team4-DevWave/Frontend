@@ -52,7 +52,7 @@ const routes = {
     <Subreddit toggleTheme={toggleTheme} />
   ),
   "/modqueue": ({ toggleTheme }) => <ModQueue toggleTheme={toggleTheme} />,
-  "/comments/:id/:title": CommentsRoute,
+  "/comments/:id/:title?": CommentsRoute,
   "search/:query": ({ toggleTheme }) => (
     <SearchPage toggleTheme={toggleTheme} />
   ),
