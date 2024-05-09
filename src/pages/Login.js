@@ -94,7 +94,7 @@ const googleLogin = useGoogleLogin({
       // console.log(response);
       const access_token = response.getAuthResponse().access_token;
       axios
-        .post(
+        .get(
           "https://www.threadit.tech/api/v1/users/googleLogin",
           {
             token: access_token,
