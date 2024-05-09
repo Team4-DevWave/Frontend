@@ -20,7 +20,7 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
     const read = false;
 
     let bearerToken = Cookies.get('token');
-    const userName= localStorage.getItem('username');
+    const userName = localStorage.getItem('username');
 
     const config = {
         headers: { Authorization: `Bearer ${bearerToken}` },
@@ -37,7 +37,7 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
                     read: read
                 },
                 config
-                
+
             )
             .then((response) => {
                 if (response.status === 201) {
@@ -51,8 +51,8 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
             .catch((error) => {
                 console.log(error);
             });
-            console.log('from1233333333:', from);
-        };
+        console.log('from1233333333:', from);
+    };
 
     const SendMessage = async (event) => {
         event.preventDefault();
@@ -77,61 +77,73 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
         // } catch (error) {
         //     console.error('Failed to send message:', error);
         // }
-       
+
         handleSubmit();
-      
-        };
-        return (
-            <div className="SendMessageform">
-                <form onSubmit={SendMessage}>
 
-                    <label htmlFor="from">From:</label>
-                    <select id="from" name="from" value={from} onChange={e => setFrom(e.target.value)}>
-                        <option value={'/u'+userName}>{'u/'+userName}</option>
-                    </select>
-                    <label htmlFor="to">To:</label>
-                    <input type="text" id="to" name="to" value={to} onChange={e => setTo(e.target.value)} required />
+    };
+    return (
+        <div className="SendMessageform">
+            <form onSubmit={SendMessage}>
 
-                    <label htmlFor="subject">Subject:</label>
-                    <input type="text" id="subject" name="subject" value={subject} onChange={e => setSubject(e.target.value)} required />
+                <label htmlFor="from">From:</label>
+                <select id="from" name="from" value={from} onChange={e => setFrom(e.target.value)}>
+                    <option value={'/u' + userName}>{'u/' + userName}</option>
+                </select>
+                <label htmlFor="to">To:</label>
+                <input type="text" id="to" name="to" value={to} onChange={e => setTo(e.target.value)} required />
+
+                <label htmlFor="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" value={subject} onChange={e => setSubject(e.target.value)} required />
 
 
-                    <label htmlFor="message">Message:</label>
-                    <textarea id="message" name="message" value={message} onChange={e => setMessage(e.target.value)} required></textarea>
-                    {/* 
-                <div id="robotBox">
+                <label htmlFor="message">Message:</label>
+                <textarea
+                    id="message"
+                    name="message"
+                    value={message}
+                    onChange={e => setMessage(e.target.value)}
+                    onKeyDown={e => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            handleSubmit(e);
+                        }
+                    }}
+                    required
+                />
+                {/* 
+                     <div id="robotBox">
                     <label htmlFor="robotCheck" id="robotLabel">
                         I'm not a robot
                     </label>
                     <ReCAPTCHA sitekey="6LdfsqUpAAAAANHJI04i3JAk-rOSEKtrJFT5QY-k" className="robotCheckbox" /> */}
 
-                    {/* 6LdfsqUpAAAAAHtwlBE_xNZ7Mb9K2kE9_hWsRNn4    the secreate key*/}
-                    {/* </div> */}
+                {/* 6LdfsqUpAAAAAHtwlBE_xNZ7Mb9K2kE9_hWsRNn4    the secreate key*/}
+                {/* </div> */}
 
-                    <Button variant="contained" color="primary" type="submit" id="submitButton">
-                        Send Message
-                    </Button>
-                    <ToastContainer />
-                </form>
-            </div>
+                <Button variant="contained" color="primary" type="submit" id="submitButton-PrivateMessage">
+                    Send Message
+                </Button>
+                <ToastContainer />
+            </form>
+        </div>
 
-        );
-    
-    }
-    export default SendAPrivateMessage;
+    );
+
+}
+export default SendAPrivateMessage;
 
 
-    SendAPrivateMessage.propTypes = {
-        /**  (mandatory) in case no group*/
-        from: PropTypes.string,
-        /** (mandatory) to know the person */
-        to: PropTypes.string,
-        /** (mandatory) to determine which subject*/
-        subject: PropTypes.string,
-        /**(mandatory) to determine message */
-        message: PropTypes.string,
-        /** Handles changning the community type */
+SendAPrivateMessage.propTypes = {
+    /**  (mandatory) in case no group*/
+    from: PropTypes.string,
+    /** (mandatory) to know the person */
+    to: PropTypes.string,
+    /** (mandatory) to determine which subject*/
+    subject: PropTypes.string,
+    /**(mandatory) to determine message */
+    message: PropTypes.string,
+    /** Handles changning the community type */
 
-    };
+};
 
 

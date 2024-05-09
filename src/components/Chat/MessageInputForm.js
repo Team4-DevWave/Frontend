@@ -30,11 +30,17 @@ function MessageInputForm({ selectedChatroom, socketRef }) {
   return (
     <Grid className="chat-form-Message-Input-From" > {/*onSubmit={sendMessage}*/}
       <div className="input-container-Message-Input-From">
-        <InputEmoji
+      <InputEmoji
           value={newMessage}
           onChange={setNewMessage}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              sendMessage(event);
+            }
+          }}
+          // onEnter={sendMessage}
           cleanOnEnter
-          onEnter={sendMessage}
+
           placeholder="Type a message"
         />
         <div className="icons-container-Message-Input-From">

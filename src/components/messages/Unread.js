@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import './Messages.css';
 import { Link } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 function Unread() {
@@ -15,6 +16,7 @@ function Unread() {
     const [page, setPage] = useState(1); // initial page
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+    const navigate = useNavigate();
 
     const limit = 10;
 
@@ -182,7 +184,7 @@ function Unread() {
                 if (allMessages.length === index + 1) {
                     return (
                         <div ref={lastMessageElementRef} className="message-container" key={message._id} >
-                            <h2>From: {message.from.username}</h2>
+                            <p onClick={() => navigate(`/user/${message.from.username}`)}>From: {message.from.username}</p>           
                             <h3>To: {message.to.username}</h3>
                             <h3>Subject: {message.subject}</h3>
                             <h4>Message: {message.message}</h4>
@@ -220,7 +222,7 @@ function Unread() {
                 } else {
                     return (
                         <div className="message-container" key={message._id}>
-                            <h2>From: {message.from.username}</h2>
+                            <p onClick={() => navigate(`/user/${message.from.username}`)}>From: {message.from.username}</p>           
                             <h3>To: {message.to.username}</h3>
                             <h3 className="subject-Message">Subject: {message.subject}</h3>
                             <p className="message-text">Message: {message.message}</p>

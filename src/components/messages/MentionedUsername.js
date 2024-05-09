@@ -228,10 +228,8 @@ function MentionedUsername() {
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleFullComment(message)}>Full context</button>
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
                                 <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
                                 <button onClick={() => handleMarkUnread(message._id)}>Mark Unread</button>
-                                {/* <button onClick={() => handleReplyClick(message.from.username)}>Reply</button> */}
                                 {showReplyTextArea && (
                                     <div>
                                         <textarea value={replyText} onChange={handleReplyChange} />
@@ -261,7 +259,6 @@ function MentionedUsername() {
                                     </Link>
                                 )} */}
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                <button onClick={() => handleReport(message._id)}>Report</button>
                                 <button onClick={() => handleBlockUser(message.from.username)}>Block User</button>
                                 <button onClick={() => handleMarkUnread(message._id)}>Mark Unread</button>
                                 {/* <button onClick={() => handleReplyClick(message.from.username)}>Reply</button> */}
