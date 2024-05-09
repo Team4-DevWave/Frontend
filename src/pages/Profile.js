@@ -19,6 +19,8 @@ import { useParams } from "react-router-dom";
 function Profile({ toggleTheme }) {
   const [value, setValue] = React.useState(0);
   const [username, setUsername] = useState("moashraf");
+  const [userFound, setUserFound] = useState(false);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -36,6 +38,23 @@ function Profile({ toggleTheme }) {
     downvotedComments: [],
     hiddenPosts: [],
   });
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/v1/users/${username}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.data.user);
+        setUserData(res.data.data.user);
+        setUserFound(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setUserFound(false);
+      });
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,6 +120,30 @@ function Profile({ toggleTheme }) {
     fetchData();
   }, []);
 
+  const [profilePicture, setProfilePicture] = useState(
+    "https://i.redd.it/ym0nsl4yrgq71.jpg"
+  );
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePicture(reader.result);
+        localStorage.setItem("profilePicture", reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  useEffect(() => {
+    const storedProfilePicture = localStorage.getItem("profilePicture");
+    if (storedProfilePicture) {
+      setProfilePicture(storedProfilePicture);
+      userData.profilePicture = storedProfilePicture;
+    }
+  }, []);
+
   return (
     <div className={styles.userProfileGrid}>
       <div id="user-profile-grid-0">
@@ -116,17 +159,24 @@ function Profile({ toggleTheme }) {
         }}
       >
         <div className={styles.userProfileData} style={{ padding: "20px" }}>
-          <Avatar
-            alt={username}
-            sx={{
-              width: "100px",
-              height: "100px",
-
-              marginBottom: "10px",
-            }}
-            src={
-              userData.profilePicture || "https://i.redd.it/ym0nsl4yrgq71.jpg"
-            }
+          <label htmlFor="profilePictureInput">
+            <Avatar
+              alt={username}
+              sx={{
+                width: "100px",
+                height: "100px",
+                marginBottom: "10px",
+                cursor: "pointer", // Add cursor pointer
+              }}
+              src={userData.profilePicture}
+            />
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+            id="profilePictureInput"
           />
           <Typography variant="h4" style={{ fontWeight: "bold" }}>
             u/{localStorage.getItem("username")}

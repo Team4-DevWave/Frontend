@@ -45,12 +45,12 @@ function RightSidebar({ postKarma, commentKarma, cakeDay, goldReceived }) {
       <div className={styles.userInfoContainer}>
         <div className={styles.userInfo}>
           <Typography variant="h5">{userName}</Typography>
-          <Typography variant="body1">Post Karma: {postKarma}</Typography>
-          <Typography variant="body1">Comment Karma: {commentKarma}</Typography>
+          <Typography variant="body2">Post Karma: {postKarma}</Typography>
+          <Typography variant="body2">Comment Karma: {commentKarma}</Typography>
         </div>
         <div className={styles.userInfo}>
-          <Typography variant="body1">Cake Day: {cakeDay}</Typography>
-          <Typography variant="body1">Gold Received: {goldReceived}</Typography>
+          <Typography variant="body2">Cake Day: {cakeDay}</Typography>
+          <Typography variant="body2">Gold Received: {goldReceived}</Typography>
         </div>
       </div>
       <Divider />

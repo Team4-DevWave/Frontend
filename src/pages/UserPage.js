@@ -10,7 +10,7 @@ import OtherUserPosts from "../layouts/OtherUserTabs/OtherUserPosts";
 import OtherUserComments from "../layouts/OtherUserTabs/OtherUserComments";
 import UserStats from "../layouts/UserStats";
 
-function UserPage({toggleTheme}) {
+function UserPage({ toggleTheme }) {
   const [value, setValue] = React.useState(0);
   const { username } = useParams();
   const [userData, setUserData] = useState({});
@@ -19,6 +19,9 @@ function UserPage({toggleTheme}) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const [profilePicture, setProfilePicture] = useState(
+    "https://i.redd.it/ym0nsl4yrgq71.jpg"
+  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -44,6 +47,13 @@ function UserPage({toggleTheme}) {
       });
   }, []);
 
+  useEffect(() => {
+    const storedProfilePicture = localStorage.getItem("profilePicture");
+    if (storedProfilePicture) {
+      setProfilePicture(storedProfilePicture);
+      userData.profilePicture = storedProfilePicture;
+    }
+  }, []);
   if (loading) {
     return <LoadingScreen />;
   }
@@ -60,23 +70,19 @@ function UserPage({toggleTheme}) {
         <div
           id="grid-2"
           style={{
-           
             borderRadius: "50px",
-          
           }}
         >
-          <div className="user-profile-data" style={{padding: "20px"}}>
+          <div className="user-profile-data" style={{ padding: "20px" }}>
             <Avatar
               alt={username}
               sx={{
                 width: "100px",
                 height: "100px",
-
                 marginBottom: "10px",
+                cursor: "pointer", // Add cursor pointer
               }}
-              src={
-                userData.profilePicture || "https://i.redd.it/ym0nsl4yrgq71.jpg"
-              }
+              src={userData.profilePicture}
             />
             <Typography variant="h4" style={{ fontWeight: "bold" }}>
               u/{username}
@@ -99,10 +105,10 @@ function UserPage({toggleTheme}) {
           ) : value === 1 ? (
             <OtherUserPosts />
           ) : (
-           <OtherUserComments/>
+            <OtherUserComments />
           )}
         </div>
-        <div id="grid-3" >
+        <div id="grid-3">
           <UserStats username={username} />
         </div>
       </div>
