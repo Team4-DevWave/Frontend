@@ -17,6 +17,8 @@ function All() {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const limit = 10;
+    const [blockedUsers, setBlockedUsers] = useState({});
+
     const navigate = useNavigate();
 
     let bearerToken = Cookies.get('token');
@@ -87,6 +89,7 @@ function All() {
     }
 
     const handleBlock = () => {
+
         setHideBlockButton(true);
     };
     const handleCancel = () => {
@@ -182,36 +185,37 @@ function All() {
                 if (allMessages.length === index + 1) {
                     return (
                         <Grid className="messageGrid">
-                        <div ref={lastMessageElementRef} className="message-container" key={message._id}>
-                            <p onClick={() => navigate(`/user/${message.from.username}`)}>From: {message.from.username}</p>  
-                            <h3>To: {message.to.username}</h3>
-    
-                            <h4>Message: {message.message}</h4>
-                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>
-                            <div className="button-container-in-messageRecived">
-                                {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full context</button>}
-                                <button onClick={() => handleDelete(message._id)}>Delete</button>
-                                {/*<button onClick={() => handleReport(message._id)}>Report</button>*/}
-                                {!HideBlockButton ? (
-                                    <button onClick={handleBlock}>Block</button>
-                                ) : (
+                            <div ref={lastMessageElementRef} className="message-container" key={message._id}>
+                            <h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>
+                                                            <h3>To: {message.to.username}</h3>
 
-                                    <div>
-                                        <p className="Are_you_sure_label">Are you sure you want to block?</p>
-                                        <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
-                                        <button onClick={handleCancel}>No</button>
-                                    </div>
-                                )}
-                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread' : 'Mark Read'}</button>
+                                <h4>Message: {message.message}</h4>
+                                <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>
+                                <div className="button-container-in-messageRecived">
+                                    {message.subject.includes('username mention') && <button onClick={() => handleFullComment(message)}>Full context</button>}
+                                    <button onClick={() => handleDelete(message._id)}>Delete</button>
+                                    {/*<button onClick={() => handleReport(message._id)}>Report</button>*/}
+                                    {!HideBlockButton ? (
+                                        <button onClick={handleBlock}>Block</button>
+                                    ) : (
+
+                                        <div>
+                                            <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                                            <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
+                                            <button onClick={handleCancel}>No</button>
+                                        </div>
+                                    )}
+                                    <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread' : 'Mark Read'}</button>
+                                </div>
                             </div>
-                        </div>
                         </Grid>
                     )
                 } else {
                     return (
+                        
                         <div className="message-container" key={message._id}>
-                            <p onClick={() => navigate(`/user/${message.from.username}`)}>From: {message.from.username}</p>           
-                                             <h3>To: {message.to.username}</h3>
+                            <h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>
+                            <h3>To: {message.to.username}</h3>
                             {!message.subject.includes('username mention') && <h3>Subject: {message.subject}</h3>}
                             <h4>Message: {message.message}</h4>
                             <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>

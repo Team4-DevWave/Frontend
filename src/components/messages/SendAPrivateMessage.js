@@ -26,6 +26,18 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
         headers: { Authorization: `Bearer ${bearerToken}` },
     };
     const handleSubmit = (e) => {
+
+        const usernameWithoutPrefix = to.replace('u/', '');
+
+        if (userName === usernameWithoutPrefix) {
+            toast.error("You can't send a message to yourself.");
+        } 
+        else if (!to.startsWith('u/')) {
+            toast.error("Username must start with 'u/'.");
+        }
+        
+        else {
+
         axios
             .post(
                 "https://www.threadit.tech/api/v1/messages/compose",
@@ -50,8 +62,12 @@ function SendAPrivateMessage({ initialFrom = "", initialTo = "", initialSubject 
             })
             .catch((error) => {
                 console.log(error);
+                if (error.response && error.response.status === 404) {
+                    toast.error('Not a valid user.');
+                }
             });
         console.log('from1233333333:', from);
+        }
     };
 
     const SendMessage = async (event) => {

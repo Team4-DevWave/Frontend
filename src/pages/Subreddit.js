@@ -21,10 +21,12 @@ import { useParams } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState } from "react";
+import { useMediaQuery } from "@mui/material";
 export default function Subreddit({ toggleTheme }) {
   const { subredditName } = useParams();
   const [sortOption, setSortOption] = React.useState("new");
   const [validSubreddit, setValidSubreddit] = React.useState(false);
+  const isMobile = useMediaQuery("(max-width:600px)");
   useEffect(() => {
     console.log("Subreddit name:", subredditName);
     axios
@@ -250,6 +252,7 @@ export default function Subreddit({ toggleTheme }) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleCloseMore}
+        disableScrollLock={true}
       >
         <MenuItem
           onClick={() => {
@@ -351,7 +354,7 @@ export default function Subreddit({ toggleTheme }) {
                     >
                       <path d="M19 9.375h-8.375V1h-1.25v8.375H1v1.25h8.375V19h1.25v-8.375H19v-1.25Z"></path>
                     </svg>
-                    <span className="create ">Create a post</span>
+                    {!isMobile && <span className="create ">Create a post</span>}
                   </a>
                   <button onClick={handleJoin} className="join-subreddit">
                     {joinStatus}

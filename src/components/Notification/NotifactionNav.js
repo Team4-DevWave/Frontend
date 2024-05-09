@@ -7,13 +7,13 @@ import OldNotification from "./oldnotifications";
 import Cookies from "js-cookie";
 
 function NotificationNav() {
+    const username =localStorage.getItem('username');
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [activeNavItem, setActiveNavItem] = useState(0);
     const [notificationCount, setNotificationCount] = useState(0); // State variable to store notification count
     const [isLoading, setIsLoading] = useState(true);
     const [notifications, setNotifications] = useState([]); // State variable to store notifications
-
     useEffect(() => {
         console.log("Fetching notifications...");
         if (notifications.length > 0) {
@@ -25,17 +25,19 @@ function NotificationNav() {
             headers: { Authorization: `Bearer ${bearerToken}` },
         };
         axios.get("https://www.threadit.tech/api/v1/notifications",config) // Replace with your server URL
-
             .then(response => {
                 // Update the notification count with the number of unread notifications
-                const unreadNotifications = response.data.data.notifications.filter(notification => !notification.read);
-                setNotificationCount(unreadNotifications.length);
-                setNotifications(response.data.data.notifications); // Store notifications in state
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.error("Error fetching notifications: ", error);
-                setIsLoading(false);
+                axios.get('https://www.threadit.tech/api/v1/notifications', config)
+                    .then(response => {
+                        const notifications = response.data.data.notifications;
+                        const filteredNotifications = notifications.filter(notification =>
+                            !(notification.type === 'post' && notification.contentID.userID.username === username)
+                        );
+                        setNotificationCount(filteredNotifications.length);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             });
     }, [notifications]);
 

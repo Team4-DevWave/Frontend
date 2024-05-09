@@ -33,7 +33,7 @@ import { Button } from "@mui/material";
 import { FiPlus } from "react-icons/fi";
 import Overlay from "../components/overlay/Overlay.js";
 import ChatIcon from "@mui/icons-material/Chat";
-
+import { useTheme } from "@mui/material/styles";
 import CustomSwitch from "../components/MUIEdited/CustomSwitch.js";
 
 import { Avatar } from "@mui/material";
@@ -65,6 +65,8 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
 }));
+
+
 
 function useChatWindowIcon() {
   const [showOverlay, setShowOverlay] = useState(false);
@@ -114,7 +116,7 @@ const SearchResults = styled("div")(({ theme }) => ({
 }));
 
 const handleKeyPress = (event) => {
-  if (event.key === "Enter") {
+  if (event.key === "Enter" && event.target.value !== "") {
     window.location.href = `/search/${event.target.value}`;
   }
 };
@@ -134,6 +136,8 @@ const handleTheme = (toggleTheme) => {
 };
 
 export default function Header({ toggleTheme }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.up("sm"));
   useEffect(() => {
     //load theme
     const html = document.querySelector("html");
@@ -151,6 +155,7 @@ export default function Header({ toggleTheme }) {
   };
 
   const [notificationsCount, setNotificationsCount] = useState(0);
+  const [trends, setTrends] = useState([]);
   const fetchNotificationCount = () => {
     const bearerToken = Cookies.get("token");
     const config = {
@@ -413,6 +418,13 @@ export default function Header({ toggleTheme }) {
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
+
+      axios
+        .get("https://www.threadit.tech/api/v1/homepage/trending")
+        .then((response) => {
+          console.log("trends: ", response.data.data.trends);
+          setTrends(response.data.data.trends.slice(0, 3));
+        });
     }
   }, [search]);
 
@@ -494,6 +506,30 @@ export default function Header({ toggleTheme }) {
           {isSearchActive && search && (
             <SearchResults>
               <Typography variant="h6" style={{ padding: "10px" }}>
+                Trends
+              </Typography>
+              <List>
+                {trends &&
+                  trends.length > 0 &&
+                  trends.map((trend, i) => (
+                    <ListItem
+                      key={i}
+                      style={{
+                        left: 0,
+                      }}
+                    >
+                      <TagIcon />
+                      <div>
+                        <p>{trend.title}</p>
+                        {isMobile && (
+                          <p style={{ fontSize: "15px" }}>{trend.subtitle}</p>
+                        )}
+                      </div>
+                    </ListItem>
+                  ))}
+              </List>
+
+              <Typography variant="h6" style={{ padding: "10px" }}>
                 Communities
               </Typography>
               <List>
@@ -516,7 +552,7 @@ export default function Header({ toggleTheme }) {
                         }}
                       >
                         <img
-                          src={community.srLooks.icon}
+                          src={community.srLooks.icon || "https://www.google.com/url?sa=i&url=https%3A%2F%2Fnohat.cc%2Ff%2Fsearch-icon-search-icon-png-blue%2Fm2i8K9b1G6K9m2N4-202208012119.html&psig=AOvVaw1KxGziLFrkrcxXQu2FCF0P&ust=1715367502603000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPDI6IiggYYDFQAAAAAdAAAAABAE"}
                           alt="icon"
                           width="35px"
                           height="35px"

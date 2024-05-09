@@ -1,3 +1,4 @@
+import styles from "./Profile.module.css";
 import React, { useState, useEffect } from "react";
 import Header from "../layouts/Header";
 import Sidebar from "../layouts/Sidebar";
@@ -60,7 +61,7 @@ function UserPage({ toggleTheme }) {
 
   return (
     <>
-      <div class="home-grid">
+      <div class={styles.userProfileGrid}>
         <div id="grid-0">
           <Header toggleTheme={toggleTheme} />
         </div>

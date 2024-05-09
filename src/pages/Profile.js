@@ -2,7 +2,14 @@ import styles from "./Profile.module.css";
 import Header from "../layouts/Header";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Avatar, Typography, Tabs, Tab } from "@mui/material";
+import {
+  Avatar,
+  Typography,
+  Tabs,
+  Tab,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import OverView from "../components/UserTabs/Overview";
 import UserPost from "../components/UserTabs/UserPost";
 import UserComments from "../components/UserTabs/UserComments";
@@ -20,6 +27,8 @@ function Profile({ toggleTheme }) {
   const [value, setValue] = React.useState(0);
   const [username, setUsername] = useState("moashraf");
   const [userFound, setUserFound] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -149,10 +158,11 @@ function Profile({ toggleTheme }) {
       <div id="user-profile-grid-0">
         <Header toggleTheme={toggleTheme} />
       </div>
-      <div id="user-profile-grid-1">
+      <div className={styles.userProfileSidebar} id="user-profile-grid-1">
         <Sidebar />
       </div>
       <div
+        className={styles.userProfileDataContainer}
         id="user-profile-grid-2"
         style={{
           borderRadius: "50px",
@@ -185,9 +195,10 @@ function Profile({ toggleTheme }) {
         <Tabs
           value={value}
           onChange={handleChange}
-          variant="scrollable"
-          scrollButtons="auto"
-          aria-label="scrollable auto tabs example"
+          variant={isMobile ? "scrollable" : "standard"}
+          indicatorColor="primary"
+          textColor="primary"
+          left
         >
           <Tab label="Overview" />
           <Tab label="Posts" />
