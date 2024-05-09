@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 
 function OtherUserComments() {
   const [comments, setComments] = useState([]);
- const {username} = useParams();
+  const { username } = useParams();
   const [page, setPage] = useState(1);
   const loader = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -47,7 +47,8 @@ function OtherUserComments() {
                 id: item._id,
                 user: item.user.username,
                 content: item.content,
-                time: item.createdAt,
+                time: item.lastEdited ? item.lastEdited : item.createdAt,
+                postID: item.post,
                 post: item.post,
                 hidden: item.hidden,
                 votes: item.votes,
