@@ -20,10 +20,53 @@ const OldNotification = ({ setNotificationCount }) => {
   const [data, setData] = useState([]); // State variable to store received data
   const [unreadCount, setUnreadCount] = useState(0); // State variable to store count of unread notifications
 
-  useEffect(() => {
-    const bearerToken = Cookies.get("token");
-    const config = {
-      headers: { Authorization: `Bearer ${bearerToken}` },
+    useEffect(() => {
+        const username = localStorage.getItem('username');
+        const bearerToken = Cookies.get('token');
+        const config = {
+            headers: { Authorization: `Bearer ${bearerToken}` },
+        };
+        axios.get('http://localhost:8000/api/v1/notifications', config)
+            .then(response => {
+                const notifications = response.data.data.notifications;
+                const filteredNotifications = notifications.filter(notification =>
+                    !(notification.type === 'post' && notification.contentID.userID.username === username)
+                );
+                setData(filteredNotifications);
+                setNotificationCount(filteredNotifications.length);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, []);
+
+    // Function to get the image based on the notification type
+    const getImage = (type, notification) => {
+        switch (type) {
+            case "comment":
+                return commentImage;
+            case "message":
+                return  messageImage;
+            case "chat":
+                return chatImage;
+            case "friendRequest":
+                return friendRequestImage;
+            case "newPost":
+                return  newPostImage;
+            case "report":
+                return reportImage;
+            case "upvote":
+                return newPostImage;
+            case "follow":
+                return  friendRequestImage;
+            case "mention":
+                return commentImage;
+            case "post":
+                return newPostImage;
+            default:
+                return null;
+        }
+
     };
     axios
       .get("http://localhost:8000/api/v1/notifications", config)

@@ -15,6 +15,7 @@ import newPostImage from "../../images/newPost.png";
 import reportImage from "../../images/report.png";
 
 const Notification = ({setNotificationCount}) => {
+    const username = localStorage.getItem('username');
      const isMobile = useMediaQuery('(max-width: 1142px)');
     const navigate = useNavigate();
     const [data, setData] = useState([]); // State variable to store received data
@@ -27,8 +28,12 @@ const Notification = ({setNotificationCount}) => {
         };
         axios.get('http://localhost:8000/api/v1/notifications', config)
             .then(response => {
-                setData(response.data.data.notifications);
-                setNotificationCount(response.data.data.notifications.length);
+                const notifications = response.data.data.notifications;
+                const filteredNotifications = notifications.filter(notification =>
+                    !(notification.type === 'post' && notification.contentID.userID.username === username)
+                );
+                setData(filteredNotifications);
+                setNotificationCount(filteredNotifications.length);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -62,6 +67,9 @@ const Notification = ({setNotificationCount}) => {
                 return null;
         }
     };
+
+
+
 
     const markAsRead = (index) => {
         const notificationId = data[index]._id; // Assuming each notification has an '_id' field
