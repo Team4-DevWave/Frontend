@@ -20,8 +20,6 @@ describe('Post component', () => {
         <Post />
       </Router>
     );
-    // replace 'feature2' with actual feature and write assertions
   });
 
-  // Add more tests as needed for other features
 });
