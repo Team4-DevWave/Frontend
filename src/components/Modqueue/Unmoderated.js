@@ -145,6 +145,16 @@ function Unmoderated() {
 }
 
 
-Unmoderated.propTypes = {};
+
 
 export default Unmoderated;
+
+
+Unmoderated.propTypes = {
+    subreddits: PropTypes.array,
+    removedPosts: PropTypes.array,
+    approvedPosts: PropTypes.array,
+     handleApprove: PropTypes.func,
+     handleDisapprove: PropTypes.func
+
+}
