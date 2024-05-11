@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './Messages.css';
-import { toast } from 'react-toastify';  
+import { toast } from 'react-toastify';
 import { Snackbar } from '@mui/material';
 import { Alert } from '@mui/material';
 
@@ -16,7 +16,7 @@ function MessageRecived() {
     const [page, setPage] = useState(1); // initial page
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const limit = 10;
     const [blockConfirmationMessageId, setBlockConfirmationMessageId] = useState(null);
     const [blockMessage, setBlockMessage] = useState("");
@@ -101,13 +101,13 @@ function MessageRecived() {
     }
     const handleBlock = () => {
         setHideBlockButton(true);
-      };
-      const handleCancel = () => {
+    };
+    const handleCancel = () => {
         setBlockConfirmationMessageId(null);
     };
 
     async function handleBlockUser(usernameToBlock) {
-        
+
         console.log("want to block ")
         axios.post(`http://localhost:8000/api/v1/users/me/block/${usernameToBlock}`, {}, config)
             .then(response => {
@@ -117,20 +117,20 @@ function MessageRecived() {
             })
             .catch(error => {
                 console.error('Error blocking use22r:', error);
-                
-                    toast.error(' user already blocked');
-                
+
+                toast.error(' user already blocked');
+
             });
 
-            setBlockConfirmationMessageId(null);
-        };
+        setBlockConfirmationMessageId(null);
+    };
 
-    async function handleMarkUnread (message1)  {
+    async function handleMarkUnread(message1) {
         axios.patch(`http://localhost:8000/api/v1/messages/${message1._id}/markread`, { read: !message1.read }, config)
             .then(response => {
                 setallMessages(allMessages.map(message =>
                     message._id === message1._id ? { ...message, read: !message1.read } : message
-                    
+
                 ));
                 console.log('Message updated:', response.data);
 
@@ -139,7 +139,7 @@ function MessageRecived() {
                 console.error('Error updating message:', error);
 
             }
-        );
+            );
     };
     const handleReplyClick = (id) => {
         // setReplyingTo(id);
@@ -190,46 +190,46 @@ function MessageRecived() {
                 if (allMessages.length === index + 1) {
                     return (
                         <div ref={lastMessageElementRef} className="message-container" key={message._id}>
-<h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>
+                            <h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>
                             <h3>To: {message.to.username}</h3>
                             <h3>Subject: {message.subject}</h3>
                             <h4>Message: {message.message}</h4>
-                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 {blockConfirmationMessageId !== message._id ? (
-                <button onClick={() => handleBlockButtonClick(message._id)}>Block</button>
-            ) : (
-                <div>
-                    <p className="Are_you_sure_label">Are you sure you want to block?</p>
-                    <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
-                    <button onClick={handleCancel}>No</button>
-                </div>
-            )}
-                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
+                                    <button onClick={() => handleBlockButtonClick(message._id)}>Block</button>
+                                ) : (
+                                    <div>
+                                        <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                                        <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
+                                        <button onClick={handleCancel}>No</button>
+                                    </div>
+                                )}
+                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread' : 'Mark Read'}</button>
                             </div>
                         </div>
                     )
                 } else {
                     return (
                         <div className="message-container" key={message._id}>
-<h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>
+                            <h2 onClick={() => navigate(`/user/${message.from.username}`)} style={{ textDecoration: 'underline' }}>From: {message.from.username}</h2>
                             <h3>To: {message.to.username}</h3>
                             <h3>Subject: {message.subject}</h3>
                             <h4>Message: {message.message}</h4>
-                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>     
+                            <h5 className="message-time"> {new Date(message.createdAt).toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</h5>
                             <div className="button-container-in-messageRecived">
                                 <button onClick={() => handleDelete(message._id)}>Delete</button>
                                 {blockConfirmationMessageId !== message._id ? (
-                <button onClick={() => handleBlockButtonClick(message._id)}>Block</button>
-            ) : (
-                <div>
-                    <p className="Are_you_sure_label">Are you sure you want to block?</p>
-                    <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
-                    <button onClick={handleCancel}>No</button>
-                </div>
-            )}
-                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread':'Mark Read'}</button>
+                                    <button onClick={() => handleBlockButtonClick(message._id)}>Block</button>
+                                ) : (
+                                    <div>
+                                        <p className="Are_you_sure_label">Are you sure you want to block?</p>
+                                        <button className='yes_Button' onClick={() => handleBlockUser(message.from.username)}>Yes</button>
+                                        <button onClick={handleCancel}>No</button>
+                                    </div>
+                                )}
+                                <button onClick={() => handleMarkUnread(message)}>{message.read ? 'Mark Unread' : 'Mark Read'}</button>
                             </div>
                         </div>
                     )

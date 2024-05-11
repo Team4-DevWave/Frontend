@@ -48,7 +48,7 @@ function MessageInputForm({ selectedChatroom, socketRef }) {
               <GifIcon />
             </IconButton> */}
         </div>
-        <IconButton type="submit" color="primary" className='sendIcon-Message-Input-Form' onClick={sendMessage}>
+        <IconButton type="submit" color="primary" className='sendIcon-Message-Input-Form' onClick={sendMessage} data-testid="sendButton">
           <SendIcon />
         </IconButton>
       </div>

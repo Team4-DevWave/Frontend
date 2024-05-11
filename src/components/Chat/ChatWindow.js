@@ -225,9 +225,9 @@ const ChatSection = React.memo(function ChatSection({ handleclose, showOverlay, 
 
         </h1>
         <div className="headerTabs-secondSection">
-          <IconButton className="settings-button-secondSection" color="primary">
+          {/* <IconButton className="settings-button-secondSection" color="primary">
             <SettingsIcon />
-          </IconButton>
+          </IconButton> */}
 
           <IconButton color="primary" onClick={() => setchatOpen(false)}>
             <ArrowDropDownIcon />
