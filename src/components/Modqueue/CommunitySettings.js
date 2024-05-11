@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, TextField, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, Card, CardContent, Typography, CardHeader, Avatar, IconButton, Box, List, ListItem, ListItemText, Divider, Menu, TextareaAutosize } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from "axios";
+import PropTypes from 'prop-types';
 
 
 function CommunitySettings() {
@@ -139,3 +140,13 @@ function CommunitySettings() {
 }
 
 export default CommunitySettings;
+
+CommunitySettings.propTypes = {
+    subreddits: PropTypes.array.isRequired,
+    selectedSubreddit: PropTypes.number.isRequired,
+    settings: PropTypes.object.isRequired,
+    settingsDescriptions: PropTypes.object.isRequired,
+    communityTypes: PropTypes.array.isRequired,
+    handleSubredditChange: PropTypes.func.isRequired,
+    handleUpdate: PropTypes.func.isRequired,
+}

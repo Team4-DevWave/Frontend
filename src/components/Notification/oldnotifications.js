@@ -295,41 +295,12 @@ const OldNotification = ({setNotificationCount}) => {
 
 export default OldNotification;
 
-Notification.propTypes = {
-    /**
-     * The type of notification
-     */
+OldNotification.propTypes = {
     type: propTypes.oneOf(['comment', 'message', 'chat', 'friendRequest', 'newPost', 'report']),
-    /**
-     * The user name
-     */
-    userName: propTypes.string,
-    /**
-     * The recipient user ID
-     */
-    recipientUserId: propTypes.string,
-    /**
-     * The sender user email
-     */
-    senderUserEmail: propTypes.string,
-    /**
-     * The sender user ID
-     */
-    senderUserId: propTypes.string,
-    /**
-     * The thread ID
-     */
-    threadID: propTypes.string,
-    /**
-     * The thread data
-     */
-    threadData: propTypes.string,
-    /**
-     * The timestamp
-     */
-    timestamp: propTypes.string,
-    /**
-     * The read status
-     */
-    isRead: propTypes.string,
+    setNotificationCount: propTypes.func.isRequired,
+
+    contentID: propTypes.object.isRequired,
+    content: propTypes.string.isRequired,
+    createdAt: propTypes.string.isRequired,
+    read: propTypes.bool.isRequired,
 }

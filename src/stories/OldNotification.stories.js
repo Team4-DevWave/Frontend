@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Notification from '../components/Notification/Notification';
+import OldNotification from '../components/Notification/oldnotifications';
 
 //👇 This default export determines where your story goes in the story list
 
 export default {
-    title: 'Notification',
-    component: Notification,
+    title: 'OldNotification',
+    component: OldNotification,
     parameters: {
         layout: 'centered',
     },
@@ -16,10 +16,10 @@ export default {
 
 
 //exporting with args for the component
-const Template = (args) => <Router><Notification {...args} /></Router>;
+const Template = (args) => <Router><OldNotification {...args} /></Router>;
 ;
-export const notifications = Template.bind({});
-notifications.args = {
+export const oldnotifications = Template.bind({});
+oldnotifications.args = {
     primary: true,
     label: 'Button',
 };

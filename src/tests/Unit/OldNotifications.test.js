@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import axios from 'axios';
-import Notification from './../../components/Notification/Notification';
+import OldNotification from './../../components/Notification/oldnotifications';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {waitFor} from '@testing-library/dom';
 jest.mock('axios');
@@ -24,6 +24,7 @@ describe('Notification Component', () => {
                             },
                             content: 'This is a test comment.',
                             createdAt: '2022-01-01T00:00:00.000Z',
+                            read : true,
                         },
                     ],
                 },
@@ -32,7 +33,7 @@ describe('Notification Component', () => {
         const setNotificationCount = jest.fn();
 
         render(            <Router>
-            <Notification setNotificationCount={setNotificationCount} />
+            <OldNotification setNotificationCount={setNotificationCount} />
         </Router>);
 
         await waitFor(() => {
@@ -60,7 +61,7 @@ describe('Notification Component', () => {
                             },
                             content: 'This is a test message.',
                             createdAt: '2022-01-01T00:00:00.000Z',
-                            read: false,
+                            read: true,
                         },
                     ],
                 },
@@ -69,7 +70,7 @@ describe('Notification Component', () => {
         const setNotificationCount = jest.fn();
 
         render(            <Router>
-            <Notification setNotificationCount={setNotificationCount} />
+            <OldNotification setNotificationCount={setNotificationCount} />
         </Router>);
         await waitFor(() => {
             const messageNotification = screen.getByText('Message Notification');
@@ -95,7 +96,7 @@ describe('Notification Component', () => {
                             },
                             content: 'This is a test follow.',
                             createdAt: '2022-01-01T00:00:00.000Z',
-                            read: false,
+                            read: true,
                         },
                     ],
                 },
@@ -104,12 +105,12 @@ describe('Notification Component', () => {
         const setNotificationCount = jest.fn();
 
         render(            <Router>
-            <Notification setNotificationCount={setNotificationCount} />
+            <OldNotification setNotificationCount={setNotificationCount} />
         </Router>);
         await waitFor(() => {
             const messageNotification = screen.getByText('Follow Notification');
             expect(messageNotification).toBeInTheDocument();
         });
     });
-    
+
 });
