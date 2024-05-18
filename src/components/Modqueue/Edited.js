@@ -150,3 +150,21 @@ function Edited() {
 Edited.propTypes = {};
 
 export default Edited;
+
+Edited.propTypes ={
+    removedPosts: PropTypes.array,
+    approvedPosts: PropTypes.array,
+    setApprovedPosts: PropTypes.func,
+    setRemovedPosts: PropTypes.func,
+    selectedSubreddit: PropTypes.object,
+    setSelectedSubreddit: PropTypes.func,
+    subreddits: PropTypes.array,
+    setSubreddits: PropTypes.func,
+    anchorEl: PropTypes.object,
+    setAnchorEl: PropTypes.func,
+    handleClick: PropTypes.func,
+    handleClose: PropTypes.func
+
+
+
+}

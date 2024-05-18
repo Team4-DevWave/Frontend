@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Select, MenuItem, Button, Grid, Typography, Box, useTheme } from '@mui/material';
 import axios from 'axios';
 import { responsiveFontSizes, ThemeProvider } from '@mui/material/styles';
-
-
-
+import PropTypes from 'prop-types';
 function ModerationRoles() {
     const [subreddits, setSubreddits] = useState([]);
     const [selectedSubreddit, setSelectedSubreddit] = useState('');
@@ -112,3 +110,14 @@ function ModerationRoles() {
 }
 
 export default ModerationRoles;
+
+ModerationRoles.propTypes = {
+    subreddits: PropTypes.array,
+    selectedSubreddit: PropTypes.object,
+    username: PropTypes.array,
+    selectedUser: PropTypes.string,
+    handleInvite: PropTypes.func,
+    handleLeave: PropTypes.func,
+    handleBan: PropTypes.func,
+    handleUnban: PropTypes.func,
+}

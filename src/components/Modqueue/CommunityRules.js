@@ -115,6 +115,8 @@ function CommunityRules() {
                         <Select
                             value={selectedSubreddit}
                             onChange={handleSubredditChange}
+                            data-testid="subreddit-select"
+                            labelId="subreddit-label"
                         >
                             {subreddits.map((subreddit) => (
                                 <MenuItem key={subreddit.id} value={subreddit.id}>
@@ -128,7 +130,7 @@ function CommunityRules() {
             </table>
             <Card>
                 <CardContent>
-                    {console.log('rendering rule ', rules)}
+
                     {rules.map((rule, index) => (
                         <Card key={index} style={{
                             margin: '10px 0'
@@ -175,3 +177,12 @@ function CommunityRules() {
 }
 
 export default CommunityRules;
+
+CommunityRules.propTypes = {
+    subreddit: PropTypes.string,
+    rules: PropTypes.array,
+    selectedSubreddit: PropTypes.string,
+    newRule: PropTypes.object,
+    open: PropTypes.bool
+
+}

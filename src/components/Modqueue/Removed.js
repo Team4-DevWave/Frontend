@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './Removed.css';
 import PostContainer2 from "../PostCointainer2";
 
-function Unmoderated() {
+function Removed() {
     const [subreddits, setSubreddits] = useState([]);
     const [selectedSubreddit, setSelectedSubreddit] = useState('');
     const [removedPosts, setRemovedPosts] = useState([]);
@@ -105,6 +105,15 @@ function Unmoderated() {
 }
 
 
-Unmoderated.propTypes = {};
 
-export default Unmoderated;
+
+export default Removed;
+
+
+Removed.prototype = {
+    subreddits: PropTypes.array,
+    selectedSubreddit: PropTypes.object,
+    removedPosts: PropTypes.array,
+    approvedPosts: PropTypes.object
+
+}
